@@ -1,3 +1,0 @@
-
-// Total=$$TOTNUMBYTES$$ bytes / $$TOTNUMFILES$$ files
-// EOF

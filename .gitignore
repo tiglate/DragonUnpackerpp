@@ -1,6 +1,34 @@
 *.~*
 *.dcu
-DragonUnPACKer-Doc/*
-!DragonUnPACKer-Doc/*.tex
-!DragonUnPACKer-Doc/*.pdf
-!DragonUnPACKer-Doc/images/
+docs/manual/*
+!docs/manual/*.tex
+!docs/manual/*.pdf
+!docs/manual/images/
+
+# Build output
+/build/
+
+# make.sh output
+/install/
+/dist/
+app/build/
+
+# C++ (driver/cpp, app): CMake/Ninja trees, clangd and ccache leftovers
+CMakeUserPresets.json
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+.cache/
+*.o
+*.a
+*.so
+
+# Python caches of the test scripts
+__pycache__/
+*.pyc
+
+# IDEs
+.idea/
+.vscode/
+*.swp

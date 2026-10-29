@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#262f57"/>
+      <stop offset="1" stop-color="#0a0d1c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="256" cy="262" r="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffb44d" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#ff7a3d" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ff7a3d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="inside" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffcf7a"/>
+      <stop offset="1" stop-color="#e5662b"/>
+    </linearGradient>
+    <linearGradient id="left" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4b5d9c"/>
+      <stop offset="1" stop-color="#2a3566"/>
+    </linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34437d"/>
+      <stop offset="1" stop-color="#181f45"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ff0e0"/>
+      <stop offset="1" stop-color="#2aa9b8"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfd8f5"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd27a"/>
+      <stop offset="1" stop-color="#f08a34"/>
+    </linearGradient>
+    <clipPath id="tile"><rect x="16" y="16" width="480" height="480" rx="108"/></clipPath>
+    <!-- a sheet with a folded corner, 84 x 108, its bottom centre at the origin -->
+    <path id="sheet" d="M-42 0V-108H12L42 -78V0Z"/>
+    <path id="fold" d="M12 -108V-78H42Z"/>
+  </defs>
+
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bg)"/>
+  <g clip-path="url(#tile)">
+    <rect x="16" y="16" width="480" height="480" fill="url(#glow)"/>
+    <!-- faint scales in the background -->
+    <g fill="none" stroke="#8fa0ff" stroke-opacity="0.07" stroke-width="3">
+      <path d="M-20 420q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0"/>
+      <path d="M16 460q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0"/>
+      <path d="M-20 500q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0q36 -40 72 0"/>
+    </g>
+  </g>
+  <rect x="17.5" y="17.5" width="477" height="477" rx="106.5" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="3"/>
+
+  <g transform="translate(256 282) scale(1.18) translate(-256 -300)">
+  <!-- inside of the crate and its back rim -->
+  <path d="M256 190L346 242L256 294L166 242Z" fill="url(#inside)"/>
+  <path d="M152 240L256 180L360 240" fill="none" stroke="#7d90e0" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- the sheets rising out of it -->
+  <g transform="translate(200 262) rotate(-21)">
+    <use href="#sheet" fill="url(#teal)"/><use href="#fold" fill="#ffffff" fill-opacity="0.55"/>
+    <g stroke="#0e5360" stroke-opacity="0.45" stroke-width="5" stroke-linecap="round"><path d="M-26 -78H-2M-26 -62H10M-26 -46H10"/></g>
+  </g>
+  <g transform="translate(312 262) rotate(21)">
+    <use href="#sheet" fill="url(#amber)"/><use href="#fold" fill="#ffffff" fill-opacity="0.55"/>
+    <g stroke="#8a3a12" stroke-opacity="0.45" stroke-width="5" stroke-linecap="round"><path d="M-26 -78H-2M-26 -62H10M-26 -46H10"/></g>
+  </g>
+  <g transform="translate(256 262)">
+    <use href="#sheet" fill="url(#paper)" transform="translate(0 -34)"/><use href="#fold" fill="#9fb0e6" transform="translate(0 -34)"/>
+    <g stroke="#3b4a8c" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round" transform="translate(0 -34)"><path d="M-26 -78H-2M-26 -62H10M-26 -46H10M-26 -30H-8"/></g>
+  </g>
+
+  <!-- the crate walls (in front of the sheets) -->
+  <path d="M152 240L256 300L256 420L152 360Z" fill="url(#left)"/>
+  <path d="M360 240L256 300L256 420L360 360Z" fill="url(#right)"/>
+  <path d="M152 240L256 300L360 240" fill="none" stroke="#dbe4ff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M256 300V420" stroke="#6577b8" stroke-opacity="0.9" stroke-width="5"/>
+  <g stroke="#0b1030" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round">
+    <path d="M152 300L256 360M360 300L256 360"/>
+  </g>
+  </g>
+  <!-- sparkles -->
+  <g fill="#ffe3a3">
+    <path d="M92 214l6 16l16 6l-16 6l-6 16l-6 -16l-16 -6l16 -6Z" opacity="0.9"/>
+    <path d="M432 168l5 13l13 5l-13 5l-5 13l-5 -13l-13 -5l13 -5Z" opacity="0.8"/>
+    <path d="M104 318l4 10l10 4l-10 4l-4 10l-4 -10l-10 -4l10 -4Z" opacity="0.7"/>
+  </g>
+</svg>

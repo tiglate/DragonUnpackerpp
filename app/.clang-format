@@ -1,0 +1,4 @@
+BasedOnStyle: Microsoft
+Language: Cpp
+Standard: c++20
+SortIncludes: false

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Dragon UnPACKer++
+GenericName=Game resource explorer
+Comment=Browse, preview and extract the resources of game archives
+Exec=dragonunpacker %f
+Icon=dragonunpacker
+Terminal=false
+Categories=Utility;Archiving;Graphics;
+MimeType=application/x-quake-pak;application/x-doom-wad;

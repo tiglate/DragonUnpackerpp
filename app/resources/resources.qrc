@@ -1,0 +1,31 @@
+<RCC>
+  <qresource prefix="/icons">
+    <file alias="dragonunpacker.svg">dragonunpacker.svg</file>
+  </qresource>
+  <qresource prefix="/list_templates">
+    <file alias="homepage/back_ds2k.jpg">list_templates/homepage/back_ds2k.jpg</file>
+    <file alias="homepage/dup4_button.gif">list_templates/homepage/dup4_button.gif</file>
+    <file alias="homepage/dup4_titre.gif">list_templates/homepage/dup4_titre.gif</file>
+    <file alias="homepage/footer.html">list_templates/homepage/footer.html</file>
+    <file alias="homepage/header.html">list_templates/homepage/header.html</file>
+    <file alias="homepage/preview.jpg">list_templates/homepage/preview.jpg</file>
+    <file alias="homepage/template.tsf">list_templates/homepage/template.tsf</file>
+    <file alias="homepage/variable.html">list_templates/homepage/variable.html</file>
+    <file alias="text-db/footer.txt">list_templates/text-db/footer.txt</file>
+    <file alias="text-db/header.txt">list_templates/text-db/header.txt</file>
+    <file alias="text-db/preview.jpg">list_templates/text-db/preview.jpg</file>
+    <file alias="text-db/template.tsf">list_templates/text-db/template.tsf</file>
+    <file alias="text-db/variable.txt">list_templates/text-db/variable.txt</file>
+    <file alias="text-list/footer.txt">list_templates/text-list/footer.txt</file>
+    <file alias="text-list/header.txt">list_templates/text-list/header.txt</file>
+    <file alias="text-list/preview.jpg">list_templates/text-list/preview.jpg</file>
+    <file alias="text-list/template.tsf">list_templates/text-list/template.tsf</file>
+    <file alias="text-list/variable.txt">list_templates/text-list/variable.txt</file>
+    <file alias="xml-db/dup5-xml-db.dtd">list_templates/xml-db/dup5-xml-db.dtd</file>
+    <file alias="xml-db/footer.xml">list_templates/xml-db/footer.xml</file>
+    <file alias="xml-db/header.xml">list_templates/xml-db/header.xml</file>
+    <file alias="xml-db/preview.jpg">list_templates/xml-db/preview.jpg</file>
+    <file alias="xml-db/template.tsf">list_templates/xml-db/template.tsf</file>
+    <file alias="xml-db/variable.xml">list_templates/xml-db/variable.xml</file>
+  </qresource>
+</RCC>

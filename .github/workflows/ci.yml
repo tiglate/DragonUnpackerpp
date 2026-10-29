@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the build and test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++ zlib1g-dev \
+            qt6-base-dev qt6-multimedia-dev qt6-svg-dev qt6-tools-dev qt6-l10n-tools libqt6svg6 \
+            libspdlog-dev libmsgsl-dev python3 lzop ccache libgl1-mesa-dev
+      - name: Build the driver and the interface
+        run: ./make.sh build all
+      - name: Driver tests (C harness, fixtures, fuzzing)
+        run: ./make.sh test-driver
+      - name: Interface tests (needs no display)
+        run: ./make.sh test-ui
+        env:
+          QT_QPA_PLATFORM: offscreen
+
+  # Windows has never been built before: this job tells what is left to do (it does not fail the workflow yet).
+  windows:
+    runs-on: windows-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-zlib mingw-w64-ucrt-x86_64-qt6-base mingw-w64-ucrt-x86_64-qt6-multimedia
+            mingw-w64-ucrt-x86_64-qt6-svg mingw-w64-ucrt-x86_64-qt6-tools mingw-w64-ucrt-x86_64-spdlog
+            mingw-w64-ucrt-x86_64-ms-gsl
+      - name: Build the driver
+        run: |
+          cmake -S driver/cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/cpp
+      - name: Build the interface
+        run: |
+          cmake -S app -B app/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build app/build
+      - name: Interface tests
+        run: ctest --test-dir app/build --output-on-failure
+        env:
+          QT_QPA_PLATFORM: offscreen
