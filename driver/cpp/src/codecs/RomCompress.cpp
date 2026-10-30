@@ -1,0 +1,632 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#include "RomCompress.h"
+
+#include <algorithm>
+#include <array>
+
+namespace Dud
+{
+namespace
+{
+constexpr size_t NemesisMaxTiles = 4096;
+constexpr size_t KosinskiMaxOut = 262144;
+constexpr size_t MinimumOut = 64;
+constexpr size_t Lz2MaxOut = 131072;
+constexpr size_t MinimumAbutting = 6;
+constexpr size_t PointerRun = 4; // consecutive addresses that make a table
+
+// ---- Nemesis -------------------------------------------------------------------------------
+
+struct NemesisCode
+{
+    uint8_t Length = 0; // 0: unused
+    uint8_t Code = 0;
+    uint8_t Nibble = 0;
+    uint8_t Run = 0;
+};
+
+struct BitReader
+{
+    const uint8_t *Src;
+    size_t End;
+    size_t Pos;
+    int Left = 0; // bits left in Current
+    uint8_t Current = 0;
+
+    auto Bit(int &bit) -> bool
+    {
+        if (Left == 0)
+        {
+            if (Pos >= End)
+                return false;
+            Current = Src[Pos++];
+            Left = 8;
+        }
+        bit = (Current >> --Left) & 1;
+        return true;
+    }
+    auto Bits(int count, unsigned &value) -> bool
+    {
+        value = 0;
+        for (int i = 0; i < count; ++i)
+        {
+            int b;
+            if (!Bit(b))
+                return false;
+            value = (value << 1) | static_cast<unsigned>(b);
+        }
+        return true;
+    }
+};
+} // namespace
+
+auto DecodeNemesis(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool
+{
+    out.clear();
+    if (avail < 4)
+        return false;
+    const unsigned header = (unsigned{src[0]} << 8) | src[1];
+    const bool xorMode = (header & 0x8000) != 0;
+    const size_t tiles = header & 0x7FFF;
+    if (tiles == 0 || tiles > NemesisMaxTiles || tiles * 32 > maxOut)
+        return false;
+
+    // code table
+    std::array<NemesisCode, 256> table;
+    size_t entries = 0;
+    size_t pos = 2;
+    int nibble = -1;
+    for (;;)
+    {
+        if (pos >= avail)
+            return false;
+        uint8_t b = src[pos++];
+        if (b == 0xFF)
+            break;
+        if (b & 0x80)
+        {
+            nibble = b & 0x0F;
+            if (pos >= avail)
+                return false;
+            b = src[pos++];
+            if (b & 0x80)
+                return false;
+        }
+        if (nibble < 0 || pos >= avail || entries >= table.size())
+            return false;
+        const int run = ((b >> 4) & 7) + 1;
+        const int length = b & 0x0F;
+        const uint8_t code = src[pos++];
+        if (length < 1 || length > 8 || (code >> length) != 0)
+            return false;
+        table[entries++] = {static_cast<uint8_t>(length), code, static_cast<uint8_t>(nibble), static_cast<uint8_t>(run)};
+    }
+    if (entries == 0)
+        return false;
+    // prefix free, also against the escape code 111111
+    for (size_t i = 0; i < entries; ++i)
+    {
+        const auto &a = table[i];
+        if (a.Length >= 6 ? ((a.Code >> (a.Length - 6)) == 0x3F) : ((0x3Fu >> (6 - a.Length)) == a.Code))
+            return false;
+        for (size_t j = i + 1; j < entries; ++j)
+        {
+            const auto &b2 = table[j];
+            const int shortest = std::min(a.Length, b2.Length);
+            if ((a.Code >> (a.Length - shortest)) == (b2.Code >> (b2.Length - shortest)))
+                return false;
+        }
+    }
+
+    // lookup by (length, code)
+    std::array<std::array<int16_t, 256>, 9> lookup;
+    for (auto &row : lookup)
+        row.fill(-1);
+    for (size_t i = 0; i < entries; ++i)
+        lookup[table[i].Length][table[i].Code] = static_cast<int16_t>(i);
+
+    BitReader bits{src, avail, pos};
+    out.reserve(tiles * 32);
+    const size_t totalRows = tiles * 8;
+    uint32_t row = 0;
+    uint32_t previous = 0;
+    int nibblesInRow = 0;
+    size_t rows = 0;
+    while (rows < totalRows)
+    {
+        unsigned code = 0;
+        int length = 0;
+        int run = 0;
+        int value = 0;
+        for (;;)
+        {
+            int b;
+            if (!bits.Bit(b))
+                return false;
+            code = (code << 1) | static_cast<unsigned>(b);
+            ++length;
+            if (length == 6 && code == 0x3F)
+            {
+                unsigned inl = 0;
+                if (!bits.Bits(7, inl))
+                    return false;
+                run = static_cast<int>(inl >> 4) + 1;
+                value = static_cast<int>(inl & 15);
+                break;
+            }
+            if (length <= 8 && lookup[static_cast<size_t>(length)][code] >= 0)
+            {
+                const auto &e = table[static_cast<size_t>(lookup[static_cast<size_t>(length)][code])];
+                run = e.Run;
+                value = e.Nibble;
+                break;
+            }
+            if (length >= 8)
+                return false;
+        }
+        for (int i = 0; i < run && rows < totalRows; ++i)
+        {
+            row = (row << 4) | static_cast<uint32_t>(value);
+            if (++nibblesInRow == 8)
+            {
+                if (xorMode)
+                    row ^= previous;
+                previous = row;
+                out.push_back(static_cast<uint8_t>(row >> 24));
+                out.push_back(static_cast<uint8_t>(row >> 16));
+                out.push_back(static_cast<uint8_t>(row >> 8));
+                out.push_back(static_cast<uint8_t>(row));
+                row = 0;
+                nibblesInRow = 0;
+                ++rows;
+            }
+        }
+    }
+    // the encoders pad the last byte with zero bits
+    if ((bits.Current & ((1u << bits.Left) - 1)) != 0)
+        return false;
+    used = bits.Pos;
+    return true;
+}
+
+// ---- Kosinski ------------------------------------------------------------------------------
+
+auto DecodeKosinski(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool
+{
+    out.clear();
+    size_t pos = 0;
+    unsigned desc = 0;
+    int left = 0; // -1: the stream ended while a bit was needed
+    auto reload = [&]() {
+        if (pos + 2 <= avail)
+        {
+            desc = src[pos] | (unsigned{src[pos + 1]} << 8);
+            pos += 2;
+            left = 16;
+        }
+        else
+            left = -1;
+    };
+    reload();
+    // the description word is reloaded as soon as its last bit is used (as the Sega routines do)
+    auto bit = [&](int &value) -> bool {
+        if (left <= 0)
+            return false;
+        value = static_cast<int>(desc & 1);
+        desc >>= 1;
+        if (--left == 0)
+            reload();
+        return true;
+    };
+    auto byte = [&](unsigned &value) -> bool {
+        if (pos >= avail)
+            return false;
+        value = src[pos++];
+        return true;
+    };
+    for (;;)
+    {
+        int b;
+        if (!bit(b))
+            return false;
+        if (b)
+        {
+            unsigned v;
+            if (!byte(v) || out.size() >= KosinskiMaxOut || out.size() >= maxOut)
+                return false;
+            out.push_back(static_cast<uint8_t>(v));
+            continue;
+        }
+        int full;
+        if (!bit(full))
+            return false;
+        int64_t distance;
+        size_t count;
+        if (full)
+        {
+            unsigned lo, hi;
+            if (!byte(lo) || !byte(hi))
+                return false;
+            distance = static_cast<int64_t>(((hi & 0xF8) << 5) | lo) - 0x2000;
+            const unsigned field = hi & 7;
+            if (field != 0)
+                count = field + 2;
+            else
+            {
+                unsigned extended;
+                if (!byte(extended))
+                    return false;
+                if (extended == 0)
+                    break; // end of the stream
+                if (extended == 1)
+                    continue; // "nothing to copy": the stream goes on
+                count = extended + 1;
+            }
+        }
+        else
+        {
+            int b1, b2;
+            unsigned off;
+            if (!bit(b1) || !bit(b2) || !byte(off))
+                return false;
+            count = static_cast<size_t>(b1 * 2 + b2) + 2;
+            distance = static_cast<int64_t>(off) - 256;
+        }
+        if (static_cast<int64_t>(out.size()) + distance < 0 || out.size() + count > std::min(maxOut, KosinskiMaxOut))
+            return false;
+        for (size_t i = 0; i < count; ++i)
+            out.push_back(out[static_cast<size_t>(static_cast<int64_t>(out.size()) + distance)]);
+    }
+    used = pos;
+    return out.size() >= 1;
+}
+
+auto DecodeLz2(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
+               Lz2Variant variant, size_t *copies) -> bool
+{
+    out.clear();
+    if (copies)
+        *copies = 0;
+    size_t pos = 0;
+    for (;;)
+    {
+        if (pos >= avail)
+            return false;
+        const unsigned header = src[pos++];
+        if (header == 0xFF)
+            break;
+        unsigned command = header >> 5;
+        size_t length = (header & 31) + 1;
+        if (command == 7)
+        {
+            if (pos >= avail)
+                return false;
+            command = (header >> 2) & 7;
+            length = ((size_t{header} & 3) << 8 | src[pos++]) + 1;
+        }
+        if (out.size() + length > maxOut)
+            return false;
+        switch (command)
+        {
+        case 0:
+            if (pos + length > avail)
+                return false;
+            out.insert(out.end(), src + pos, src + pos + length);
+            pos += length;
+            break;
+        case 1:
+            if (pos >= avail)
+                return false;
+            out.insert(out.end(), length, src[pos++]);
+            break;
+        case 2:
+            if (pos + 2 > avail)
+                return false;
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(src[pos + (i & 1)]);
+            pos += 2;
+            break;
+        case 3: {
+            if (pos >= avail)
+                return false;
+            uint8_t value = src[pos++];
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(value++);
+            break;
+        }
+        case 4: {
+            if (copies && variant != Lz2Variant::Metroid) // (Metroid is judged by its own commands)
+                ++*copies;
+            if (pos + 2 > avail)
+                return false;
+            const size_t from = variant == Lz2Variant::Big ? (size_t{src[pos]} << 8) | src[pos + 1]
+                                                           : src[pos] | (size_t{src[pos + 1]} << 8);
+            pos += 2;
+            if (from >= out.size())
+                return false;
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(out[from + i]);
+            break;
+        }
+        case 5: // Super Metroid: copy of the output, bits flipped
+        case 6: { // Super Metroid: copy from a byte offset back
+            if (variant != Lz2Variant::Metroid)
+                return false;
+            if (copies)
+                ++*copies;
+            size_t from;
+            if (command == 5)
+            {
+                if (pos + 2 > avail)
+                    return false;
+                from = src[pos] | (size_t{src[pos + 1]} << 8);
+                pos += 2;
+            }
+            else
+            {
+                if (pos >= avail)
+                    return false;
+                const size_t back = src[pos++];
+                if (back == 0 || back > out.size())
+                    return false;
+                from = out.size() - back;
+            }
+            if (from >= out.size())
+                return false;
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(command == 5 ? static_cast<uint8_t>(out[from + i] ^ 0xFF) : out[from + i]);
+            break;
+        }
+        default:
+            return false;
+        }
+    }
+    used = pos;
+    return !out.empty();
+}
+
+auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool
+{
+    switch (codec)
+    {
+    case RomCodec::Nemesis:
+        return DecodeNemesis(src, avail, NemesisMaxTiles * 32, out, used);
+    case RomCodec::Kosinski:
+        return DecodeKosinski(src, avail, KosinskiMaxOut, out, used);
+    case RomCodec::Lz2:
+        return DecodeLz2(src, avail, Lz2MaxOut, out, used);
+    case RomCodec::Lz2Be:
+        return DecodeLz2(src, avail, Lz2MaxOut, out, used, Lz2Variant::Big);
+    case RomCodec::Lz5:
+        return DecodeLz2(src, avail, Lz2MaxOut, out, used, Lz2Variant::Metroid);
+    }
+    return false;
+}
+
+// ---- scanner -------------------------------------------------------------------------------
+
+namespace
+{
+// Real art is not flat: reject streams whose output is one repeated byte or almost empty
+auto Plausible(const std::vector<uint8_t> &data) -> bool
+{
+    if (data.size() < MinimumOut)
+        return false;
+    std::array<uint32_t, 256> histogram{};
+    for (const uint8_t b : data)
+        ++histogram[b];
+    return *std::max_element(histogram.begin(), histogram.end()) < data.size() * 99 / 100;
+}
+} // namespace
+
+auto ScanMegaDrive(const uint8_t *rom, size_t size) -> std::vector<RomStream>
+{
+    std::vector<RomStream> found;
+    std::vector<uint8_t> out;
+    if (size < 0x204)
+        return found;
+
+    // Trying Kosinski at every offset is far too slow on dense data (random bytes decode for
+    // thousands of codes before ending), so it is only tried where a stream can start: at the
+    // addresses the ROM itself holds (the tables and code that load the data use 32 bits
+    // absolute addresses), after the end of another stream, and when a terminator
+    // (00 F0 00, what the encoders write) is close enough to end it.
+    std::vector<bool> candidate(size / 2 + 1, false);
+    for (size_t at = 0; at + 4 <= size; at += 2)
+    {
+        const uint32_t value = (uint32_t{rom[at]} << 24) | (uint32_t{rom[at + 1]} << 16) | (uint32_t{rom[at + 2]} << 8) | rom[at + 3];
+        if (value >= 0x200 && value < size && (value & 1) == 0)
+            candidate[value / 2] = true;
+    }
+    std::vector<size_t> terminators;
+    for (size_t at = 0; at + 3 <= size; ++at)
+        if (rom[at] == 0x00 && rom[at + 1] == 0xF0 && rom[at + 2] == 0x00)
+        {
+            terminators.push_back(at);
+            for (size_t pad = 0; pad <= 6; pad += 2)
+            {
+                const size_t next = ((at + 3 + 1) & ~size_t{1}) + pad;
+                if (next < size)
+                    candidate[next / 2] = true;
+            }
+        }
+
+    // the vector table and the header (0 - 0x1FF) hold no compressed data
+    size_t chainUntil = 0; // starts right after a stream are tried too
+    for (size_t at = 0x200; at + 4 <= size;)
+    {
+        size_t used = 0;
+        RomStream s;
+        s.Offset = static_cast<int64_t>(at);
+        bool ok = false;
+        if (DecodeNemesis(rom + at, size - at, NemesisMaxTiles * 32, out, used) && Plausible(out))
+        {
+            s.Codec = RomCodec::Nemesis;
+            ok = true;
+        }
+        else if (candidate[at / 2] || at <= chainUntil)
+        {
+            // the last terminator that can end a stream starting here
+            const auto limit = std::upper_bound(terminators.begin(), terminators.end(), at + KosinskiMaxOut);
+            if (limit != terminators.begin() && *(limit - 1) >= at)
+            {
+                const size_t avail = *(limit - 1) + 3 - at;
+                if (DecodeKosinski(rom + at, avail, KosinskiMaxOut, out, used) && out.size() > used && Plausible(out))
+                {
+                    s.Codec = RomCodec::Kosinski;
+                    ok = true;
+                }
+            }
+        }
+        if (!ok)
+        {
+            at += 2;
+            continue;
+        }
+        s.Packed = static_cast<int64_t>(used);
+        s.Size = static_cast<int64_t>(out.size());
+        found.push_back(s);
+        at += (used + 1) & ~size_t{1};
+        chainUntil = at + 8;
+    }
+    return found;
+}
+
+// ---- Super Nintendo scanner ----------------------------------------------------------------
+
+namespace
+{
+// File offset of a 24 bits address of the console, or -1
+auto SnesFileOffset(uint32_t address, bool hiRom, size_t size) -> int64_t
+{
+    const uint32_t bank = address >> 16;
+    const uint32_t low = address & 0xFFFF;
+    if (bank == 0x7E || bank == 0x7F)
+        return -1;
+    int64_t file;
+    if (hiRom)
+    {
+        // the data of HiROM games is addressed in the banks C0 to FF; accepting more makes almost
+        // every 3 bytes of a ROM an address
+        if (bank < 0xC0)
+            return -1;
+        file = static_cast<int64_t>(address & 0x3FFFFF);
+    }
+    else
+    {
+        if (low < 0x8000)
+            return -1;
+        file = static_cast<int64_t>(bank & 0x7F) * 0x8000 + (low - 0x8000);
+    }
+    return file < static_cast<int64_t>(size) ? file : -1;
+}
+} // namespace
+
+namespace
+{
+// copyStreams receives how many of the streams use a copy command: the wrong spelling of the offsets
+// still decodes some streams (the ones without copies, and some by chance) but not the others
+// Where a stream may start: where a table of addresses points (3 bytes long addresses, in runs of
+// four at least, packed or with a byte between: the targets of a lone window that happens to look
+// like an address are a million in a 4 MB ROM and each costs a decoding), after the end of another
+// stream (0xFF)
+auto SnesCandidates(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<bool>
+{
+    std::vector<bool> candidate(size, false);
+    std::vector<int64_t> target(size, -1);
+    for (size_t at = 0; at + 3 <= size; ++at)
+    {
+        const uint32_t value = rom[at] | (uint32_t{rom[at + 1]} << 8) | (uint32_t{rom[at + 2]} << 16);
+        target[at] = SnesFileOffset(value, hiRom, size);
+    }
+    for (const size_t stride : {size_t{3}, size_t{4}})
+        for (size_t at = 0; at + (PointerRun - 1) * stride + 3 <= size; ++at)
+        {
+            bool run = true;
+            for (size_t k = 0; run && k < PointerRun; ++k)
+                run = target[at + k * stride] >= 0;
+            if (run)
+                for (size_t k = 0; k < PointerRun; ++k)
+                    candidate[static_cast<size_t>(target[at + k * stride])] = true;
+        }
+    for (size_t at = 0; at + 1 < size; ++at)
+        if (rom[at] == 0xFF)
+            candidate[at + 1] = true;
+    return candidate;
+}
+
+auto ScanSnesVariant(const uint8_t *rom, size_t size, std::vector<bool> candidate, Lz2Variant variant,
+                     size_t &copyStreams) -> std::vector<RomStream>
+{
+    copyStreams = 0;
+    std::vector<RomStream> found;
+    if (size < 0x200)
+        return found;
+
+    // Graphics are tiles (16, 24 or 32 bytes each) and are stored one after the other: a stream
+    // is kept when it abuts another one, or when it is a big block of 4 bits tiles
+    std::vector<RomStream> valid;
+    std::vector<size_t> copiesOf;
+    std::vector<uint8_t> out;
+    for (size_t at = 0; at + 4 <= size;)
+    {
+        size_t used = 0;
+        size_t copies = 0;
+        // zero padding is valid code too (copy one zero byte): streams do not start with it
+        if (!candidate[at] || (rom[at] == 0 && rom[at + 1] == 0) || !DecodeLz2(rom + at, std::min<size_t>(size - at, Lz2MaxOut), Lz2MaxOut, out, used, variant, &copies) ||
+            used < 24 || out.size() <= used || out.size() < 128 || out.size() % 16 != 0 || !Plausible(out))
+        {
+            ++at;
+            continue;
+        }
+        valid.push_back({variant == Lz2Variant::Big ? RomCodec::Lz2Be : variant == Lz2Variant::Metroid ? RomCodec::Lz5 : RomCodec::Lz2, static_cast<int64_t>(at), static_cast<int64_t>(used), static_cast<int64_t>(out.size())});
+        copiesOf.push_back(copies);
+        at += used;
+        if (at < size)
+            candidate[at] = true;
+    }
+    // A game that uses the scheme has its graphics in long runs of streams; isolated hits of
+    // code and data that happen to decode are noise, so a ROM needs enough abutting streams
+    std::vector<bool> abuts(valid.size(), false);
+    size_t abutting = 0;
+    for (size_t i = 0; i + 1 < valid.size(); ++i)
+        if (valid[i].Offset + valid[i].Packed == valid[i + 1].Offset)
+        {
+            abutting += (abuts[i] ? 0 : 1) + 1;
+            abuts[i] = abuts[i + 1] = true;
+        }
+    if (abutting < MinimumAbutting)
+        return found;
+    for (size_t i = 0; i < valid.size(); ++i)
+        if (abuts[i] || (valid[i].Size % 32 == 0 && valid[i].Size >= 1024))
+        {
+            found.push_back(valid[i]);
+            copyStreams += copiesOf[i] != 0 ? 1 : 0;
+        }
+    return found;
+}
+} // namespace
+
+// The games use one of the spellings of the commands: the ROM keeps the one that decodes more streams
+// with copy commands (the Zelda 3 one on a tie, and Metroid's is a superset of it)
+auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
+{
+    const auto candidates = SnesCandidates(rom, size, hiRom);
+    size_t bestCopies = 0;
+    auto best = ScanSnesVariant(rom, size, candidates, Lz2Variant::Little, bestCopies);
+    for (const auto variant : {Lz2Variant::Big, Lz2Variant::Metroid})
+    {
+        size_t copies = 0;
+        auto candidate = ScanSnesVariant(rom, size, candidates, variant, copies);
+        if (copies > bestCopies)
+        {
+            best = std::move(candidate);
+            bestCopies = copies;
+        }
+    }
+    return best;
+}
+} // namespace Dud

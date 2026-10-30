@@ -11,6 +11,7 @@ add_library(Core STATIC
     Core/ArchiveIndex.cpp
     Core/DriverHost.cpp
     Core/EntryNames.cpp
+    Core/FileMasks.cpp
     Core/ExtractionJob.cpp
     Core/DdsDecoder.cpp
     Core/EntryListExport.cpp

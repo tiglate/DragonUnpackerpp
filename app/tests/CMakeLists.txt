@@ -5,6 +5,7 @@ add_executable(dragonunpacker_tests
     test_main.cpp
     TestSupport.h
     test_entry_names.cpp
+    test_file_masks.cpp
     test_archive_index.cpp
     test_app_settings.cpp
     test_tga_decoder.cpp
