@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 
 namespace Dud
 {
@@ -663,6 +664,22 @@ auto ScanSnesVariant(const uint8_t *rom, size_t size, std::vector<bool> candidat
 }
 } // namespace
 
+// Bits per byte of the data (0 for one repeated byte, 8 for noise; pictures are in between)
+auto ByteEntropy(const std::vector<uint8_t> &data) -> double
+{
+    std::array<size_t, 256> histogram{};
+    for (const uint8_t b : data)
+        ++histogram[b];
+    double bits = 0;
+    for (const size_t count : histogram)
+        if (count != 0)
+        {
+            const double p = static_cast<double>(count) / static_cast<double>(data.size());
+            bits -= p * std::log2(p);
+        }
+    return bits;
+}
+
 // The streams that carry their own size (Final Fantasy VI's LZSS): they are not told by an end marker, and nearly any
 // bytes parse as LZSS (a ROM that has none still gets dozens of "streams" that parse and end on tile rows), so the test
 // is the one the real tables pass: the resources of a table of addresses are stored one after the other, so the next
@@ -671,6 +688,7 @@ auto ScanSnesVariant(const uint8_t *rom, size_t size, std::vector<bool> candidat
 auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
 {
     constexpr size_t MinimumEntries = 6;
+    constexpr double MinimumMedianEntropy = 4.0;
     std::vector<int64_t> target(size, -1);
     for (size_t at = 0; at + 3 <= size; ++at)
     {
@@ -678,11 +696,13 @@ auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<R
         target[at] = SnesFileOffset(value, hiRom, size);
     }
     std::vector<RomStream> found;
+    std::vector<double> entropies; // of the streams in found, in the same order, with the duplicates
     std::vector<uint8_t> out;
     struct Entry
     {
         bool Valid = false;
         RomStream Stream;
+        double Entropy = 0;
     };
     for (const size_t stride : {size_t{3}, size_t{4}})
     {
@@ -716,7 +736,7 @@ auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<R
                 size_t used = 0;
                 if (start + 6 <= size && DecodeLzss(rom + start, std::min<size_t>(size - start, 0x10002), Lz2MaxOut, out, used, counts) &&
                     out.size() >= MinimumOut && out.size() % 8 == 0 && Plausible(out))
-                    entries[k] = {true, {counts ? RomCodec::Lzss : RomCodec::LzssPayload, static_cast<int64_t>(start), static_cast<int64_t>(used), static_cast<int64_t>(out.size())}};
+                    entries[k] = {true, {counts ? RomCodec::Lzss : RomCodec::LzssPayload, static_cast<int64_t>(start), static_cast<int64_t>(used), static_cast<int64_t>(out.size())}, ByteEntropy(out)};
             };
             std::vector<bool> keep(length, false);
             for (size_t k = 0; k + 1 < length; ++k)
@@ -732,10 +752,20 @@ auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<R
             }
             for (size_t k = 0; k < length; ++k)
                 if (keep[k])
+                {
                     found.push_back(entries[k].Stream);
+                    entropies.push_back(entries[k].Entropy);
+                }
             at += length * stride;
         }
     }
+    // Records with a length in front also line up (the tables of a sprite animation, for one) and decode to specks:
+    // pictures have a median entropy around 5.6 bits per byte in Final Fantasy VI, these 0.7 to 2.7
+    if (entropies.empty())
+        return {};
+    std::sort(entropies.begin(), entropies.end());
+    if (entropies[entropies.size() / 2] < MinimumMedianEntropy)
+        return {};
     std::sort(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset < b.Offset; });
     found.erase(std::unique(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset == b.Offset; }), found.end());
     if (found.size() < MinimumEntries)

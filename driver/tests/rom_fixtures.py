@@ -256,6 +256,19 @@ def snes_art(size, seed):
     return bytes(out[:size])
 
 
+def rich_data(size, seed):
+    """Random bytes with some repeated segments: the entropy of a picture (about 7 bits), and still compressible"""
+    r = random.Random(seed)
+    out = bytearray(r.randrange(256) for _ in range(256))
+    while len(out) < size:
+        if r.random() < 0.3:
+            at = r.randrange(0, len(out) - 40)
+            out += out[at:at + r.randint(8, 40)]
+        else:
+            out += bytes(r.randrange(256) for _ in range(r.randint(10, 40)))
+    return bytes(out[:size])
+
+
 def lzss_encode(data, counts_itself=True):
     """Greedy encoder of the LZSS of Final Fantasy VI: a 16 bits size, flag bytes from the lowest bit (1: literal,
     0: a reference of two bytes), a ring of 2048 bytes written from 0x7DE, references of 3 to 34 bytes"""
@@ -293,7 +306,8 @@ def snes_lzss(counts_itself=True):
     rom = bytearray(snes()[1])
     for i in range(0x1000, 0x7FA0):
         rom[i] = 0
-    datas = [snes_art(1024 + 32 * k, 60 + k) for k in range(9)]
+    # data with the entropy of pictures (the scan refuses blocks that are mostly empty), still compressible
+    datas = [rich_data(1024 + 32 * k, 60 + k) for k in range(9)]
     at, found, pointers = 0x1000, [], []
     for data in datas:
         packed = lzss_encode(data, counts_itself)
