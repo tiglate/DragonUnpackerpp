@@ -1,0 +1,1215 @@
+{
+ "title": "Final Fantasy III (VI)",
+ "console": "snes",
+ "crc32": "a27f1c7a",
+ "size": 3145728,
+ "tracedTiles": 2757,
+ "explainedTiles": 2702,
+ "streams": [
+  {
+   "codec": "lzss",
+   "offset": 2621619,
+   "bpp": [
+    4
+   ],
+   "usedBy": [
+    "bg2"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000008",
+      "101018",
+      "201818",
+      "292018",
+      "312920",
+      "313129",
+      "393931",
+      "414139",
+      "101018",
+      "4a4a41",
+      "312931",
+      "292031",
+      "08184a",
+      "081039",
+      "080820"
+     ],
+     "romOffset": 3002784,
+     "count": 8
+    }
+   ]
+  },
+  {
+   "codec": "lzss",
+   "offset": 2627649,
+   "bpp": [
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "c5b4b4",
+      "bd9c8b",
+      "ac8373",
+      "9c7362",
+      "8b624a",
+      "735239",
+      "523920",
+      "292010",
+      "181008",
+      "100808",
+      "736a5a",
+      "4a4139",
+      "312018",
+      "201010",
+      "cd7b31"
+     ],
+     "romOffset": 3006880,
+     "count": 3
+    }
+   ]
+  },
+  {
+   "codec": "lzss",
+   "offset": 2688330,
+   "bpp": [
+    4
+   ],
+   "usedBy": [
+    "bg2"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "de7b4a",
+      "e66231",
+      "cd4120",
+      "bd3920",
+      "ac2920",
+      "9c1820",
+      "730818",
+      "520818",
+      "8ba49c",
+      "73837b",
+      "7b5a73",
+      "5a4a5a",
+      "203129",
+      "390810",
+      "100000"
+     ],
+     "romOffset": 3007008,
+     "count": 1
+    }
+   ]
+  },
+  {
+   "codec": "lzss",
+   "offset": 3060368,
+   "bpp": [
+    3,
+    4
+   ],
+   "usedBy": [
+    "bg2",
+    "sprite"
+   ],
+   "tilesSeen": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "181818",
+      "4a4129",
+      "62624a",
+      "b4b483",
+      "734120",
+      "e6ac5a",
+      "ffe694",
+      "6a6a83",
+      "cdcdcd",
+      "ffffff",
+      "946241",
+      "ee834a",
+      "fff6ac",
+      "fff6e6",
+      "1839de"
+     ],
+     "romOffset": 2523360,
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "000008",
+      "101018",
+      "201818",
+      "292018",
+      "312920",
+      "313129",
+      "393931",
+      "414139",
+      "101018",
+      "4a4a41",
+      "312931",
+      "292031",
+      "08184a",
+      "081039",
+      "080820"
+     ],
+     "romOffset": 3002784,
+     "count": 8
+    },
+    {
+     "colors": [
+      "000000",
+      "de7b4a",
+      "e66231",
+      "cd4120",
+      "bd3920",
+      "ac2920",
+      "9c1820",
+      "730818",
+      "520818",
+      "8ba49c",
+      "73837b",
+      "7b5a73",
+      "5a4a5a",
+      "203129",
+      "390810",
+      "100000"
+     ],
+     "romOffset": 3007008,
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "e6deac",
+      "c5a473",
+      "9c945a",
+      "a46a29",
+      "736241",
+      "6a5a29",
+      "6a4108",
+      "414a31",
+      "393918",
+      "392910",
+      "391808",
+      "311008",
+      "200800",
+      "100000"
+     ],
+     "romOffset": 3007040,
+     "count": 1
+    }
+   ]
+  }
+ ],
+ "rawTiles": [
+  {
+   "offset": 1243038,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1376256,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1567698,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 2119776,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2131168,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2131424,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2131680,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2131936,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2132320,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2132448,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2132960,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2133536,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2133888,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2134048,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2134528,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2135040,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2135232,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2135616,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 2136128,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 2136672,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2136768,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2137152,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2137248,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2137344,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2137664,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2137760,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2137856,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2138176,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2138368,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2138688,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2138880,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2141632,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2142144,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2142688,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2143200,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2240544,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2241024,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2241184,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2241536,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2241888,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2242048,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2242208,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2242368,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2242880,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2243520,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2244032,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2244544,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2244768,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2245024,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2245536,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2245760,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2246272,
+   "length": 832,
+   "bpp": 4
+  },
+  {
+   "offset": 2247136,
+   "length": 416,
+   "bpp": 4
+  },
+  {
+   "offset": 2247584,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2248064,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2248160,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 2248416,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2248544,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2248640,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2248832,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2248928,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2249056,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2249472,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2249632,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2249952,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2250208,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2250432,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2251008,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2251232,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2251296,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2251520,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2251648,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2251840,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2251968,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2252160,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2256672,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2256896,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2256960,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2257024,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2257120,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2257376,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 2257632,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2257856,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2257920,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2258112,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 2258400,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2258560,
+   "length": 3008,
+   "bpp": 4
+  },
+  {
+   "offset": 2261632,
+   "length": 992,
+   "bpp": 4
+  },
+  {
+   "offset": 2262656,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2262976,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2361792,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2362016,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2362368,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2362592,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2362816,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2363104,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2363328,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2363616,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2364128,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2364640,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2364896,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2365664,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2365920,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2366208,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2366592,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2366976,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2367392,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2367968,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2368192,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2368480,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2368992,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2369504,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2370016,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2370304,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2370528,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2370784,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2371296,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2371616,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2371776,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2371968,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2372128,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2421472,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2421984,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2422304,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2422496,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2422688,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2423008,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2423328,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2423520,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2423840,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2424096,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2424352,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2424608,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2424864,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2425216,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 2425600,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 2426144,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2426688,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2427200,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2427328,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2427712,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2427840,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2431456,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2431520,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2431648,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 2431904,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2432096,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2432608,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2433120,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2433632,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2434144,
+   "length": 320,
+   "bpp": 4
+  },
+  {
+   "offset": 2434496,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2434816,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 2435392,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 2435552,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2435612,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2435616,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2435712,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 2436032,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2436224,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 2436544,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 2437024,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2437184,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2500608,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 2500768,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2501248,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2501760,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2502272,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2502784,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2503296,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 2503808,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 2504320,
+   "length": 128,
+   "bpp": 4
+  }
+ ],
+ "rawPalettes": [
+  {
+   "colors": [
+    "000000",
+    "000008",
+    "101018",
+    "201818",
+    "292018",
+    "312920",
+    "313129",
+    "393931",
+    "414139",
+    "101018",
+    "4a4a41",
+    "312931",
+    "292031",
+    "08184a",
+    "081039",
+    "080820"
+   ],
+   "romOffset": 3002784,
+   "count": 1192
+  },
+  {
+   "colors": [
+    "000000",
+    "5a838b",
+    "52737b",
+    "415252",
+    "4a3929",
+    "312910",
+    "080808",
+    "8b838b",
+    "73736a",
+    "524a4a",
+    "203939",
+    "102929",
+    "081010",
+    "839cac",
+    "7b9cac",
+    "7394a4"
+   ],
+   "romOffset": 3002816,
+   "count": 489
+  },
+  {
+   "colors": [
+    "000000",
+    "ac9c94",
+    "837b7b",
+    "5a5a52",
+    "524a39",
+    "4a3931",
+    "392920",
+    "312018",
+    "202010",
+    "201810",
+    "181808",
+    "181008",
+    "ff00ff",
+    "ff00ff",
+    "ff00ff",
+    "100808"
+   ],
+   "romOffset": 3005664,
+   "count": 288
+  },
+  {
+   "colors": [
+    "000000",
+    "d5b4bd",
+    "b49ca4",
+    "a4838b",
+    "94736a",
+    "836262",
+    "6a524a",
+    "4a3931",
+    "312918",
+    "181810",
+    "101010",
+    "100808",
+    "ff00ff",
+    "ff00ff",
+    "ff00ff",
+    "ff00ff"
+   ],
+   "romOffset": 3005632,
+   "count": 140
+  },
+  {
+   "colors": [
+    "000000",
+    "396a7b",
+    "18394a",
+    "182931",
+    "293141",
+    "293952",
+    "080808",
+    "6a627b",
+    "52525a",
+    "393141",
+    "202929",
+    "102020",
+    "081010",
+    "5a7394",
+    "4a738b",
+    "397383"
+   ],
+   "romOffset": 3002560,
+   "count": 108
+  },
+  {
+   "colors": [
+    "000000",
+    "de7b4a",
+    "e66231",
+    "cd4120",
+    "bd3920",
+    "ac2920",
+    "9c1820",
+    "730818",
+    "520818",
+    "8ba49c",
+    "73837b",
+    "7b5a73",
+    "5a4a5a",
+    "203129",
+    "390810",
+    "100000"
+   ],
+   "romOffset": 3007008,
+   "count": 98
+  }
+ ]
+}

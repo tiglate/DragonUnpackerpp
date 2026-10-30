@@ -1,0 +1,981 @@
+{
+ "title": "Super Metroid",
+ "console": "snes",
+ "crc32": "d63ed5f8",
+ "size": 3145728,
+ "tracedTiles": 13596,
+ "explainedTiles": 13595,
+ "streams": [
+  {
+   "codec": "lz",
+   "offset": 688344,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 3,
+   "palettes": [
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 160
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 144
+    },
+    {
+     "colors": [
+      "000000",
+      "00ff00",
+      "c5c5c5",
+      "00d500"
+     ],
+     "romOffset": 418793,
+     "count": 120
+    },
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5"
+     ],
+     "romOffset": 418839,
+     "count": 120
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "000000",
+      "525252"
+     ],
+     "romOffset": 418825,
+     "count": 72
+    },
+    {
+     "colors": [
+      "006229",
+      "00ff00",
+      "c5c5c5",
+      "005a00"
+     ],
+     "romOffset": 418817,
+     "count": 72
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 713922,
+   "bpp": [
+    2,
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4",
+    "sprite"
+   ],
+   "tilesSeen": 3,
+   "palettes": [
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 40
+    },
+    {
+     "colors": [
+      "000000",
+      "00ff00",
+      "c5c5c5",
+      "00d500"
+     ],
+     "romOffset": 418793,
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "00b400",
+      "8b8b8b",
+      "009400"
+     ],
+     "romOffset": null,
+     "count": 4
+    },
+    {
+     "colors": [
+      "000073",
+      "ffffee",
+      "949483",
+      "202020",
+      "101010",
+      "cdcdac",
+      "73735a",
+      "414141",
+      "292929",
+      "c5c5a4",
+      "7b7b5a",
+      "525231",
+      "313120",
+      "ffffee",
+      "ffffee",
+      "000000"
+     ],
+     "romOffset": 419273,
+     "count": 3
+    },
+    {
+     "colors": [
+      "000018",
+      "414141",
+      "292920",
+      "080808",
+      "000000",
+      "393929",
+      "181818",
+      "101010",
+      "080808",
+      "313129",
+      "202018",
+      "101008",
+      "080808",
+      "414141",
+      "414141",
+      "000000"
+     ],
+     "romOffset": null,
+     "count": 1
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 719118,
+   "bpp": [
+    2,
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4",
+    "sprite"
+   ],
+   "tilesSeen": 271,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "00ff00",
+      "c5c5c5",
+      "00d500"
+     ],
+     "romOffset": 418793,
+     "count": 2544
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 2376
+    },
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 1960
+    },
+    {
+     "colors": [
+      "006229",
+      "00ff00",
+      "c5c5c5",
+      "005a00"
+     ],
+     "romOffset": 418817,
+     "count": 864
+    },
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5"
+     ],
+     "romOffset": 418839,
+     "count": 760
+    },
+    {
+     "colors": [
+      "00ff73",
+      "00ff00",
+      "c5c5c5",
+      "00a400"
+     ],
+     "romOffset": 418801,
+     "count": 600
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 757236,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "006229",
+      "00ff00",
+      "c5c5c5",
+      "005a00"
+     ],
+     "romOffset": 418817,
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 12
+    },
+    {
+     "colors": [
+      "004118",
+      "00b400",
+      "8b8b8b",
+      "003900"
+     ],
+     "romOffset": null,
+     "count": 4
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 787204,
+   "bpp": [
+    2,
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4",
+    "sprite"
+   ],
+   "tilesSeen": 5,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "00ff00",
+      "c5c5c5",
+      "00d500"
+     ],
+     "romOffset": 418793,
+     "count": 192
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 180
+    },
+    {
+     "colors": [
+      "006229",
+      "00ff00",
+      "c5c5c5",
+      "005a00"
+     ],
+     "romOffset": 418817,
+     "count": 96
+    },
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 80
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "000000",
+      "525252"
+     ],
+     "romOffset": 418825,
+     "count": 48
+    },
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5",
+      "c5c5c5"
+     ],
+     "romOffset": 418839,
+     "count": 40
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1867776,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 40
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1990640,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "c5c5c5",
+      "c5c5c5",
+      "000000",
+      "c5c5c5"
+     ],
+     "romOffset": 305674,
+     "count": 40
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 2016249,
+   "bpp": [
+    3
+   ],
+   "usedBy": [
+    "sprite"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000073",
+      "ffffee",
+      "949483",
+      "202020",
+      "101010",
+      "cdcdac",
+      "73735a",
+      "414141",
+      "292929",
+      "c5c5a4",
+      "7b7b5a",
+      "525231",
+      "313120",
+      "ffffee",
+      "ffffee",
+      "000000"
+     ],
+     "romOffset": 419273,
+     "count": 3
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 2031146,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "00ff00",
+      "c5c5c5",
+      "00d500"
+     ],
+     "romOffset": 418793,
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "00b400",
+      "8b8b8b",
+      "009400"
+     ],
+     "romOffset": null,
+     "count": 4
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 2109444,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "00ff73",
+      "00ff00",
+      "c5c5c5",
+      "00a400"
+     ],
+     "romOffset": 418801,
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 12
+    },
+    {
+     "colors": [
+      "00b452",
+      "00b400",
+      "8b8b8b",
+      "007300"
+     ],
+     "romOffset": null,
+     "count": 4
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 2394534,
+   "bpp": [
+    2
+   ],
+   "usedBy": [
+    "bg1",
+    "bg2",
+    "bg3",
+    "bg4"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "000000",
+      "525252"
+     ],
+     "romOffset": 418825,
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 0,
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "b4b4b4",
+      "000000",
+      "393939"
+     ],
+     "romOffset": null,
+     "count": 4
+    }
+   ]
+  }
+ ],
+ "rawTiles": [
+  {
+   "offset": 458752,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 458752,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 458784,
+   "length": 48,
+   "bpp": 2
+  },
+  {
+   "offset": 458848,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 458944,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459008,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459136,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459184,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 459296,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 459376,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459520,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459552,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 459648,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459712,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 459744,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 460288,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 460336,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 460544,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 460736,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 465152,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 465408,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 465600,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 465920,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 466112,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 466336,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 466720,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 466912,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 466944,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 467040,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467072,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467168,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467200,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 467280,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467328,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 467424,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467472,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 467536,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467600,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467728,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 467936,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 468576,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 468832,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 468960,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 469024,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 470112,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471152,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471280,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471472,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471536,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471600,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471856,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 471920,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 472048,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 472624,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 472736,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 472880,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 474224,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 474736,
+   "length": 16,
+   "bpp": 2
+  }
+ ],
+ "rawPalettes": [
+  {
+   "colors": [
+    "000000",
+    "ffffff",
+    "ffff94",
+    "ffff20"
+   ],
+   "romOffset": 484352,
+   "count": 100
+  },
+  {
+   "colors": [
+    "ffa420",
+    "ff4120",
+    "ac2918",
+    "521808"
+   ],
+   "romOffset": 484360,
+   "count": 96
+  },
+  {
+   "colors": [
+    "180810",
+    "101029",
+    "414141",
+    "000000"
+   ],
+   "romOffset": 484408,
+   "count": 56
+  },
+  {
+   "colors": [
+    "4a1031",
+    "29398b",
+    "ffffff",
+    "000000"
+   ],
+   "romOffset": 484376,
+   "count": 44
+  },
+  {
+   "colors": [
+    "000000",
+    "292020",
+    "201818",
+    "391029"
+   ],
+   "romOffset": 484400,
+   "count": 32
+  },
+  {
+   "colors": [
+    "000073",
+    "00ff5a",
+    "00a431",
+    "004a00",
+    "bdcdd5",
+    "41628b",
+    "29415a",
+    "101820",
+    "ffff6a",
+    "ff8b39",
+    "ff1808",
+    "b41008",
+    "621000",
+    "180800",
+    "ffffff",
+    "000000"
+   ],
+   "romOffset": 484832,
+   "count": 16
+  }
+ ]
+}

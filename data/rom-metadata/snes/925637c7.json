@@ -1,0 +1,1585 @@
+{
+ "title": "Super Mario All-Stars",
+ "console": "snes",
+ "crc32": "925637c7",
+ "size": 2097152,
+ "tracedTiles": 12265,
+ "explainedTiles": 10440,
+ "streams": [],
+ "rawTiles": [
+  {
+   "offset": 32897,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 33949,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 34832,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 34848,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 40608,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 41888,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 45512,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 67840,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 70595,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 70625,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 103540,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 139047,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 139083,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 196608,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 196736,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 196864,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 197056,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 197280,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 197408,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 197536,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 197920,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 198144,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 198304,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 198432,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 198560,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 198944,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199104,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199232,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199360,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199488,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199584,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 199680,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199744,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 199840,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 200352,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 200480,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 200608,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 200704,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 200992,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 201440,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 202048,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 202496,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 204288,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 204448,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 204832,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 204928,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 204992,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 205056,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 205152,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 205248,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 205312,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 205376,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 205568,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 205664,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 205760,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 205824,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206016,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206144,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206304,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 206528,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206592,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206656,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 206784,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 206912,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 207040,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 207424,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 207680,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 207744,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 207872,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 208064,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 208192,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 213024,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 213184,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 213280,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 214208,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 214336,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 214496,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 215072,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 215123,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 216256,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 216384,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 216544,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 217120,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 217376,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 218592,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 223424,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 223520,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 225472,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 225568,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 229637,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 229728,
+   "length": 48,
+   "bpp": 2
+  },
+  {
+   "offset": 229792,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 229856,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 230208,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 230304,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 230400,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 230432,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 230432,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 230448,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 230528,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 230656,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 230688,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 230688,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 230704,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 230784,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 230816,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 230912,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 230976,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 231008,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 231168,
+   "length": 96,
+   "bpp": 2
+  },
+  {
+   "offset": 231328,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 231392,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 232512,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 232928,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 233376,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 233472,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 234816,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 237056,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 237408,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 237472,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 237568,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 237632,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 238016,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 238080,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 238592,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 239424,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 239680,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 240192,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 240448,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 240832,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 240960,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 241088,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 241472,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 244224,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 244736,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 245248,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 245696,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 264576,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 264592,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 278528,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 278720,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 278848,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 278976,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 279392,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 279520,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 279744,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 279904,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 281568,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 281728,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 285760,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 311552,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 311680,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 312032,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 312192,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 313344,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 313440,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 313536,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 313696,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 313856,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314112,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314240,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314368,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314464,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314592,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314593,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314880,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 314976,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 330880,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 331136,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 331200,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 331456,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 331904,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 331936,
+   "length": 32,
+   "bpp": 2
+  },
+  {
+   "offset": 331968,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 333440,
+   "length": 64,
+   "bpp": 2
+  },
+  {
+   "offset": 333504,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 423936,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 424320,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 424384,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 424512,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 424512,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 424704,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 424800,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 425120,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 425344,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 425440,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 425488,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 425728,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 527808,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 536576,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 536768,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 536992,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 537152,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 537536,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 537600,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 537792,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 538016,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 538336,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 538432,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 538528,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 538624,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 538688,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 538752,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 539008,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 539136,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 539232,
+   "length": 320,
+   "bpp": 4
+  },
+  {
+   "offset": 539584,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 539648,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 539776,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 878592,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1409024,
+   "length": 704,
+   "bpp": 4
+  },
+  {
+   "offset": 1409856,
+   "length": 928,
+   "bpp": 4
+  },
+  {
+   "offset": 1410816,
+   "length": 896,
+   "bpp": 4
+  },
+  {
+   "offset": 1411776,
+   "length": 992,
+   "bpp": 4
+  },
+  {
+   "offset": 1412800,
+   "length": 2016,
+   "bpp": 4
+  },
+  {
+   "offset": 1414848,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1415872,
+   "length": 640,
+   "bpp": 4
+  },
+  {
+   "offset": 1416544,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 1417024,
+   "length": 1856,
+   "bpp": 4
+  },
+  {
+   "offset": 1418944,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1419968,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1420992,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1422016,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1423040,
+   "length": 960,
+   "bpp": 4
+  },
+  {
+   "offset": 1424064,
+   "length": 320,
+   "bpp": 4
+  },
+  {
+   "offset": 1425408,
+   "length": 1440,
+   "bpp": 4
+  },
+  {
+   "offset": 1426880,
+   "length": 992,
+   "bpp": 4
+  },
+  {
+   "offset": 1427936,
+   "length": 448,
+   "bpp": 4
+  },
+  {
+   "offset": 1428416,
+   "length": 416,
+   "bpp": 4
+  },
+  {
+   "offset": 1428896,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1428992,
+   "length": 352,
+   "bpp": 4
+  },
+  {
+   "offset": 1429376,
+   "length": 1024,
+   "bpp": 4
+  },
+  {
+   "offset": 1430464,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 1430784,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 1431040,
+   "length": 416,
+   "bpp": 4
+  },
+  {
+   "offset": 1431488,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1431616,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1431712,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1431872,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1431968,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 1432256,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1432320,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1432384,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1432480,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1432576,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 1432864,
+   "length": 224,
+   "bpp": 4
+  },
+  {
+   "offset": 1433152,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1433216,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1433280,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1433376,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 1433600,
+   "length": 2144,
+   "bpp": 4
+  },
+  {
+   "offset": 1435776,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1435840,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1435904,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1436032,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1436128,
+   "length": 96,
+   "bpp": 4
+  },
+  {
+   "offset": 1436256,
+   "length": 288,
+   "bpp": 4
+  },
+  {
+   "offset": 1436576,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1436640,
+   "length": 352,
+   "bpp": 4
+  },
+  {
+   "offset": 1437088,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 1437312,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1437408,
+   "length": 160,
+   "bpp": 4
+  },
+  {
+   "offset": 1437600,
+   "length": 256,
+   "bpp": 4
+  },
+  {
+   "offset": 1437888,
+   "length": 128,
+   "bpp": 4
+  },
+  {
+   "offset": 1438048,
+   "length": 608,
+   "bpp": 4
+  },
+  {
+   "offset": 1438688,
+   "length": 192,
+   "bpp": 4
+  },
+  {
+   "offset": 1438944,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1439008,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1439072,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1439136,
+   "length": 928,
+   "bpp": 4
+  },
+  {
+   "offset": 1440096,
+   "length": 544,
+   "bpp": 4
+  },
+  {
+   "offset": 1440672,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1440736,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452160,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452224,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452288,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452400,
+   "length": 16,
+   "bpp": 2
+  },
+  {
+   "offset": 1452480,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452544,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1452672,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453056,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453120,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453312,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453440,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453568,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1453664,
+   "length": 64,
+   "bpp": 4
+  },
+  {
+   "offset": 1847296,
+   "length": 32,
+   "bpp": 4
+  },
+  {
+   "offset": 1847776,
+   "length": 64,
+   "bpp": 4
+  }
+ ],
+ "rawPalettes": [
+  {
+   "colors": [
+    "7beef6",
+    "ffffff",
+    "202020",
+    "62e6ee",
+    "52d5de",
+    "41c5cd",
+    "31b4bd",
+    "20a4ac",
+    "10949c",
+    "107341",
+    "319462",
+    "52b483",
+    "6acd9c",
+    "94dec5",
+    "202020",
+    "202020"
+   ],
+   "romOffset": 143267,
+   "count": 1498
+  },
+  {
+   "colors": [
+    "000000",
+    "ffffff",
+    "202020",
+    "000073",
+    "41c5ee",
+    "ffffff",
+    "ffff8b",
+    "ff3100",
+    "41c5ee",
+    "ffffff",
+    "cdeee6",
+    "accdc5",
+    "41c5ee",
+    "ffffff",
+    "5a8be6",
+    "4173cd"
+   ],
+   "romOffset": null,
+   "count": 1311
+  },
+  {
+   "colors": [
+    "101010",
+    "ffffff",
+    "000000",
+    "f6f673",
+    "52a4d5",
+    "313131",
+    "f6e673",
+    "83c5f6",
+    "102020",
+    "e66252",
+    "e6f6f6",
+    "e66262",
+    "203120",
+    "f66262",
+    "102010",
+    "5294d5"
+   ],
+   "romOffset": 1979392,
+   "count": 886
+  },
+  {
+   "colors": [
+    "7beef6",
+    "ffffff",
+    "202020",
+    "c5eeff",
+    "83ace6",
+    "e6bd62",
+    "b49441",
+    "7b7320",
+    "5a5208",
+    "317b10",
+    "5aac31",
+    "83cd52",
+    "a4ee73",
+    "ff1852",
+    "730000",
+    "ac0000"
+   ],
+   "romOffset": 143171,
+   "count": 746
+  },
+  {
+   "colors": [
+    "41c5ee",
+    "ffffff",
+    "202020",
+    "ffeea4",
+    "f6cd00",
+    "e69400",
+    "ff9494",
+    "ff5262",
+    "ee0000",
+    "521000",
+    "942908",
+    "e68310",
+    "eecd20",
+    "ffdecd",
+    "e65a00",
+    "cd0000"
+   ],
+   "romOffset": 144899,
+   "count": 732
+  },
+  {
+   "colors": [
+    "7beef6",
+    "ffffff",
+    "101010",
+    "83cd52",
+    "c52929",
+    "ff4a18",
+    "ffa400",
+    "ffd500",
+    "410000",
+    "732000",
+    "ac5a29",
+    "d58b31",
+    "ffd57b",
+    "b4b4b4",
+    "4a4a4a",
+    "7b7b7b"
+   ],
+   "romOffset": 143139,
+   "count": 604
+  }
+ ]
+}
