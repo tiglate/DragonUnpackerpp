@@ -87,6 +87,8 @@ class RomArchive : public Archive
     // the tiles drawn as a sheet
     void AddDecoded(const std::string &name, RomCodec codec, int64_t offset, int64_t packed, int64_t size, bool sheet,
                     TileFormat format = TileFormat::Md4bpp);
+    // A BRR sample (blocks of 9 bytes at the ROM offset) as a WAV file
+    void AddBrr(const std::string &name, int64_t offset, int64_t blocks);
     void AddText(const std::string &name, std::string text);
     // Bytes that are not in the ROM part (a copier header, ...): offset in the file
     void AddFileBytes(const std::string &name, int64_t fileOffset, int64_t length);
@@ -102,6 +104,7 @@ class RomArchive : public Archive
         Text,
         File,
         Decoded,
+        Brr,
     };
     struct Plan
     {

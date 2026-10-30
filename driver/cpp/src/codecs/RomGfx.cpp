@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <array>
 
+#include "codecs/Brr.h"
 
 namespace Dud
 {
@@ -212,6 +213,16 @@ void RomArchive::AddDecoded(const std::string &name, RomCodec codec, int64_t off
     }
 }
 
+void RomArchive::AddBrr(const std::string &name, int64_t offset, int64_t blocks)
+{
+    Plan plan;
+    plan.Type = Kind::Brr;
+    plan.Offset = offset;
+    plan.Length = blocks * BrrBlockBytes;
+    _plans.push_back(std::move(plan));
+    Add(name, offset, BrrWavSize(blocks));
+}
+
 void RomArchive::AddText(const std::string &name, std::string text)
 {
     const auto size = static_cast<int64_t>(text.size());
@@ -264,6 +275,16 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
             return ExtractBytes(data.data(), static_cast<int64_t>(data.size()), sink);
         const auto tga = RenderTileSheet(data.data(), static_cast<int64_t>(data.size()), plan.Format);
         return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
+    }
+    case Kind::Brr: {
+        std::vector<uint8_t> brr(static_cast<size_t>(plan.Length));
+        if (_rom->Read(plan.Offset, brr.data(), plan.Length) != plan.Length)
+        {
+            LastError = "Unexpected end of file";
+            return DUDI7_ERR_IO;
+        }
+        const auto wav = MakeWav(DecodeBrr(brr.data(), brr.size() / BrrBlockBytes), BrrSampleRate);
+        return ExtractBytes(wav.data(), static_cast<int64_t>(wav.size()), sink);
     }
     case Kind::File: {
         std::vector<uint8_t> bytes(static_cast<size_t>(plan.Length));

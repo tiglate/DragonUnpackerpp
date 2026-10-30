@@ -12,6 +12,7 @@
 // The Nintendo LZ streams found in the ROM are unpacked as entries too (raw data and tile
 // sheets, see codecs/RomCompress).
 
+#include "codecs/Brr.h"
 #include "codecs/RomGfx.h"
 #include "Registry.h"
 
@@ -161,6 +162,11 @@ class SnesArchive : public RomArchive
             if (s.Size % 32 != 0 && s.Size % 24 != 0 && s.Size % 16 == 0)
                 AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp);
         }
+
+        // BRR samples (the games copy them as they are to the sound chip): WAV files
+        for (const BrrSample &sample : ScanBrr(image.data(), image.size()))
+            AddBrr("audio/brr_" + Hex(static_cast<uint64_t>(sample.Offset), 6) + (sample.Loops ? "_loop" : "") + ".wav",
+                   sample.Offset, sample.Blocks);
     }
 };
 } // namespace

@@ -2,7 +2,7 @@
 """NES / SNES / Mega Drive ROMs: the listing, the raw parts, the deinterleaving of .smd dumps and
 every pixel of the tile sheets, against an independent decoder written here.
 Usage: verify_roms.py plugin.so dudi7cli"""
-import os, subprocess, sys, tempfile
+import os, struct, subprocess, sys, tempfile
 import rom_fixtures as rf
 
 plugin, cli = sys.argv[1:3]
@@ -131,5 +131,23 @@ with tempfile.TemporaryDirectory() as td:
                   eh, epx = decode(data, kind)
                   check(h == eh and px == epx, "lz at %X: %s sheet pixels" % (at, suffix[1:]))
       check(sum(1 for r in rows if r[4].endswith(".bin") and r[4].startswith("compressed/")) == len(streams), "no stream besides the real ones")
+    # BRR samples of a Super Nintendo ROM: WAV files identical to the reference decoder
+    blob, samples = rf.snes_brr()
+    path = os.path.join(td, "brr.sfc")
+    open(path, "wb").write(blob)
+    head, rows = listing(path)
+    wavs = [r for r in rows if r[4].startswith("audio/")]
+    check(len(wavs) == len(samples), "BRR: %d samples found, %d expected" % (len(wavs), len(samples)))
+    for at, loop, nblocks, pcm in samples:
+        name = "audio/brr_%06X%s.wav" % (at, "_loop" if loop else "")
+        idx = {r[4]: i for i, r in enumerate(rows)}
+        check(name in idx, "BRR %s listed" % name)
+        if name not in idx:
+            continue
+        wav = extract(path, idx[name], out)
+        check(int(rows[idx[name]][2]) == len(wav), "BRR %06X: listed size = file size" % at)
+        check(wav[:4] == b"RIFF" and wav[8:12] == b"WAVE" and struct.unpack("<HHI", wav[20:28]) == (1, 1, 32000) and
+              struct.unpack("<H", wav[34:36])[0] == 16, "BRR %06X: WAV header (PCM, mono, 32 kHz, 16 bits)" % at)
+        check(list(struct.unpack("<%dh" % len(pcm), wav[44:])) == pcm, "BRR %06X: %d samples identical to the reference decoder" % (at, len(pcm)))
 print("ALL OK" if not fails else "%d FAILURE(S)" % fails)
 sys.exit(1 if fails else 0)

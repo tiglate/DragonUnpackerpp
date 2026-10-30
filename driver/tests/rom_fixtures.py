@@ -259,6 +259,65 @@ def snes_compressed(big=False):
     return bytes(rom), found
 
 
+def brr_decode(blocks):
+    """Reference BRR decoder written from the description of the S-DSP (15 bits samples)"""
+    out, p1, p2 = [], 0, 0
+    for b in range(0, len(blocks), 9):
+        rng, filt = blocks[b] >> 4, (blocks[b] >> 2) & 3
+        for i in range(16):
+            n = blocks[b + 1 + i // 2]
+            n = (n & 15) if i & 1 else n >> 4
+            n = n - 16 if n >= 8 else n
+            x = (n << rng) >> 1
+            if filt == 1:
+                x += p1 + ((-p1) >> 4)
+            elif filt == 2:
+                x += 2 * p1 + ((-3 * p1) >> 5) - p2 + (p2 >> 4)
+            elif filt == 3:
+                x += 2 * p1 + ((-13 * p1) >> 6) - p2 + ((3 * p2) >> 4)
+            x = max(-32768, min(32767, x))
+            y = ((x * 2 + 32768) & 0xFFFF) - 32768        # wrapped as a signed 16 bits
+            p2, p1 = p1, y >> 1
+            out.append(y)
+    return out
+
+
+def brr_encode(samples, loop):
+    """Plain filter 0 encoder: the smallest range that fits the 16 samples of each block"""
+    import math
+    blocks = bytearray()
+    for b in range(0, len(samples), 16):
+        chunk = samples[b:b + 16]
+        for rng in range(13):
+            q = [round(v * 2 / (1 << rng)) for v in chunk]
+            if all(-8 <= v <= 7 for v in q):
+                break
+        last = b + 16 >= len(samples)
+        blocks.append(rng << 4 | (3 if loop else 1) * last)
+        for i in range(0, 16, 2):
+            blocks.append((q[i] & 15) << 4 | (q[i + 1] & 15))
+    return bytes(blocks)
+
+
+def snes_brr():
+    """A LoROM ROM with two BRR samples side by side (a long looping one and a short one);
+    returns the ROM and [(offset, loop, blocks, reference samples)]"""
+    import math
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    waves = [([int(9000 * math.sin(i / 7.0) + 4000 * math.sin(i / 3.1)) for i in range(1920)], True),
+             ([int(7000 * math.sin(i / 5.0) * (1 - i / 700)) for i in range(640)], False)]
+    at, found = 0x1000, []
+    for samples, loop in waves:
+        data = brr_encode(samples, loop)
+        rom[at:at + len(data)] = data
+        found.append((at, loop, len(data) // 9, brr_decode(data)))
+        rom[at + len(data):at + len(data) + 0x20] = b"\xff" * 0x20   # not zeros: those would pass for silent blocks
+        at += len(data) + 0x20
+    return bytes(rom), found
+
+
 def all_fixtures():
-    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed(True)[0]), ("copier.smc", snes(True)[0]),
-            ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]
+    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed(True)[0]), ("brr.sfc", snes_brr()[0]),
+            ("copier.smc", snes(True)[0]), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]
