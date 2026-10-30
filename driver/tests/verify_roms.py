@@ -165,6 +165,19 @@ with tempfile.TemporaryDirectory() as td:
         w, h, px = tga_pixels(extract(path, idx["compressed/lzss_%06X_4bpp.tga" % streams[0][0]], out))
         eh, epx = decode(streams[0][1], "snes4")
         check(h == eh and px == epx, "lzss: 4bpp sheet pixels")
+    # the packet LZ of Chrono Trigger, both widths of the offsets
+    for width in (12, 11):
+        blob, streams = rf.snes_packets(width)
+        path = os.path.join(td, "packets.sfc")
+        open(path, "wb").write(blob)
+        head, rows = listing(path)
+        idx = {r[4]: i for i, r in enumerate(rows)}
+        for at, data in streams:
+            base = "compressed/lzp_%06X" % at
+            check(base + ".bin" in idx, "packet lz (%d bits) at %X found" % (width, at))
+            if base + ".bin" in idx:
+                check(extract(path, idx[base + ".bin"], out) == data, "packet lz (%d bits) at %X: data identical (%d bytes)" % (width, at, len(data)))
+        check(sum(1 for r in rows if r[4].startswith("compressed/lzp_") and r[4].endswith(".bin")) == len(streams), "packet lz: no block besides the real ones")
     # BRR samples of a Super Nintendo ROM: WAV files identical to the reference decoder
     blob, samples = rf.snes_brr()
     path = os.path.join(td, "brr.sfc")

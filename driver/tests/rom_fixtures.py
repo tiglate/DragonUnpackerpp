@@ -321,6 +321,75 @@ def snes_lzss(counts_itself=True):
     return bytes(rom), found
 
 
+def packets_encode(data, width=12):
+    """Greedy encoder of the packet LZ of Chrono Trigger: the offset of the end of the first packet, masks (lowest bit
+    first: 0 a literal, 1 two bytes with the distance in the low `width` bits and the length - 3 above), then a control
+    byte (low 6 bits: bits of the next mask; the first one is below 0xC0 for 12 bits distances) and the offset of the end
+    of the next packet; the stream ends with a control byte of 0. The last mask has fewer bits than 8 when it must."""
+    items = []
+    i = 0
+    maxlen = 3 + (1 << (16 - width)) - 1
+    while i < len(data):
+        best_len, best_dist = 0, 0
+        for j in range(max(0, i - ((1 << width) - 1)), i):
+            n = 0
+            while n < maxlen and i + n < len(data) and data[j + n] == data[i + n]:
+                n += 1
+            if n > best_len:
+                best_len, best_dist = n, i - j
+        if best_len >= 3:
+            items.append(("ref", best_dist, best_len))
+            i += best_len
+        else:
+            items.append(("lit", data[i]))
+            i += 1
+    groups = [items[k:k + 8] for k in range(0, len(items), 8)]
+
+    def body(group):
+        mask = 0
+        raw = bytearray()
+        for bit, it in enumerate(group):
+            if it[0] == "ref":
+                mask |= 1 << bit
+                raw += struct.pack("<H", ((it[2] - 3) << width) | it[1])
+            else:
+                raw.append(it[1])
+        return bytes([mask]) + bytes(raw)
+
+    first_control = 0x00 if width == 12 else 0xC0
+    last = groups.pop()
+    blob = bytearray(2)
+    for g in groups:
+        blob += body(g)
+    struct.pack_into("<H", blob, 0, len(blob))
+    blob.append(first_control | len(last))       # the last mask holds fewer (or 8) bits
+    count_at = len(blob)
+    blob += b"\0\0" + body(last)
+    struct.pack_into("<H", blob, count_at, len(blob))
+    blob.append(0)
+    return bytes(blob)
+
+
+def snes_packets(width=12):
+    """A HiROM-free LoROM ROM with a table of 3 bytes addresses (at 0x800) of packet LZ blocks stored one after the other
+    from 0x1000; returns the ROM and [(offset, data)]"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    datas = [rich_data(1024 + 32 * k, 80 + k) for k in range(8)]
+    at, found, pointers = 0x1000, [], []
+    for data in datas:
+        packed = packets_encode(data, width)
+        rom[at:at + len(packed)] = packed
+        found.append((at, data))
+        pointers.append(at)
+        at += len(packed)
+    pointers.append(at)
+    for k, offset in enumerate(pointers):
+        rom[0x800 + 3 * k:0x803 + 3 * k] = struct.pack("<I", 0x80_8000 + offset)[:3]
+    return bytes(rom), found
+
+
 def snes_compressed(variant="little"):
     """A LoROM ROM with Nintendo LZ streams (eight abutting ones and a big one) and a table of long
     addresses pointing at them; returns the ROM (no copier header) and [(offset, data)]"""
@@ -475,5 +544,5 @@ def md_pcm():
 
 
 def all_fixtures():
-    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("sized.sfc", snes_lzss()[0]), ("sizedp.sfc", snes_lzss(False)[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
+    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("sized.sfc", snes_lzss()[0]), ("sizedp.sfc", snes_lzss(False)[0]), ("pk12.sfc", snes_packets(12)[0]), ("pk11.sfc", snes_packets(11)[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
             ("copier.smc", snes(True)[0]), ("pal.sfc", snes_palettes()[0]), ("pal.md", md_palettes()[0]), ("pcm.md", md_pcm()[0]), ("pal.nes", nes_palettes()), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]

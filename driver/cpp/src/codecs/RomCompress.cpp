@@ -438,6 +438,89 @@ auto DecodeLzss(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uin
     return !out.empty();
 }
 
+namespace
+{
+// One try with the width of the offsets assumed; the first control byte must agree with it
+auto DecodePacketsWidth(unsigned width, const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out,
+                        size_t &used) -> bool
+{
+    out.clear();
+    size_t end = src[0] | (size_t{src[1]} << 8);
+    size_t pos = 2;
+    unsigned count = 8;
+    bool first = true;
+    for (;;)
+    {
+        // the last mask of a packet may run a little over the end offset: the control byte follows it
+        if (pos >= end)
+        {
+            if (pos + 1 > avail)
+                return false;
+            const unsigned control = src[pos];
+            if (first && (control < 0xC0) != (width == 12))
+                return false;
+            first = false;
+            count = control & 63;
+            if (count == 0)
+            {
+                used = pos + 1;
+                return !out.empty();
+            }
+            if (pos + 3 > avail)
+                return false;
+            end = src[pos + 1] | (size_t{src[pos + 2]} << 8);
+            pos += 3;
+            continue;
+        }
+        if (first && pos > 2 + 0x10000)
+            return false;
+        const unsigned mask = src[pos++];
+        if (mask == 0 && count == 8)
+        {
+            if (pos + 8 > avail)
+                return false;
+            out.insert(out.end(), src + pos, src + pos + 8);
+            pos += 8;
+        }
+        else
+        {
+            for (unsigned bit = 0; bit < count; ++bit)
+            {
+                if (bit < 8 && ((mask >> bit) & 1))
+                {
+                    if (pos + 2 > avail)
+                        return false;
+                    const size_t value = src[pos] | (size_t{src[pos + 1]} << 8);
+                    pos += 2;
+                    const size_t distance = value & ((size_t{1} << width) - 1);
+                    const size_t length = (value >> width) + 3;
+                    if (distance == 0 || distance > out.size())
+                        return false;
+                    for (size_t k = 0; k < length; ++k)
+                        out.push_back(out[out.size() - distance]);
+                }
+                else
+                {
+                    if (pos + 1 > avail)
+                        return false;
+                    out.push_back(src[pos++]);
+                }
+            }
+        }
+        if (out.size() > maxOut)
+            return false;
+        count = 8;
+    }
+}
+} // namespace
+
+auto DecodeLzPackets(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool
+{
+    if (avail < 4)
+        return false;
+    return DecodePacketsWidth(12, src, avail, maxOut, out, used) || DecodePacketsWidth(11, src, avail, maxOut, out, used);
+}
+
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool
 {
     switch (codec)
@@ -456,6 +539,8 @@ auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_
         return DecodeLzss(src, avail, Lz2MaxOut, out, used, true);
     case RomCodec::LzssPayload:
         return DecodeLzss(src, avail, Lz2MaxOut, out, used, false);
+    case RomCodec::LzPackets:
+        return DecodeLzPackets(src, avail, Lz2MaxOut, out, used);
     }
     return false;
 }
@@ -773,6 +858,71 @@ auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<R
     return found;
 }
 
+// Chrono Trigger's packet LZ: the resources of a table of addresses lie one after the other and a stream ends with its
+// control byte, so the next address is this one plus the bytes used. A pointer run of which several consecutive
+// entries decode and line up, in a ROM where that happens a handful of times, is the game's.
+auto ScanSnesPackets(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
+{
+    constexpr size_t MinimumEntries = 6;
+    constexpr double MinimumMedianEntropy = 3.0;
+    std::vector<int64_t> target(size, -1);
+    for (size_t at = 0; at + 3 <= size; ++at)
+    {
+        const uint32_t value = rom[at] | (uint32_t{rom[at + 1]} << 8) | (uint32_t{rom[at + 2]} << 16);
+        target[at] = SnesFileOffset(value, hiRom, size);
+    }
+    std::vector<RomStream> found;
+    std::vector<double> entropies;
+    std::vector<uint8_t> out;
+    for (size_t at = 0; at + PointerRun * 3 <= size;)
+    {
+        size_t length = 0;
+        while (at + length * 3 + 3 <= size && target[at + length * 3] >= 0)
+            ++length;
+        if (length < PointerRun)
+        {
+            ++at;
+            continue;
+        }
+        std::vector<RomStream> entries(length);
+        std::vector<double> entry(length, 0);
+        std::vector<bool> valid(length, false);
+        for (size_t k = 0; k < length; ++k)
+        {
+            const auto start = static_cast<size_t>(target[at + k * 3]);
+            size_t used = 0;
+            if (start + 4 <= size && DecodeLzPackets(rom + start, std::min<size_t>(size - start, 0x10002), Lz2MaxOut, out, used) &&
+                out.size() >= MinimumOut && Plausible(out))
+            {
+                valid[k] = true;
+                entries[k] = {RomCodec::LzPackets, static_cast<int64_t>(start), static_cast<int64_t>(used), static_cast<int64_t>(out.size())};
+                entry[k] = ByteEntropy(out);
+            }
+        }
+        std::vector<bool> keep(length, false);
+        for (size_t k = 0; k + 1 < length; ++k)
+            if (valid[k] && valid[k + 1] && target[at + (k + 1) * 3] == entries[k].Offset + entries[k].Packed)
+                keep[k] = keep[k + 1] = true;
+        for (size_t k = 0; k < length; ++k)
+            if (keep[k])
+            {
+                found.push_back(entries[k]);
+                entropies.push_back(entry[k]);
+            }
+        at += length * 3;
+    }
+    if (entropies.empty())
+        return {};
+    std::sort(entropies.begin(), entropies.end());
+    if (entropies[entropies.size() / 2] < MinimumMedianEntropy)
+        return {};
+    std::sort(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset < b.Offset; });
+    found.erase(std::unique(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset == b.Offset; }), found.end());
+    if (found.size() < MinimumEntries)
+        found.clear();
+    return found;
+}
+
 // The games use one of the spellings of the commands: the ROM keeps the one that decodes more streams
 // with copy commands (the Zelda 3 one on a tie, and Metroid's is a superset of it)
 auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
@@ -793,6 +943,8 @@ auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStr
     // the sized streams too (a game uses one scheme or the other: a ROM that gives no streams of one gives none)
     auto sized = ScanSnesSized(rom, size, hiRom);
     best.insert(best.end(), sized.begin(), sized.end());
+    auto packets = ScanSnesPackets(rom, size, hiRom);
+    best.insert(best.end(), packets.begin(), packets.end());
     std::sort(best.begin(), best.end(), [](const RomStream &a, const RomStream &b) { return a.Offset < b.Offset; });
     return best;
 }
