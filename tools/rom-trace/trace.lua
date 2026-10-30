@@ -209,7 +209,9 @@ end
 
 -- input: press buttons so that the game goes past its menus and moves around. Each phase lasts 20 frames; every 1200 frames
 -- the walking direction changes so that a character does not stay against the same wall.
+local AUTOPLAY = os.getenv("TRACE_AUTOPLAY") ~= "0"   -- TRACE_AUTOPLAY=0: a person plays, nothing is pressed
 local function press()
+  if not AUTOPLAY then return end
   local t = {}
   local phase = (frame // 20) % 12
   local walk = ({"right", "down", "left", "up"})[(frame // 1200) % 4 + 1]
@@ -225,6 +227,7 @@ emu.addEventCallback(press, emu.eventType.inputPolled)
 emu.addEventCallback(function()
   frame = frame + 1
   flushCpu()
+  if frame % 300 == 0 then f:flush() end
   if frame % 60 == 0 then
     local parts = {}
     for a, n in pairs(hist) do parts[#parts + 1] = string.format('"%x":%d', a, n) end

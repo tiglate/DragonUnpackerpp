@@ -13,8 +13,14 @@
 // The Nintendo LZ streams found in the ROM are unpacked as entries too (raw data and tile
 // sheets, see codecs/RomCompress).
 
+#include <zlib.h>
+
+#include <map>
+#include <set>
+
 #include "codecs/Brr.h"
 #include "codecs/RomGfx.h"
+#include "codecs/RomTables.h"
 #include "Registry.h"
 
 namespace Dud
@@ -151,18 +157,56 @@ class SnesArchive : public RomArchive
         _rom->Read(0, image.data(), _rom->Size());
         AddPalettes(image.data(), image.size(), FindSnesPalettes(image.data(), image.size()));
         const bool hiRom = (h[0x15] & 1) != 0;
+
+        // a popular game (data/rom-metadata): the palettes its screens used give the sheets their colours
+        KnownGame known;
+        const bool haveKnown = FindKnownGame(static_cast<uint32_t>(crc32(0, image.data(), static_cast<uInt>(image.size()))), known);
+        std::map<int64_t, const KnownStream *> knownAt;
+        std::set<std::vector<uint32_t>> listed;
+        const auto listPalette = [&](const std::string &label, const std::vector<uint32_t> &colors) {
+            if (colors.empty() || !listed.insert(colors).second)
+                return;
+            AddColorPalette("palettes/known_" + label, colors);
+        };
+        if (haveKnown)
+        {
+            for (const KnownStream &k : known.Streams)
+            {
+                knownAt[k.Offset] = &k;
+                for (size_t i = 0; i < k.Palettes.size(); ++i)
+                    listPalette(Hex(static_cast<uint64_t>(k.Offset), 6) + "_" + std::to_string(i + 1), k.Palettes[i]);
+            }
+            for (size_t i = 0; i < known.RawPalettes.size(); ++i)
+                listPalette("tiles_" + std::to_string(i + 1), known.RawPalettes[i]);
+            for (const KnownRun &run : known.Runs)
+            {
+                const bool four = run.Bpp == 4;
+                std::vector<uint32_t> colors;
+                for (const auto &p : known.RawPalettes)
+                    if (p.size() == (four ? 16u : 4u))
+                    {
+                        colors = p;
+                        break;
+                    }
+                AddColoredSheets("graphics", four ? "tiles4bpp" : "tiles2bpp", run.Offset, run.Length,
+                                 four ? TileFormat::Snes4bpp : TileFormat::Snes2bpp, four ? 8192 : 4096, colors);
+            }
+        }
         for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
         {
+            std::vector<uint32_t> colors;
+            if (const auto it = knownAt.find(s.Offset); it != knownAt.end() && !it->second->Palettes.empty())
+                colors = it->second->Palettes[0];
             const bool sized = s.Codec == RomCodec::Lzss || s.Codec == RomCodec::LzssPayload;
             const bool packets = s.Codec == RomCodec::LzPackets;
             const std::string base = std::string(sized ? "compressed/lzss_" : packets ? "compressed/lzp_" : "compressed/lz_") + Hex(static_cast<uint64_t>(s.Offset), 6);
             AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
             if (s.Size % 32 == 0)
-                AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp);
+                AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp, colors);
             if (s.Size % 24 == 0)
-                AddDecoded(base + "_3bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes3bpp);
+                AddDecoded(base + "_3bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes3bpp, colors);
             if (s.Size % 32 != 0 && s.Size % 24 != 0 && s.Size % 16 == 0)
-                AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp);
+                AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp, colors);
         }
 
         // BRR samples (the games copy them as they are to the sound chip): WAV files

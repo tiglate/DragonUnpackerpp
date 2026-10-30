@@ -78,7 +78,7 @@ auto TileSheetSize(int64_t length, TileFormat format) -> int64_t
     return TgaHeader + TgaMapBytes + TilesPerRow * 8 * rows * 8;
 }
 
-auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> std::vector<uint8_t>
+auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format, const std::vector<uint32_t> &colors) -> std::vector<uint8_t>
 {
     const int64_t tileBytes = TileBytes(format);
     const int64_t tiles = (length + tileBytes - 1) / tileBytes;
@@ -100,6 +100,12 @@ auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> 
         const auto shade = static_cast<uint8_t>(i <= levels ? i * 255 / levels : 0);
         tga[static_cast<size_t>(TgaHeader + i * 3)] = tga[static_cast<size_t>(TgaHeader + i * 3 + 1)] =
             tga[static_cast<size_t>(TgaHeader + i * 3 + 2)] = shade;
+        if (i <= levels && static_cast<size_t>(i) < colors.size()) // TGA colour maps are blue, green, red
+        {
+            tga[static_cast<size_t>(TgaHeader + i * 3)] = static_cast<uint8_t>(colors[static_cast<size_t>(i)] & 255);
+            tga[static_cast<size_t>(TgaHeader + i * 3 + 1)] = static_cast<uint8_t>((colors[static_cast<size_t>(i)] >> 8) & 255);
+            tga[static_cast<size_t>(TgaHeader + i * 3 + 2)] = static_cast<uint8_t>((colors[static_cast<size_t>(i)] >> 16) & 255);
+        }
     }
     const auto pixels = static_cast<size_t>(TgaHeader + TgaMapBytes);
     std::array<uint8_t, 32> tile{};
@@ -204,7 +210,7 @@ void RomArchive::AddFileBytes(const std::string &name, int64_t fileOffset, int64
 }
 
 void RomArchive::AddDecoded(const std::string &name, RomCodec codec, int64_t offset, int64_t packed, int64_t size,
-                            bool sheet, TileFormat format)
+                            bool sheet, TileFormat format, const std::vector<uint32_t> &colors)
 {
     Plan plan;
     plan.Type = Kind::Decoded;
@@ -214,6 +220,7 @@ void RomArchive::AddDecoded(const std::string &name, RomCodec codec, int64_t off
     plan.Codec = codec;
     plan.Packed = packed;
     plan.AsSheet = sheet;
+    plan.Colors = colors;
     _plans.push_back(std::move(plan));
     if (!sheet)
         Add(name, offset, size);
@@ -284,6 +291,32 @@ void RomArchive::AddSheets(const std::string &folder, const std::string &prefix,
     }
 }
 
+void RomArchive::AddColoredSheets(const std::string &folder, const std::string &prefix, int64_t offset, int64_t length,
+                                  TileFormat format, int64_t sheetBytes, const std::vector<uint32_t> &colors)
+{
+    for (int64_t at = 0; at < length; at += sheetBytes)
+    {
+        const int64_t part = std::min(sheetBytes, length - at);
+        Plan plan{Kind::Sheet, offset + at, part, format, {}};
+        plan.Colors = colors;
+        _plans.push_back(std::move(plan));
+        const int64_t tiles = (part + TileBytes(format) - 1) / TileBytes(format);
+        Add(folder + "/" + prefix + "_" + Hex(static_cast<uint64_t>(offset + at), 6) + ".tga", offset + at,
+            TileSheetSize(part, format), TilesPerRow * 8, (tiles + TilesPerRow - 1) / TilesPerRow * 8);
+    }
+}
+
+void RomArchive::AddColorPalette(const std::string &base, const std::vector<uint32_t> &colors)
+{
+    const auto jasc = MakeJascPal(colors);
+    AddText(base + ".pal", std::string(jasc.begin(), jasc.end()));
+    Plan plan;
+    plan.Type = Kind::Swatch;
+    plan.Colors = colors;
+    _plans.push_back(std::move(plan));
+    Add(base + ".tga", 0, static_cast<int64_t>(MakeSwatchTga(colors).size()));
+}
+
 auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
 {
     const Plan &plan = _plans[static_cast<size_t>(index)];
@@ -294,7 +327,7 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
     case Kind::Sheet: {
         std::vector<uint8_t> tiles(static_cast<size_t>(plan.Length));
         _rom->Read(plan.Offset, tiles.data(), plan.Length);
-        const auto tga = RenderTileSheet(tiles.data(), plan.Length, plan.Format);
+        const auto tga = RenderTileSheet(tiles.data(), plan.Length, plan.Format, plan.Colors);
         return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
     }
     case Kind::Decoded: {
@@ -314,7 +347,7 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
         }
         if (!plan.AsSheet)
             return ExtractBytes(data.data(), static_cast<int64_t>(data.size()), sink);
-        const auto tga = RenderTileSheet(data.data(), static_cast<int64_t>(data.size()), plan.Format);
+        const auto tga = RenderTileSheet(data.data(), static_cast<int64_t>(data.size()), plan.Format, plan.Colors);
         return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
     }
     case Kind::Pcm: {

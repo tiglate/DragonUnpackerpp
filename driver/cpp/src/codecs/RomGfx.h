@@ -30,7 +30,8 @@ enum class TileFormat
 
 auto TileBytes(TileFormat format) -> int64_t;
 // The TGA of the tiles in data (the last row of tiles is completed with black)
-auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> std::vector<uint8_t>;
+// colors (0xRRGGBB) replace the grays of the colour map when given
+auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format, const std::vector<uint32_t> &colors = {}) -> std::vector<uint8_t>;
 // Size of that TGA for length bytes of tiles
 auto TileSheetSize(int64_t length, TileFormat format) -> int64_t;
 
@@ -88,7 +89,12 @@ class RomArchive : public Archive
     // A compressed stream at the ROM offset (packed bytes), giving size bytes: the raw data, or
     // the tiles drawn as a sheet
     void AddDecoded(const std::string &name, RomCodec codec, int64_t offset, int64_t packed, int64_t size, bool sheet,
-                    TileFormat format = TileFormat::Md4bpp);
+                    TileFormat format = TileFormat::Md4bpp, const std::vector<uint32_t> &colors = {});
+    // The same as AddSheets for one run of tiles, drawn with the colors
+    void AddColoredSheets(const std::string &folder, const std::string &prefix, int64_t offset, int64_t length,
+                          TileFormat format, int64_t sheetBytes, const std::vector<uint32_t> &colors);
+    // A palette (.pal and swatch) that is not stored in the ROM as it is: base is the entry name without extension
+    void AddColorPalette(const std::string &base, const std::vector<uint32_t> &colors);
     // A BRR sample (blocks of 9 bytes at the ROM offset) as a WAV file
     void AddBrr(const std::string &name, int64_t offset, int64_t blocks);
     // Raw 8 bits sound at the ROM offset, as a WAV file
