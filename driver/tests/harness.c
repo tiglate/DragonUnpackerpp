@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
     dudi7_driver_info di; memset(&di, 0, sizeof di);
     CHECK(DrvInfo(&di) == DUDI7_OK);
     CHECK(di.struct_size == sizeof di);
-    CHECK(di.format_count == 128 && di.name && !strcmp(di.name, "Default Driver"));
+    CHECK(di.format_count == 131 && di.name && !strcmp(di.name, "Default Driver"));
     dudi7_format_info fi; memset(&fi, 0, sizeof fi);
     CHECK(FmtInfo(0, &fi) == DUDI7_OK && fi.struct_size == sizeof fi);
     CHECK(fi.extensions && !strcmp(fi.extensions, "*.PAK"));

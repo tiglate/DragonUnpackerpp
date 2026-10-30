@@ -6,13 +6,15 @@ The technical notes written during the port (layouts worked out from real files,
 
 ## Done
 
-- **Driver** (`driver/`, C++20, plain C ABI "DUDI 7", rules in `driver/contract/DUDI7.md`): 128 formats, all of v5 except the two below, plus formats that v5 did not have (Unity bundles and serialized files, FMOD, XNA, XACT, GameMaker, Unreal PAK and packages, Godot PCK, Chromium PAK, LFD, Moto Racer 2 BKF, Heroes 4 H4R...). Tested with a fixture per format, fuzzing, a false positive sweep and, for the formats marked as validated, real files.
+- **Driver** (`driver/`, C++20, plain C ABI "DUDI 7", rules in `driver/contract/DUDI7.md`): 131 formats, all of v5 except the two below, plus formats that v5 did not have (Unity bundles and serialized files, FMOD, XNA, XACT, GameMaker, Unreal PAK and packages, Godot PCK, Chromium PAK, LFD, Moto Racer 2 BKF, Heroes 4 H4R...). Tested with a fixture per format, fuzzing, a false positive sweep and, for the formats marked as validated, real files.
 - **Interface** (`app/`, Qt 6): browsing, previews, extraction as jobs, thumbnails, search, themes, command line hooks.
 - **HyperRipper**: the 27 types of v5, MP3/AAC options, naming templates, HRF files (versions 1, 2, 3), statistics.
 - **Converters** (`cnv_pictex`, `cnv_exttools`), **list templates** (DUHT), **translations** (11 languages, right to left included).
 - **New**: file type identification from the content (`Core/FileTypes`).
 - **Packaging**: `./make.sh install` and `package` (tarball with desktop file and icons).
 - The Delphi sources (`legacy/v5/`) were removed once everything that made sense was ported: git tag `legacy-v5`.
+
+- **Console ROMs** (`Nes.cpp`, `Snes.cpp`, `MegaDrive.cpp`, shared code in `codecs/RomGfx`): NES, SNES/SFC and Mega Drive/Genesis (also `.smd`) ROMs open as the ROM parts, an info text and tile sheets (TGA, gray: the palettes are in the program). Tests: `tests/verify_roms.py` (every pixel of the tile sheets against an independent decoder). Pending: decompression of compressed graphics, sound extraction.
 
 ## Left on purpose (and where to find it: `git show legacy-v5:<path>`)
 
