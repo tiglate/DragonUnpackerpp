@@ -1,6 +1,6 @@
 """Synthetic console ROMs (NES, SNES, Mega Drive plain and Super Magic Drive) with tiles of
 known pixels, shared by make_fixtures.py (fuzzing) and verify_roms.py (content checks)."""
-import random, struct
+import math, random, struct
 
 TILES = 64        # the first tiles carry a pattern, the rest is zero
 
@@ -333,6 +333,82 @@ def snes_brr():
     return bytes(rom), found
 
 
+# the palettes: three games' worth of known colors, found by their structure
+MD_LEVELS = [0, 52, 87, 116, 144, 172, 206, 255]
+NES_PALETTE_BYTES = bytes([0x0F, 0x30, 0x21, 0x11, 0x0F, 0x16, 0x27, 0x18, 0x0F, 0x1A, 0x29, 0x09, 0x0F, 0x02, 0x12, 0x22])
+
+
+def md_palette_words(seed):
+    """16 colors of the video chip (0000 BBB0 GGG0 RRR0), gradients with a black first color"""
+    r = random.Random(seed)
+    words = [0]
+    r_, g_, b_ = r.randrange(1, 4), r.randrange(0, 4), r.randrange(0, 4)
+    for i in range(15):
+        r_, g_, b_ = min(7, r_ + r.randrange(0, 2)), min(7, g_ + r.randrange(0, 2)), min(7, b_ + r.randrange(0, 2))
+        words.append(b_ << 9 | g_ << 5 | r_ << 1)
+    return words
+
+
+def md_palettes():
+    """A Mega Drive ROM with 3 lines of palette at 0x3000 and the plain header; returns the ROM and the lines"""
+    rom = bytearray(_md_rom())
+    for i in range(0x400, len(rom)):
+        rom[i] = 0
+    lines = [md_palette_words(s) for s in (1, 2, 3)]
+    for k, words in enumerate(lines):
+        rom[0x3000 + 32 * k:0x3000 + 32 * k + 32] = b"".join(struct.pack(">H", w) for w in words)
+    return bytes(rom), lines
+
+
+def snes_palette_words(seed):
+    """16 colors of the Super Nintendo (0BBBBBGGGGGRRRRR): a gradient with a few accents"""
+    r = random.Random(seed)
+    base = r.randrange(4, 14)
+    words = [0]
+    for i in range(1, 16):
+        shade = min(31, base + i)
+        words.append(((shade * 3 // 4) << 10) | (shade << 5) | (shade // 2 + r.randrange(0, 4)))
+    return words
+
+
+def snes_palettes():
+    """A LoROM ROM with 10 lines of palette at 0x3000; returns the ROM and the lines"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    lines = [snes_palette_words(s) for s in range(10)]
+    for k, words in enumerate(lines):
+        rom[0x3000 + 32 * k:0x3000 + 32 * k + 32] = b"".join(struct.pack("<H", w) for w in words)
+    # bytes that are no colors around the block: zeros before it would pass for the black first colors of a
+    # palette, and the exact start of a block cannot be told then
+    rom[0x2FC0:0x3000] = b"\xff" * 0x40
+    rom[0x3000 + 320:0x3000 + 320 + 0x40] = b"\xff" * 0x40
+    return bytes(rom), lines
+
+
+def nes_palettes():
+    """A NES ROM with a palette in the program at 0x1000 (and tiles), returns the file"""
+    blob = bytearray(nes()[0])
+    blob[16 + 0x1000:16 + 0x1000 + 16] = NES_PALETTE_BYTES
+    return bytes(blob)
+
+
+def pcm_samples(length, seed):
+    """Unsigned 8 bits sound: two sines and a little noise around 0x80, as a sampled drum would be"""
+    r = random.Random(seed)
+    return bytes(max(0, min(255, int(128 + 55 * math.sin(i / 5.0) + 25 * math.sin(i / 1.7) * (1 - i / length) + r.randrange(-3, 4)))) for i in range(length))
+
+
+def md_pcm():
+    """A Mega Drive ROM with a sampled sound of 3000 bytes at 0x3000 between zeros; returns the ROM and the samples"""
+    rom = bytearray(_md_rom())
+    for i in range(0x400, len(rom)):
+        rom[i] = 0
+    data = pcm_samples(3000, 5)
+    rom[0x3000:0x3000 + len(data)] = data
+    return bytes(rom), data
+
+
 def all_fixtures():
     return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
-            ("copier.smc", snes(True)[0]), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]
+            ("copier.smc", snes(True)[0]), ("pal.sfc", snes_palettes()[0]), ("pal.md", md_palettes()[0]), ("pcm.md", md_pcm()[0]), ("pal.nes", nes_palettes()), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]

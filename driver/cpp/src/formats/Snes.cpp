@@ -7,7 +7,8 @@
 // looked for at the three places where the mapping puts it (LoROM 0x7FC0, HiROM 0xFFC0,
 // ExHiROM 0x40FFC0), and the best scoring candidate wins. Dumps from copiers have 512 more
 // bytes at the start (the file size is 512 modulo 1024).
-// Entries: the ROM without copier header, an info text and the copier header. The ROM is not drawn
+// Entries: the ROM without copier header, an info text, the copier header and the palettes found in the ROM
+// (see codecs/Palette). The ROM is not drawn
 // as tiles: most games compress their graphics, so that would show noise nearly every time.
 // The Nintendo LZ streams found in the ROM are unpacked as entries too (raw data and tile
 // sheets, see codecs/RomCompress).
@@ -148,6 +149,7 @@ class SnesArchive : public RomArchive
         // Nintendo LZ streams: the data and, when the size fits 2, 3 or 4 bits tiles, the sheets
         std::vector<uint8_t> image(static_cast<size_t>(_rom->Size()));
         _rom->Read(0, image.data(), _rom->Size());
+        AddPalettes(image.data(), image.size(), FindSnesPalettes(image.data(), image.size()));
         const bool hiRom = (h[0x15] & 1) != 0;
         for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
         {

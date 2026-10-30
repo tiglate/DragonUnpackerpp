@@ -8,6 +8,7 @@
 #include <array>
 
 #include "codecs/Brr.h"
+#include "codecs/Palette.h"
 
 namespace Dud
 {
@@ -65,11 +66,16 @@ auto TileBytes(TileFormat format) -> int64_t
     return BitsPerPixel(format) * 8;
 }
 
+// The sheets are colour mapped TGA files (8 bits per pixel, a map of 16 grays): 4 times smaller than true
+// colour, and a viewer that can change the map shows the tiles with the colors of a palette of the ROM.
+constexpr int64_t MapColors = 16;
+constexpr int64_t TgaMapBytes = MapColors * 3;
+
 auto TileSheetSize(int64_t length, TileFormat format) -> int64_t
 {
     const int64_t tiles = (length + TileBytes(format) - 1) / TileBytes(format);
     const int64_t rows = (tiles + TilesPerRow - 1) / TilesPerRow;
-    return TgaHeader + TilesPerRow * 8 * rows * 8 * 4;
+    return TgaHeader + TgaMapBytes + TilesPerRow * 8 * rows * 8;
 }
 
 auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> std::vector<uint8_t>
@@ -80,12 +86,22 @@ auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> 
     const int width = static_cast<int>(TilesPerRow * 8);
     const int height = static_cast<int>(rows * 8);
     std::vector<uint8_t> tga(static_cast<size_t>(TileSheetSize(length, format)), 0);
-    tga[2] = 2;
+    tga[1] = 1; // colour map
+    tga[2] = 1; // colour mapped image
+    Put16(tga, 5, static_cast<int>(MapColors));
+    tga[7] = 24;
     Put16(tga, 12, width);
     Put16(tga, 14, height);
-    tga[16] = 32;
-    tga[17] = 0x28; // 8 bits of alpha, rows from the top
+    tga[16] = 8;
+    tga[17] = 0x20; // rows from the top
     const int levels = (1 << BitsPerPixel(format)) - 1;
+    for (int i = 0; i < MapColors; ++i) // grays for the colors the format has, black after them
+    {
+        const auto shade = static_cast<uint8_t>(i <= levels ? i * 255 / levels : 0);
+        tga[static_cast<size_t>(TgaHeader + i * 3)] = tga[static_cast<size_t>(TgaHeader + i * 3 + 1)] =
+            tga[static_cast<size_t>(TgaHeader + i * 3 + 2)] = shade;
+    }
+    const auto pixels = static_cast<size_t>(TgaHeader + TgaMapBytes);
     std::array<uint8_t, 32> tile{};
     for (int64_t t = 0; t < tiles; ++t)
     {
@@ -97,12 +113,7 @@ auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format) -> 
         const int64_t ty = (t / TilesPerRow) * 8;
         for (int y = 0; y < 8; ++y)
             for (int x = 0; x < 8; ++x)
-            {
-                const auto shade = static_cast<uint8_t>(Pixel(tile.data(), format, x, y) * 255 / levels);
-                const size_t at = static_cast<size_t>(TgaHeader + ((ty + y) * width + tx + x) * 4);
-                tga[at] = tga[at + 1] = tga[at + 2] = shade;
-                tga[at + 3] = 255;
-            }
+                tga[pixels + static_cast<size_t>((ty + y) * width + tx + x)] = static_cast<uint8_t>(Pixel(tile.data(), format, x, y));
     }
     return tga;
 }
@@ -223,6 +234,36 @@ void RomArchive::AddBrr(const std::string &name, int64_t offset, int64_t blocks)
     Add(name, offset, BrrWavSize(blocks));
 }
 
+void RomArchive::AddPcm(const std::string &name, int64_t offset, int64_t length)
+{
+    Plan plan;
+    plan.Type = Kind::Pcm;
+    plan.Offset = offset;
+    plan.Length = length;
+    _plans.push_back(std::move(plan));
+    Add(name, offset, PcmWavSize(length));
+}
+
+void RomArchive::AddPalettes(const uint8_t *image, size_t size, const std::vector<PaletteFind> &finds)
+{
+    for (const PaletteFind &find : finds)
+    {
+        const auto bytes = static_cast<size_t>(find.Colors) * static_cast<size_t>(BytesPerColor(find.Kind));
+        if (find.Offset < 0 || static_cast<size_t>(find.Offset) + bytes > size)
+            continue;
+        const auto colors = PaletteColors(find.Kind, image + find.Offset, find.Colors);
+        const std::string base = "palettes/pal_" + Hex(static_cast<uint64_t>(find.Offset), 6);
+        const auto jasc = MakeJascPal(colors);
+        AddText(base + ".pal", std::string(jasc.begin(), jasc.end()));
+        Plan plan;
+        plan.Type = Kind::Swatch;
+        plan.Offset = find.Offset;
+        plan.Colors = colors;
+        _plans.push_back(std::move(plan));
+        Add(base + ".tga", find.Offset, static_cast<int64_t>(MakeSwatchTga(colors).size()));
+    }
+}
+
 void RomArchive::AddText(const std::string &name, std::string text)
 {
     const auto size = static_cast<int64_t>(text.size());
@@ -274,6 +315,20 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
         if (!plan.AsSheet)
             return ExtractBytes(data.data(), static_cast<int64_t>(data.size()), sink);
         const auto tga = RenderTileSheet(data.data(), static_cast<int64_t>(data.size()), plan.Format);
+        return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
+    }
+    case Kind::Pcm: {
+        std::vector<uint8_t> samples(static_cast<size_t>(plan.Length));
+        if (_rom->Read(plan.Offset, samples.data(), plan.Length) != plan.Length)
+        {
+            LastError = "Unexpected end of file";
+            return DUDI7_ERR_IO;
+        }
+        const auto wav = MakePcmWav(samples.data(), samples.size(), PcmSampleRate);
+        return ExtractBytes(wav.data(), static_cast<int64_t>(wav.size()), sink);
+    }
+    case Kind::Swatch: {
+        const auto tga = MakeSwatchTga(plan.Colors);
         return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
     }
     case Kind::Brr: {

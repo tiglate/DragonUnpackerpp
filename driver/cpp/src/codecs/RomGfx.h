@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Console ROM support shared by the NES, SNES and Mega Drive/Genesis formats: tile graphics
-// rendered as sheets (32 bits TGA, 16 tiles per row, grayscale since the palettes live
+// rendered as sheets (colour mapped TGA, 16 tiles per row, in grays since the palettes live
 // elsewhere in the ROM), and the archive base class that presents a ROM as raw parts, an info
 // text and the sheets.
 #pragma once
@@ -13,6 +13,8 @@
 #include <vector>
 
 #include "Archive.h"
+#include "codecs/Palette.h"
+#include "codecs/Pcm.h"
 #include "codecs/RomCompress.h"
 
 namespace Dud
@@ -89,6 +91,10 @@ class RomArchive : public Archive
                     TileFormat format = TileFormat::Md4bpp);
     // A BRR sample (blocks of 9 bytes at the ROM offset) as a WAV file
     void AddBrr(const std::string &name, int64_t offset, int64_t blocks);
+    // Raw 8 bits sound at the ROM offset, as a WAV file
+    void AddPcm(const std::string &name, int64_t offset, int64_t length);
+    // The palettes found in the ROM image: a .pal file (JASC-PAL) and a swatch picture of each
+    void AddPalettes(const uint8_t *image, size_t size, const std::vector<PaletteFind> &finds);
     void AddText(const std::string &name, std::string text);
     // Bytes that are not in the ROM part (a copier header, ...): offset in the file
     void AddFileBytes(const std::string &name, int64_t fileOffset, int64_t length);
@@ -105,6 +111,8 @@ class RomArchive : public Archive
         File,
         Decoded,
         Brr,
+        Swatch,
+        Pcm,
     };
     struct Plan
     {
@@ -116,6 +124,7 @@ class RomArchive : public Archive
         RomCodec Codec = RomCodec::Nemesis;
         int64_t Packed = 0;
         bool AsSheet = false;
+        std::vector<uint32_t> Colors;
     };
     std::vector<Plan> _plans;
 };

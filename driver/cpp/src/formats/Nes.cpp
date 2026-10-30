@@ -6,8 +6,9 @@
 // 16 bytes header ("NES" 1A, PRG size in 16 KB units, CHR size in 8 KB units, flags), an
 // optional 512 bytes trainer, then the PRG ROM (code and data) and the CHR ROM (tile graphics).
 // Entries: the raw parts, an info text and the CHR ROM drawn as sheets of 8 KB (2 bits tiles,
-// in gray: the palettes are set by the program). Games without CHR ROM keep their graphics in
-// the PRG ROM, copied to the CHR RAM at run time: the PRG ROM is drawn as sheets then.
+// in gray: the palettes are set by the program, and found in the PRG ROM, see codecs/Palette).
+// Games without CHR ROM keep their graphics in the PRG ROM, copied to the CHR RAM at run time: the
+// PRG ROM is drawn as sheets then.
 
 #include "codecs/RomGfx.h"
 #include "Registry.h"
@@ -98,6 +99,10 @@ class NesArchive : public RomArchive
         if (header.Trainer != 0)
             AddFileBytes("trainer.bin", HeaderSize, TrainerSize);
         AddRaw("PRG-ROM.bin", 0, header.Prg);
+        // the palettes of the game are in the program
+        std::vector<uint8_t> program(static_cast<size_t>(header.Prg));
+        _rom->Read(0, program.data(), header.Prg);
+        AddPalettes(program.data(), program.size(), FindNesPalettes(program.data(), program.size()));
         if (chr > 0)
         {
             // the CHR ROM follows the PRG ROM in the logical ROM too

@@ -22,9 +22,26 @@ def extract(path, index, outdir):
 
 
 def tga_pixels(tga):
+    """(width, height, gray level of each pixel) of a tile sheet: a colour mapped TGA of 8 bits, the map of
+    16 grays; the 32 bits swatches are read by tga_colors"""
     w, h = tga[12] | tga[13] << 8, tga[14] | tga[15] << 8
-    assert tga[2] == 2 and tga[16] == 32 and tga[17] == 0x28 and len(tga) == 18 + w * h * 4
-    return w, h, [tga[18 + i * 4] for i in range(w * h)]
+    assert tga[1] == 1 and tga[2] == 1 and tga[7] == 24 and tga[16] == 8 and tga[17] == 0x20
+    assert (tga[5] | tga[6] << 8) == 16 and len(tga) == 18 + 48 + w * h
+    gray = [tga[18 + 3 * i] for i in range(16)]
+    assert all(tga[18 + 3 * i] == tga[19 + 3 * i] == tga[20 + 3 * i] for i in range(16))
+    return w, h, [gray[tga[66 + i]] for i in range(w * h)]
+
+
+def tga_colors(tga):
+    """The (r, g, b) of each 16 pixel square of a swatch (32 bits TGA, 16 squares per row)"""
+    w, h = tga[12] | tga[13] << 8, tga[14] | tga[15] << 8
+    assert tga[2] == 2 and tga[16] == 32 and len(tga) == 18 + w * h * 4 and w == 256
+    colors = []
+    for row in range(h // 16):
+        for col in range(16):
+            at = 18 + ((row * 16 + 8) * w + col * 16 + 8) * 4
+            colors.append((tga[at + 2], tga[at + 1], tga[at]))
+    return colors
 
 
 def decode(data, kind):
@@ -50,6 +67,7 @@ def decode(data, kind):
     return h, px
 
 
+MDL = [0, 52, 87, 116, 144, 172, 206, 255]
 fails = 0
 
 
@@ -149,5 +167,48 @@ with tempfile.TemporaryDirectory() as td:
         check(wav[:4] == b"RIFF" and wav[8:12] == b"WAVE" and struct.unpack("<HHI", wav[20:28]) == (1, 1, 32000) and
               struct.unpack("<H", wav[34:36])[0] == 16, "BRR %06X: WAV header (PCM, mono, 32 kHz, 16 bits)" % at)
         check(list(struct.unpack("<%dh" % len(pcm), wav[44:])) == pcm, "BRR %06X: %d samples identical to the reference decoder" % (at, len(pcm)))
+    # palettes: found where they are, as .pal files and swatches, with the right colors
+    expect_md = {0x3000 + 32 * k: [(MDL[(w >> 1) & 7], MDL[(w >> 5) & 7], MDL[(w >> 9) & 7]) for w in words]
+                 for k, words in enumerate(rf.md_palettes()[1])}
+    expect_snes = {0x3000 + 32 * k: [(((w & 31) << 3) | ((w & 31) >> 2), (((w >> 5) & 31) << 3) | (((w >> 5) & 31) >> 2),
+                                      (((w >> 10) & 31) << 3) | (((w >> 10) & 31) >> 2)) for w in words]
+                   for k, words in enumerate(rf.snes_palettes()[1])}
+    for name, blob, expect in (("pal.md", rf.md_palettes()[0], expect_md), ("pal.sfc", rf.snes_palettes()[0], expect_snes)):
+        path = os.path.join(td, name)
+        open(path, "wb").write(blob)
+        head, rows = listing(path)
+        idx = {r[4]: i for i, r in enumerate(rows)}
+        found = sorted(int(n[len("palettes/pal_"):-4], 16) for n in idx if n.startswith("palettes/") and n.endswith(".pal"))
+        check(all(o in found for o in expect), "%s: the %d palette lines are found (%d palettes listed)" % (name, len(expect), len(found)))
+        for o, colors in expect.items():
+            base = "palettes/pal_%06X" % o
+            if base + ".pal" not in idx:
+                continue
+            text = extract(path, idx[base + ".pal"], out).decode().split("\r\n")
+            got = [tuple(int(v) for v in l.split()) for l in text[3:3 + 16]]
+            check(text[0] == "JASC-PAL" and text[2] == "16" and got == colors, "%s: palette at %X, JASC file with the right colors" % (name, o))
+            check(tga_colors(extract(path, idx[base + ".tga"], out)) == colors, "%s: palette at %X, swatch with the right colors" % (name, o))
+            check(int(rows[idx[base + ".tga"]][2]) == 18 + 256 * 16 * 4, "%s: swatch listed size" % name)
+    path = os.path.join(td, "pal.nes")
+    open(path, "wb").write(rf.nes_palettes())
+    head, rows = listing(path)
+    idx = {r[4]: i for i, r in enumerate(rows)}
+    names = ["palettes/pal_%06X.pal" % (0x1000 + 4 * g) for g in range(4)]
+    check(all(n in idx for n in names), "pal.nes: the 4 palettes of the tiles are found at 0x1000, 0x1004...")
+    if all(n in idx for n in names):
+        pals = [[tuple(int(v) for v in l.split()) for l in extract(path, idx[n], out).decode().split("\r\n")[3:7]] for n in names]
+        check(pals[0][0] == (0, 0, 0) and pals[0][1] == (252, 252, 252) and pals[0][2] == (60, 188, 252), "pal.nes: colors of the first palette (0F 30 21 11)")
+    # sampled sound of a Mega Drive ROM: found, unsigned 8 bits WAV with the samples as they are
+    blob, samples = rf.md_pcm()
+    path = os.path.join(td, "pcm.md")
+    open(path, "wb").write(blob)
+    head, rows = listing(path)
+    idx = {r[4]: i for i, r in enumerate(rows)}
+    check("audio/pcm_003000.wav" in idx, "PCM at 0x3000 found (%d samples listed)" % sum(1 for r in rows if r[4].startswith("audio/")))
+    if "audio/pcm_003000.wav" in idx:
+        wav = extract(path, idx["audio/pcm_003000.wav"], out)
+        check(int(rows[idx["audio/pcm_003000.wav"]][2]) == len(wav), "PCM: listed size = file size")
+        check(wav[:4] == b"RIFF" and struct.unpack("<HHI", wav[20:28]) == (1, 1, 10000) and struct.unpack("<H", wav[34:36])[0] == 8, "PCM: WAV header (PCM, mono, 10 kHz, 8 bits)")
+        check(wav[44:] == samples, "PCM: the %d samples are identical to the ROM" % len(samples))
 print("ALL OK" if not fails else "%d FAILURE(S)" % fails)
 sys.exit(1 if fails else 0)
