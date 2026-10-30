@@ -105,9 +105,12 @@ with tempfile.TemporaryDirectory() as td:
         if base + ".bin" not in idx:
             continue
         check(extract(path, idx[base + ".bin"], out) == data, "%s at %X: data identical (%d bytes)" % (codec, at, len(data)))
-        w, h, px = tga_pixels(extract(path, idx[base + ".tga"], out))
-        eh, epx = decode(data, "md")
-        check(h == eh and px == epx, "%s at %X: sheet pixels" % (codec, at))
+        if codec == "nemesis" or (len(data) >= 2048 and len(data) % 32 == 0):
+            w, h, px = tga_pixels(extract(path, idx[base + ".tga"], out))
+            eh, epx = decode(data, "md")
+            check(h == eh and px == epx, "%s at %X: sheet pixels" % (codec, at))
+        else:
+            check(base + ".tga" not in idx, "%s at %X: no sheet for %d bytes (a table, not tiles)" % (codec, at, len(data)))
     check(sum(1 for r in rows if r[4].endswith(".bin") and "/" in r[4]) == len(streams), "no stream found besides the 4 real ones")
     # Nintendo LZ streams of a Super Nintendo ROM
     for variant in ("little", "big", "metroid"):

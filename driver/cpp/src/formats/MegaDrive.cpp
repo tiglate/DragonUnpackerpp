@@ -8,7 +8,7 @@
 // header and 16 KB blocks with the odd and even bytes stored apart, deinterleaved here.
 // Entries: the ROM image and an info text. The ROM is not drawn as tiles: most games compress their
 // graphics, so that would show noise nearly every time. The Nemesis and Kosinski streams found in the ROM
-// are unpacked as entries too (raw data and tile sheet, see codecs/RomCompress).
+// are unpacked as entries too (raw data and, when it can be tile art, a sheet; see codecs/RomCompress).
 
 #include "codecs/RomGfx.h"
 #include "Registry.h"
@@ -18,6 +18,7 @@ namespace Dud
 namespace
 {
 constexpr int64_t HeaderOffset = 0x100;
+constexpr int64_t MinimumKosinskiSheet = 2048;
 
 // Is it a Super Magic Drive dump (header with AA BB at 8 and 9, whole blocks)?
 auto LooksInterleaved(Reader &stream) -> bool
@@ -90,7 +91,10 @@ class MegaDriveArchive : public RomArchive
         {
             const bool nemesis = s.Codec == RomCodec::Nemesis;
             const std::string base = std::string(nemesis ? "nemesis/art_" : "kosinski/data_") + Hex(static_cast<uint64_t>(s.Offset), 6);
-            AddDecoded(base + ".tga", s.Codec, s.Offset, s.Packed, s.Size, true);
+            // Nemesis is art by construction; Kosinski also packs tilemaps and tables (Phantasy Star 4's
+            // are mostly 1 KB), so it is only drawn when it can be a block of tiles
+            if (nemesis || (s.Size >= MinimumKosinskiSheet && s.Size % 32 == 0))
+                AddDecoded(base + ".tga", s.Codec, s.Offset, s.Packed, s.Size, true);
             AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
         }
     }

@@ -161,7 +161,7 @@ def md_compressed():
         rom[i] = 0
     parts = [("nemesis", art_data(40, 1), nemesis_encode(art_data(40, 1))),
              ("nemesis", art_data(33, 2), nemesis_encode(art_data(33, 2), True)),
-             ("kosinski", kos_data(3000, 3), kosinski_encode(kos_data(3000, 3))),
+             ("kosinski", kos_data(3008, 3), kosinski_encode(kos_data(3008, 3))),
              ("kosinski", pattern(40) + pattern(40)[:30] + pattern(24), kosinski_encode(pattern(40) + pattern(40)[:30] + pattern(24)))]
     at, found = 0x400, []
     for codec, data, packed in parts:
