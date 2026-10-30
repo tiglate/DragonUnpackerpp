@@ -7,7 +7,8 @@
 // checksum, ROM and RAM ranges, region). .smd files are Super Magic Drive dumps: a 512 bytes
 // header and 16 KB blocks with the odd and even bytes stored apart, deinterleaved here.
 // Entries: the ROM image, an info text and the ROM drawn as sheets of 32 KB (4 bits tiles, in
-// gray: the palettes are set by the program). Compressed graphics are not drawn right.
+// gray: the palettes are set by the program). The Nemesis and Kosinski streams found in the ROM
+// are unpacked as entries too (raw data and tile sheet, see codecs/RomCompress).
 
 #include "codecs/RomGfx.h"
 #include "Registry.h"
@@ -83,6 +84,17 @@ class MegaDriveArchive : public RomArchive
         const int64_t size = _rom->Size();
         AddRaw("ROM.bin", 0, size);
         AddSheets("graphics", "tiles", 0, size, TileFormat::Md4bpp, SheetBytes);
+
+        // Nemesis and Kosinski streams: the data and, drawn as tiles, the art
+        std::vector<uint8_t> image(static_cast<size_t>(size));
+        _rom->Read(0, image.data(), size);
+        for (const RomStream &s : ScanMegaDrive(image.data(), image.size()))
+        {
+            const bool nemesis = s.Codec == RomCodec::Nemesis;
+            const std::string base = std::string(nemesis ? "nemesis/art_" : "kosinski/data_") + Hex(static_cast<uint64_t>(s.Offset), 6);
+            AddDecoded(base + ".tga", s.Codec, s.Offset, s.Packed, s.Size, true);
+            AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
+        }
     }
 };
 } // namespace

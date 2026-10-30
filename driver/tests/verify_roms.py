@@ -94,5 +94,21 @@ with tempfile.TemporaryDirectory() as td:
     open(junk, "wb").write(rf.pattern(40000))
     r = subprocess.run([cli, plugin, junk], capture_output=True)
     check(r.returncode != 0 or not r.stdout.startswith((b"#SNES", b"#NES", b"#MD")), "random data is not a ROM")
+    # compressed streams (Nemesis, Kosinski) of a Mega Drive ROM: found, unpacked, drawn
+    blob, streams = rf.md_compressed()
+    path = os.path.join(td, "packed.md")
+    open(path, "wb").write(blob)
+    head, rows = listing(path)
+    idx = {r[4]: i for i, r in enumerate(rows)}
+    for codec, at, data in streams:
+        base = "%s/%s_%06X" % (codec, "art" if codec == "nemesis" else "data", at)
+        check(base + ".bin" in idx, "%s at %X found" % (codec, at))
+        if base + ".bin" not in idx:
+            continue
+        check(extract(path, idx[base + ".bin"], out) == data, "%s at %X: data identical (%d bytes)" % (codec, at, len(data)))
+        w, h, px = tga_pixels(extract(path, idx[base + ".tga"], out))
+        eh, epx = decode(data, "md")
+        check(h == eh and px == epx, "%s at %X: sheet pixels" % (codec, at))
+    check(sum(1 for r in rows if r[4].endswith(".bin") and "/" in r[4]) == len(streams), "no stream found besides the 4 real ones")
 print("ALL OK" if not fails else "%d FAILURE(S)" % fails)
 sys.exit(1 if fails else 0)

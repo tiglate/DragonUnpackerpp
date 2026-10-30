@@ -45,7 +45,7 @@ Dragon UnPACKer++ is free software under the [Mozilla Public License 2.0](LICENS
 | General archives | ZIP and its relatives (PK3, PK4, KPF, JAR, APK, LOVE), RNC-compressed files |
 | Strategy | Age of Empires 2 DRS, Age of Mythology and Age of Empires 3 BAR, Total Annihilation HPI, Command & Conquer Generals BIG, Empires SSA, Spellforce PAK, Battleforge PAK, Black & White 2 STUFF, Heroes of Might and Magic 3 SND, Ascendancy COB, Civilization FPK, Dungeon Keeper 2, Evil Islands RES, Lemmings Revolution BOX |
 | Action and adventure | Abuse SPE / LVL and Drake Paint DPA, Monkey Island 3 BUN, Monkey Island Special Edition, Dreamfall PAK, GTA3 and Vice City, Hitman PRM, Oblivion BSA, Dragon Age ERF, F.E.A.R. LTAR, Postal SAK, BloodRayne POD, Terminal Velocity POD, Nocturne POD, Freespace VP, Starsiege VOL, Mortyr HAL, Giants GZP, Prototype RCF, LithTech REZ, Painkiller PAK, Tony Hawk PKR, Operation Flashpoint PBO, MDK SNI, The Movies PAK, Fable BIG, LucasArts LFD, and many more |
-| Console ROMs | Nintendo NES (`.nes`), Super Nintendo / Super Famicom (`.sfc`, `.smc`), Sega Mega Drive / Genesis (`.bin`, `.md`, `.gen`, `.smd`): the ROM parts, an info text and the tile graphics as sheets |
+| Console ROMs | Nintendo NES (`.nes`), Super Nintendo / Super Famicom (`.sfc`, `.smc`), Sega Mega Drive / Genesis (`.bin`, `.md`, `.gen`, `.smd`): the ROM parts, an info text and the tile graphics as sheets; Nemesis and Kosinski compressed data of Mega Drive ROMs is found and unpacked |
 
 See [`docs/MIGRATION.md`](docs/MIGRATION.md) for the status of the port and [`docs/FORMATS_TO_VALIDATE.md`](docs/FORMATS_TO_VALIDATE.md) for the formats that still need a real file to be checked.
 

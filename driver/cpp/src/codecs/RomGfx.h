@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "Archive.h"
+#include "codecs/RomCompress.h"
 
 namespace Dud
 {
@@ -81,6 +82,10 @@ class RomArchive : public Archive
     // Tile sheets of sheetBytes bytes covering [offset, offset + length)
     void AddSheets(const std::string &folder, const std::string &prefix, int64_t offset, int64_t length,
                    TileFormat format, int64_t sheetBytes);
+    // A compressed stream at the ROM offset (packed bytes), giving size bytes: the raw data, or
+    // the tiles drawn as a sheet
+    void AddDecoded(const std::string &name, RomCodec codec, int64_t offset, int64_t packed, int64_t size, bool sheet,
+                    TileFormat format = TileFormat::Md4bpp);
     void AddText(const std::string &name, std::string text);
     // Bytes that are not in the ROM part (a copier header, ...): offset in the file
     void AddFileBytes(const std::string &name, int64_t fileOffset, int64_t length);
@@ -95,6 +100,7 @@ class RomArchive : public Archive
         Sheet,
         Text,
         File,
+        Decoded,
     };
     struct Plan
     {
@@ -103,6 +109,9 @@ class RomArchive : public Archive
         int64_t Length = 0;
         TileFormat Format = TileFormat::Nes2bpp;
         std::string Text;
+        RomCodec Codec = RomCodec::Nemesis;
+        int64_t Packed = 0;
+        bool AsSheet = false;
     };
     std::vector<Plan> _plans;
 };

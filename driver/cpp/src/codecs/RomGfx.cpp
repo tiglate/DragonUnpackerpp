@@ -180,6 +180,27 @@ void RomArchive::AddFileBytes(const std::string &name, int64_t fileOffset, int64
     Add(name, fileOffset, length);
 }
 
+void RomArchive::AddDecoded(const std::string &name, RomCodec codec, int64_t offset, int64_t packed, int64_t size,
+                            bool sheet, TileFormat format)
+{
+    Plan plan;
+    plan.Type = Kind::Decoded;
+    plan.Offset = offset;
+    plan.Length = size;
+    plan.Format = format;
+    plan.Codec = codec;
+    plan.Packed = packed;
+    plan.AsSheet = sheet;
+    _plans.push_back(std::move(plan));
+    if (!sheet)
+        Add(name, offset, size);
+    else
+    {
+        const int64_t tiles = (size + TileBytes(format) - 1) / TileBytes(format);
+        Add(name, offset, TileSheetSize(size, format), TilesPerRow * 8, (tiles + TilesPerRow - 1) / TilesPerRow * 8);
+    }
+}
+
 void RomArchive::AddText(const std::string &name, std::string text)
 {
     const auto size = static_cast<int64_t>(text.size());
@@ -211,6 +232,26 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
         std::vector<uint8_t> tiles(static_cast<size_t>(plan.Length));
         _rom->Read(plan.Offset, tiles.data(), plan.Length);
         const auto tga = RenderTileSheet(tiles.data(), plan.Length, plan.Format);
+        return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
+    }
+    case Kind::Decoded: {
+        // a little more than the packed size: the end of the stream is found by the decoder
+        std::vector<uint8_t> packed(static_cast<size_t>(plan.Packed));
+        if (_rom->Read(plan.Offset, packed.data(), plan.Packed) != plan.Packed)
+        {
+            LastError = "Unexpected end of file";
+            return DUDI7_ERR_IO;
+        }
+        std::vector<uint8_t> data;
+        size_t used = 0;
+        if (!Decode(plan.Codec, packed.data(), packed.size(), data, used) || static_cast<int64_t>(data.size()) != plan.Length)
+        {
+            LastError = "The compressed data cannot be decoded";
+            return DUDI7_ERR_IO;
+        }
+        if (!plan.AsSheet)
+            return ExtractBytes(data.data(), static_cast<int64_t>(data.size()), sink);
+        const auto tga = RenderTileSheet(data.data(), static_cast<int64_t>(data.size()), plan.Format);
         return ExtractBytes(tga.data(), static_cast<int64_t>(tga.size()), sink);
     }
     case Kind::File: {
