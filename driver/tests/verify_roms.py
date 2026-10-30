@@ -113,15 +113,15 @@ with tempfile.TemporaryDirectory() as td:
         check(h == eh and px == epx, "%s at %X: sheet pixels" % (codec, at))
     check(sum(1 for r in rows if r[4].endswith(".bin") and "/" in r[4]) == len(streams), "no stream found besides the 4 real ones")
     # Nintendo LZ streams of a Super Nintendo ROM
-    for big in (False, True):
-      blob, streams = rf.snes_compressed(big)
+    for variant in ("little", "big", "metroid"):
+      blob, streams = rf.snes_compressed(variant)
       path = os.path.join(td, "packed.sfc")
       open(path, "wb").write(blob)
       head, rows = listing(path)
       idx = {r[4]: i for i, r in enumerate(rows)}
       for at, data in streams:
           base = "compressed/lz_%06X" % at
-          check(base + ".bin" in idx, "lz%s at %X found" % ("-be" if big else "", at))
+          check(base + ".bin" in idx, "lz-%s at %X found" % (variant, at))
           if base + ".bin" not in idx:
               continue
           check(extract(path, idx[base + ".bin"], out) == data, "lz at %X: data identical (%d bytes)" % (at, len(data)))

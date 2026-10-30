@@ -174,8 +174,9 @@ def md_compressed():
     return bytes(rom), found
 
 
-def lz2_encode(data, big=False):
-    """Greedy Nintendo LZ encoder (commands 0-4, the long form for lengths over 32)"""
+def lz2_encode(data, variant="little"):
+    """Greedy Nintendo LZ encoder (commands 0-4, the long form for lengths over 32); the "metroid" variant
+    also uses 5 (copy with the bits flipped) and 6 (copy from a byte offset back)"""
     out = bytearray()
 
     def emit(cmd, length, payload):
@@ -212,8 +213,19 @@ def lz2_encode(data, big=False):
             if n > best[0]:
                 best = (n, start)
         choices = [(run, 1, bytes([data[i]])), (word, 2, bytes(data[i:i + 2])), (inc, 3, bytes([data[i]])),
-                   (best[0], 4, struct.pack(">H" if big else "<H", best[1]))]
-        n, cmd, payload = max(choices, key=lambda c: c[0])
+                   (best[0], 4, struct.pack(">H" if variant == "big" else "<H", best[1]))]
+        if variant == "metroid":
+            if best[0] and i - best[1] <= 255:       # a copy from a byte offset back
+                choices.append((best[0], 6, bytes([i - best[1]])))
+            flipped = (0, 0)
+            for start in range(0, i):
+                n = 0
+                while i + n < len(data) and n < 1024 and data[start + n] ^ 0xFF == data[i + n]:
+                    n += 1
+                if n > flipped[0]:
+                    flipped = (n, start)
+            choices.append((flipped[0], 5, struct.pack("<H", flipped[1])))
+        n, cmd, payload = max(choices, key=lambda c: (c[0], -len(c[2])))
         if n >= 4 and not (cmd == 2 and n < 6):
             flush()
             emit(cmd, n, payload)
@@ -236,12 +248,15 @@ def snes_art(size, seed):
         elif k < 0.5 and len(out) > 64:
             at = r.randrange(0, len(out) - 32)
             out += out[at:at + 32]
+        elif k < 0.6 and len(out) > 64:           # the same bytes flipped (command 5 of Super Metroid)
+            at = r.randrange(0, len(out) - 32)
+            out += bytes(b ^ 0xFF for b in out[at:at + 32])
         else:
             out += bytes(r.choice([0, 0, 0x18, 0x3C, 0x7E, 0xFF, r.randrange(256)]) for _ in range(16))
     return bytes(out[:size])
 
 
-def snes_compressed(big=False):
+def snes_compressed(variant="little"):
     """A LoROM ROM with Nintendo LZ streams (eight abutting ones and a big one) and a table of long
     addresses pointing at them; returns the ROM (no copier header) and [(offset, data)]"""
     rom = bytearray(snes()[1])
@@ -250,7 +265,7 @@ def snes_compressed(big=False):
     datas = [snes_art(1536, 11 + k) for k in range(8)] + [snes_art(3072, 40)]
     at, found = 0x1000, []
     for k, data in enumerate(datas):
-        packed = lz2_encode(data, big)
+        packed = lz2_encode(data, variant)
         rom[at:at + len(packed)] = packed
         found.append((at, data))
         at += len(packed) + (0x40 if k == len(datas) - 2 else 0)
@@ -319,5 +334,5 @@ def snes_brr():
 
 
 def all_fixtures():
-    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed(True)[0]), ("brr.sfc", snes_brr()[0]),
+    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
             ("copier.smc", snes(True)[0]), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]

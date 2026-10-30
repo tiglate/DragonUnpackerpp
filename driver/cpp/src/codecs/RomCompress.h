@@ -21,6 +21,7 @@ enum class RomCodec
     Kosinski, // LZSS with 16 bits description words, ends with a special match
     Lz2,      // Nintendo LZ: command byte (3 bits command, 5 bits length), ends with 0xFF (Zelda 3)
     Lz2Be,    // the same with the offsets of the copy command high byte first (Super Mario World)
+    Lz5,      // Super Metroid: the Nintendo LZ with two more copy commands (inverted, relative)
 };
 
 struct RomStream
@@ -37,8 +38,17 @@ auto DecodeNemesis(const uint8_t *src, size_t avail, size_t maxOut, std::vector<
 auto DecodeKosinski(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool;
 // Nintendo LZ ("LC_LZ2"): 0 copy, 1 byte fill, 2 word fill, 3 incrementing fill, 4 copy from the
 // output (absolute offset), 7 = longer length; 0xFF ends the stream
+enum class Lz2Variant
+{
+    Little, // the offset of command 4 low byte first (Zelda 3)
+    Big,    // high byte first (Super Mario World)
+    Metroid, // low byte first, plus 5: copy of the output with the bits flipped, 6: copy from a byte offset back
+};
+// copies, when given, receives the number of commands that depend on the spelling the stream uses (the
+// copies of command 4, for Metroid the commands 5 and 6): only the right spelling decodes the streams
+// that have them
 auto DecodeLz2(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
-               bool bigEndianOffsets = false) -> bool;
+               Lz2Variant variant = Lz2Variant::Little, size_t *copies = nullptr) -> bool;
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool;
 
 // The Super Nintendo streams of a ROM (hiRom: the addresses of the tables use the HiROM map)
