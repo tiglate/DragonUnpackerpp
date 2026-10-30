@@ -28,7 +28,7 @@ def tga_pixels(tga):
 
 
 def decode(data, kind):
-    bpp = 2 if kind in ("nes", "snes2") else 4
+    bpp = 2 if kind in ("nes", "snes2") else 3 if kind == "snes3" else 4
     tb = bpp * 8
     tiles = (len(data) + tb - 1) // tb
     h = (tiles + 15) // 16 * 8
@@ -39,6 +39,8 @@ def decode(data, kind):
             for x in range(8):
                 if kind == "nes":
                     v = (tile[y] >> (7 - x) & 1) | (tile[8 + y] >> (7 - x) & 1) << 1
+                elif kind == "snes3":
+                    v = sum(((tile[2 * y + p] if p < 2 else tile[16 + y]) >> (7 - x) & 1) << p for p in range(3))
                 elif kind == "snes4":
                     v = sum((tile[(0 if p < 2 else 16) + 2 * y + (p & 1)] >> (7 - x) & 1) << p for p in range(4))
                 else:
@@ -110,5 +112,24 @@ with tempfile.TemporaryDirectory() as td:
         eh, epx = decode(data, "md")
         check(h == eh and px == epx, "%s at %X: sheet pixels" % (codec, at))
     check(sum(1 for r in rows if r[4].endswith(".bin") and "/" in r[4]) == len(streams), "no stream found besides the 4 real ones")
+    # Nintendo LZ streams of a Super Nintendo ROM
+    for big in (False, True):
+      blob, streams = rf.snes_compressed(big)
+      path = os.path.join(td, "packed.sfc")
+      open(path, "wb").write(blob)
+      head, rows = listing(path)
+      idx = {r[4]: i for i, r in enumerate(rows)}
+      for at, data in streams:
+          base = "compressed/lz_%06X" % at
+          check(base + ".bin" in idx, "lz%s at %X found" % ("-be" if big else "", at))
+          if base + ".bin" not in idx:
+              continue
+          check(extract(path, idx[base + ".bin"], out) == data, "lz at %X: data identical (%d bytes)" % (at, len(data)))
+          for suffix, kind in (("_4bpp", "snes4"), ("_3bpp", "snes3")):
+              if base + suffix + ".tga" in idx:
+                  w, h, px = tga_pixels(extract(path, idx[base + suffix + ".tga"], out))
+                  eh, epx = decode(data, kind)
+                  check(h == eh and px == epx, "lz at %X: %s sheet pixels" % (at, suffix[1:]))
+      check(sum(1 for r in rows if r[4].endswith(".bin") and r[4].startswith("compressed/")) == len(streams), "no stream besides the real ones")
 print("ALL OK" if not fails else "%d FAILURE(S)" % fails)
 sys.exit(1 if fails else 0)

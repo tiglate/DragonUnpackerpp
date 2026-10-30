@@ -21,6 +21,7 @@ enum class TileFormat
 {
     Nes2bpp,  // 16 bytes per tile, plane 0 then plane 1
     Snes2bpp, // 16 bytes per tile, bit planes interleaved by row
+    Snes3bpp, // 24 bytes per tile, planes 0/1 interleaved by row, then plane 2 (Mario World...)
     Snes4bpp, // 32 bytes per tile, planes 0/1 then 2/3 interleaved by row
     Md4bpp,   // 32 bytes per tile, 4 bits per pixel, left pixel in the high nibble
 };

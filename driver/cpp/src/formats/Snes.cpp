@@ -9,7 +9,8 @@
 // bytes at the start (the file size is 512 modulo 1024).
 // Entries: the ROM without copier header, an info text, the copier header and the ROM drawn as
 // sheets of 32 KB (4 bits planar tiles, in gray: the palettes are set by the program).
-// Compressed graphics, the usual case, are not drawn right.
+// The Nintendo LZ streams found in the ROM are unpacked as entries too (raw data and tile
+// sheets, see codecs/RomCompress).
 
 #include "codecs/RomGfx.h"
 #include "Registry.h"
@@ -144,6 +145,22 @@ class SnesArchive : public RomArchive
             AddFileBytes("copier_header.bin", 0, copier);
         AddRaw("ROM.sfc", 0, _rom->Size());
         AddSheets("graphics", "tiles4bpp", 0, _rom->Size(), TileFormat::Snes4bpp, SheetBytes);
+
+        // Nintendo LZ streams: the data and, when the size fits 2, 3 or 4 bits tiles, the sheets
+        std::vector<uint8_t> image(static_cast<size_t>(_rom->Size()));
+        _rom->Read(0, image.data(), _rom->Size());
+        const bool hiRom = (h[0x15] & 1) != 0;
+        for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
+        {
+            const std::string base = "compressed/lz_" + Hex(static_cast<uint64_t>(s.Offset), 6);
+            AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
+            if (s.Size % 32 == 0)
+                AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp);
+            if (s.Size % 24 == 0)
+                AddDecoded(base + "_3bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes3bpp);
+            if (s.Size % 32 != 0 && s.Size % 24 != 0 && s.Size % 16 == 0)
+                AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp);
+        }
     }
 };
 } // namespace

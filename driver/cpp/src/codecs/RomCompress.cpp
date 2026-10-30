@@ -14,6 +14,8 @@ namespace
 constexpr size_t NemesisMaxTiles = 4096;
 constexpr size_t KosinskiMaxOut = 262144;
 constexpr size_t MinimumOut = 64;
+constexpr size_t Lz2MaxOut = 131072;
+constexpr size_t MinimumAbutting = 6;
 
 // ---- Nemesis -------------------------------------------------------------------------------
 
@@ -281,6 +283,77 @@ auto DecodeKosinski(const uint8_t *src, size_t avail, size_t maxOut, std::vector
     return out.size() >= 1;
 }
 
+auto DecodeLz2(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
+               bool bigEndianOffsets) -> bool
+{
+    out.clear();
+    size_t pos = 0;
+    for (;;)
+    {
+        if (pos >= avail)
+            return false;
+        const unsigned header = src[pos++];
+        if (header == 0xFF)
+            break;
+        unsigned command = header >> 5;
+        size_t length = (header & 31) + 1;
+        if (command == 7)
+        {
+            if (pos >= avail)
+                return false;
+            command = (header >> 2) & 7;
+            length = ((size_t{header} & 3) << 8 | src[pos++]) + 1;
+        }
+        if (out.size() + length > maxOut)
+            return false;
+        switch (command)
+        {
+        case 0:
+            if (pos + length > avail)
+                return false;
+            out.insert(out.end(), src + pos, src + pos + length);
+            pos += length;
+            break;
+        case 1:
+            if (pos >= avail)
+                return false;
+            out.insert(out.end(), length, src[pos++]);
+            break;
+        case 2:
+            if (pos + 2 > avail)
+                return false;
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(src[pos + (i & 1)]);
+            pos += 2;
+            break;
+        case 3: {
+            if (pos >= avail)
+                return false;
+            uint8_t value = src[pos++];
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(value++);
+            break;
+        }
+        case 4: {
+            if (pos + 2 > avail)
+                return false;
+            const size_t from = bigEndianOffsets ? (size_t{src[pos]} << 8) | src[pos + 1]
+                                                 : src[pos] | (size_t{src[pos + 1]} << 8);
+            pos += 2;
+            if (from >= out.size())
+                return false;
+            for (size_t i = 0; i < length; ++i)
+                out.push_back(out[from + i]);
+            break;
+        }
+        default:
+            return false;
+        }
+    }
+    used = pos;
+    return !out.empty();
+}
+
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool
 {
     switch (codec)
@@ -289,6 +362,10 @@ auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_
         return DecodeNemesis(src, avail, NemesisMaxTiles * 32, out, used);
     case RomCodec::Kosinski:
         return DecodeKosinski(src, avail, KosinskiMaxOut, out, used);
+    case RomCodec::Lz2:
+        return DecodeLz2(src, avail, Lz2MaxOut, out, used);
+    case RomCodec::Lz2Be:
+        return DecodeLz2(src, avail, Lz2MaxOut, out, used, true);
     }
     return false;
 }
@@ -380,5 +457,100 @@ auto ScanMegaDrive(const uint8_t *rom, size_t size) -> std::vector<RomStream>
         chainUntil = at + 8;
     }
     return found;
+}
+
+// ---- Super Nintendo scanner ----------------------------------------------------------------
+
+namespace
+{
+// File offset of a 24 bits address of the console, or -1
+auto SnesFileOffset(uint32_t address, bool hiRom, size_t size) -> int64_t
+{
+    const uint32_t bank = address >> 16;
+    const uint32_t low = address & 0xFFFF;
+    if (bank == 0x7E || bank == 0x7F)
+        return -1;
+    int64_t file;
+    if (hiRom)
+    {
+        if (bank < 0x40 && low < 0x8000)
+            return -1;
+        file = static_cast<int64_t>(address & 0x3FFFFF);
+    }
+    else
+    {
+        if (low < 0x8000)
+            return -1;
+        file = static_cast<int64_t>(bank & 0x7F) * 0x8000 + (low - 0x8000);
+    }
+    return file < static_cast<int64_t>(size) ? file : -1;
+}
+} // namespace
+
+namespace
+{
+auto ScanSnesVariant(const uint8_t *rom, size_t size, bool hiRom, bool bigEndian) -> std::vector<RomStream>
+{
+    std::vector<RomStream> found;
+    if (size < 0x200)
+        return found;
+    // Streams start where a table points to (3 bytes long addresses), after the end of another
+    // stream (0xFF) and right after a stream we found
+    std::vector<bool> candidate(size, false);
+    for (size_t at = 0; at + 3 <= size; ++at)
+    {
+        const uint32_t value = rom[at] | (uint32_t{rom[at + 1]} << 8) | (uint32_t{rom[at + 2]} << 16);
+        const int64_t file = SnesFileOffset(value, hiRom, size);
+        if (file >= 0)
+            candidate[static_cast<size_t>(file)] = true;
+    }
+    for (size_t at = 0; at + 1 < size; ++at)
+        if (rom[at] == 0xFF)
+            candidate[at + 1] = true;
+
+    // Graphics are tiles (16, 24 or 32 bytes each) and are stored one after the other: a stream
+    // is kept when it abuts another one, or when it is a big block of 4 bits tiles
+    std::vector<RomStream> valid;
+    std::vector<uint8_t> out;
+    for (size_t at = 0; at + 4 <= size;)
+    {
+        size_t used = 0;
+        // zero padding is valid code too (copy one zero byte): streams do not start with it
+        if (!candidate[at] || (rom[at] == 0 && rom[at + 1] == 0) || !DecodeLz2(rom + at, std::min<size_t>(size - at, Lz2MaxOut), Lz2MaxOut, out, used, bigEndian) ||
+            used < 24 || out.size() <= used || out.size() < 128 || out.size() % 16 != 0 || !Plausible(out))
+        {
+            ++at;
+            continue;
+        }
+        valid.push_back({bigEndian ? RomCodec::Lz2Be : RomCodec::Lz2, static_cast<int64_t>(at), static_cast<int64_t>(used), static_cast<int64_t>(out.size())});
+        at += used;
+        if (at < size)
+            candidate[at] = true;
+    }
+    // A game that uses the scheme has its graphics in long runs of streams; isolated hits of
+    // code and data that happen to decode are noise, so a ROM needs enough abutting streams
+    std::vector<bool> abuts(valid.size(), false);
+    size_t abutting = 0;
+    for (size_t i = 0; i + 1 < valid.size(); ++i)
+        if (valid[i].Offset + valid[i].Packed == valid[i + 1].Offset)
+        {
+            abutting += (abuts[i] ? 0 : 1) + 1;
+            abuts[i] = abuts[i + 1] = true;
+        }
+    if (abutting < MinimumAbutting)
+        return found;
+    for (size_t i = 0; i < valid.size(); ++i)
+        if (abuts[i] || (valid[i].Size % 32 == 0 && valid[i].Size >= 1024))
+            found.push_back(valid[i]);
+    return found;
+}
+} // namespace
+
+// The games use one of the two spellings of the copy command: the ROM keeps the one that gives more
+auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
+{
+    auto little = ScanSnesVariant(rom, size, hiRom, false);
+    auto big = ScanSnesVariant(rom, size, hiRom, true);
+    return big.size() > little.size() ? big : little;
 }
 } // namespace Dud

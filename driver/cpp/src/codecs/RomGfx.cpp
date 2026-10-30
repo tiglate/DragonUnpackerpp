@@ -17,7 +17,16 @@ constexpr int64_t TgaHeader = 18;
 
 auto BitsPerPixel(TileFormat format) -> int
 {
-    return (format == TileFormat::Nes2bpp || format == TileFormat::Snes2bpp) ? 2 : 4;
+    switch (format)
+    {
+    case TileFormat::Nes2bpp:
+    case TileFormat::Snes2bpp:
+        return 2;
+    case TileFormat::Snes3bpp:
+        return 3;
+    default:
+        return 4;
+    }
 }
 
 // Palette index (0 .. 2^bpp - 1) of pixel x of row y of a tile
@@ -30,6 +39,8 @@ auto Pixel(const uint8_t *tile, TileFormat format, int x, int y) -> int
         return ((tile[y] >> bit) & 1) | (((tile[8 + y] >> bit) & 1) << 1);
     case TileFormat::Snes2bpp:
         return ((tile[2 * y] >> bit) & 1) | (((tile[2 * y + 1] >> bit) & 1) << 1);
+    case TileFormat::Snes3bpp:
+        return ((tile[2 * y] >> bit) & 1) | (((tile[2 * y + 1] >> bit) & 1) << 1) | (((tile[16 + y] >> bit) & 1) << 2);
     case TileFormat::Snes4bpp:
         return ((tile[2 * y] >> bit) & 1) | (((tile[2 * y + 1] >> bit) & 1) << 1) |
                (((tile[16 + 2 * y] >> bit) & 1) << 2) | (((tile[17 + 2 * y] >> bit) & 1) << 3);
