@@ -33,7 +33,7 @@ def to4(t3):   # 24 bytes of 3bpp -> 4bpp with an empty fourth plane
     out = bytearray(t3[:16])
     for y in range(8): out += bytes([t3[16 + y], 0])
     return bytes(out)
-index4, index2 = {}, {}   # tile -> (stream, tile number, bpp)
+index4, index2, index8 = {}, {}, {}   # tile -> (stream, tile number, bpp)
 for src, b in blobs.items():
     for size, conv, bpp in ((32, bytes, 4), (24, to4, 3)):
         for k in range(len(b) // size):
@@ -42,6 +42,9 @@ for src, b in blobs.items():
     for k in range(len(b) // 16):
         t = b[k * 16:(k + 1) * 16]
         if any(t): index2.setdefault(t, (src, k, 2))
+    for k in range(len(b) // 64):   # Mode 7: 8 bits per pixel, one byte per pixel
+        t = b[k * 64:(k + 1) * 64]
+        if any(t): index8.setdefault(t, (src, k, 8))
 rom_cache = {}
 def in_rom(t):
     if t not in rom_cache: rom_cache[t] = rom_bytes.find(t)
@@ -51,7 +54,10 @@ def color(w):
     r, g, b = w & 31, (w >> 5) & 31, (w >> 10) & 31
     return "%02x%02x%02x" % (r * 255 // 31, g * 255 // 31, b * 255 // 31)
 
-recs = [json.loads(l) for l in open(a.trace)]
+recs = []
+for l in open(a.trace):
+    try: recs.append(json.loads(l))
+    except ValueError: pass   # the last line of a trace that was cut
 vrams = {r["frame"]: bytes.fromhex(r["data"]) for r in recs if r["t"] == "vram"}
 cgrams = [(r["frame"], bytes.fromhex(r["data"])) for r in recs if r["t"] == "cgram"]
 def cgram_at(frame):
@@ -68,6 +74,30 @@ for r in recs:
     if r["t"] not in ("bg", "oam") or r["frame"] not in vrams: continue
     vram, cg = vrams[r["frame"]], cgram_at(r["frame"])
     if cg is None: continue
+    if r["t"] == "bg" and r["mode"] == 7:
+        if r["bg"] != 1: continue
+        # Mode 7: the map is the low bytes of the first 16 K words of VRAM, the 8 bit tiles are their high bytes
+        chars = vram[1:32768:2]
+        for tile in sorted(set(vram[0:32768:2])):
+            t = chars[tile * 64:(tile + 1) * 64]
+            if not any(t): continue
+            stats["tiles"] += 1
+            hit = index8.get(t)
+            if hit: src, tileno, bpp = hit; off = None
+            else:
+                off = in_rom(t)
+                if off < 0: continue
+                src, bpp = "rom", 8
+            stats["explained"] += 1
+            e = table[src]
+            colors = [int.from_bytes(cg[c * 2:c * 2 + 2], "little") for c in range(256)]
+            key = " ".join(color(c) for c in colors)
+            p = e.palettes.setdefault(key, {"count": 0, "romOffset": None})
+            p["count"] += 1
+            e.kinds.add("mode7"); e.bpp.add(8)
+            if off is not None: e.offsets.add((off, 64))
+            else: e.tiles.add(tileno)
+        continue
     used = []   # (VRAM byte address, tile size, palette number, first CGRAM colour, kind)
     if r["t"] == "bg":
         mode, bg = r["mode"], r["bg"]
@@ -116,7 +146,7 @@ for src, e in sorted(table.items()):
         for off, size in sorted(e.offsets):
             if runs and runs[-1][2] == size and off == runs[-1][0] + runs[-1][1]: runs[-1][1] += size
             else: runs.append([off, size, size])
-        raw = [{"offset": o, "length": n, "bpp": 4 if s == 32 else 2} for o, n, s in runs]
+        raw = [{"offset": o, "length": n, "bpp": {32: 4, 16: 2, 64: 8}[s]} for o, n, s in runs]
         raw_pals = pals
         continue
     m = re.match(r"(\w+?)_([0-9A-Fa-f]+)$", src)
