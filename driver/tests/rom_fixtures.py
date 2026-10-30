@@ -1,6 +1,6 @@
 """Synthetic console ROMs (NES, SNES, Mega Drive plain and Super Magic Drive) with tiles of
 known pixels, shared by make_fixtures.py (fuzzing) and verify_roms.py (content checks)."""
-import random, struct
+import math, random, struct
 
 TILES = 64        # the first tiles carry a pattern, the rest is zero
 
@@ -256,6 +256,140 @@ def snes_art(size, seed):
     return bytes(out[:size])
 
 
+def rich_data(size, seed):
+    """Random bytes with some repeated segments: the entropy of a picture (about 7 bits), and still compressible"""
+    r = random.Random(seed)
+    out = bytearray(r.randrange(256) for _ in range(256))
+    while len(out) < size:
+        if r.random() < 0.3:
+            at = r.randrange(0, len(out) - 40)
+            out += out[at:at + r.randint(8, 40)]
+        else:
+            out += bytes(r.randrange(256) for _ in range(r.randint(10, 40)))
+    return bytes(out[:size])
+
+
+def lzss_encode(data, counts_itself=True):
+    """Greedy encoder of the LZSS of Final Fantasy VI: a 16 bits size, flag bytes from the lowest bit (1: literal,
+    0: a reference of two bytes), a ring of 2048 bytes written from 0x7DE, references of 3 to 34 bytes"""
+    body = bytearray()
+    i = 0
+    flags_at = None
+    count = 0
+    while i < len(data):
+        if count == 0:
+            flags_at = len(body)
+            body.append(0)
+        best_len, best_from = 0, 0
+        for j in range(max(0, i - 2047), i):
+            n = 0
+            while n < 34 and i + n < len(data) and data[j + n] == data[i + n]:
+                n += 1
+            if n > best_len:
+                best_len, best_from = n, j
+        if best_len >= 3:
+            pos = (0x7DE + best_from) & 2047
+            body += bytes([pos & 255, (pos >> 8) | ((best_len - 3) << 3)])
+            i += best_len
+        else:
+            body[flags_at] |= 1 << count
+            body.append(data[i])
+            i += 1
+        count = (count + 1) % 8
+    size = len(body) + (2 if counts_itself else 0)
+    return struct.pack("<H", size) + bytes(body)
+
+
+def snes_lzss(counts_itself=True):
+    """A LoROM ROM with a table of 10 addresses (3 bytes each, at 0x800) of blocks stored one after the other from
+    0x1000, as the games do; returns the ROM and [(offset, data)]"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    # data with the entropy of pictures (the scan refuses blocks that are mostly empty), still compressible
+    datas = [rich_data(1024 + 32 * k, 60 + k) for k in range(9)]
+    at, found, pointers = 0x1000, [], []
+    for data in datas:
+        packed = lzss_encode(data, counts_itself)
+        rom[at:at + len(packed)] = packed
+        found.append((at, data))
+        pointers.append(at)
+        at += len(packed)
+    pointers.append(at)          # the end of the last one, as a table closes
+    for k, offset in enumerate(pointers):
+        rom[0x800 + 3 * k:0x803 + 3 * k] = struct.pack("<I", 0x80_8000 + offset)[:3]
+    return bytes(rom), found
+
+
+def packets_encode(data, width=12):
+    """Greedy encoder of the packet LZ of Chrono Trigger: the offset of the end of the first packet, masks (lowest bit
+    first: 0 a literal, 1 two bytes with the distance in the low `width` bits and the length - 3 above), then a control
+    byte (low 6 bits: bits of the next mask; the first one is below 0xC0 for 12 bits distances) and the offset of the end
+    of the next packet; the stream ends with a control byte of 0. The last mask has fewer bits than 8 when it must."""
+    items = []
+    i = 0
+    maxlen = 3 + (1 << (16 - width)) - 1
+    while i < len(data):
+        best_len, best_dist = 0, 0
+        for j in range(max(0, i - ((1 << width) - 1)), i):
+            n = 0
+            while n < maxlen and i + n < len(data) and data[j + n] == data[i + n]:
+                n += 1
+            if n > best_len:
+                best_len, best_dist = n, i - j
+        if best_len >= 3:
+            items.append(("ref", best_dist, best_len))
+            i += best_len
+        else:
+            items.append(("lit", data[i]))
+            i += 1
+    groups = [items[k:k + 8] for k in range(0, len(items), 8)]
+
+    def body(group):
+        mask = 0
+        raw = bytearray()
+        for bit, it in enumerate(group):
+            if it[0] == "ref":
+                mask |= 1 << bit
+                raw += struct.pack("<H", ((it[2] - 3) << width) | it[1])
+            else:
+                raw.append(it[1])
+        return bytes([mask]) + bytes(raw)
+
+    first_control = 0x00 if width == 12 else 0xC0
+    last = groups.pop()
+    blob = bytearray(2)
+    for g in groups:
+        blob += body(g)
+    struct.pack_into("<H", blob, 0, len(blob))
+    blob.append(first_control | len(last))       # the last mask holds fewer (or 8) bits
+    count_at = len(blob)
+    blob += b"\0\0" + body(last)
+    struct.pack_into("<H", blob, count_at, len(blob))
+    blob.append(0)
+    return bytes(blob)
+
+
+def snes_packets(width=12):
+    """A HiROM-free LoROM ROM with a table of 3 bytes addresses (at 0x800) of packet LZ blocks stored one after the other
+    from 0x1000; returns the ROM and [(offset, data)]"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    datas = [rich_data(1024 + 32 * k, 80 + k) for k in range(8)]
+    at, found, pointers = 0x1000, [], []
+    for data in datas:
+        packed = packets_encode(data, width)
+        rom[at:at + len(packed)] = packed
+        found.append((at, data))
+        pointers.append(at)
+        at += len(packed)
+    pointers.append(at)
+    for k, offset in enumerate(pointers):
+        rom[0x800 + 3 * k:0x803 + 3 * k] = struct.pack("<I", 0x80_8000 + offset)[:3]
+    return bytes(rom), found
+
+
 def snes_compressed(variant="little"):
     """A LoROM ROM with Nintendo LZ streams (eight abutting ones and a big one) and a table of long
     addresses pointing at them; returns the ROM (no copier header) and [(offset, data)]"""
@@ -333,6 +467,82 @@ def snes_brr():
     return bytes(rom), found
 
 
+# the palettes: three games' worth of known colors, found by their structure
+MD_LEVELS = [0, 52, 87, 116, 144, 172, 206, 255]
+NES_PALETTE_BYTES = bytes([0x0F, 0x30, 0x21, 0x11, 0x0F, 0x16, 0x27, 0x18, 0x0F, 0x1A, 0x29, 0x09, 0x0F, 0x02, 0x12, 0x22])
+
+
+def md_palette_words(seed):
+    """16 colors of the video chip (0000 BBB0 GGG0 RRR0), gradients with a black first color"""
+    r = random.Random(seed)
+    words = [0]
+    r_, g_, b_ = r.randrange(1, 4), r.randrange(0, 4), r.randrange(0, 4)
+    for i in range(15):
+        r_, g_, b_ = min(7, r_ + r.randrange(0, 2)), min(7, g_ + r.randrange(0, 2)), min(7, b_ + r.randrange(0, 2))
+        words.append(b_ << 9 | g_ << 5 | r_ << 1)
+    return words
+
+
+def md_palettes():
+    """A Mega Drive ROM with 3 lines of palette at 0x3000 and the plain header; returns the ROM and the lines"""
+    rom = bytearray(_md_rom())
+    for i in range(0x400, len(rom)):
+        rom[i] = 0
+    lines = [md_palette_words(s) for s in (1, 2, 3)]
+    for k, words in enumerate(lines):
+        rom[0x3000 + 32 * k:0x3000 + 32 * k + 32] = b"".join(struct.pack(">H", w) for w in words)
+    return bytes(rom), lines
+
+
+def snes_palette_words(seed):
+    """16 colors of the Super Nintendo (0BBBBBGGGGGRRRRR): a gradient with a few accents"""
+    r = random.Random(seed)
+    base = r.randrange(4, 14)
+    words = [0]
+    for i in range(1, 16):
+        shade = min(31, base + i)
+        words.append(((shade * 3 // 4) << 10) | (shade << 5) | (shade // 2 + r.randrange(0, 4)))
+    return words
+
+
+def snes_palettes():
+    """A LoROM ROM with 10 lines of palette at 0x3000; returns the ROM and the lines"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    lines = [snes_palette_words(s) for s in range(10)]
+    for k, words in enumerate(lines):
+        rom[0x3000 + 32 * k:0x3000 + 32 * k + 32] = b"".join(struct.pack("<H", w) for w in words)
+    # bytes that are no colors around the block: zeros before it would pass for the black first colors of a
+    # palette, and the exact start of a block cannot be told then
+    rom[0x2FC0:0x3000] = b"\xff" * 0x40
+    rom[0x3000 + 320:0x3000 + 320 + 0x40] = b"\xff" * 0x40
+    return bytes(rom), lines
+
+
+def nes_palettes():
+    """A NES ROM with a palette in the program at 0x1000 (and tiles), returns the file"""
+    blob = bytearray(nes()[0])
+    blob[16 + 0x1000:16 + 0x1000 + 16] = NES_PALETTE_BYTES
+    return bytes(blob)
+
+
+def pcm_samples(length, seed):
+    """Unsigned 8 bits sound: two sines and a little noise around 0x80, as a sampled drum would be"""
+    r = random.Random(seed)
+    return bytes(max(0, min(255, int(128 + 55 * math.sin(i / 5.0) + 25 * math.sin(i / 1.7) * (1 - i / length) + r.randrange(-3, 4)))) for i in range(length))
+
+
+def md_pcm():
+    """A Mega Drive ROM with a sampled sound of 3000 bytes at 0x3000 between zeros; returns the ROM and the samples"""
+    rom = bytearray(_md_rom())
+    for i in range(0x400, len(rom)):
+        rom[i] = 0
+    data = pcm_samples(3000, 5)
+    rom[0x3000:0x3000 + len(data)] = data
+    return bytes(rom), data
+
+
 def all_fixtures():
-    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
-            ("copier.smc", snes(True)[0]), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]
+    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("sized.sfc", snes_lzss()[0]), ("sizedp.sfc", snes_lzss(False)[0]), ("pk12.sfc", snes_packets(12)[0]), ("pk11.sfc", snes_packets(11)[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
+            ("copier.smc", snes(True)[0]), ("pal.sfc", snes_palettes()[0]), ("pal.md", md_palettes()[0]), ("pcm.md", md_pcm()[0]), ("pal.nes", nes_palettes()), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]

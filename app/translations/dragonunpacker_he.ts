@@ -4,7 +4,7 @@
 <context>
     <name>Dup::Ui</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1215" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1266" />
         <source>Too much to drag out (%1 files): use Extract</source>
         <translation>יותר מדי קבצים לגרירה (%1): השתמשו ב״חלץ״</translation>
     </message>
@@ -541,73 +541,83 @@ Author: %2</source>
 <context>
     <name>Dup::Ui::MainWindow</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="118" />
+        <location filename="../src/Ui/MainWindow.cpp" line="124" />
         <source>Filter by name (Ctrl+F)</source>
         <translation>סינון לפי שם (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="124" />
+        <location filename="../src/Ui/MainWindow.cpp" line="130" />
         <source>Whole archive</source>
         <translation>כל הארכיון</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="125" />
+        <location filename="../src/Ui/MainWindow.cpp" line="131" />
         <source>Search in every folder (Ctrl+Shift+F)</source>
         <translation>חיפוש בכל התיקיות (Ctrl+Shift+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="150" />
-        <location filename="../src/Ui/MainWindow.cpp" line="794" />
+        <location filename="../src/Ui/MainWindow.cpp" line="156" />
+        <location filename="../src/Ui/MainWindow.cpp" line="811" />
         <source>%1 entries</source>
         <translation>%1 פריטים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="185" />
+        <location filename="../src/Ui/MainWindow.cpp" line="191" />
         <source>Thumbnail size</source>
         <translation>גודל תמונות ממוזערות</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="222" />
+        <location filename="../src/Ui/MainWindow.cpp" line="228" />
         <source>Extract selected...</source>
         <translation>חלץ את הנבחרים...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="223" />
+        <location filename="../src/Ui/MainWindow.cpp" line="229" />
         <source>Extract all...</source>
         <translation>חלץ הכול...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="225" />
+        <location filename="../src/Ui/MainWindow.cpp" line="231" />
         <source>Extract selected, images as PNG...</source>
         <translation>חלץ את הנבחרים, תמונות כ־PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="231" />
+        <location filename="../src/Ui/MainWindow.cpp" line="236" />
+        <source>Use as palette for previews</source>
+        <translation>השתמש כפלטה לתצוגה מקדימה</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="237" />
+        <source>Show the pictures in their own colors</source>
+        <translation>הצג תמונות בצבעים המקוריים שלהן</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="243" />
         <source>Extract this folder...</source>
         <translation>חלץ את התיקייה הזו...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="262" />
+        <location filename="../src/Ui/MainWindow.cpp" line="274" />
         <source>Detected: %1 (%2%)</source>
         <translation>זוהה: %1 (%2%)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="266" />
+        <location filename="../src/Ui/MainWindow.cpp" line="278" />
         <source>Detected: %1</source>
         <translation>זוהה: %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="273" />
+        <location filename="../src/Ui/MainWindow.cpp" line="285" />
         <source>Driver: %1 (%2 formats)</source>
         <translation>מנהל: %1 (%2 פורמטים)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="277" />
+        <location filename="../src/Ui/MainWindow.cpp" line="289" />
         <source>Driver</source>
         <translation>מנהל פורמטים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="278" />
+        <location filename="../src/Ui/MainWindow.cpp" line="290" />
         <source>Cannot load the driver:
 %1
 %2</source>
@@ -616,142 +626,142 @@ Author: %2</source>
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="292" />
+        <location filename="../src/Ui/MainWindow.cpp" line="304" />
         <source>&amp;File</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="293" />
+        <location filename="../src/Ui/MainWindow.cpp" line="305" />
         <source>&amp;Open...</source>
         <translation>פתח...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="295" />
+        <location filename="../src/Ui/MainWindow.cpp" line="307" />
         <source>Open &amp;recent</source>
         <translation>פתח אחרונים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="298" />
+        <location filename="../src/Ui/MainWindow.cpp" line="310" />
         <source>&amp;Extract selected...</source>
         <translation>חלץ את הנבחרים...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="300" />
+        <location filename="../src/Ui/MainWindow.cpp" line="312" />
         <source>Extract &amp;all...</source>
         <translation>חלץ הכול...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="302" />
+        <location filename="../src/Ui/MainWindow.cpp" line="314" />
         <source>Extract selected, images as &amp;PNG...</source>
         <translation>חלץ את הנבחרים, תמונות כ־PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="303" />
+        <location filename="../src/Ui/MainWindow.cpp" line="315" />
         <source>Extract all, images as P&amp;NG...</source>
         <translation>חלץ הכול, תמונות כ־PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="304" />
+        <location filename="../src/Ui/MainWindow.cpp" line="316" />
         <source>Extract selected, converted with...</source>
         <translation>חלץ את הנבחרים, מומרים באמצעות...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="305" />
+        <location filename="../src/Ui/MainWindow.cpp" line="317" />
         <source>Extract all, converted with...</source>
         <translation>חלץ הכול, מומרים באמצעות...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="308" />
+        <location filename="../src/Ui/MainWindow.cpp" line="320" />
         <source>Create a li&amp;st from a template...</source>
         <translation>צור רשימה מתבנית...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="310" />
+        <location filename="../src/Ui/MainWindow.cpp" line="322" />
         <source>Export the &amp;list of entries...</source>
         <translation>ייצא את רשימת הפריטים...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="315" />
+        <location filename="../src/Ui/MainWindow.cpp" line="327" />
         <source>&amp;Quit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="318" />
+        <location filename="../src/Ui/MainWindow.cpp" line="330" />
         <source>&amp;View</source>
         <translation>תצוגה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="319" />
+        <location filename="../src/Ui/MainWindow.cpp" line="331" />
         <source>Include &amp;subfolders</source>
         <translation>כלול תיקיות משנה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="327" />
+        <location filename="../src/Ui/MainWindow.cpp" line="339" />
         <source>&amp;Details</source>
         <translation>פרטים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="328" />
+        <location filename="../src/Ui/MainWindow.cpp" line="340" />
         <source>&amp;Thumbnails</source>
         <translation>תמונות ממוזערות</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="341" />
+        <location filename="../src/Ui/MainWindow.cpp" line="353" />
         <source>&amp;Back</source>
         <translation>אחורה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="343" />
+        <location filename="../src/Ui/MainWindow.cpp" line="355" />
         <source>&amp;Forward</source>
         <translation>קדימה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="345" />
+        <location filename="../src/Ui/MainWindow.cpp" line="357" />
         <source>&amp;Up one folder</source>
         <translation>תיקייה אחת למעלה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="349" />
+        <location filename="../src/Ui/MainWindow.cpp" line="361" />
         <source>&amp;Theme</source>
         <translation>ערכת נושא</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="351" />
+        <location filename="../src/Ui/MainWindow.cpp" line="363" />
         <source>&amp;Dark</source>
         <translation>כהה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="352" />
+        <location filename="../src/Ui/MainWindow.cpp" line="364" />
         <source>&amp;Light</source>
         <translation>בהיר</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="363" />
+        <location filename="../src/Ui/MainWindow.cpp" line="375" />
         <source>&amp;Tools</source>
         <translation>כלים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="364" />
+        <location filename="../src/Ui/MainWindow.cpp" line="376" />
         <source>&amp;HyperRipper...</source>
         <translation>HyperRipper...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="365" />
+        <location filename="../src/Ui/MainWindow.cpp" line="377" />
         <source>&amp;Identify the file types</source>
         <translation>זהה את סוגי הקבצים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="369" />
+        <location filename="../src/Ui/MainWindow.cpp" line="381" />
         <source>&amp;Options...</source>
         <translation>אפשרויות...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="375" />
+        <location filename="../src/Ui/MainWindow.cpp" line="387" />
         <source>&amp;Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="376" />
+        <location filename="../src/Ui/MainWindow.cpp" line="388" />
         <source>&amp;About</source>
         <translation>אודות</translation>
     </message>
@@ -774,288 +784,293 @@ Driver: %1, %2 formats
         <translation>אודות</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="392" />
+        <location filename="../src/Ui/MainWindow.cpp" line="404" />
         <source>Main</source>
         <translation>ראשי</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="440" />
+        <location filename="../src/Ui/MainWindow.cpp" line="452" />
         <source>Hierarchy</source>
         <translation>היררכיה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="441" />
+        <location filename="../src/Ui/MainWindow.cpp" line="453" />
         <source>Viewer</source>
         <translation>מציג</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="442" />
+        <location filename="../src/Ui/MainWindow.cpp" line="454" />
         <source>Inspector</source>
         <translation>בודק</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="443" />
+        <location filename="../src/Ui/MainWindow.cpp" line="455" />
         <source>Console</source>
         <translation>מסוף</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="444" />
+        <location filename="../src/Ui/MainWindow.cpp" line="456" />
         <source>Jobs</source>
         <translation>משימות</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="456" />
+        <location filename="../src/Ui/MainWindow.cpp" line="468" />
         <source>&amp;Workspace</source>
         <translation>סביבת עבודה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="457" />
+        <location filename="../src/Ui/MainWindow.cpp" line="469" />
         <source>&amp;Default</source>
         <translation>ברירת מחדל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="458" />
+        <location filename="../src/Ui/MainWindow.cpp" line="470" />
         <source>&amp;Browse (folders and entries)</source>
         <translation>עיון (תיקיות ופריטים)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="459" />
+        <location filename="../src/Ui/MainWindow.cpp" line="471" />
         <source>&amp;Preview (entries, viewer, inspector)</source>
         <translation>תצוגה מקדימה (פריטים, מציג, בודק)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="485" />
+        <location filename="../src/Ui/MainWindow.cpp" line="501" />
         <source>All supported formats (%1)</source>
         <translation>כל הפורמטים הנתמכים (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="486" />
+        <location filename="../src/Ui/MainWindow.cpp" line="502" />
         <source>HyperRipper files (*.hrf)</source>
         <translation>קובצי HyperRipper (*.hrf)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="486" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1431" />
+        <location filename="../src/Ui/MainWindow.cpp" line="502" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1482" />
         <source>All files (*)</source>
         <translation>כל הקבצים (*)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="529" />
+        <location filename="../src/Ui/MainWindow.cpp" line="545" />
         <source>Cannot scan %1: %2</source>
         <translation>לא ניתן לסרוק את %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="542" />
+        <location filename="../src/Ui/MainWindow.cpp" line="558" />
         <source>Where is %1?</source>
         <translation>היכן נמצא %1?</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="552" />
+        <location filename="../src/Ui/MainWindow.cpp" line="568" />
         <source>%1 is not the file the HRF file was made for (%2 bytes instead of %3)</source>
         <translation>%1 אינו הקובץ שעבורו נוצר קובץ ה־HRF (%2 בייטים במקום %3)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="561" />
+        <location filename="../src/Ui/MainWindow.cpp" line="577" />
         <source>The HRF file is damaged: %1 is outside of the file</source>
         <translation>קובץ ה־HRF פגום: %1 נמצא מחוץ לקובץ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="581" />
-        <location filename="../src/Ui/MainWindow.cpp" line="670" />
+        <location filename="../src/Ui/MainWindow.cpp" line="597" />
+        <location filename="../src/Ui/MainWindow.cpp" line="687" />
         <source>Cannot open %1: %2</source>
         <translation>לא ניתן לפתוח את %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="598" />
+        <location filename="../src/Ui/MainWindow.cpp" line="614" />
         <source>&amp;Clear list</source>
         <translation>נקה רשימה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="607" />
+        <location filename="../src/Ui/MainWindow.cpp" line="623" />
         <source>Open archive</source>
         <translation>פתח ארכיון</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="624" />
+        <location filename="../src/Ui/MainWindow.cpp" line="641" />
         <source>Select an entry to preview it</source>
         <translation>בחרו פריט כדי לראות אותו בתצוגה מקדימה</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="666" />
+        <location filename="../src/Ui/MainWindow.cpp" line="683" />
         <source>Open</source>
         <translation>פתח</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="666" />
+        <location filename="../src/Ui/MainWindow.cpp" line="683" />
         <source>Cannot open %1:
 %2</source>
         <translation>לא ניתן לפתוח את %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="985" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1002" />
         <source>Name:    %1
 </source>
         <translation>שם:       %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="987" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1004" />
         <source>Path:    %1
 </source>
         <translation>נתיב:     %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="988" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1005" />
         <source>Size:    %1 (%2 bytes)
 </source>
         <translation>גודל:     %1 (%2 בייטים)
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="989" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1006" />
         <source>Offset:  %1
 </source>
         <translation>היסט:     %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="990" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1007" />
         <source>Format:  %1
 </source>
         <translation>פורמט:    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1055" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1030" />
+        <source>Previews use the palette %1</source>
+        <translation>התצוגה המקדימה משתמשת בפלטה %1</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="1106" />
         <source>File exists</source>
         <translation>הקובץ קיים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1056" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1107" />
         <source>The file already exists:
 %1</source>
         <translation>הקובץ כבר קיים:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1057" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1108" />
         <source>Overwrite</source>
         <translation>החלף</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1058" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1109" />
         <source>Overwrite all</source>
         <translation>החלף הכול</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1110" />
         <source>Skip</source>
         <translation>דלג</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1060" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1111" />
         <source>Skip all</source>
         <translation>דלג על הכול</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1061" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1112" />
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1087" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1098" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1155" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1138" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1149" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1206" />
         <source>Nothing is selected</source>
         <translation>לא נבחר דבר</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1090" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1141" />
         <source>Extract the selection to</source>
         <translation>חלץ את הבחירה אל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1101" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1152" />
         <source>Extract the selection (images as PNG) to</source>
         <translation>חלץ את הבחירה (תמונות כ־PNG) אל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1136" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1187" />
         <source>%1 (to .%2)</source>
         <translation>%1 (אל .%2)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1158" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1209" />
         <source>Extract (converted with %1) to</source>
         <translation>חלץ (מומר באמצעות %1) אל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1163" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1214" />
         <source>No tool: put .ini files in %1</source>
         <translation>אין כלים: הניחו קובצי .ini ב־%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1176" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1227" />
         <source>Extract everything (images as PNG) to</source>
         <translation>חלץ הכול (תמונות כ־PNG) אל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1366" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1417" />
         <source>Identifying the file types: %1 of %2</source>
         <translation>מזהה את סוגי הקבצים: %1 מתוך %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1379" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1430" />
         <source>%1 file types identified: %2</source>
         <translation>זוהו %1 סוגי קבצים: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1432" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1483" />
         <source>Save the list to...</source>
         <translation>שמור את הרשימה ב־...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1498" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
         <source>CSV (*.csv);;JSON (*.json);;Text (*.txt)</source>
         <translation>CSV (*.csv);;JSON (*.json);;טקסט (*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1499" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1550" />
         <source>Export the list of entries</source>
         <translation>ייצוא רשימת הפריטים</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1446" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1515" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
         <source>Export</source>
         <translation>ייצא</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="381" />
+        <location filename="../src/Ui/MainWindow.cpp" line="393" />
         <source>&lt;p&gt;%1: %2 formats&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;%1: %2 פורמטים&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1446" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1515" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
         <source>Cannot write %1</source>
         <translation>לא ניתן לכתוב את %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1460" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1518" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1511" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1569" />
         <source>%1 entries written to %2</source>
         <translation>נכתבו %1 פריטים אל %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1529" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1580" />
         <source>Extract everything to</source>
         <translation>חלץ הכול אל</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1540" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1591" />
         <source>Extract the folder to</source>
         <translation>חלץ את התיקייה אל</translation>
     </message>

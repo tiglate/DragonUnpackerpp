@@ -107,6 +107,7 @@ auto HexDump(std::span<const std::byte> bytes) -> std::string
     return text;
 }
 
+constexpr std::size_t MAX_PALETTE_ENTRY_BYTES = 65536;
 const std::set<std::string> IMAGE_FILE_EXTENSIONS{"png", "jpg", "jpeg", "bmp", "gif", "ppm", "webp"};
 const std::set<std::string> AUDIO_EXTENSIONS{"wav", "mp3", "ogg", "flac", "oga", "opus"};
 const std::set<std::string> TEXT_EXTENSIONS{"txt", "json", "xml", "ini", "cfg", "conf", "lua", "c", "h", "cpp", "hpp", "cs", "csv", "md", "yml", "yaml",
@@ -142,7 +143,7 @@ auto PreviewWorker::Prepare(const std::string &fileName, const std::string &form
     }
     else if (extension == "tga")
     {
-        if (auto image = DecodeTga(bytes))
+        if (auto image = DecodeTga(bytes, context.Palette))
         {
             result.Kind = PreviewKind::IMAGE;
             result.Image = std::move(*image);
@@ -310,6 +311,28 @@ void PreviewWorker::Run(const std::stop_token &stop)
                     fallback = _fallbackPalette;
                 }
                 context.Palette = palettes.Get(*archive, fallback);
+            }
+            // the palette the user chose for the colour mapped pictures (an entry of this archive)
+            std::optional<PaletteRgb> chosen;
+            if (request.PaletteEntry >= 0 && extension == "tga")
+            {
+                try
+                {
+                    std::vector<std::byte> paletteBytes;
+                    archive->Extract(request.PaletteEntry, [&](std::span<const std::byte> piece) {
+                        paletteBytes.insert(paletteBytes.end(), piece.begin(), piece.end());
+                        return paletteBytes.size() < MAX_PALETTE_ENTRY_BYTES;
+                    });
+                    chosen = ParsePalette(paletteBytes);
+                }
+                catch (const std::exception &error)
+                {
+                    spdlog::warn("cannot read the palette entry {}: {}", request.PaletteEntry, error.what());
+                }
+                if (chosen && context.Palette == nullptr)
+                {
+                    context.Palette = &*chosen;
+                }
             }
             result = Prepare(request.FileName, request.FormatId, bytes, info.Size, context);
             result.Detected = IdentifyFile(std::span<const std::byte>(bytes).first(std::min(bytes.size(), FILE_TYPE_HEAD_BYTES)), bytes.size() < FILE_TYPE_HEAD_BYTES ? static_cast<std::int64_t>(bytes.size()) : info.Size, request.FileName);

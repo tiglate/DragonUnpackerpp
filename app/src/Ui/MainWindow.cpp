@@ -81,6 +81,11 @@ namespace Dup::Ui
 {
 namespace
 {
+auto EndsWithNoCase(std::string_view text, std::string_view suffix) -> bool
+{
+    return text.size() >= suffix.size() &&
+           std::equal(suffix.rbegin(), suffix.rend(), text.rbegin(), [](char a, char b) { return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b)); });
+}
 } // namespace
 
 MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings)
@@ -224,6 +229,12 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
         menu.addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll);
         menu.addSeparator();
         menu.addAction(tr("Extract selected, images as PNG..."), this, &MainWindow::OnExtractSelectedAsPng)->setEnabled(!SelectedEntries().empty());
+        menu.addSeparator();
+        // the tiles of the console ROMs are in grays: the palettes found in the ROM give them colours
+        const auto selected = SelectedEntries();
+        const bool isPalette = selected.size() == 1 && _index != nullptr && EndsWithNoCase(_index->GetFileName(selected.front()), ".pal");
+        menu.addAction(tr("Use as palette for previews"), this, [this, selected] { SetPreviewPalette(selected.front()); })->setEnabled(isPalette);
+        menu.addAction(tr("Show the pictures in their own colors"), this, [this] { SetPreviewPalette(-1); })->setEnabled(_previewPaletteEntry >= 0);
         menu.exec(_table->viewport()->mapToGlobal(position));
     });
     _tree->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -626,6 +637,7 @@ void MainWindow::CloseArchive()
     _archive.reset();
     _source.reset();
     ++_previewGeneration; // a preview still in flight belongs to the old archive
+    _previewPaletteEntry = -1;
     _preview->ShowMessage(tr("Select an entry to preview it"));
 }
 
@@ -1005,7 +1017,41 @@ void MainWindow::PreviewEntry(std::uint32_t entry)
     request.Entry = entry;
     request.FileName = std::string(name);
     request.FormatId = _archive->GetFormatId();
+    request.PaletteEntry = _previewPaletteEntry;
     _previewWorker->Submit(std::move(request));
+}
+
+void MainWindow::SetPreviewPalette(std::int64_t entry)
+{
+    _previewPaletteEntry = entry;
+    if (entry >= 0 && _index != nullptr)
+    {
+        const auto name = _index->GetFileName(static_cast<std::uint32_t>(entry));
+        statusBar()->showMessage(tr("Previews use the palette %1").arg(QString::fromUtf8(name.data(), static_cast<qsizetype>(name.size()))), 8000);
+    }
+    const auto current = _table->currentIndex();
+    if (_index != nullptr && current.isValid())
+    {
+        PreviewEntry(_tableModel->EntryAt(current.row()));
+    }
+}
+
+auto MainWindow::UsePaletteEntryByName(const QString &fileName) -> bool
+{
+    if (_index == nullptr)
+    {
+        return false;
+    }
+    const auto wanted = fileName.toStdString();
+    for (std::uint32_t i = 0; i < _index->GetEntryCount(); ++i)
+    {
+        if (_index->GetFileName(i) == wanted)
+        {
+            _previewPaletteEntry = i;
+            return true;
+        }
+    }
+    return false;
 }
 
 auto MainWindow::SelectedEntries() const -> std::vector<std::uint32_t>

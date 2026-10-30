@@ -6,7 +6,8 @@
 // The header at 0x100 starts with "SEGA" (console name, copyright, titles, serial number,
 // checksum, ROM and RAM ranges, region). .smd files are Super Magic Drive dumps: a 512 bytes
 // header and 16 KB blocks with the odd and even bytes stored apart, deinterleaved here.
-// Entries: the ROM image and an info text. The ROM is not drawn as tiles: most games compress their
+// Entries: the ROM image, an info text, the palettes found in it (see codecs/Palette) and its sampled sound
+// (see codecs/Pcm). The ROM is not drawn as tiles: most games compress their
 // graphics, so that would show noise nearly every time. The Nemesis and Kosinski streams found in the ROM
 // are unpacked as entries too (raw data and, when it can be tile art, a sheet; see codecs/RomCompress).
 
@@ -84,9 +85,14 @@ class MegaDriveArchive : public RomArchive
         const int64_t size = _rom->Size();
         AddRaw("ROM.bin", 0, size);
 
-        // Nemesis and Kosinski streams: the data and, drawn as tiles, the art
+        // the palettes of the game, then the Nemesis and Kosinski streams: the data and, drawn as tiles, the art
         std::vector<uint8_t> image(static_cast<size_t>(size));
         _rom->Read(0, image.data(), size);
+        AddPalettes(image.data(), image.size(), FindMegaDrivePalettes(image.data(), image.size()));
+
+        // the samples the sound program feeds to the DAC
+        for (const PcmSample &sample : ScanPcm8(image.data(), image.size()))
+            AddPcm("audio/pcm_" + Hex(static_cast<uint64_t>(sample.Offset), 6) + ".wav", sample.Offset, sample.Length);
         for (const RomStream &s : ScanMegaDrive(image.data(), image.size()))
         {
             const bool nemesis = s.Codec == RomCodec::Nemesis;

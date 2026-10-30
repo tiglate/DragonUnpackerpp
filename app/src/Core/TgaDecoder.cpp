@@ -70,7 +70,7 @@ void ToRgba(const std::uint8_t *source, unsigned depth, std::uint8_t *target)
 }
 } // namespace
 
-auto DecodeTga(std::span<const std::byte> data) -> std::optional<DecodedImage>
+auto DecodeTga(std::span<const std::byte> data, const std::array<std::uint8_t, 768> *palette) -> std::optional<DecodedImage>
 {
     if (data.size() < HEADER_SIZE)
     {
@@ -90,20 +90,57 @@ auto DecodeTga(std::span<const std::byte> data) -> std::optional<DecodedImage>
 
     const bool rle = imageType >= 9 && imageType <= 11;
     const unsigned baseType = rle ? imageType - 8 : imageType;
-    if (colourMapType != 0 || (baseType != 2 && baseType != 3) || width == 0 || height == 0 || width > MAX_SIDE || height > MAX_SIDE)
-    {
-        return std::nullopt; // colour mapped images are not produced by the drivers
-    }
-    if ((baseType == 3 && depth != 8) || (baseType == 2 && depth != 15 && depth != 16 && depth != 24 && depth != 32))
+    const bool mapped = baseType == 1;
+    if (width == 0 || height == 0 || width > MAX_SIDE || height > MAX_SIDE || (baseType != 1 && baseType != 2 && baseType != 3) ||
+        (mapped ? colourMapType != 1 : colourMapType != 0))
     {
         return std::nullopt;
     }
-    const std::size_t skip = static_cast<std::size_t>(idLength) + static_cast<std::size_t>(colourMapLength) * ((colourMapDepth + 7) / 8);
+    if ((baseType == 3 && depth != 8) || (baseType == 2 && depth != 15 && depth != 16 && depth != 24 && depth != 32) || (mapped && depth != 8))
+    {
+        return std::nullopt;
+    }
+    if (mapped && colourMapDepth != 15 && colourMapDepth != 16 && colourMapDepth != 24 && colourMapDepth != 32)
+    {
+        return std::nullopt;
+    }
+    const unsigned colourMapOrigin = header[3] | (header[4] << 8);
+    const std::size_t mapBytes = static_cast<std::size_t>(colourMapLength) * ((colourMapDepth + 7) / 8);
+    const std::size_t skip = static_cast<std::size_t>(idLength) + mapBytes;
     if (cursor.Left() < skip)
     {
         return std::nullopt;
     }
-    cursor.Take(skip);
+    cursor.Take(idLength);
+    // the colours of the map as RGBA, by index
+    std::array<std::uint8_t, 256 * 4> colours{};
+    if (mapped)
+    {
+        const std::size_t entryBytes = (colourMapDepth + 7) / 8;
+        const std::uint8_t *table = cursor.Take(mapBytes);
+        for (std::size_t i = 0; i < colourMapLength; ++i)
+        {
+            const std::size_t index = colourMapOrigin + i;
+            if (index < 256)
+            {
+                ToRgba(table + i * entryBytes, colourMapDepth, &colours[index * 4]);
+            }
+        }
+        if (palette != nullptr)
+        {
+            for (std::size_t i = 0; i < 256; ++i)
+            {
+                colours[i * 4] = (*palette)[i * 3];
+                colours[i * 4 + 1] = (*palette)[i * 3 + 1];
+                colours[i * 4 + 2] = (*palette)[i * 3 + 2];
+                colours[i * 4 + 3] = 255;
+            }
+        }
+    }
+    else
+    {
+        cursor.Take(mapBytes);
+    }
 
     const std::size_t bytesPerPixel = (depth + 7) / 8;
     const std::size_t pixelCount = static_cast<std::size_t>(width) * height;
@@ -119,7 +156,15 @@ auto DecodeTga(std::span<const std::byte> data) -> std::optional<DecodedImage>
         const std::size_t column = index % width;
         const std::size_t y = topFirst ? row : height - 1 - row;
         const std::size_t x = rightFirst ? width - 1 - column : column;
-        ToRgba(source, depth, &image.Rgba[(y * width + x) * 4]);
+        std::uint8_t *target = &image.Rgba[(y * width + x) * 4];
+        if (mapped)
+        {
+            std::copy_n(&colours[static_cast<std::size_t>(source[0]) * 4], 4, target);
+        }
+        else
+        {
+            ToRgba(source, depth, target);
+        }
     };
 
     std::size_t index = 0;

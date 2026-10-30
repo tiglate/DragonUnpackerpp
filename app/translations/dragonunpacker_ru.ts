@@ -4,7 +4,7 @@
 <context>
     <name>Dup::Ui</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1215" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1266" />
         <source>Too much to drag out (%1 files): use Extract</source>
         <translation>Слишком много файлов для перетаскивания (%1): используйте «Извлечь»</translation>
     </message>
@@ -541,73 +541,83 @@ Author: %2</source>
 <context>
     <name>Dup::Ui::MainWindow</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="118" />
+        <location filename="../src/Ui/MainWindow.cpp" line="124" />
         <source>Filter by name (Ctrl+F)</source>
         <translation>Фильтр по имени (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="124" />
+        <location filename="../src/Ui/MainWindow.cpp" line="130" />
         <source>Whole archive</source>
         <translation>Весь архив</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="125" />
+        <location filename="../src/Ui/MainWindow.cpp" line="131" />
         <source>Search in every folder (Ctrl+Shift+F)</source>
         <translation>Искать во всех папках (Ctrl+Shift+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="150" />
-        <location filename="../src/Ui/MainWindow.cpp" line="794" />
+        <location filename="../src/Ui/MainWindow.cpp" line="156" />
+        <location filename="../src/Ui/MainWindow.cpp" line="811" />
         <source>%1 entries</source>
         <translation>Записей: %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="185" />
+        <location filename="../src/Ui/MainWindow.cpp" line="191" />
         <source>Thumbnail size</source>
         <translation>Размер миниатюр</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="222" />
+        <location filename="../src/Ui/MainWindow.cpp" line="228" />
         <source>Extract selected...</source>
         <translation>Извлечь выбранное...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="223" />
+        <location filename="../src/Ui/MainWindow.cpp" line="229" />
         <source>Extract all...</source>
         <translation>Извлечь всё...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="225" />
+        <location filename="../src/Ui/MainWindow.cpp" line="231" />
         <source>Extract selected, images as PNG...</source>
         <translation>Извлечь выбранное, изображения как PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="231" />
+        <location filename="../src/Ui/MainWindow.cpp" line="236" />
+        <source>Use as palette for previews</source>
+        <translation>Использовать как палитру для предпросмотра</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="237" />
+        <source>Show the pictures in their own colors</source>
+        <translation>Показывать изображения в собственных цветах</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="243" />
         <source>Extract this folder...</source>
         <translation>Извлечь эту папку...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="262" />
+        <location filename="../src/Ui/MainWindow.cpp" line="274" />
         <source>Detected: %1 (%2%)</source>
         <translation>Определено: %1 (%2%)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="266" />
+        <location filename="../src/Ui/MainWindow.cpp" line="278" />
         <source>Detected: %1</source>
         <translation>Определено: %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="273" />
+        <location filename="../src/Ui/MainWindow.cpp" line="285" />
         <source>Driver: %1 (%2 formats)</source>
         <translation>Драйвер: %1 (форматов: %2)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="277" />
+        <location filename="../src/Ui/MainWindow.cpp" line="289" />
         <source>Driver</source>
         <translation>Драйвер</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="278" />
+        <location filename="../src/Ui/MainWindow.cpp" line="290" />
         <source>Cannot load the driver:
 %1
 %2</source>
@@ -616,142 +626,142 @@ Author: %2</source>
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="292" />
+        <location filename="../src/Ui/MainWindow.cpp" line="304" />
         <source>&amp;File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="293" />
+        <location filename="../src/Ui/MainWindow.cpp" line="305" />
         <source>&amp;Open...</source>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="295" />
+        <location filename="../src/Ui/MainWindow.cpp" line="307" />
         <source>Open &amp;recent</source>
         <translation>Открыть недавние</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="298" />
+        <location filename="../src/Ui/MainWindow.cpp" line="310" />
         <source>&amp;Extract selected...</source>
         <translation>Извлечь выбранное...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="300" />
+        <location filename="../src/Ui/MainWindow.cpp" line="312" />
         <source>Extract &amp;all...</source>
         <translation>Извлечь всё...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="302" />
+        <location filename="../src/Ui/MainWindow.cpp" line="314" />
         <source>Extract selected, images as &amp;PNG...</source>
         <translation>Извлечь выбранное, изображения как PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="303" />
+        <location filename="../src/Ui/MainWindow.cpp" line="315" />
         <source>Extract all, images as P&amp;NG...</source>
         <translation>Извлечь всё, изображения как PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="304" />
+        <location filename="../src/Ui/MainWindow.cpp" line="316" />
         <source>Extract selected, converted with...</source>
         <translation>Извлечь выбранное, преобразовав с помощью...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="305" />
+        <location filename="../src/Ui/MainWindow.cpp" line="317" />
         <source>Extract all, converted with...</source>
         <translation>Извлечь всё, преобразовав с помощью...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="308" />
+        <location filename="../src/Ui/MainWindow.cpp" line="320" />
         <source>Create a li&amp;st from a template...</source>
         <translation>Создать список по шаблону...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="310" />
+        <location filename="../src/Ui/MainWindow.cpp" line="322" />
         <source>Export the &amp;list of entries...</source>
         <translation>Экспортировать список записей...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="315" />
+        <location filename="../src/Ui/MainWindow.cpp" line="327" />
         <source>&amp;Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="318" />
+        <location filename="../src/Ui/MainWindow.cpp" line="330" />
         <source>&amp;View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="319" />
+        <location filename="../src/Ui/MainWindow.cpp" line="331" />
         <source>Include &amp;subfolders</source>
         <translation>Включая вложенные папки</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="327" />
+        <location filename="../src/Ui/MainWindow.cpp" line="339" />
         <source>&amp;Details</source>
         <translation>Таблица</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="328" />
+        <location filename="../src/Ui/MainWindow.cpp" line="340" />
         <source>&amp;Thumbnails</source>
         <translation>Миниатюры</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="341" />
+        <location filename="../src/Ui/MainWindow.cpp" line="353" />
         <source>&amp;Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="343" />
+        <location filename="../src/Ui/MainWindow.cpp" line="355" />
         <source>&amp;Forward</source>
         <translation>Вперёд</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="345" />
+        <location filename="../src/Ui/MainWindow.cpp" line="357" />
         <source>&amp;Up one folder</source>
         <translation>На уровень вверх</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="349" />
+        <location filename="../src/Ui/MainWindow.cpp" line="361" />
         <source>&amp;Theme</source>
         <translation>Тема</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="351" />
+        <location filename="../src/Ui/MainWindow.cpp" line="363" />
         <source>&amp;Dark</source>
         <translation>Тёмная</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="352" />
+        <location filename="../src/Ui/MainWindow.cpp" line="364" />
         <source>&amp;Light</source>
         <translation>Светлая</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="363" />
+        <location filename="../src/Ui/MainWindow.cpp" line="375" />
         <source>&amp;Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="364" />
+        <location filename="../src/Ui/MainWindow.cpp" line="376" />
         <source>&amp;HyperRipper...</source>
         <translation>HyperRipper...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="365" />
+        <location filename="../src/Ui/MainWindow.cpp" line="377" />
         <source>&amp;Identify the file types</source>
         <translation>Определить типы файлов</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="369" />
+        <location filename="../src/Ui/MainWindow.cpp" line="381" />
         <source>&amp;Options...</source>
         <translation>Параметры...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="375" />
+        <location filename="../src/Ui/MainWindow.cpp" line="387" />
         <source>&amp;Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="376" />
+        <location filename="../src/Ui/MainWindow.cpp" line="388" />
         <source>&amp;About</source>
         <translation>О программе</translation>
     </message>
@@ -774,288 +784,293 @@ Driver: %1, %2 formats
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="392" />
+        <location filename="../src/Ui/MainWindow.cpp" line="404" />
         <source>Main</source>
         <translation>Основное</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="440" />
+        <location filename="../src/Ui/MainWindow.cpp" line="452" />
         <source>Hierarchy</source>
         <translation>Иерархия</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="441" />
+        <location filename="../src/Ui/MainWindow.cpp" line="453" />
         <source>Viewer</source>
         <translation>Просмотр</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="442" />
+        <location filename="../src/Ui/MainWindow.cpp" line="454" />
         <source>Inspector</source>
         <translation>Инспектор</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="443" />
+        <location filename="../src/Ui/MainWindow.cpp" line="455" />
         <source>Console</source>
         <translation>Консоль</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="444" />
+        <location filename="../src/Ui/MainWindow.cpp" line="456" />
         <source>Jobs</source>
         <translation>Задачи</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="456" />
+        <location filename="../src/Ui/MainWindow.cpp" line="468" />
         <source>&amp;Workspace</source>
         <translation>Рабочая область</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="457" />
+        <location filename="../src/Ui/MainWindow.cpp" line="469" />
         <source>&amp;Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="458" />
+        <location filename="../src/Ui/MainWindow.cpp" line="470" />
         <source>&amp;Browse (folders and entries)</source>
         <translation>Обзор (папки и записи)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="459" />
+        <location filename="../src/Ui/MainWindow.cpp" line="471" />
         <source>&amp;Preview (entries, viewer, inspector)</source>
         <translation>Просмотр (записи, просмотр, инспектор)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="485" />
+        <location filename="../src/Ui/MainWindow.cpp" line="501" />
         <source>All supported formats (%1)</source>
         <translation>Все поддерживаемые форматы (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="486" />
+        <location filename="../src/Ui/MainWindow.cpp" line="502" />
         <source>HyperRipper files (*.hrf)</source>
         <translation>Файлы HyperRipper (*.hrf)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="486" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1431" />
+        <location filename="../src/Ui/MainWindow.cpp" line="502" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1482" />
         <source>All files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="529" />
+        <location filename="../src/Ui/MainWindow.cpp" line="545" />
         <source>Cannot scan %1: %2</source>
         <translation>Не удалось просканировать %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="542" />
+        <location filename="../src/Ui/MainWindow.cpp" line="558" />
         <source>Where is %1?</source>
         <translation>Где находится %1?</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="552" />
+        <location filename="../src/Ui/MainWindow.cpp" line="568" />
         <source>%1 is not the file the HRF file was made for (%2 bytes instead of %3)</source>
         <translation>%1 — не тот файл, для которого создан файл HRF (%2 байт вместо %3)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="561" />
+        <location filename="../src/Ui/MainWindow.cpp" line="577" />
         <source>The HRF file is damaged: %1 is outside of the file</source>
         <translation>Файл HRF повреждён: %1 находится за пределами файла</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="581" />
-        <location filename="../src/Ui/MainWindow.cpp" line="670" />
+        <location filename="../src/Ui/MainWindow.cpp" line="597" />
+        <location filename="../src/Ui/MainWindow.cpp" line="687" />
         <source>Cannot open %1: %2</source>
         <translation>Не удалось открыть %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="598" />
+        <location filename="../src/Ui/MainWindow.cpp" line="614" />
         <source>&amp;Clear list</source>
         <translation>Очистить список</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="607" />
+        <location filename="../src/Ui/MainWindow.cpp" line="623" />
         <source>Open archive</source>
         <translation>Открыть архив</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="624" />
+        <location filename="../src/Ui/MainWindow.cpp" line="641" />
         <source>Select an entry to preview it</source>
         <translation>Выберите запись для просмотра</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="666" />
+        <location filename="../src/Ui/MainWindow.cpp" line="683" />
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="666" />
+        <location filename="../src/Ui/MainWindow.cpp" line="683" />
         <source>Cannot open %1:
 %2</source>
         <translation>Не удалось открыть %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="985" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1002" />
         <source>Name:    %1
 </source>
         <translation>Имя:      %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="987" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1004" />
         <source>Path:    %1
 </source>
         <translation>Путь:     %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="988" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1005" />
         <source>Size:    %1 (%2 bytes)
 </source>
         <translation>Размер:   %1 (%2 байт)
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="989" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1006" />
         <source>Offset:  %1
 </source>
         <translation>Смещение: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="990" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1007" />
         <source>Format:  %1
 </source>
         <translation>Формат:   %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1055" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1030" />
+        <source>Previews use the palette %1</source>
+        <translation>Предпросмотр использует палитру %1</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="1106" />
         <source>File exists</source>
         <translation>Файл существует</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1056" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1107" />
         <source>The file already exists:
 %1</source>
         <translation>Файл уже существует:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1057" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1108" />
         <source>Overwrite</source>
         <translation>Заменить</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1058" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1109" />
         <source>Overwrite all</source>
         <translation>Заменить все</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1110" />
         <source>Skip</source>
         <translation>Пропустить</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1060" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1111" />
         <source>Skip all</source>
         <translation>Пропустить все</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1061" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1112" />
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1087" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1098" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1155" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1138" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1149" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1206" />
         <source>Nothing is selected</source>
         <translation>Ничего не выбрано</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1090" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1141" />
         <source>Extract the selection to</source>
         <translation>Извлечь выбранное в</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1101" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1152" />
         <source>Extract the selection (images as PNG) to</source>
         <translation>Извлечь выбранное (изображения как PNG) в</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1136" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1187" />
         <source>%1 (to .%2)</source>
         <translation>%1 (в .%2)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1158" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1209" />
         <source>Extract (converted with %1) to</source>
         <translation>Извлечь (преобразовав с помощью %1) в</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1163" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1214" />
         <source>No tool: put .ini files in %1</source>
         <translation>Нет инструментов: поместите файлы .ini в %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1176" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1227" />
         <source>Extract everything (images as PNG) to</source>
         <translation>Извлечь всё (изображения как PNG) в</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1366" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1417" />
         <source>Identifying the file types: %1 of %2</source>
         <translation>Определение типов файлов: %1 из %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1379" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1430" />
         <source>%1 file types identified: %2</source>
         <translation>Определено типов файлов: %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1432" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1483" />
         <source>Save the list to...</source>
         <translation>Сохранить список в...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1498" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
         <source>CSV (*.csv);;JSON (*.json);;Text (*.txt)</source>
         <translation>CSV (*.csv);;JSON (*.json);;Текст (*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1499" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1550" />
         <source>Export the list of entries</source>
         <translation>Экспорт списка записей</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1446" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1515" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
         <source>Export</source>
         <translation>Экспорт</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="381" />
+        <location filename="../src/Ui/MainWindow.cpp" line="393" />
         <source>&lt;p&gt;%1: %2 formats&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;%1: форматов — %2&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1446" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1515" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
         <source>Cannot write %1</source>
         <translation>Не удалось записать %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1460" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1518" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1511" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1569" />
         <source>%1 entries written to %2</source>
         <translation>Записей в %2: %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1529" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1580" />
         <source>Extract everything to</source>
         <translation>Извлечь всё в</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1540" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1591" />
         <source>Extract the folder to</source>
         <translation>Извлечь папку в</translation>
     </message>

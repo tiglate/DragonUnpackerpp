@@ -65,6 +65,8 @@ class MainWindow : public QMainWindow
     auto OpenSource(std::shared_ptr<const Core::ArchiveSource> source) -> bool;
     /// Selects the first entry with this file name (used by the screenshot hooks).
     auto SelectEntryByName(const QString &fileName) -> bool;
+    /// The previews of colour mapped pictures use the palette of the entry with this file name (a .pal file of the archive).
+    auto UsePaletteEntryByName(const QString &fileName) -> bool;
     /// Without dialogs (the command line hooks): errors go to the log and the status bar instead of a message box.
     void SetInteractive(bool interactive);
     /// Details (table) or thumbnails (icon grid) for the entries.
@@ -139,6 +141,8 @@ class MainWindow : public QMainWindow
     void BuildDocks();
     void ShowFolder(std::uint32_t folder);
     void PreviewEntry(std::uint32_t entry);
+    /// -1 to show the pictures with their own colours again.
+    void SetPreviewPalette(std::int64_t entry);
     void CloseArchive();
     auto ExtractForDrag(const std::vector<std::uint32_t> &entries) -> QList<QUrl>;
     void SelectFolder(std::uint32_t folder, bool recordHistory);
@@ -182,6 +186,7 @@ class MainWindow : public QMainWindow
     bool _recursive{false};
     bool _interactive{true};
     std::uint64_t _previewGeneration{0};
+    std::int64_t _previewPaletteEntry{-1}; // an entry of the shown archive, or -1
     std::unique_ptr<Core::PreviewWorker> _previewWorker; // after the members it does not need: destroyed first
 };
 } // namespace Dup::Ui

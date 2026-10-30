@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -241,6 +241,11 @@ int main(int argc, char **argv)
     if (!sort.empty())
     {
         window->SortBy(std::abs(std::atoi(sort.c_str())), sort[0] == '-' ? Qt::DescendingOrder : Qt::AscendingOrder);
+    }
+    const auto palette = ArgumentValue(argc, argv, "palette"); // a .pal entry of the archive for the colour mapped pictures
+    if (!palette.empty() && !window->UsePaletteEntryByName(QString::fromStdString(palette)))
+    {
+        spdlog::error("no palette entry named {}", palette);
     }
     const auto select = ArgumentValue(argc, argv, "select");
     if (!select.empty())

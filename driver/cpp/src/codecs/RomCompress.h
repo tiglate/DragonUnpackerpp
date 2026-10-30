@@ -22,6 +22,9 @@ enum class RomCodec
     Lz2,      // Nintendo LZ: command byte (3 bits command, 5 bits length), ends with 0xFF (Zelda 3)
     Lz2Be,    // the same with the offsets of the copy command high byte first (Super Mario World)
     Lz5,      // Super Metroid: the Nintendo LZ with two more copy commands (inverted, relative)
+    Lzss,     // Final Fantasy VI: LZSS, 2 KB ring buffer, size header that counts itself
+    LzssPayload, // the same, the size header counts only what follows it
+    LzPackets,   // Chrono Trigger: LZ in packets, each starting with the offset of its end, where a control byte sits
 };
 
 struct RomStream
@@ -49,6 +52,19 @@ enum class Lz2Variant
 // that have them
 auto DecodeLz2(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
                Lz2Variant variant = Lz2Variant::Little, size_t *copies = nullptr) -> bool;
+// The LZSS of Final Fantasy VI (found by reading the compressed blocks of the game, not from any document): a 16 bits
+// size, then flag bytes read from the lowest bit (1: a literal byte, 0: a reference of two bytes) over a ring buffer of
+// 2048 bytes that starts empty, written from position 0x7DE; a reference is the position in the ring (the first byte
+// and the low 3 bits of the second) and a length of (the 5 high bits of the second) + 3. The data ends with the size.
+auto DecodeLzss(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
+                bool headerCountsItself) -> bool;
+// The LZ of Chrono Trigger (the public description of the format at the NESdev wiki, checked against the game's tables):
+// a 16 bits offset of the end of the first packet (from the start of the stream), the data, and at each packet end a
+// control byte (low 6 bits: how many flag bits the next mask has, 0 ends the stream; the first one also tells the width
+// of the offsets, 12 bits under 0xC0, else 11) followed by the offset of the end of the next packet. Masks are read from
+// the lowest bit: 0 a literal byte, 1 two bytes with the distance (low bits) and the length - 3 (high bits). A mask of 0
+// with 8 bits copies 8 literals. The stream takes up to the control byte that ends it.
+auto DecodeLzPackets(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool;
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool;
 
 // The Super Nintendo streams of a ROM (hiRom: the addresses of the tables use the HiROM map)
