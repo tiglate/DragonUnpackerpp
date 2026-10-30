@@ -81,16 +81,13 @@ with tempfile.TemporaryDirectory() as td:
             check(chr_ == rom, "%s: CHR" % name)
             sheet = extract(path, idx["CHR/chr_004000.tga"], out)
             data = chr_
+            w, h, px = tga_pixels(sheet)
+            eh, epx = decode(data, kind)
+            check(h == eh and px == epx, "%s: every pixel of the first sheet (%dx%d)" % (name, w, h))
+            check(int(rows[idx["CHR/chr_004000.tga"]][2]) == len(sheet), "%s: listed size = extracted size" % name)
         else:
             check(extract(path, idx[rawname], out) == rom, "%s: ROM image identical to the plain ROM" % name)
-            sheet = extract(path, idx["graphics/%s_000000.tga" % ("tiles4bpp" if kind == "snes4" else "tiles")], out)
-            data = rom[:32768]
-        w, h, px = tga_pixels(sheet)
-        eh, epx = decode(data, kind)
-        check(h == eh and px == epx, "%s: every pixel of the first sheet (%dx%d)" % (name, w, h))
-        entry_size = int(rows[idx["CHR/chr_004000.tga" if kind == "nes" else
-                                    "graphics/%s_000000.tga" % ("tiles4bpp" if kind == "snes4" else "tiles")]][2])
-        check(entry_size == len(sheet), "%s: listed size = extracted size" % name)
+            check(not any(n.startswith("graphics/") for n in names), "%s: no raw tile sheets (noise for compressed games)" % name)
     # a plain file that is not a ROM must not be claimed
     junk = os.path.join(td, "junk.sfc")
     open(junk, "wb").write(rf.pattern(40000))
