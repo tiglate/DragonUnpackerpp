@@ -10,6 +10,7 @@
 #include "Ui/FolderTreeModel.h"
 #include "Core/EntryListExport.h"
 #include "Core/Extractor.h"
+#include "Core/FileMasks.h"
 #include "Core/HrfFile.h"
 #include "Core/ListTemplate.h"
 #include "Core/TextureConverters.h"
@@ -473,7 +474,11 @@ auto MainWindow::OpenFilter() const -> QString
     {
         for (const auto &format : _driverHost.GetDriver().GetFormats())
         {
-            QStringList masks = QString::fromStdString(format.Extensions).split(';', Qt::SkipEmptyParts);
+            QStringList masks;
+            for (const auto &mask : Core::ExpandMasks(format.Extensions))
+            {
+                masks << QString::fromStdString(mask);
+            }
             const QString joined = masks.join(' ');
             everything << masks;
             filters << QString("%1 (%2)").arg(QString::fromStdString(format.Name).replace('(', '[').replace(')', ']'), joined);
