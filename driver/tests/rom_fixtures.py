@@ -256,6 +256,57 @@ def snes_art(size, seed):
     return bytes(out[:size])
 
 
+def lzss_encode(data, counts_itself=True):
+    """Greedy encoder of the LZSS of Final Fantasy VI: a 16 bits size, flag bytes from the lowest bit (1: literal,
+    0: a reference of two bytes), a ring of 2048 bytes written from 0x7DE, references of 3 to 34 bytes"""
+    body = bytearray()
+    i = 0
+    flags_at = None
+    count = 0
+    while i < len(data):
+        if count == 0:
+            flags_at = len(body)
+            body.append(0)
+        best_len, best_from = 0, 0
+        for j in range(max(0, i - 2047), i):
+            n = 0
+            while n < 34 and i + n < len(data) and data[j + n] == data[i + n]:
+                n += 1
+            if n > best_len:
+                best_len, best_from = n, j
+        if best_len >= 3:
+            pos = (0x7DE + best_from) & 2047
+            body += bytes([pos & 255, (pos >> 8) | ((best_len - 3) << 3)])
+            i += best_len
+        else:
+            body[flags_at] |= 1 << count
+            body.append(data[i])
+            i += 1
+        count = (count + 1) % 8
+    size = len(body) + (2 if counts_itself else 0)
+    return struct.pack("<H", size) + bytes(body)
+
+
+def snes_lzss(counts_itself=True):
+    """A LoROM ROM with a table of 10 addresses (3 bytes each, at 0x800) of blocks stored one after the other from
+    0x1000, as the games do; returns the ROM and [(offset, data)]"""
+    rom = bytearray(snes()[1])
+    for i in range(0x1000, 0x7FA0):
+        rom[i] = 0
+    datas = [snes_art(1024 + 32 * k, 60 + k) for k in range(9)]
+    at, found, pointers = 0x1000, [], []
+    for data in datas:
+        packed = lzss_encode(data, counts_itself)
+        rom[at:at + len(packed)] = packed
+        found.append((at, data))
+        pointers.append(at)
+        at += len(packed)
+    pointers.append(at)          # the end of the last one, as a table closes
+    for k, offset in enumerate(pointers):
+        rom[0x800 + 3 * k:0x803 + 3 * k] = struct.pack("<I", 0x80_8000 + offset)[:3]
+    return bytes(rom), found
+
+
 def snes_compressed(variant="little"):
     """A LoROM ROM with Nintendo LZ streams (eight abutting ones and a big one) and a table of long
     addresses pointing at them; returns the ROM (no copier header) and [(offset, data)]"""
@@ -410,5 +461,5 @@ def md_pcm():
 
 
 def all_fixtures():
-    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
+    return [("test.nes", nes()[0]), ("test.sfc", snes()[0]), ("packed.sfc", snes_compressed()[0]), ("sized.sfc", snes_lzss()[0]), ("sizedp.sfc", snes_lzss(False)[0]), ("packedbe.sfc", snes_compressed("big")[0]), ("packedm.sfc", snes_compressed("metroid")[0]), ("brr.sfc", snes_brr()[0]),
             ("copier.smc", snes(True)[0]), ("pal.sfc", snes_palettes()[0]), ("pal.md", md_palettes()[0]), ("pcm.md", md_pcm()[0]), ("pal.nes", nes_palettes()), ("test.md", megadrive()[0]), ("packed.md", md_compressed()[0]), ("test.smd", smd()[0])]

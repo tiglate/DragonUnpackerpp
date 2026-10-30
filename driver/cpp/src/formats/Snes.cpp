@@ -153,7 +153,8 @@ class SnesArchive : public RomArchive
         const bool hiRom = (h[0x15] & 1) != 0;
         for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
         {
-            const std::string base = "compressed/lz_" + Hex(static_cast<uint64_t>(s.Offset), 6);
+            const bool sized = s.Codec == RomCodec::Lzss || s.Codec == RomCodec::LzssPayload;
+            const std::string base = std::string(sized ? "compressed/lzss_" : "compressed/lz_") + Hex(static_cast<uint64_t>(s.Offset), 6);
             AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
             if (s.Size % 32 == 0)
                 AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp);

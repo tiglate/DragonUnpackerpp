@@ -149,6 +149,22 @@ with tempfile.TemporaryDirectory() as td:
                   eh, epx = decode(data, kind)
                   check(h == eh and px == epx, "lz at %X: %s sheet pixels" % (at, suffix[1:]))
       check(sum(1 for r in rows if r[4].endswith(".bin") and r[4].startswith("compressed/")) == len(streams), "no stream besides the real ones")
+    # the LZSS of Final Fantasy VI: blocks with their size, found through a table of addresses
+    for counts in (True, False):
+        blob, streams = rf.snes_lzss(counts)
+        path = os.path.join(td, "sized.sfc")
+        open(path, "wb").write(blob)
+        head, rows = listing(path)
+        idx = {r[4]: i for i, r in enumerate(rows)}
+        for at, data in streams:
+            base = "compressed/lzss_%06X" % at
+            check(base + ".bin" in idx, "lzss (header %s) at %X found" % ("counts itself" if counts else "does not", at))
+            if base + ".bin" in idx:
+                check(extract(path, idx[base + ".bin"], out) == data, "lzss at %X: data identical (%d bytes)" % (at, len(data)))
+        check(sum(1 for r in rows if r[4].startswith("compressed/lzss_") and r[4].endswith(".bin")) == len(streams), "lzss: no block besides the real ones")
+        w, h, px = tga_pixels(extract(path, idx["compressed/lzss_%06X_4bpp.tga" % streams[0][0]], out))
+        eh, epx = decode(streams[0][1], "snes4")
+        check(h == eh and px == epx, "lzss: 4bpp sheet pixels")
     # BRR samples of a Super Nintendo ROM: WAV files identical to the reference decoder
     blob, samples = rf.snes_brr()
     path = os.path.join(td, "brr.sfc")

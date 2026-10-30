@@ -388,6 +388,55 @@ auto DecodeLz2(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint
     return !out.empty();
 }
 
+auto DecodeLzss(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used,
+                bool headerCountsItself) -> bool
+{
+    out.clear();
+    if (avail < 4)
+        return false;
+    const size_t header = src[0] | (size_t{src[1]} << 8);
+    const size_t payload = headerCountsItself ? (header >= 2 ? header - 2 : 0) : header;
+    const size_t end = 2 + payload;
+    if (payload < 2 || end > avail)
+        return false;
+    std::array<uint8_t, 2048> ring{};
+    size_t write = 0x7DE;
+    size_t pos = 2;
+    while (pos < end)
+    {
+        const unsigned flags = src[pos++];
+        for (int bit = 0; bit < 8 && pos < end; ++bit)
+        {
+            if ((flags >> bit) & 1)
+            {
+                const uint8_t value = src[pos++];
+                out.push_back(value);
+                ring[write] = value;
+                write = (write + 1) & 2047;
+            }
+            else
+            {
+                if (pos + 2 > end)
+                    return false; // a reference cut by the end of the data
+                const size_t from = src[pos] | (size_t{src[pos + 1] & 7} << 8);
+                const size_t length = (src[pos + 1] >> 3) + 3;
+                pos += 2;
+                for (size_t k = 0; k < length; ++k)
+                {
+                    const uint8_t value = ring[(from + k) & 2047];
+                    out.push_back(value);
+                    ring[write] = value;
+                    write = (write + 1) & 2047;
+                }
+            }
+            if (out.size() > maxOut)
+                return false;
+        }
+    }
+    used = end;
+    return !out.empty();
+}
+
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool
 {
     switch (codec)
@@ -402,6 +451,10 @@ auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_
         return DecodeLz2(src, avail, Lz2MaxOut, out, used, Lz2Variant::Big);
     case RomCodec::Lz5:
         return DecodeLz2(src, avail, Lz2MaxOut, out, used, Lz2Variant::Metroid);
+    case RomCodec::Lzss:
+        return DecodeLzss(src, avail, Lz2MaxOut, out, used, true);
+    case RomCodec::LzssPayload:
+        return DecodeLzss(src, avail, Lz2MaxOut, out, used, false);
     }
     return false;
 }
@@ -533,7 +586,7 @@ namespace
 // four at least, packed or with a byte between: the targets of a lone window that happens to look
 // like an address are a million in a 4 MB ROM and each costs a decoding), after the end of another
 // stream (0xFF)
-auto SnesCandidates(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<bool>
+auto SnesCandidates(const uint8_t *rom, size_t size, bool hiRom, bool afterTerminators = true) -> std::vector<bool>
 {
     std::vector<bool> candidate(size, false);
     std::vector<int64_t> target(size, -1);
@@ -552,7 +605,7 @@ auto SnesCandidates(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<
                 for (size_t k = 0; k < PointerRun; ++k)
                     candidate[static_cast<size_t>(target[at + k * stride])] = true;
         }
-    for (size_t at = 0; at + 1 < size; ++at)
+    for (size_t at = 0; afterTerminators && at + 1 < size; ++at)
         if (rom[at] == 0xFF)
             candidate[at + 1] = true;
     return candidate;
@@ -610,6 +663,86 @@ auto ScanSnesVariant(const uint8_t *rom, size_t size, std::vector<bool> candidat
 }
 } // namespace
 
+// The streams that carry their own size (Final Fantasy VI's LZSS): they are not told by an end marker, and nearly any
+// bytes parse as LZSS (a ROM that has none still gets dozens of "streams" that parse and end on tile rows), so the test
+// is the one the real tables pass: the resources of a table of addresses are stored one after the other, so the next
+// address of the table is this stream's address plus its size. That needs two addresses to land on exact places and a
+// stream that parses to exactly its size, which chance does not give; a handful of entries must pass in the ROM.
+auto ScanSnesSized(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
+{
+    constexpr size_t MinimumEntries = 6;
+    std::vector<int64_t> target(size, -1);
+    for (size_t at = 0; at + 3 <= size; ++at)
+    {
+        const uint32_t value = rom[at] | (uint32_t{rom[at + 1]} << 8) | (uint32_t{rom[at + 2]} << 16);
+        target[at] = SnesFileOffset(value, hiRom, size);
+    }
+    std::vector<RomStream> found;
+    std::vector<uint8_t> out;
+    struct Entry
+    {
+        bool Valid = false;
+        RomStream Stream;
+    };
+    for (const size_t stride : {size_t{3}, size_t{4}})
+    {
+        for (size_t at = 0; at + PointerRun * stride <= size;)
+        {
+            size_t length = 0;
+            while (at + length * stride + 3 <= size && target[at + length * stride] >= 0)
+                ++length;
+            if (length < PointerRun)
+            {
+                ++at;
+                continue;
+            }
+            // the cheap test first: the next address is this one plus the size in the header (the header counts
+            // itself, or only what follows it); only the entries that pass are decoded
+            std::vector<int> semantics(length, 0); // 1: the header counts itself, 2: it does not
+            for (size_t k = 0; k + 1 < length; ++k)
+            {
+                const auto start = static_cast<size_t>(target[at + k * stride]);
+                if (start + 2 > size)
+                    continue;
+                const int64_t header = rom[start] | (int64_t{rom[start + 1]} << 8);
+                if (target[at + (k + 1) * stride] == static_cast<int64_t>(start) + header)
+                    semantics[k] = 1;
+                else if (target[at + (k + 1) * stride] == static_cast<int64_t>(start) + header + 2)
+                    semantics[k] = 2;
+            }
+            std::vector<Entry> entries(length);
+            auto decode = [&](size_t k, bool counts) {
+                const auto start = static_cast<size_t>(target[at + k * stride]);
+                size_t used = 0;
+                if (start + 6 <= size && DecodeLzss(rom + start, std::min<size_t>(size - start, 0x10002), Lz2MaxOut, out, used, counts) &&
+                    out.size() >= MinimumOut && out.size() % 8 == 0 && Plausible(out))
+                    entries[k] = {true, {counts ? RomCodec::Lzss : RomCodec::LzssPayload, static_cast<int64_t>(start), static_cast<int64_t>(used), static_cast<int64_t>(out.size())}};
+            };
+            std::vector<bool> keep(length, false);
+            for (size_t k = 0; k + 1 < length; ++k)
+            {
+                if (semantics[k] == 0)
+                    continue;
+                decode(k, semantics[k] == 1);
+                // the next entry has its own header: it counts in the same way as this one in a table
+                decode(k + 1, semantics[k] == 1);
+                if (entries[k].Valid && entries[k + 1].Valid &&
+                    target[at + (k + 1) * stride] == entries[k].Stream.Offset + entries[k].Stream.Packed)
+                    keep[k] = keep[k + 1] = true;
+            }
+            for (size_t k = 0; k < length; ++k)
+                if (keep[k])
+                    found.push_back(entries[k].Stream);
+            at += length * stride;
+        }
+    }
+    std::sort(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset < b.Offset; });
+    found.erase(std::unique(found.begin(), found.end(), [](const RomStream &a, const RomStream &b) { return a.Offset == b.Offset; }), found.end());
+    if (found.size() < MinimumEntries)
+        found.clear();
+    return found;
+}
+
 // The games use one of the spellings of the commands: the ROM keeps the one that decodes more streams
 // with copy commands (the Zelda 3 one on a tie, and Metroid's is a superset of it)
 auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStream>
@@ -627,6 +760,10 @@ auto ScanSnes(const uint8_t *rom, size_t size, bool hiRom) -> std::vector<RomStr
             bestCopies = copies;
         }
     }
+    // the sized streams too (a game uses one scheme or the other: a ROM that gives no streams of one gives none)
+    auto sized = ScanSnesSized(rom, size, hiRom);
+    best.insert(best.end(), sized.begin(), sized.end());
+    std::sort(best.begin(), best.end(), [](const RomStream &a, const RomStream &b) { return a.Offset < b.Offset; });
     return best;
 }
 } // namespace Dud
