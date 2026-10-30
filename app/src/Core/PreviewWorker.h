@@ -44,6 +44,9 @@ struct PreviewRequest
     std::int64_t Entry{0};
     std::string FileName;
     std::string FormatId; // of the archive
+    /// An entry of the archive that holds a palette (a .pal file): the colour mapped pictures (the tiles of the console
+    /// ROMs) are shown with its colours instead of their own. -1: none.
+    std::int64_t PaletteEntry{-1};
 };
 
 struct PreviewResult

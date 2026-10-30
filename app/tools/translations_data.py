@@ -747,3 +747,22 @@ PT_BR.update({
     "It is provided as it is, without any warranty. The files and the games that you open with it belong to their owners.": "É fornecido como está, sem nenhuma garantia. Os arquivos e jogos que você abre com ele pertencem aos seus donos.",
     "<p>%1: %2 formats<br><small>%3</small></p>": "<p>%1: %2 formatos<br><small>%3</small></p>",
 })
+
+
+# The palettes found in a console ROM: the context menu of the entries and the status bar
+TRANSLATIONS.update({
+    "Use as palette for previews": (
+        "Usar como paleta para las vistas previas", "Usa come tavolozza per le anteprime", "Utiliser comme palette pour les aperçus", "Als Palette für Vorschauen verwenden",
+        "Użyj jako palety podglądu", "Использовать как палитру для предпросмотра", "用作预览调色板", "プレビューのパレットとして使用", "استخدام كلوحة ألوان للمعاينة", "השתמש כפלטה לתצוגה מקדימה"),
+    "Show the pictures in their own colors": (
+        "Mostrar las imágenes con sus propios colores", "Mostra le immagini con i loro colori", "Afficher les images avec leurs propres couleurs", "Bilder in ihren eigenen Farben anzeigen",
+        "Pokaż obrazy w ich własnych kolorach", "Показывать изображения в собственных цветах", "以图像自身的颜色显示", "画像を元の色で表示", "عرض الصور بألوانها الأصلية", "הצג תמונות בצבעים המקוריים שלהן"),
+    "Previews use the palette %1": (
+        "Las vistas previas usan la paleta %1", "Le anteprime usano la tavolozza %1", "Les aperçus utilisent la palette %1", "Vorschauen verwenden die Palette %1",
+        "Podgląd używa palety %1", "Предпросмотр использует палитру %1", "预览使用调色板 %1", "プレビューはパレット %1 を使用します", "تستخدم المعاينة لوحة الألوان %1", "התצוגה המקדימה משתמשת בפלטה %1"),
+})
+PT_BR.update({
+    "Use as palette for previews": "Usar como paleta para as visualizações",
+    "Show the pictures in their own colors": "Mostrar as imagens com as cores originais",
+    "Previews use the palette %1": "As visualizações usam a paleta %1",
+})
