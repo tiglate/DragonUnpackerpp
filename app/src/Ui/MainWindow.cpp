@@ -33,6 +33,7 @@
 #include <QCloseEvent>
 #include <QApplication>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDragEnterEvent>
 #include <QTemporaryDir>
 #include <QToolBar>
@@ -132,9 +133,19 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
     auto *filterRow = new QHBoxLayout;
     filterRow->setContentsMargins(0, 0, 0, 0);
     filterRow->addWidget(_filter, 1);
+    _typeFilter = new QComboBox(this);
+    _typeFilter->setToolTip(tr("Show only the files of one type (the extension)"));
+    _typeFilter->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    _typeFilter->setMinimumContentsLength(12);
+    FillTypeFilter();
+    filterRow->addWidget(_typeFilter);
     filterRow->addWidget(_searchAll);
     centralLayout->addLayout(filterRow);
     connect(_searchAll, &QCheckBox::toggled, this, [this] { OnFolderChanged(); });
+    connect(_typeFilter, &QComboBox::currentIndexChanged, this, [this](int row) {
+        _tableModel->SetTypeFilter(row > 0, row > 0 ? _typeFilter->itemData(row).toString() : QString());
+        _statusEntries->setText(tr("%1 entries").arg(_tableModel->rowCount()));
+    });
     _grid = new QListView(this);
     _grid->setViewMode(QListView::IconMode);
     _grid->setResizeMode(QListView::Adjust);
@@ -631,6 +642,7 @@ void MainWindow::CloseArchive()
 {
     StopIdentifying();
     _tableModel->SetIndex(nullptr);
+    FillTypeFilter();
     _treeModel->SetIndex(nullptr, QString());
     _thumbnailWorker.reset();
     _index.reset();
@@ -745,6 +757,7 @@ auto MainWindow::OpenSource(std::shared_ptr<const Core::ArchiveSource> source) -
         RebuildRecentMenu();
     }
     _tableModel->SetIndex(_index.get());
+    FillTypeFilter();
     _treeModel->SetIndex(_index.get(), title);
     setWindowTitle(title + " - Dragon UnPACKer++");
     const auto root = _treeModel->index(0, 0);
@@ -757,6 +770,36 @@ void MainWindow::SetNameFilter(const QString &text, bool wholeArchive)
 {
     _searchAll->setChecked(wholeArchive);
     _filter->setText(text);
+}
+
+void MainWindow::SetModelPose(double u)
+{
+    _preview->SetModelPose(u);
+}
+
+void MainWindow::FillTypeFilter()
+{
+    // a new archive starts with every type shown
+    const QSignalBlocker blocker(_typeFilter);
+    _typeFilter->clear();
+    _typeFilter->addItem(tr("All types"));
+    for (const auto &[extension, count] : _tableModel->TypeCounts())
+    {
+        const auto label = extension.isEmpty() ? tr("(no extension)") : extension.toUpper();
+        _typeFilter->addItem(QString("%1 (%2)").arg(label).arg(count), extension);
+    }
+    _tableModel->SetTypeFilter(false, QString());
+}
+
+auto MainWindow::SetTypeFilter(const QString &extension) -> bool
+{
+    const int row = _typeFilter->findData(extension.toLower());
+    if (row < 0)
+    {
+        return false;
+    }
+    _typeFilter->setCurrentIndex(row);
+    return true;
 }
 
 void MainWindow::SetThumbnailView(bool thumbnails)

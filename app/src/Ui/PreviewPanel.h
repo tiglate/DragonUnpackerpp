@@ -9,6 +9,8 @@
 #include <QBuffer>
 #include <QWidget>
 
+#include <optional>
+
 class QAudioOutput;
 class QLabel;
 class QMediaPlayer;
@@ -22,6 +24,7 @@ namespace Dup::Ui
 {
 class ImageViewer;
 class MeshViewer;
+class ModelViewer;
 
 /// The "Viewer" panel: shows what the preview worker prepared (image, text, hex dump, sound player or a message).
 class PreviewPanel : public QWidget
@@ -37,6 +40,11 @@ class PreviewPanel : public QWidget
     [[nodiscard]] auto GetImageViewer() const -> ImageViewer *
     {
         return _image;
+    }
+    /// Test hook: the models are shown animated at this position (0 to 1) instead of in their rest pose.
+    void SetModelPose(double u)
+    {
+        _modelPose = u;
     }
     /// A short description of what is shown (for the status bar and the inspector), "" when nothing.
     [[nodiscard]] auto GetDescription() const -> const QString &
@@ -55,6 +63,7 @@ class PreviewPanel : public QWidget
     QWidget *_imagePage; // the zoom buttons and the viewer
     ImageViewer *_image;
     MeshViewer *_mesh;
+    ModelViewer *_model;
     QPlainTextEdit *_text;
     QLabel *_message;
     QWidget *_audioPage;
@@ -68,5 +77,6 @@ class PreviewPanel : public QWidget
     QByteArray _audioBytes;
     QString _description;
     QLabel *_note;
+    std::optional<double> _modelPose;
 };
 } // namespace Dup::Ui

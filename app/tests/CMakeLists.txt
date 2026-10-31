@@ -9,6 +9,9 @@ add_executable(dragonunpacker_tests
     test_archive_index.cpp
     test_app_settings.cpp
     test_tga_decoder.cpp
+    test_outrage.cpp
+    test_oof_pose.cpp
+    test_oof_render.cpp
     test_driver.cpp
     test_extractor.cpp
     test_extraction_job.cpp

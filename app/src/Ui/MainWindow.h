@@ -28,6 +28,7 @@ class QSlider;
 class QStackedWidget;
 class QAction;
 class QCheckBox;
+class QComboBox;
 class QTemporaryDir;
 class QEvent;
 class QLineEdit;
@@ -80,6 +81,10 @@ class MainWindow : public QMainWindow
     void SelectAllRows();
     /// Test hook: the name filter, in every folder or only the shown one.
     void SetNameFilter(const QString &text, bool wholeArchive);
+    /// Test hook: show the models animated at this position (0 to 1).
+    void SetModelPose(double u);
+    /// Test hook: the type filter by extension ("" = entries without one); returns false when the archive has no such type.
+    auto SetTypeFilter(const QString &extension) -> bool;
     /// Test hooks: include subfolders / sort by a column (0 name, 1 type, 2 size, 3 offset).
     void SetRecursive(bool recursive);
     void SortBy(int column, Qt::SortOrder order);
@@ -173,6 +178,8 @@ class MainWindow : public QMainWindow
     std::unique_ptr<QTemporaryDir> _dragDirectory; // the files of the last drag out of the window
     std::vector<std::pair<QAction *, QString>> _iconActions; // actions with the name of their icon, redrawn when the theme changes
     QLineEdit *_filter{nullptr};
+    QComboBox *_typeFilter{nullptr};
+    void FillTypeFilter();
     QCheckBox *_searchAll{nullptr};
     QListView *_grid{nullptr};
     QStackedWidget *_views{nullptr};

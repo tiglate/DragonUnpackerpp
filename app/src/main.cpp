@@ -4,7 +4,7 @@
 
 // Command line (test hooks, for the tests):
 //   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
-//                  [--filter=TEXT [--search-all]] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
+//                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
 #include "Core/AppSettings.h"
@@ -221,6 +221,17 @@ int main(int argc, char **argv)
     if (const auto filter = ArgumentValue(argc, argv, "filter"); !filter.empty())
     {
         window->SetNameFilter(QString::fromStdString(filter), HasFlag(argc, argv, "search-all"));
+    }
+    if (const auto pose = ArgumentValue(argc, argv, "model-pose"); !pose.empty())
+    {
+        window->SetModelPose(QString::fromStdString(pose).toDouble()); // "0.5" whatever the locale
+    }
+    if (const auto type = ArgumentValue(argc, argv, "type"); !type.empty())
+    {
+        if (!window->SetTypeFilter(QString::fromStdString(type)))
+        {
+            spdlog::warn("no file of type {} in the archive", type);
+        }
     }
     if (const auto workspace = ArgumentValue(argc, argv, "workspace"); !workspace.empty())
     {

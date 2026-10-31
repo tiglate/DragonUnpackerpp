@@ -35,7 +35,7 @@ auto HasThumbnail(std::string_view fileName) -> bool
 {
     const auto extension = ExtensionOf(fileName);
     return extension == "tga" || extension == "dds" || extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "bmp" ||
-           extension == "gif" || extension == "webp" || HasTextureExtension(fileName);
+           extension == "gif" || extension == "webp" || extension == "ogf" || extension == "oaf" || HasTextureExtension(fileName);
 }
 
 auto Downscale(const DecodedImage &image, std::uint32_t maxSide) -> DecodedImage

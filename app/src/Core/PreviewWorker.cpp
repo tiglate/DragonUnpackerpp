@@ -5,6 +5,8 @@
 #include "Core/PreviewWorker.h"
 
 #include "Core/DdsDecoder.h"
+#include "Core/OutrageGraphics.h"
+#include "Core/OutrageModel.h"
 
 #include <spdlog/spdlog.h>
 
@@ -13,6 +15,7 @@
 #include <cstdio>
 #include <cstring>
 #include <set>
+#include <unordered_map>
 #include <utility>
 
 namespace Dup::Core
@@ -107,7 +110,87 @@ auto HexDump(std::span<const std::byte> bytes) -> std::string
     return text;
 }
 
+/// The entries of the archive by file name (lower case), built when a model needs its textures.
+struct ArchiveNames
+{
+    bool Built{false};
+    std::unordered_map<std::string, std::int64_t> ByName;
+};
+
+auto LowerName(std::string name) -> std::string
+{
+    for (auto &c : name)
+    {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return name;
+}
+
+/// The picture of a texture of a model: the engine looks for a game texture whose bitmap is "name.OGF" (the material database
+/// is not read here), so the entry of that name is used, or an OAF animation (its first frame).
+auto MakeTextureResolver(const Dudi7::IArchive &archive, ArchiveNames &names) -> OofTextureResolver
+{
+    if (!names.Built)
+    {
+        names.Built = true;
+        for (std::int64_t i = 0; i < archive.GetEntryCount(); ++i)
+        {
+            auto name = archive.GetEntry(i).Name;
+            const auto slash = name.find_last_of("/\\");
+            names.ByName.emplace(LowerName(slash == std::string::npos ? name : name.substr(slash + 1)), i);
+        }
+    }
+    auto cache = std::make_shared<std::unordered_map<std::string, std::shared_ptr<const DecodedImage>>>();
+    return [&archive, &names, cache](const std::string &name) -> std::shared_ptr<const DecodedImage> {
+        const auto key = LowerName(name);
+        if (const auto found = cache->find(key); found != cache->end())
+        {
+            return found->second;
+        }
+        std::shared_ptr<const DecodedImage> image;
+        for (const char *suffix : {".ogf", ".oaf"})
+        {
+            const auto entry = names.ByName.find(key + suffix);
+            if (entry == names.ByName.end())
+            {
+                continue;
+            }
+            try
+            {
+                const auto bytes = archive.ExtractToMemory(entry->second, 16U * 1024 * 1024);
+                if (suffix[1] == 'o' && suffix[2] == 'g')
+                {
+                    if (auto ogf = DecodeOgf(bytes))
+                    {
+                        image = std::make_shared<const DecodedImage>(std::move(ogf->Levels.front()));
+                    }
+                }
+                else if (auto oaf = DecodeOaf(bytes))
+                {
+                    image = std::make_shared<const DecodedImage>(std::move(oaf->Frames.front().Levels.front()));
+                }
+            }
+            catch (const std::exception &)
+            {
+                // an unreadable texture is a missing one
+            }
+            if (image != nullptr)
+            {
+                break;
+            }
+        }
+        cache->emplace(key, image);
+        return image;
+    };
+}
+
 constexpr std::size_t MAX_PALETTE_ENTRY_BYTES = 65536;
+/// The Descent 3 formats that are decoded for the preview (a .fnt that is not an Outrage font stays text).
+auto IsOutrageExtension(const std::string &extension) -> bool
+{
+    return extension == "ogf" || extension == "oaf" || extension == "fnt" || extension == "oof";
+}
+
 const std::set<std::string> IMAGE_FILE_EXTENSIONS{"png", "jpg", "jpeg", "bmp", "gif", "ppm", "webp"};
 const std::set<std::string> AUDIO_EXTENSIONS{"wav", "mp3", "ogg", "flac", "oga", "opus"};
 const std::set<std::string> TEXT_EXTENSIONS{"txt", "json", "xml", "ini", "cfg", "conf", "lua", "c", "h", "cpp", "hpp", "cs", "csv", "md", "yml", "yaml",
@@ -166,6 +249,76 @@ auto PreviewWorker::Prepare(const std::string &fileName, const std::string &form
             return result;
         }
         result.Message = truncated ? "the image is too large to preview" : dds.Message;
+    }
+    else if ((extension == "ogf" || extension == "oaf" || (extension == "fnt" && IsFnt(bytes))) && !truncated)
+    {
+        std::string why;
+        std::optional<DecodedImage> image;
+        if (extension == "ogf")
+        {
+            if (auto ogf = DecodeOgf(bytes, &why))
+            {
+                image = std::move(ogf->Levels.front());
+                result.Message = ogf->Levels.size() > 1 ? std::to_string(ogf->Levels.size()) + " mip levels, the largest is shown" : "";
+            }
+            else
+            {
+                image = DecodeTga(bytes, context.Palette); // the loader also reads plain TGA (types 2 and 10) in .ogf files
+            }
+        }
+        else if (extension == "oaf")
+        {
+            if (auto oaf = DecodeOaf(bytes, &why))
+            {
+                image = MakeFrameSheet(*oaf);
+                result.Message = std::to_string(oaf->Frames.size()) + " frames";
+            }
+        }
+        else if (auto font = DecodeFnt(bytes, &why))
+        {
+            image = MakeGlyphSheet(*font);
+            result.Message = font->Name + ", characters " + std::to_string(font->FirstChar) + " to " + std::to_string(font->LastChar);
+        }
+        if (image)
+        {
+            result.Kind = PreviewKind::IMAGE;
+            result.Image = std::move(*image);
+            return result;
+        }
+        result.Message = why.empty() ? "cannot decode this file" : why;
+    }
+    else if (extension == "oof" && !truncated)
+    {
+        std::string why;
+        if (auto parsed = ParseOof(bytes, &why))
+        {
+            auto model = std::make_shared<const OofModel>(std::move(*parsed));
+            auto scene = MakeOofScene(model, context.Textures);
+            result.Message = DescribeOof(*model);
+            bool effects = false;
+            for (const auto &properties : scene->Properties)
+            {
+                effects = effects || properties.Facing || properties.Glow || properties.Thruster;
+            }
+            if (scene->Triangles == 0 && !effects)
+            {
+                result.Message = "nothing in this model is drawn as ordinary polygons (effects and helpers only)";
+            }
+            else
+            {
+                if (!model->Textures.empty() && context.Textures)
+                {
+                    result.Message += "; " + std::to_string(scene->ResolvedTextures) + " of " + std::to_string(model->Textures.size()) + " textures found";
+                }
+                result.Kind = PreviewKind::MODEL;
+                result.Scene = std::move(scene);
+                return result;
+            }
+        }
+        else
+        {
+            result.Message = why;
+        }
     }
     else if (extension == "obj" && !truncated)
     {
@@ -261,6 +414,7 @@ void PreviewWorker::Run(const std::stop_token &stop)
     std::unique_ptr<Dudi7::IArchive> archive;
     const ArchiveSource *archiveSource = nullptr;
     PaletteLookup palettes;
+    ArchiveNames names;
     while (true)
     {
         PreviewRequest request;
@@ -283,11 +437,13 @@ void PreviewWorker::Run(const std::stop_token &stop)
                 archive = request.Source->Open();
                 archiveSource = request.Source.get();
                 palettes.Reset();
+                names.Built = false;
+                names.ByName.clear();
             }
             const auto info = archive->GetEntry(request.Entry);
             const std::string extension = ExtensionOf(request.FileName);
             std::size_t limit = TEXT_EXTENSIONS.contains(extension) ? _textLimit.load() : HEX_BYTES;
-            if (extension == "tga" || extension == "dds" || extension == "obj" || IMAGE_FILE_EXTENSIONS.contains(extension) || HasTextureExtension(request.FileName))
+            if (extension == "tga" || extension == "dds" || extension == "obj" || IsOutrageExtension(extension) || IMAGE_FILE_EXTENSIONS.contains(extension) || HasTextureExtension(request.FileName))
             {
                 limit = _imageLimit.load();
             }
@@ -333,6 +489,10 @@ void PreviewWorker::Run(const std::stop_token &stop)
                 {
                     context.Palette = &*chosen;
                 }
+            }
+            if (extension == "oof")
+            {
+                context.Textures = MakeTextureResolver(*archive, names);
             }
             result = Prepare(request.FileName, request.FormatId, bytes, info.Size, context);
             result.Detected = IdentifyFile(std::span<const std::byte>(bytes).first(std::min(bytes.size(), FILE_TYPE_HEAD_BYTES)), bytes.size() < FILE_TYPE_HEAD_BYTES ? static_cast<std::int64_t>(bytes.size()) : info.Size, request.FileName);

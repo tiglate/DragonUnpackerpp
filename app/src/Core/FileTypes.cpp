@@ -532,6 +532,8 @@ const std::vector<Signature> &Table()
         {"ttc", "TrueType collection", "ttc", Cat::FONT, 0, "ttcf", 95, nullptr},
         {"woff", "WOFF font", "woff", Cat::FONT, 0, "wOFF", 100, nullptr},
         {"woff2", "WOFF2 font", "woff2", Cat::FONT, 0, "wOF2", 100, nullptr},
+        {"oof", "Descent 3 model", "oof", Cat::MODEL, 0, "PSPO", 100, nullptr},
+        {"d3fnt", "Descent 3 bitmap font", "fnt", Cat::FONT, 0, std::string_view("\xBA\xBA\xED\xFE", 4), 100, nullptr},
         {"bmfont", "BMFont binary descriptor", "fnt", Cat::FONT, 0, std::string_view("BMF\x03", 4), 100, nullptr},
         // models and levels
         {"bsp", "Quake / Half-Life level (BSP)", "bsp", Cat::MODEL, 0, std::string_view("\x1d\0\0\0", 4), 90, &IsQuakeBsp},

@@ -17,6 +17,10 @@ add_library(Core STATIC
     Core/EntryListExport.cpp
     Core/Extractor.cpp
     Core/ObjParser.cpp
+Core/OutrageGraphics.cpp
+Core/OutrageModel.cpp
+Core/OofPose.cpp
+Core/OofRender.cpp
     Core/HyperRipper.cpp
     Core/TypeIdentifier.cpp
     Core/FileTypes.cpp
@@ -50,6 +54,7 @@ add_executable(dragonunpacker
     Ui/JobsPanel.cpp
     Ui/MainWindow.cpp
     Ui/MeshViewer.cpp
+    Ui/ModelViewer.cpp
     Ui/OptionsDialog.cpp
     Ui/PreviewPanel.cpp
     Ui/QtLogSink.cpp
