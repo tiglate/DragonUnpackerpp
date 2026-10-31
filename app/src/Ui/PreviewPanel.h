@@ -64,6 +64,7 @@ class PreviewPanel : public QWidget
     QMediaPlayer *_player;
     QAudioOutput *_output;
     QBuffer _audioBuffer;
+    bool _audioLoaded{false}; // the player has a source
     QByteArray _audioBytes;
     QString _description;
     QLabel *_note;

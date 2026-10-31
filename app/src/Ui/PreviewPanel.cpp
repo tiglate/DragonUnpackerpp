@@ -121,6 +121,13 @@ PreviewPanel::~PreviewPanel()
 
 void PreviewPanel::StopAudio()
 {
+    // Qt's GStreamer backend reports a GLib-GObject-CRITICAL (g_object_unref on a null object) when the source of a player
+    // that has none is cleared, and this runs for every entry that is previewed: only touch the player once it has a sound
+    if (!_audioLoaded)
+    {
+        return;
+    }
+    _audioLoaded = false;
     _player->stop();
     _player->setSourceDevice(nullptr);
     if (_audioBuffer.isOpen())
@@ -146,6 +153,7 @@ void PreviewPanel::ShowAudio(const Core::PreviewResult &result)
     _audioBuffer.setData(_audioBytes);
     _audioBuffer.open(QIODevice::ReadOnly);
     _player->setSourceDevice(&_audioBuffer, QUrl("file:///preview." + QString::fromStdString(result.Extension)));
+    _audioLoaded = true;
     _position->setValue(0);
     _audioInfo->setText(tr("Sound (%1, %2)").arg(QString::fromStdString(result.Extension).toUpper(), QString::number(result.Bytes.size() / 1024) + " KB"));
     _pages->setCurrentWidget(_audioPage);

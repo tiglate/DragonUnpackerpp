@@ -137,6 +137,12 @@ int main(int argc, char **argv)
         return Benchmark(PluginFromArguments(argc, argv, std::filesystem::current_path()), benchmarkFile);
     }
 
+    // Qt Multimedia (GStreamer) loads the libcamera plugin, which prints a warning about a missing IPA module and an info line
+    // at every start; they say nothing about this program, so only errors are kept (unless the user set the variable)
+    if (!qEnvironmentVariableIsSet("LIBCAMERA_LOG_LEVELS"))
+    {
+        qputenv("LIBCAMERA_LOG_LEVELS", "*:ERROR");
+    }
     QApplication application(argc, argv);
     QApplication::setOrganizationName("DragonUnPACKer");
     QApplication::setApplicationName("dragonunpacker6");
