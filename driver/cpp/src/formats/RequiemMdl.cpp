@@ -46,7 +46,9 @@
 // limb at the origin). The pose is the first frame of the animation (a walk, for most).
 //
 // The model is shown as Wavefront OBJ + MTL (the MTL names the texture file; the size of the texture is not in
-// the model: texture coordinates are divided by the smallest power of two, 32 or more, that holds them).
+// the model: texture coordinates are divided by the smallest power of two, 32 or more, that holds them) in the
+// pose of the first frame of its first animation; a skeletal model that has animations is also given as a glTF 2.0
+// file (one joint per limb, rigid skinning, every animation sampled at 25 frames per second).
 
 #include <algorithm>
 #include <array>
@@ -325,8 +327,10 @@ class Words
     bool _bad = false;
 };
 
-// The pose of every limb at frame t of an animation body; nullopt unless the limbs use the body exactly
-auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t) -> std::optional<std::vector<LimbPose>>
+// The pose of every limb at frame t of an animation; nullopt unless the limbs use the body exactly. end, if given,
+// receives the last key time of the animation
+auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t, double *end = nullptr)
+    -> std::optional<std::vector<LimbPose>>
 {
     constexpr size_t HeaderBytes = 0x34;
     if (file.size() < HeaderBytes + 4 || limbs == 0 || limbs > 1000)
@@ -351,6 +355,8 @@ auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t) -> std
                 size_t keys;
                 if (!w.Spline(16, count, times, keys))
                     return std::nullopt;
+                if (end)
+                    *end = std::max(*end, times.back());
                 const double tt = std::clamp(t, times.front(), times.back());
                 uint32_t k = 0;
                 while (k + 1 < count && times[k + 1] < tt)
@@ -374,6 +380,8 @@ auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t) -> std
                 size_t keys;
                 if (!w.Spline(12, count, times, keys))
                     return std::nullopt;
+                if (end)
+                    *end = std::max(*end, times.back());
                 const double tt = std::clamp(t, times.front(), times.back());
                 uint32_t k = 0;
                 while (k + 1 < count && times[k + 1] < tt)
@@ -596,29 +604,36 @@ auto OrderedAnimations(const ModelEntry &e) -> std::vector<std::pair<int, std::s
     return list;
 }
 
-// Poses the model if an animation fits it; the vertices become world positions
-void PoseModel(Model &m, const std::string &path)
+struct Animation
 {
+    std::string Name;
+    std::vector<uint8_t> Bytes;
+};
+
+// The animations that fit the model, the one that poses it first (the rules are in the header comment)
+auto CollectAnimations(const Model &m, const std::string &path, int &artSlot) -> std::vector<Animation>
+{
+    std::vector<Animation> found;
     if (m.SectionCodes.empty())
-        return;
+        return found;
     namespace fs = std::filesystem;
     const std::string folder = fs::path(std::u8string(path.begin(), path.end())).parent_path().string();
     const std::string file = FileNameOf(path);
     const std::string base = ToLower(ChangeFileExt(file, ""));
     const size_t limbs = m.SectionCodes.size();
-    std::optional<std::vector<LimbPose>> pose;
-    std::string source;
-    const auto tryAnimation = [&](const std::vector<uint8_t> &bytes, const std::string &name) {
-        if (pose || bytes.empty())
+    const auto add = [&](std::vector<uint8_t> bytes, const std::string &name) {
+        if (bytes.empty() || !SamplePose(bytes, limbs, 0.0))
             return;
-        pose = SamplePose(bytes, limbs, 0.0);
-        if (pose)
-            source = name;
+        for (const Animation &a : found)
+            if (a.Name == name)
+                return;
+        found.push_back({name, std::move(bytes)});
     };
 
     // 1. an animation file named like the model
-    tryAnimation(ReadFileBytes(FindInFolder(folder, base + ".ani").empty() ? std::string() : FindInFolder(folder, base + ".ani")),
-                 base + ".ani");
+    const std::string same = FindInFolder(folder, base + ".ani");
+    if (!same.empty())
+        add(ReadFileBytes(same), base);
 
     const std::vector<ModelEntry> entries = ReadModels3(folder);
     const ModelEntry *own = nullptr;
@@ -626,27 +641,29 @@ void PoseModel(Model &m, const std::string &path)
         if (ToLower(e.File) == ToLower(file))
             own = &e;
     if (own)
-        m.ArtSlot = own->Slot;
+        artSlot = own->Slot;
     std::optional<AnimPack> pack;
     const auto packOf = [&]() -> AnimPack & {
         if (!pack)
             pack.emplace(folder);
         return *pack;
     };
+    const auto addEntry = [&](const ModelEntry &e, const std::string &suffix) {
+        for (const auto &[index, name] : OrderedAnimations(e))
+        {
+            const std::string label = ChangeFileExt(name, "") + suffix;
+            add(packOf().Find(e.Id, index), label);
+            const std::string loose = FindInFolder(folder, name);
+            if (!loose.empty())
+                add(ReadFileBytes(loose), label);
+        }
+    };
 
     // 2. the animations of the model in Models3.txt
-    if (own && !pose)
-        for (const auto &[index, name] : OrderedAnimations(*own))
-        {
-            tryAnimation(packOf().Find(own->Id, index), name);
-            if (!pose)
-                tryAnimation(ReadFileBytes(FindInFolder(folder, name)), name);
-            if (pose)
-                break;
-        }
+    if (own)
+        addEntry(*own, "");
 
     // 3. animation files whose name starts with the one of the model (HandGunG.ani for HandGun.mdl)
-    if (!pose)
     {
         std::error_code error;
         std::vector<std::string> names;
@@ -659,15 +676,11 @@ void PoseModel(Model &m, const std::string &path)
         }
         std::sort(names.begin(), names.end());
         for (const std::string &name : names)
-        {
-            tryAnimation(ReadFileBytes(folder + "/" + name), name);
-            if (pose)
-                break;
-        }
+            add(ReadFileBytes(folder + "/" + name), ChangeFileExt(name, ""));
     }
 
     // 4. a model with the same skeleton
-    if (!pose)
+    if (found.empty())
         for (const ModelEntry &e : entries)
         {
             if (ToLower(e.File) == ToLower(file))
@@ -686,20 +699,20 @@ void PoseModel(Model &m, const std::string &path)
             {
                 continue;
             }
-            for (const auto &[index, name] : OrderedAnimations(e))
-            {
-                tryAnimation(packOf().Find(e.Id, index), name + " of " + e.File);
-                if (!pose)
-                    tryAnimation(ReadFileBytes(FindInFolder(folder, name)), name + " of " + e.File);
-                if (pose)
-                    break;
-            }
-            if (pose)
+            addEntry(e, " (" + ChangeFileExt(e.File, "") + ")");
+            if (!found.empty())
                 break;
         }
+    return found;
+}
+
+// Poses the model with the first frame of an animation that fits it; the vertices become world positions
+void PoseModel(Model &m, const Animation &animation)
+{
+    const size_t limbs = m.SectionCodes.size();
+    const auto pose = SamplePose(animation.Bytes, limbs, 0.0);
     if (!pose)
         return;
-
     const std::vector<LimbMatrix> skeleton = BuildSkeleton(m.SectionCodes, *pose);
     size_t first = 0;
     std::vector<size_t> limbOf(m.Vertices.size());
@@ -719,7 +732,293 @@ void PoseModel(Model &m, const std::string &path)
         const Vec n = Rotate(skeleton[limbOf[vertex]].Rotation, {m.Normals[i].X, m.Normals[i].Y, m.Normals[i].Z});
         m.Normals[i] = {static_cast<float>(n[0]), static_cast<float>(n[1]), static_cast<float>(n[2])};
     }
-    m.PoseSource = source;
+    m.PoseSource = animation.Name;
+}
+
+// ---- glTF ----
+
+constexpr double FramesPerSecond = 25.0;
+
+// The parent of every limb (-1 for the root), from the skeleton codes; empty if a limb has none
+auto ParentsOf(const std::vector<uint32_t> &codes) -> std::vector<int>
+{
+    const size_t n = codes.size();
+    std::vector<int> parent(n, -2);
+    parent[0] = -1;
+    for (size_t i = 0; i < n; ++i)
+    {
+        if (!(codes[i] & 1))
+            continue;
+        const uint32_t children = (codes[i] >> 1) & 0x7FFF;
+        size_t at = i + 1;
+        for (uint32_t c = 0; c < children && at < n; ++c)
+        {
+            parent[at] = static_cast<int>(i);
+            const uint32_t skip = codes[at] >> 16;
+            if (c + 1 < children)
+            {
+                if (skip == 0 || at + skip >= n)
+                    break;
+                at += skip;
+            }
+        }
+    }
+    if (std::find(parent.begin(), parent.end(), -2) != parent.end())
+        parent.clear();
+    return parent;
+}
+
+auto Base64(const std::vector<uint8_t> &data) -> std::string
+{
+    static const char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve((data.size() + 2) / 3 * 4);
+    for (size_t i = 0; i < data.size(); i += 3)
+    {
+        const uint32_t v = data[i] << 16 | (i + 1 < data.size() ? data[i + 1] << 8 : 0) | (i + 2 < data.size() ? data[i + 2] : 0);
+        out += table[v >> 18 & 63];
+        out += table[v >> 12 & 63];
+        out += i + 1 < data.size() ? table[v >> 6 & 63] : '=';
+        out += i + 2 < data.size() ? table[v & 63] : '=';
+    }
+    return out;
+}
+
+class Gltf
+{
+  public:
+    // A float or index array in the binary buffer; returns the accessor number
+    auto Accessor(const void *data, size_t bytes, int component, size_t count, const char *type, const double *min = nullptr,
+                  const double *max = nullptr, size_t width = 0, int target = 0) -> int
+    {
+        while (_buffer.size() % 4 != 0)
+            _buffer.push_back(0);
+        const size_t offset = _buffer.size();
+        _buffer.insert(_buffer.end(), static_cast<const uint8_t *>(data), static_cast<const uint8_t *>(data) + bytes);
+        std::string view = "{\"buffer\":0,\"byteOffset\":" + std::to_string(offset) + ",\"byteLength\":" + std::to_string(bytes);
+        if (target)
+            view += ",\"target\":" + std::to_string(target);
+        _views.push_back(view + "}");
+        std::string acc = "{\"bufferView\":" + std::to_string(_views.size() - 1) + ",\"componentType\":" + std::to_string(component) +
+                          ",\"count\":" + std::to_string(count) + ",\"type\":\"" + type + "\"";
+        if (min && max)
+        {
+            acc += ",\"min\":[";
+            for (size_t i = 0; i < width; ++i)
+                acc += (i ? "," : "") + Num(min[i]);
+            acc += "],\"max\":[";
+            for (size_t i = 0; i < width; ++i)
+                acc += (i ? "," : "") + Num(max[i]);
+            acc += "]";
+        }
+        _accessors.push_back(acc + "}");
+        return static_cast<int>(_accessors.size() - 1);
+    }
+
+    static auto Num(double v) -> std::string
+    {
+        char b[40];
+        std::snprintf(b, sizeof b, "%.9g", v);
+        return b;
+    }
+
+    std::vector<uint8_t> _buffer;
+    std::vector<std::string> _views;
+    std::vector<std::string> _accessors;
+};
+
+// An animated glTF of a skeletal model: one joint per limb (rigid skinning: the vertices stay in the space of
+// their limb, the joint nodes carry the pose), the first fitting animation as the pose of the nodes and all
+// the animations sampled at every frame (25 per second). Empty if the skeleton cannot be built.
+auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const std::string &base) -> std::string
+{
+    const size_t limbs = m.SectionCodes.size();
+    const std::vector<int> parent = ParentsOf(m.SectionCodes);
+    if (parent.empty() || animations.empty() || limbs > 255 || m.Vertices.empty())
+        return {};
+    std::vector<size_t> limbOf(m.Vertices.size());
+    {
+        size_t at = 0;
+        for (size_t limb = 0; limb < limbs; ++limb)
+            for (uint32_t k = 0; k < m.LimbVertices[limb]; ++k)
+                limbOf[at++] = limb;
+    }
+
+    // one vertex per face corner (the texture coordinates belong to the corner), faces as triangle fans
+    std::vector<float> positions;
+    std::vector<float> uvs;
+    std::vector<float> normals;
+    std::vector<uint8_t> joints;
+    std::vector<uint32_t> indices;
+    double size = 32;
+    for (const Face &f : m.Faces)
+        for (const auto &uv : f.Uv)
+            while (size < std::fabs(uv.first / 65536.0) || size < std::fabs(uv.second / 65536.0))
+                size *= 2;
+    for (size_t i = 0; i < m.Faces.size(); ++i)
+    {
+        const Face &f = m.Faces[i];
+        const auto first = static_cast<uint32_t>(positions.size() / 3);
+        for (size_t k = 0; k < f.Index.size(); ++k)
+        {
+            const Vec3 &v = m.Vertices[f.Index[k]];
+            positions.insert(positions.end(), {v.X, v.Y, v.Z});
+            uvs.push_back(static_cast<float>(f.Uv[k].first / 65536.0 / size));
+            uvs.push_back(static_cast<float>(f.Uv[k].second / 65536.0 / size));
+            if (!m.Normals.empty())
+            {
+                const Vec3 &n = m.Normals[m.FaceNormals ? i : f.Index[k]];
+                normals.insert(normals.end(), {n.X, n.Y, n.Z});
+            }
+            joints.insert(joints.end(), {static_cast<uint8_t>(limbOf[f.Index[k]]), 0, 0, 0});
+        }
+        for (size_t k = 2; k < f.Index.size(); ++k)
+            indices.insert(indices.end(), {first, first + static_cast<uint32_t>(k - 1), first + static_cast<uint32_t>(k)});
+    }
+    std::vector<float> weights(positions.size() / 3 * 4, 0.0f);
+    for (size_t i = 0; i < weights.size(); i += 4)
+        weights[i] = 1.0f;
+
+    Gltf g;
+    double lo[3] = {1e30, 1e30, 1e30};
+    double hi[3] = {-1e30, -1e30, -1e30};
+    for (size_t i = 0; i < positions.size(); ++i)
+    {
+        lo[i % 3] = std::min<double>(lo[i % 3], positions[i]);
+        hi[i % 3] = std::max<double>(hi[i % 3], positions[i]);
+    }
+    const int accPosition = g.Accessor(positions.data(), positions.size() * 4, 5126, positions.size() / 3, "VEC3", lo, hi, 3, 34962);
+    const int accUv = g.Accessor(uvs.data(), uvs.size() * 4, 5126, uvs.size() / 2, "VEC2", nullptr, nullptr, 0, 34962);
+    int accNormal = -1;
+    if (!normals.empty())
+        accNormal = g.Accessor(normals.data(), normals.size() * 4, 5126, normals.size() / 3, "VEC3", nullptr, nullptr, 0, 34962);
+    const int accJoints = g.Accessor(joints.data(), joints.size(), 5121, joints.size() / 4, "VEC4", nullptr, nullptr, 0, 34962);
+    const int accWeights = g.Accessor(weights.data(), weights.size() * 4, 5126, weights.size() / 4, "VEC4", nullptr, nullptr, 0, 34962);
+    const int accIndices = g.Accessor(indices.data(), indices.size() * 4, 5125, indices.size(), "SCALAR", nullptr, nullptr, 0, 34963);
+
+    // the animations
+    std::string animationsJson;
+    std::vector<LimbPose> rest;
+    for (size_t a = 0; a < animations.size(); ++a)
+    {
+        // frames: from the first to the last key time of the animation
+        std::vector<std::vector<LimbPose>> frames;
+        double start = 0;
+        double end = 0;
+        {
+            const auto p0 = SamplePose(animations[a].Bytes, limbs, 0.0, &end);
+            if (!p0)
+                continue;
+            if (a == 0)
+                rest = *p0;
+            const int count = static_cast<int>(std::min(std::max(std::floor(end - start), 0.0), 3000.0)) + 1;
+            for (int f = 0; f < count; ++f)
+                frames.push_back(*SamplePose(animations[a].Bytes, limbs, start + f));
+        }
+        std::vector<float> times;
+        for (size_t f = 0; f < frames.size(); ++f)
+            times.push_back(static_cast<float>(f / FramesPerSecond));
+        const float zero = 0.0f;
+        const double tmin = 0;
+        const double tmax = times.back();
+        const double zmax = 0;
+        const int accTimes = g.Accessor(times.data(), times.size() * 4, 5126, times.size(), "SCALAR", &tmin, &tmax, 1);
+        const int accZero = g.Accessor(&zero, 4, 5126, 1, "SCALAR", &tmin, &zmax, 1);
+
+        std::string samplers;
+        std::string channels;
+        int sampler = 0;
+        const auto emit = [&](const std::vector<float> &values, size_t width, bool rotation, size_t limb) {
+            bool constant = true;
+            for (size_t f = 1; f < frames.size() && constant; ++f)
+                for (size_t c = 0; c < width; ++c)
+                    if (values[f * width + c] != values[c])
+                        constant = false;
+            const int out = g.Accessor(values.data(), (constant ? width : values.size()) * 4, 5126, constant ? 1 : frames.size(),
+                                       width == 4 ? "VEC4" : "VEC3");
+            samplers += std::string(sampler ? "," : "") + "{\"input\":" + std::to_string(constant ? accZero : accTimes) +
+                        ",\"output\":" + std::to_string(out) + ",\"interpolation\":\"LINEAR\"}";
+            channels += std::string(sampler ? "," : "") + "{\"sampler\":" + std::to_string(sampler) + ",\"target\":{\"node\":" +
+                        std::to_string(limb) + ",\"path\":\"" + (rotation ? "rotation" : "translation") + "\"}}";
+            ++sampler;
+        };
+        for (size_t limb = 0; limb < limbs; ++limb)
+        {
+            std::vector<float> rot;
+            std::vector<float> pos;
+            Quat previous{0, 0, 0, 0};
+            for (const auto &frame : frames)
+            {
+                Quat q = frame[limb].Rotation;
+                const double n = std::sqrt(q.W * q.W + q.X * q.X + q.Y * q.Y + q.Z * q.Z);
+                if (n > 0)
+                    q = {q.W / n, q.X / n, q.Y / n, q.Z / n};
+                if (q.W * previous.W + q.X * previous.X + q.Y * previous.Y + q.Z * previous.Z < 0)
+                    q = {-q.W, -q.X, -q.Y, -q.Z};
+                previous = q;
+                rot.insert(rot.end(), {static_cast<float>(q.X), static_cast<float>(q.Y), static_cast<float>(q.Z), static_cast<float>(q.W)});
+                pos.insert(pos.end(), {static_cast<float>(frame[limb].Position[0]), static_cast<float>(frame[limb].Position[1]),
+                                       static_cast<float>(frame[limb].Position[2])});
+            }
+            emit(pos, 3, false, limb);
+            emit(rot, 4, true, limb);
+        }
+        std::string name = animations[a].Name;
+        std::replace(name.begin(), name.end(), '"', '\'');
+        animationsJson += std::string(animationsJson.empty() ? "" : ",") + "{\"name\":\"" + name + "\",\"samplers\":[" + samplers +
+                          "],\"channels\":[" + channels + "]}";
+    }
+    if (rest.empty())
+        return {};
+
+    // nodes: the limbs, then the skinned mesh
+    std::string nodes;
+    std::vector<std::vector<size_t>> children(limbs);
+    for (size_t i = 1; i < limbs; ++i)
+        children[static_cast<size_t>(parent[i])].push_back(i);
+    for (size_t i = 0; i < limbs; ++i)
+    {
+        Quat q = rest[i].Rotation;
+        const double n = std::sqrt(q.W * q.W + q.X * q.X + q.Y * q.Y + q.Z * q.Z);
+        if (n > 0)
+            q = {q.W / n, q.X / n, q.Y / n, q.Z / n};
+        nodes += std::string(i ? "," : "") + "{\"name\":\"limb_" + std::to_string(i) + "\",\"translation\":[" + Gltf::Num(rest[i].Position[0]) +
+                 "," + Gltf::Num(rest[i].Position[1]) + "," + Gltf::Num(rest[i].Position[2]) + "],\"rotation\":[" + Gltf::Num(q.X) + "," +
+                 Gltf::Num(q.Y) + "," + Gltf::Num(q.Z) + "," + Gltf::Num(q.W) + "]";
+        if (!children[i].empty())
+        {
+            nodes += ",\"children\":[";
+            for (size_t c = 0; c < children[i].size(); ++c)
+                nodes += (c ? "," : "") + std::to_string(children[i][c]);
+            nodes += "]";
+        }
+        nodes += "}";
+    }
+    nodes += ",{\"name\":\"" + base + "\",\"mesh\":0,\"skin\":0}";
+    std::string jointList;
+    for (size_t i = 0; i < limbs; ++i)
+        jointList += (i ? "," : "") + std::to_string(i);
+
+    std::string attributes = "\"POSITION\":" + std::to_string(accPosition) + ",\"TEXCOORD_0\":" + std::to_string(accUv) +
+                             ",\"JOINTS_0\":" + std::to_string(accJoints) + ",\"WEIGHTS_0\":" + std::to_string(accWeights);
+    if (accNormal >= 0)
+        attributes += ",\"NORMAL\":" + std::to_string(accNormal);
+    std::string json = "{\"asset\":{\"version\":\"2.0\",\"generator\":\"Dragon UnPACKer (Requiem: Avenging Angel model)\"},\"scene\":0,"
+                       "\"scenes\":[{\"nodes\":[0," + std::to_string(limbs) + "]}],\"nodes\":[" + nodes + "],"
+                       "\"skins\":[{\"joints\":[" + jointList + "],\"skeleton\":0}],"
+                       "\"meshes\":[{\"name\":\"" + base + "\",\"primitives\":[{\"attributes\":{" + attributes + "},\"indices\":" +
+                       std::to_string(accIndices) + ",\"material\":0}]}],"
+                       "\"materials\":[{\"name\":\"texture\",\"pbrMetallicRoughness\":{\"metallicFactor\":0,\"roughnessFactor\":1}"
+                       ",\"extras\":{\"artSlot\":" + std::to_string(m.ArtSlot) + ",\"label\":\"" + m.Texture + "\"}}],"
+                       "\"animations\":[" + animationsJson + "],\"accessors\":[";
+    for (size_t i = 0; i < g._accessors.size(); ++i)
+        json += (i ? "," : "") + g._accessors[i];
+    json += "],\"bufferViews\":[";
+    for (size_t i = 0; i < g._views.size(); ++i)
+        json += (i ? "," : "") + g._views[i];
+    json += "],\"buffers\":[{\"byteLength\":" + std::to_string(g._buffer.size()) + ",\"uri\":\"data:application/octet-stream;base64," +
+            Base64(g._buffer) + "\"}]}";
+    return json;
 }
 
 void Put(std::string &out, const char *format, double a, double b = 0, double c = 0)
@@ -808,9 +1107,17 @@ class RequiemMdlArchive : public Archive
         _formatId = isStatic ? "Requiem MDL" : "Requiem MDL (skeletal)";
         _dirSeparator = "";
         _extractInternal = true;
-        if (!isStatic)
-            PoseModel(m, _stream->Path());
         const std::string base = ChangeFileExt(FileNameOf(_stream->Path()), "");
+        std::string gltf;
+        if (!isStatic)
+        {
+            const std::vector<Animation> animations = CollectAnimations(m, _stream->Path(), m.ArtSlot);
+            if (!animations.empty())
+            {
+                gltf = MakeGltf(m, animations, base);
+                PoseModel(m, animations[0]);
+            }
+        }
         const std::string obj = MakeObj(m, base);
         std::string mtl = "newmtl texture\nKd 1 1 1\n";
         if (m.ArtSlot >= 0)
@@ -827,6 +1134,11 @@ class RequiemMdlArchive : public Archive
         _files.emplace_back(mtl.begin(), mtl.end());
         Add(base + ".obj", 0, static_cast<int64_t>(_files[0].size()));
         Add(base + ".mtl", 0, static_cast<int64_t>(_files[1].size()));
+        if (!gltf.empty())
+        {
+            _files.emplace_back(gltf.begin(), gltf.end());
+            Add(base + ".gltf", 0, static_cast<int64_t>(_files[2].size()));
+        }
     }
 
     auto Extract(int64_t index, const Sink &sink) -> int32_t override
