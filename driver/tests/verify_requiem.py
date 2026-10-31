@@ -39,4 +39,19 @@ for k, c in enumerate(corners):
         sys.exit("gltf corner %d: %s, obj %s" % (k, got[k], v[c]))
 if len(g["animations"]) != 1:
     sys.exit("expected 1 animation, got %d" % len(g["animations"]))
+
+# Models3.txt: the slot of a static model (S, then the O line is another slot) and of a gun (G)
+with tempfile.TemporaryDirectory() as tmp:
+    for name, slot in (("req_static", 3065), ("req_skel", 3059)):
+        r = subprocess.run([cli, plugin, os.path.join(fx, name + ".mdl"), "0-2", tmp], capture_output=True, text=True, timeout=60)
+        if r.returncode:
+            sys.exit("extraction failed: " + r.stderr)
+        mtl = open(os.path.join(tmp, "1_%s.mtl" % name)).read()
+        if "map_Kd tex_%04d.tga" % slot not in mtl:
+            sys.exit("%s: the material does not name slot %d: %s" % (name, slot, mtl))
+        extras = gltf_ref.load(os.path.join(tmp, "2_%s.gltf" % name))[0]["materials"][0]["extras"]
+        if extras["artSlot"] != slot:
+            sys.exit("%s: glTF slot %s, expected %d" % (name, extras["artSlot"], slot))
+        if name == "req_static" and extras.get("otherSlots") != [3206]:
+            sys.exit("req_static: other slots %s" % extras.get("otherSlots"))
 print("requiem pose: OK")

@@ -2772,6 +2772,8 @@ open(os.path.join(out, "req_sw.art"), "wb").write(rsa)
 open(os.path.join(out, "req_static.mdl"), "wb").write(req_mdl_static())
 open(os.path.join(out, "req_skel.mdl"), "wb").write(req_mdl_skeletal())
 open(os.path.join(out, "req_skel.ani"), "wb").write(req_mdl_animation())
+# the texture slots of the models: S (static), G (gun, with its F animations), a second listing of the same file
+open(os.path.join(out, "models3.txt"), "w").write("# test\nS 0 3065 req_static.mdl\nO 1 3206 req_static.mdl\nG 1 3059 req_skel.mdl\nF 0 req_skel.ani\n")
 _ary, _bin = req_anim()
 open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
 open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)

@@ -96,6 +96,7 @@ struct Model
     std::vector<uint32_t> SectionCodes; // skeletal models: first u32 of each limb record (the skeleton)
     std::string PoseSource;             // what posed the model (empty: not posed)
     int ArtSlot = -1;                   // texture slot of Models3.txt
+    std::vector<int> OtherSlots;        // the other slots it lists for the same file
 };
 
 auto ReadFloat(Reader &r) -> float
@@ -500,13 +501,17 @@ auto FindInFolder(const std::string &folder, const std::string &name) -> std::st
 
 struct ModelEntry
 {
+    char Kind = 'M';
     int Id = 0;
     int Slot = -1;
     std::string File;
     std::vector<std::pair<int, std::string>> Animations;
 };
 
-// Models3.txt: "M id texture-slot file.mdl" then "A index file.ani" lines
+// Models3.txt: "K id texture-slot file.mdl" lines with K = M (characters), G (guns), N (network players), S (static
+// objects), I (items), O (objects thrown or dropped); "A n file.ani" lines give the animations of the last M, "F" of the
+// last G, "B" of the last N. A model can be listed several times (grenade.mdl is an S and an O). T and U lines (the
+// other skins) are not read.
 auto ReadModels3(const std::string &folder) -> std::vector<ModelEntry>
 {
     std::vector<ModelEntry> entries;
@@ -516,6 +521,7 @@ auto ReadModels3(const std::string &folder) -> std::vector<ModelEntry>
     const std::vector<uint8_t> bytes = ReadFileBytes(path);
     const std::string text(bytes.begin(), bytes.end());
     size_t pos = 0;
+    std::array<size_t, 3> last{SIZE_MAX, SIZE_MAX, SIZE_MAX}; // of M, G, N
     while (pos < text.size())
     {
         size_t end = text.find('\n', pos);
@@ -531,19 +537,47 @@ auto ReadModels3(const std::string &folder) -> std::vector<ModelEntry>
         char file[256] = {};
         if (line.empty() || line[0] == '#')
             continue;
-        if (std::sscanf(line.c_str(), "%c %d %d %255s", &kind, &a, &b, file) == 4 && (kind == 'M' || kind == 'm'))
+        const int fields = std::sscanf(line.c_str(), "%c %d %d %255s", &kind, &a, &b, file);
+        const char upper = static_cast<char>(std::toupper(static_cast<unsigned char>(kind)));
+        if (fields == 4 && std::strchr("MGNSIO", upper) != nullptr && ToLower(ExtensionOf(file)) == ".mdl")
         {
             ModelEntry e;
+            e.Kind = upper;
             e.Id = a;
             e.Slot = b;
             e.File = file;
             entries.push_back(std::move(e));
+            if (upper == 'M')
+                last[0] = entries.size() - 1;
+            else if (upper == 'G')
+                last[1] = entries.size() - 1;
+            else if (upper == 'N')
+                last[2] = entries.size() - 1;
         }
-        else if (std::sscanf(line.c_str(), "%c %d %255s", &kind, &a, file) == 3 && (kind == 'A' || kind == 'a') &&
-                 !entries.empty())
-            entries.back().Animations.emplace_back(a, file);
+        else if (std::sscanf(line.c_str(), "%c %d %255s", &kind, &a, file) == 3)
+        {
+            const size_t owner = (upper == 'A') ? last[0] : (upper == 'F') ? last[1] : (upper == 'B') ? last[2] : SIZE_MAX;
+            if (owner != SIZE_MAX && ToLower(ExtensionOf(file)) == ".ani")
+                entries[owner].Animations.emplace_back(a, file);
+        }
     }
     return entries;
+}
+
+// The texture slots of a model file: the first slot that is not negative, then the others (a model can be in
+// Models3.txt more than once, with different textures)
+void SlotsOf(const std::vector<ModelEntry> &entries, const std::string &file, int &slot, std::vector<int> &others)
+{
+    slot = -1;
+    for (const ModelEntry &e : entries)
+    {
+        if (ToLower(e.File) != ToLower(file) || e.Slot < 0)
+            continue;
+        if (slot < 0)
+            slot = e.Slot;
+        else if (e.Slot != slot && std::find(others.begin(), others.end(), e.Slot) == others.end())
+            others.push_back(e.Slot);
+    }
 }
 
 // The animation files of AnimFile.bin
@@ -614,7 +648,7 @@ struct Animation
 };
 
 // The animations that fit the model, the one that poses it first (the rules are in the header comment)
-auto CollectAnimations(const Model &m, const std::string &path, int &artSlot) -> std::vector<Animation>
+auto CollectAnimations(const Model &m, const std::string &path, int &artSlot, std::vector<int> &otherSlots) -> std::vector<Animation>
 {
     std::vector<Animation> found;
     if (m.SectionCodes.empty())
@@ -639,12 +673,7 @@ auto CollectAnimations(const Model &m, const std::string &path, int &artSlot) ->
         add(ReadFileBytes(same), base);
 
     const std::vector<ModelEntry> entries = ReadModels3(folder);
-    const ModelEntry *own = nullptr;
-    for (const ModelEntry &e : entries)
-        if (ToLower(e.File) == ToLower(file))
-            own = &e;
-    if (own)
-        artSlot = own->Slot;
+    SlotsOf(entries, file, artSlot, otherSlots);
     std::optional<AnimPack> pack;
     const auto packOf = [&]() -> AnimPack & {
         if (!pack)
@@ -655,7 +684,8 @@ auto CollectAnimations(const Model &m, const std::string &path, int &artSlot) ->
         for (const auto &[index, name] : OrderedAnimations(e))
         {
             const std::string label = ChangeFileExt(name, "") + suffix;
-            add(packOf().Find(e.Id, index), label);
+            if (e.Kind == 'M')
+                add(packOf().Find(e.Id, index), label); // AnimFile.tab is indexed by the id of the M models
             const std::string loose = FindInFolder(folder, name);
             if (!loose.empty())
                 add(ReadFileBytes(loose), label);
@@ -663,8 +693,9 @@ auto CollectAnimations(const Model &m, const std::string &path, int &artSlot) ->
     };
 
     // 2. the animations of the model in Models3.txt
-    if (own)
-        addEntry(*own, "");
+    for (const ModelEntry &e : entries)
+        if (ToLower(e.File) == ToLower(file))
+            addEntry(e, "");
 
     // 3. animation files whose name starts with the one of the model (HandGunG.ani for HandGun.mdl)
     {
@@ -831,6 +862,16 @@ class Gltf
     std::vector<std::string> _accessors;
 };
 
+auto OtherSlotsJson(const Model &m) -> std::string
+{
+    if (m.OtherSlots.empty())
+        return {};
+    std::string json = ",\"otherSlots\":[";
+    for (size_t i = 0; i < m.OtherSlots.size(); ++i)
+        json += (i ? "," : "") + std::to_string(m.OtherSlots[i]);
+    return json + "]";
+}
+
 // An animated glTF of a skeletal model: one joint per limb (rigid skinning: the vertices stay in the space of
 // their limb, the joint nodes carry the pose), the first fitting animation as the pose of the nodes and all
 // the animations sampled at every frame (25 per second). Empty if the skeleton cannot be built.
@@ -838,7 +879,7 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
 {
     const size_t limbs = m.SectionCodes.size();
     const std::vector<int> parent = ParentsOf(m.SectionCodes);
-    if (parent.empty() || animations.empty() || limbs > 255 || m.Vertices.empty())
+    if (parent.empty() || (animations.empty() && limbs != 1) || limbs > 255 || m.Vertices.empty())
         return {};
     std::vector<size_t> limbOf(m.Vertices.size());
     {
@@ -902,7 +943,8 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
 
     // the animations
     std::string animationsJson;
-    std::vector<LimbPose> rest;
+    std::vector<LimbPose> rest(limbs); // a model without animation stays as it is
+    bool haveRest = animations.empty();
     for (size_t a = 0; a < animations.size(); ++a)
     {
         // frames: from the first to the last key time of the animation
@@ -913,8 +955,11 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
             const auto p0 = SamplePose(animations[a].Bytes, limbs, 0.0, &end);
             if (!p0)
                 continue;
-            if (a == 0)
+            if (!haveRest)
+            {
                 rest = *p0;
+                haveRest = true;
+            }
             const int count = static_cast<int>(std::min(std::max(std::floor(end - start), 0.0), 3000.0)) + 1;
             for (int f = 0; f < count; ++f)
                 frames.push_back(*SamplePose(animations[a].Bytes, limbs, start + f));
@@ -972,7 +1017,7 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
         animationsJson += std::string(animationsJson.empty() ? "" : ",") + "{\"name\":\"" + name + "\",\"samplers\":[" + samplers +
                           "],\"channels\":[" + channels + "]}";
     }
-    if (rest.empty())
+    if (!haveRest)
         return {};
 
     // nodes: the limbs, then the skinned mesh
@@ -1013,8 +1058,8 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
                        "\"meshes\":[{\"name\":\"" + base + "\",\"primitives\":[{\"attributes\":{" + attributes + "},\"indices\":" +
                        std::to_string(accIndices) + ",\"material\":0}]}],"
                        "\"materials\":[{\"name\":\"texture\",\"pbrMetallicRoughness\":{\"metallicFactor\":0,\"roughnessFactor\":1}"
-                       ",\"extras\":{\"artSlot\":" + std::to_string(m.ArtSlot) + ",\"uvSize\":" + Gltf::Num(size) + ",\"label\":\"" + m.Texture + "\"}}],"
-                       "\"animations\":[" + animationsJson + "],\"accessors\":[";
+                       ",\"extras\":{\"artSlot\":" + std::to_string(m.ArtSlot) + ",\"uvSize\":" + Gltf::Num(size) + OtherSlotsJson(m) + ",\"label\":\"" + m.Texture + "\"}}]," +
+                       (animationsJson.empty() ? std::string() : "\"animations\":[" + animationsJson + "],") + "\"accessors\":[";
     for (size_t i = 0; i < g._accessors.size(); ++i)
         json += (i ? "," : "") + g._accessors[i];
     json += "],\"bufferViews\":[";
@@ -1121,9 +1166,21 @@ class RequiemMdlArchive : public Archive
         _extractInternal = true;
         const std::string base = ChangeFileExt(FileNameOf(_stream->Path()), "");
         std::string gltf;
-        if (!isStatic)
+        if (isStatic)
         {
-            const std::vector<Animation> animations = CollectAnimations(m, _stream->Path(), m.ArtSlot);
+            // a static model is a skeleton of one limb without animation, so the viewer can show it with its texture
+            namespace fs = std::filesystem;
+            const std::string path = _stream->Path();
+            SlotsOf(ReadModels3(fs::path(std::u8string(path.begin(), path.end())).parent_path().string()), FileNameOf(path), m.ArtSlot,
+                    m.OtherSlots);
+            Model one = m;
+            one.SectionCodes = {0};
+            one.LimbVertices = {static_cast<uint32_t>(m.Vertices.size())};
+            gltf = MakeGltf(one, {}, base);
+        }
+        else
+        {
+            const std::vector<Animation> animations = CollectAnimations(m, _stream->Path(), m.ArtSlot, m.OtherSlots);
             if (!animations.empty())
             {
                 gltf = MakeGltf(m, animations, base);

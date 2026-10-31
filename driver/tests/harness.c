@@ -239,7 +239,7 @@ int main(int argc, char **argv) {
         { "req_d3d.dat", "Requiem ART", "", 3, { "tex_0000.tga", "tex_0002.tex", "tex_0003.tga" }, { -1, -1, -1 } },
         { "req_d3d.art", "Requiem ART", "", 3, { "tex_0000.tga", "tex_0002.tex", "tex_0003.tga" }, { -1, -1, -1 } },
         { "req_sw.art", "Requiem ART", "", 2, { "tex_0000.tga", "tex_0002.tga" }, { -1, -1 } },
-        { "req_static.mdl", "Requiem MDL", "", 2, { "req_static.obj", "req_static.mtl" }, { -1, -1 } },
+        { "req_static.mdl", "Requiem MDL", "", 3, { "req_static.obj", "req_static.mtl", "req_static.gltf" }, { -1, -1, -1 } },
         { "req_skel.mdl", "Requiem MDL (skeletal)", "", 3, { "req_skel.obj", "req_skel.mtl", "req_skel.gltf" }, { -1, -1, -1 } },
         { "req_anim.ary", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
         { "req_anim.bin", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
