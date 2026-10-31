@@ -2605,6 +2605,140 @@ open(os.path.join(out, "dune.rfd"), "wb").write(drd)
 gdir, gimg = gta3()
 open(os.path.join(out, "gta3.dir"), "wb").write(gdir)
 open(os.path.join(out, "gta3.img"), "wb").write(gimg)
+# ---- Requiem: Avenging Angel: DCL (PKWARE implode) streams, texture archives (.DAT index + .ART data), levels (.JAM)
+_DCL_LIT = [11, 124, 8, 7, 28, 7, 188, 13, 76, 4, 10, 8, 12, 10, 12, 10, 8, 23, 8, 9, 7, 6, 7, 8, 7, 6, 55, 8, 23, 24, 12, 11, 7, 9, 11, 12, 6, 7, 22, 5, 7, 24, 6, 11, 9, 6, 7, 22, 7, 11, 38, 7, 9, 8, 25, 11, 8, 11, 9, 12, 8, 12, 5, 38, 5, 38, 5, 11, 7, 5, 6, 21, 6, 10, 53, 8, 7, 24, 10, 27, 44, 253, 253, 253, 252, 252, 252, 13, 12, 45, 12, 45, 12, 61, 12, 45, 44, 173]
+_DCL_LEN = [2, 35, 36, 53, 38, 23]
+_DCL_DIST = [2, 20, 53, 230, 247, 151, 248]
+_DCL_BASE = [3, 2, 4, 5, 6, 7, 8, 9, 10, 12, 16, 24, 40, 72, 136, 264]
+_DCL_XTRA = [0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+
+def _dcl_codes(rep):
+    """symbol -> (code, length): canonical codes by length then symbol (the stream carries them inverted)"""
+    lens = []
+    for b in rep:
+        lens += [b & 15] * ((b >> 4) + 1)
+    codes, code = {}, 0
+    for length in range(1, 17):
+        for sym, l in enumerate(lens):
+            if l == length:
+                codes[sym] = (code, length)
+                code += 1
+        code <<= 1
+    return codes
+
+
+def dcl_implode(data, dict_bits=6):
+    """binary mode DCL stream: literals and matches of 3..9 bytes (found by a naive search), end code"""
+    ln, ds = _dcl_codes(_DCL_LEN), _dcl_codes(_DCL_DIST)
+    bits = []
+
+    def put(value, n):                      # LSB first
+        bits.extend((value >> i) & 1 for i in range(n))
+
+    def put_code(table, sym):               # Huffman codes go MSB first, inverted
+        code, length = table[sym]
+        bits.extend(1 - ((code >> (length - 1 - i)) & 1) for i in range(length))
+
+    def put_len(length):
+        sym = next(i for i in range(16) if _DCL_BASE[i] <= length < _DCL_BASE[i] + (1 << _DCL_XTRA[i]))
+        put(1, 1)
+        put_code(ln, sym)
+        put(length - _DCL_BASE[sym], _DCL_XTRA[sym])
+
+    i = 0
+    while i < len(data):
+        best = (0, 0)
+        for d in range(1, min(i, 1 << (dict_bits + 6)) + 1):
+            n = 0
+            while n < 9 and i + n < len(data) and data[i + n - d] == data[i + n]:
+                n += 1
+            if n > best[0]:
+                best = (n, d)
+        if best[0] >= 3:
+            n, d = best
+            put_len(n)
+            put_code(ds, (d - 1) >> dict_bits)
+            put((d - 1) & ((1 << dict_bits) - 1), dict_bits)
+            i += n
+        else:
+            put(0, 1)
+            put(data[i], 8)
+            i += 1
+    put_len(519)
+    out = bytearray([0, dict_bits])
+    for k in range(0, len(bits), 8):
+        out.append(sum(b << j for j, b in enumerate(bits[k:k + 8])))
+    return bytes(out)
+
+
+def req_texture(w, h, bpp, palette, pixels, levels=1, trailer=b""):
+    head = struct.pack("<HH", w, h) + bytes(9) + bytes([levels, bpp, 2, 0, 0])
+    return head + (palette or b"") + pixels + trailer
+
+
+def req_art(textures, empty_slots=(1,)):
+    """(dat, art): record = unpacked size, 0, packed size (counts itself), DCL stream; slots out of file order"""
+    art, offsets = b"", []
+    for t in textures:
+        offsets.append(len(art))
+        packed = dcl_implode(t)
+        art += struct.pack("<III", len(t), 0, len(packed) + 4) + packed
+    slots = [0xFFFFFFFF] * (len(offsets) + len(empty_slots))
+    free = [i for i in range(len(slots)) if i not in empty_slots]
+    for i, off in zip(free, offsets[:1] + offsets[1:][::-1]):    # the slots are not in the order of the file
+        slots[i] = off
+    return b"".join(struct.pack("<I", v) for v in slots), art
+
+
+def req_art_fixtures():
+    pal = b"".join(bytes([i, 255 - i, i // 2, 255]) for i in range(256))        # BGRA
+    px8 = bytes((x * 7 + y * 3) & 255 for y in range(4) for x in range(4))
+    px16 = b"".join(bytes([(x + y * 4) & 255, 0 if x < 2 else 255]) for y in range(4) for x in range(4))
+    mips = bytes((i * 5) & 255 for i in range(16 + 4 + 1))
+    d3d = [req_texture(4, 4, 1, pal, px8), req_texture(4, 4, 2, pal, px16), req_texture(0, 0, 1, None, b"junk")]
+    sw = [req_texture(4, 4, 1, None, mips, levels=3), req_texture(4, 4, 2, None, px16, trailer=bytes(112))]
+    return req_art(d3d), req_art(sw)
+
+
+def req_jam(version, second=True):
+    level = bytes((i * i // 7) & 255 for i in range(3000)) + b"\0" * 500 + b"Requiem" * 100
+    packed = dcl_implode(level)
+    rest = bytes(range(200))
+    head = struct.pack("<IIIIII", 0xFEED000A, 0, len(level), 7, version, 250)
+    head += bytes(0x112 + version * 0x100C - len(head))
+    body = head + struct.pack("<I", len(packed)) + packed + rest
+    if second:      # the level data block: magic at 4, two palettes (RGBX) at 0x1F and 0x41F
+        data = bytearray(0x900)
+        struct.pack_into("<I", data, 4, 0x0BEAF0CC)
+        for i in range(256):
+            data[0x41F + i * 4:0x41F + i * 4 + 4] = bytes([i, 255 - i, i // 2, 0])
+        blob = dcl_implode(bytes(data))
+        body = body[:4] + struct.pack("<I", len(body) - 12) + body[8:] + struct.pack("<I", len(data)) + blob
+    return body
+
+
+def req_anim():
+    """(ary, bin): records of 16 bytes (offset, 0, size, 0xCDCDCDCD) that fill the .bin"""
+    parts = [b"first record", bytes(range(50)), b"x"]
+    ary, off = struct.pack("<I", len(parts)), 0
+    for p in parts:
+        ary += struct.pack("<IIII", off, 0, len(p), 0xCDCDCDCD)
+        off += len(p)
+    return ary, b"".join(parts)
+
+
+(rd, ra), (rsd, rsa) = req_art_fixtures()
+open(os.path.join(out, "req_d3d.dat"), "wb").write(rd)
+open(os.path.join(out, "req_d3d.art"), "wb").write(ra)
+open(os.path.join(out, "req_sw.dat"), "wb").write(rsd)
+open(os.path.join(out, "req_sw.art"), "wb").write(rsa)
+_ary, _bin = req_anim()
+open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
+open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)
+for v in (0, 1, 2):
+    open(os.path.join(out, "req_v%d.jam" % v), "wb").write(req_jam(v, v != 1))
+
 here = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(out, "payload.bin"), "wb") as f:
     f.write(RNC_PAYLOAD)

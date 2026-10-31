@@ -318,7 +318,7 @@ int main(int argc, char **argv)
         }
         else if (dialogName == "about")
         {
-            dialog = std::make_unique<Dup::Ui::AboutDialog>(QString("<p>Default driver: 131 formats</p>"), window.get());
+            dialog = std::make_unique<Dup::Ui::AboutDialog>(QString("<p>Default driver: 134 formats</p>"), window.get());
         }
         else if (dialogName == "list")
         {

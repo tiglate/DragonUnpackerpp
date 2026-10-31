@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
     dudi7_driver_info di; memset(&di, 0, sizeof di);
     CHECK(DrvInfo(&di) == DUDI7_OK);
     CHECK(di.struct_size == sizeof di);
-    CHECK(di.format_count == 131 && di.name && !strcmp(di.name, "Default Driver"));
+    CHECK(di.format_count == 134 && di.name && !strcmp(di.name, "Default Driver"));
     dudi7_format_info fi; memset(&fi, 0, sizeof fi);
     CHECK(FmtInfo(0, &fi) == DUDI7_OK && fi.struct_size == sizeof fi);
     CHECK(fi.extensions && !strcmp(fi.extensions, "*.PAK"));
@@ -236,6 +236,14 @@ int main(int argc, char **argv) {
         { "cb.bin",    "CBIN",  "",   3, { "HELLO.TXT", "DATA.BIN", "EMPTY.DAT" }, { 0, 1, 2 } },
         { "gta3.img",  "DIR/IMG", "", 3, { "hello.txt", "data.bin", "empty.dat" }, { 0, 1, 2 }, F_BLOCKS },
         { "gta3.dir",  "DIR/IMG", "", 3, { "hello.txt", "data.bin", "empty.dat" }, { 0, 1, 2 }, F_BLOCKS },
+        { "req_d3d.dat", "Requiem ART", "", 3, { "tex_0000.tga", "tex_0002.tex", "tex_0003.tga" }, { -1, -1, -1 } },
+        { "req_d3d.art", "Requiem ART", "", 3, { "tex_0000.tga", "tex_0002.tex", "tex_0003.tga" }, { -1, -1, -1 } },
+        { "req_sw.art", "Requiem ART", "", 2, { "tex_0000.tga", "tex_0002.tga" }, { -1, -1 } },
+        { "req_anim.ary", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
+        { "req_anim.bin", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
+        { "req_v0.jam", "Requiem JAM", "", 5, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal" }, { -1, -1, -1, -1, -1 } },
+        { "req_v1.jam", "Requiem JAM", "", 3, { "header.bin", "level.bin", "rest.bin" }, { -1, -1, -1 } },
+        { "req_v2.jam", "Requiem JAM", "", 5, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal" }, { -1, -1, -1, -1, -1 } },
     };
     static const int64_t sizes[3] = { 24, 256 * 300, 0 };
     sink s = {0};
