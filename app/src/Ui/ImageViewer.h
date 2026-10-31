@@ -24,6 +24,12 @@ class ImageViewer : public QScrollArea
     void ShowMessage(const QString &text);
     void SetZoom(double zoom);
     void FitToWindow();
+    void ZoomIn();
+    void ZoomOut();
+    [[nodiscard]] auto HasImage() const -> bool
+    {
+        return !_image.isNull();
+    }
 
   signals:
     void ZoomChanged(double zoom);
@@ -38,6 +44,8 @@ class ImageViewer : public QScrollArea
 
   private:
     void UpdatePixmap();
+    /// Zoom by a factor keeping the point of the image under `anchor` (viewport coordinates) where it is.
+    void ZoomAround(double factor, const QPointF &anchor);
 
     QLabel *_label;
     QImage _image;
@@ -45,5 +53,6 @@ class ImageViewer : public QScrollArea
     bool _autoFit{true}; // follows the size of the panel until the user zooms
     QPoint _dragStart;
     bool _dragging{false};
+    int _wheelRemainder{0};
 };
 } // namespace Dup::Ui

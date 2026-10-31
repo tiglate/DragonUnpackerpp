@@ -109,11 +109,50 @@ void ImageViewer::resizeEvent(QResizeEvent *event)
     }
 }
 
+void ImageViewer::ZoomIn()
+{
+    ZoomAround(1.25, QPointF(viewport()->width() / 2.0, viewport()->height() / 2.0));
+}
+
+void ImageViewer::ZoomOut()
+{
+    ZoomAround(0.8, QPointF(viewport()->width() / 2.0, viewport()->height() / 2.0));
+}
+
+void ImageViewer::ZoomAround(double factor, const QPointF &anchor)
+{
+    if (_image.isNull())
+    {
+        return;
+    }
+    // the point of the image under the anchor, before and after the change
+    const QPointF label = _label->mapFrom(viewport(), anchor.toPoint());
+    const double before = _zoom;
+    SetZoom(_zoom * factor);
+    const double ratio = _zoom / before;
+    const QPointF moved = _label->mapFrom(viewport(), anchor.toPoint());
+    horizontalScrollBar()->setValue(horizontalScrollBar()->value() + static_cast<int>(label.x() * ratio - moved.x()));
+    verticalScrollBar()->setValue(verticalScrollBar()->value() + static_cast<int>(label.y() * ratio - moved.y()));
+}
+
 void ImageViewer::wheelEvent(QWheelEvent *event)
 {
     if ((event->modifiers() & Qt::ControlModifier) != 0 && !_image.isNull())
     {
-        SetZoom(_zoom * (event->angleDelta().y() > 0 ? 1.25 : 0.8));
+        // mouse wheels send 120 per notch, touchpads many small values: one step per 120 units
+        const int delta = event->angleDelta().y() != 0 ? event->angleDelta().y() : event->pixelDelta().y();
+        _wheelRemainder += delta;
+        const QPointF anchor = event->position();
+        while (_wheelRemainder >= 120)
+        {
+            ZoomAround(1.25, anchor);
+            _wheelRemainder -= 120;
+        }
+        while (_wheelRemainder <= -120)
+        {
+            ZoomAround(0.8, anchor);
+            _wheelRemainder += 120;
+        }
         event->accept();
         return;
     }
@@ -126,10 +165,10 @@ void ImageViewer::keyPressEvent(QKeyEvent *event)
     {
     case Qt::Key_Plus:
     case Qt::Key_Equal:
-        SetZoom(_zoom * 1.25);
+        ZoomIn();
         break;
     case Qt::Key_Minus:
-        SetZoom(_zoom * 0.8);
+        ZoomOut();
         break;
     case Qt::Key_0:
         SetZoom(1.0);

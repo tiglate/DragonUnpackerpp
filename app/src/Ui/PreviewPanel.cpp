@@ -15,7 +15,9 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QSlider>
+#include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 namespace Dup::Ui
@@ -30,7 +32,7 @@ auto FormatTime(qint64 milliseconds) -> QString
 } // namespace
 
 PreviewPanel::PreviewPanel(QWidget *parent)
-    : QWidget(parent), _pages(new QStackedWidget(this)), _image(new ImageViewer(this)), _mesh(new MeshViewer(this)), _text(new QPlainTextEdit(this)),
+    : QWidget(parent), _pages(new QStackedWidget(this)), _imagePage(new QWidget(this)), _image(new ImageViewer(_imagePage)), _mesh(new MeshViewer(this)), _text(new QPlainTextEdit(this)),
       _message(new QLabel(this)), _audioPage(new QWidget(this)), _audioInfo(new QLabel(_audioPage)), _playButton(new QPushButton(tr("Play"), _audioPage)),
       _position(new QSlider(Qt::Horizontal, _audioPage)), _player(new QMediaPlayer(this)), _output(new QAudioOutput(this)), _note(new QLabel(this))
 {
@@ -57,7 +59,28 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     audioLayout->addStretch(1);
 
     _pages->addWidget(_message);
-    _pages->addWidget(_image);
+    auto *imageLayout = new QVBoxLayout(_imagePage);
+    imageLayout->setContentsMargins(0, 0, 0, 0);
+    imageLayout->setSpacing(0);
+    auto *zoomBar = new QHBoxLayout();
+    zoomBar->setContentsMargins(4, 2, 4, 2);
+    const auto zoomButton = [&](const QString &text, const QString &tip, auto action) {
+        auto *button = new QToolButton(_imagePage);
+        button->setText(text);
+        button->setToolTip(tip);
+        button->setAutoRaise(true);
+        button->setMinimumWidth(28);
+        connect(button, &QToolButton::clicked, this, action);
+        zoomBar->addWidget(button);
+    };
+    zoomButton("\u2212", tr("Zoom out (Ctrl+wheel down, -)"), [this] { _image->ZoomOut(); });
+    zoomButton("+", tr("Zoom in (Ctrl+wheel up, +)"), [this] { _image->ZoomIn(); });
+    zoomButton("1:1", tr("Actual size (0)"), [this] { _image->SetZoom(1.0); });
+    zoomButton(tr("Fit"), tr("Fit to the panel (F)"), [this] { _image->FitToWindow(); });
+    zoomBar->addStretch(1);
+    imageLayout->addLayout(zoomBar);
+    imageLayout->addWidget(_image, 1);
+    _pages->addWidget(_imagePage);
     _pages->addWidget(_mesh);
     _pages->addWidget(_text);
     _pages->addWidget(_audioPage);
@@ -138,7 +161,7 @@ void PreviewPanel::ShowResult(const Core::PreviewResult &result)
         const QImage image(result.Image.Rgba.data(), static_cast<int>(result.Image.Width), static_cast<int>(result.Image.Height),
                            static_cast<qsizetype>(result.Image.Width) * 4, QImage::Format_RGBA8888);
         _image->ShowImage(image.copy());
-        _pages->setCurrentWidget(_image);
+        _pages->setCurrentWidget(_imagePage);
         _description = tr("Image %1 x %2").arg(result.Image.Width).arg(result.Image.Height);
         break;
     }
@@ -148,7 +171,7 @@ void PreviewPanel::ShowResult(const Core::PreviewResult &result)
         if (image.loadFromData(reinterpret_cast<const uchar *>(result.Bytes.data()), static_cast<int>(result.Bytes.size()), result.Extension.c_str()))
         {
             _image->ShowImage(image);
-            _pages->setCurrentWidget(_image);
+            _pages->setCurrentWidget(_imagePage);
             _description = tr("Image %1 x %2").arg(image.width()).arg(image.height());
         }
         else

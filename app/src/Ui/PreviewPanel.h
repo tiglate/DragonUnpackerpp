@@ -16,6 +16,7 @@ class QPlainTextEdit;
 class QPushButton;
 class QSlider;
 class QStackedWidget;
+class QToolButton;
 
 namespace Dup::Ui
 {
@@ -51,6 +52,7 @@ class PreviewPanel : public QWidget
     void StopAudio();
 
     QStackedWidget *_pages;
+    QWidget *_imagePage; // the zoom buttons and the viewer
     ImageViewer *_image;
     MeshViewer *_mesh;
     QPlainTextEdit *_text;

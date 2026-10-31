@@ -239,14 +239,25 @@ class SnesArchive : public RomArchive
             const bool packets = s.Codec == RomCodec::LzPackets;
             const std::string base = std::string(sized ? "compressed/lzss_" : packets ? "compressed/lzp_" : "compressed/lz_") + Hex(static_cast<uint64_t>(s.Offset), 6);
             AddDecoded(base + ".bin", s.Codec, s.Offset, s.Packed, s.Size, false);
+            const auto seen = knownAt.find(s.Offset);
+            if (haveKnown)
+            {
+                // a known game: the sheets are the tile formats the screen used from the stream; a stream that was never
+                // on screen has no sheets (guessing the format gives noise nearly every time)
+                if (seen != knownAt.end())
+                    for (const int bpp : seen->second->Bpp)
+                    {
+                        const TileFormat format = FormatOfBpp(bpp);
+                        if (s.Size % TileBytes(format) == 0)
+                            AddDecoded(base + "_" + std::to_string(bpp) + (bpp >= 5 ? "bpp_linear.tga" : "bpp.tga"), s.Codec, s.Offset, s.Packed,
+                                       s.Size, true, format, colors);
+                    }
+                continue;
+            }
             if (s.Size % 32 == 0)
                 AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp, colors);
             if (s.Size % 24 == 0)
                 AddDecoded(base + "_3bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes3bpp, colors);
-            if (const auto it = knownAt.find(s.Offset); it != knownAt.end())
-                for (const int bpp : it->second->Bpp)
-                    if ((bpp == 5 || bpp == 8) && s.Size % TileBytes(FormatOfBpp(bpp)) == 0)
-                        AddDecoded(base + "_" + std::to_string(bpp) + "bpp_linear.tga", s.Codec, s.Offset, s.Packed, s.Size, true, FormatOfBpp(bpp), colors);
             if (s.Size % 32 != 0 && s.Size % 24 != 0 && s.Size % 16 == 0)
                 AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp, colors);
         }
