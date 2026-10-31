@@ -59,6 +59,11 @@ if os.getenv("TRACE_READS") then
   end
   emu.addMemoryCallback(onRead, emu.callbackType.read, 0x400000, 0x7DFFFF, CPU)
   emu.addMemoryCallback(onRead, emu.callbackType.read, 0xC00000, 0xFFFFFF, CPU)
+  -- the mirrors of the ROM in the banks 00-3F and 80-BF (upper half only)
+  for bank = 0, 0x3F do
+    emu.addMemoryCallback(onRead, emu.callbackType.read, (bank << 16) | 0x8000, (bank << 16) | 0xFFFF, CPU)
+    emu.addMemoryCallback(onRead, emu.callbackType.read, ((bank + 0x80) << 16) | 0x8000, ((bank + 0x80) << 16) | 0xFFFF, CPU)
+  end
 end
 local function readsJson()
   if cur and cur[2] - cur[1] >= 31 then runs[#runs + 1] = cur end

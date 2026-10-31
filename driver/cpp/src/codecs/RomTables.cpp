@@ -44,7 +44,7 @@ auto FindKnownGame(uint32_t crc32, KnownGame &game) -> bool
             {
                 KnownStream stream;
                 std::string word;
-                fields >> stream.Offset;
+                fields >> stream.Codec >> stream.Offset;
                 while (fields >> word)
                     stream.Palettes.push_back(ParsePalette(word));
                 game.Streams.push_back(std::move(stream));

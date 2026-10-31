@@ -172,7 +172,8 @@ class SnesArchive : public RomArchive
         {
             for (const KnownStream &k : known.Streams)
             {
-                knownAt[k.Offset] = &k;
+                if (k.Codec != "dkc")
+                    knownAt[k.Offset] = &k;
                 for (size_t i = 0; i < k.Palettes.size(); ++i)
                     listPalette(Hex(static_cast<uint64_t>(k.Offset), 6) + "_" + std::to_string(i + 1), k.Palettes[i]);
             }
@@ -191,6 +192,22 @@ class SnesArchive : public RomArchive
                 AddColoredSheets("graphics", four ? "tiles4bpp" : "tiles2bpp", run.Offset, run.Length,
                                  four ? TileFormat::Snes4bpp : TileFormat::Snes2bpp, four ? 8192 : 4096, colors);
             }
+        }
+        // streams of a codec that is not scanned for: the table of the game gives their offsets
+        for (const KnownStream &k : known.Streams)
+        {
+            if (k.Codec != "dkc" || k.Offset < 0 || static_cast<size_t>(k.Offset) >= image.size())
+                continue;
+            std::vector<uint8_t> data;
+            size_t used = 0;
+            if (!Decode(RomCodec::DkcWords, image.data() + k.Offset, image.size() - static_cast<size_t>(k.Offset), data, used))
+                continue;
+            const std::string base = "compressed/dkc_" + Hex(static_cast<uint64_t>(k.Offset), 6);
+            const std::vector<uint32_t> colors = k.Palettes.empty() ? std::vector<uint32_t>() : k.Palettes[0];
+            const auto size = static_cast<int64_t>(data.size());
+            AddDecoded(base + ".bin", RomCodec::DkcWords, k.Offset, static_cast<int64_t>(used), size, false);
+            if (size % 32 == 0)
+                AddDecoded(base + "_4bpp.tga", RomCodec::DkcWords, k.Offset, static_cast<int64_t>(used), size, true, TileFormat::Snes4bpp, colors);
         }
         for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
         {

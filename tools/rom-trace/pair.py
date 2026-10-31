@@ -13,6 +13,7 @@ ap.add_argument("rom"); ap.add_argument("trace"); ap.add_argument("out")
 ap.add_argument("--title", required=True)
 ap.add_argument("--build", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "build"))
 ap.add_argument("--max-palettes", type=int, default=6)
+ap.add_argument("--probe", choices=["dkc"], help="also look for streams of a codec that the driver does not scan for: every ROM offset is tried and a stream counts when its tiles are on the screen of the trace")
 a = ap.parse_args()
 
 rom_bytes = open(a.rom, "rb").read()
@@ -65,6 +66,50 @@ def cgram_at(frame):
     for f, d in cgrams:
         if f <= frame: best = d
     return best
+
+def dkc_decode(rom, table, maxout=0x8000):
+    """The Donkey Kong Country compression (see DecodeDkc in the driver), None when the data is not a stream"""
+    p, n, out = table + 128, len(rom), bytearray()
+    while p < n:
+        b = rom[p]; p += 1
+        if b == 0: return bytes(out)
+        c, k = b & 0xC0, b & 0x3F
+        if c == 0:
+            if p + b > n: return None
+            out += rom[p:p + b]; p += b
+        elif c == 0x40:
+            if k == 0 or p >= n: return None
+            out += bytes([rom[p]]) * k; p += 1
+        elif c == 0x80:
+            if k == 0 or p + 2 > n: return None
+            off = rom[p] | rom[p + 1] << 8; p += 2
+            if off >= len(out): return None
+            for i in range(k): out.append(out[off + i])
+        else:
+            out += rom[table + k * 2:table + k * 2 + 2]
+        if len(out) > maxout: return None
+    return None
+
+if a.probe:
+    seen_tiles = set()
+    for v in vrams.values():
+        for i in range(0, len(v) - 31, 32):
+            t = v[i:i + 32]
+            if any(t): seen_tiles.add(t)
+    kept, cands = 0, []
+    for t0 in range(len(rom_bytes) - 200):
+        out = dkc_decode(rom_bytes, t0)
+        if out is None or len(out) < 64: continue
+        blocks = [out[i:i + 32] for i in range(0, len(out) - 31, 32)]
+        hits = sum(1 for b in blocks if b in seen_tiles)
+        if hits >= 8 and hits >= 0.3 * len(blocks):
+            cands.append((hits, t0, out, blocks))
+    cands.sort(key=lambda c: (-c[0], c[1]))   # the best explained first: a start a few bytes off decodes much the same
+    for hits, t0, out, blocks in cands:
+        blobs["dkc_%06X" % t0] = out; kept += 1
+        for k, b in enumerate(blocks):
+            if any(b): index4.setdefault(b, ("dkc_%06X" % t0, k, 4))
+    print("probe dkc:", kept, "candidates")
 
 class Entry:
     def __init__(self): self.palettes = {}; self.tiles = set(); self.kinds = set(); self.bpp = set(); self.offsets = set()
@@ -150,6 +195,7 @@ for src, e in sorted(table.items()):
         raw_pals = pals
         continue
     m = re.match(r"(\w+?)_([0-9A-Fa-f]+)$", src)
+    if m.group(1) == "dkc" and len(e.tiles) < 8: continue   # a probed stream with a few tiles is a coincidence
     streams.append({"codec": m.group(1), "offset": int(m.group(2), 16), "bpp": sorted(e.bpp),
                     "usedBy": sorted(e.kinds), "tilesSeen": len(e.tiles), "palettes": pals})
 if "rom" in table:

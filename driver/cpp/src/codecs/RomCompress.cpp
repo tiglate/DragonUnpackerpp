@@ -521,6 +521,56 @@ auto DecodeLzPackets(const uint8_t *src, size_t avail, size_t maxOut, std::vecto
     return DecodePacketsWidth(12, src, avail, maxOut, out, used) || DecodePacketsWidth(11, src, avail, maxOut, out, used);
 }
 
+auto DecodeDkc(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool
+{
+    constexpr size_t TableBytes = 128;
+    out.clear();
+    size_t p = TableBytes;
+    while (true)
+    {
+        if (p >= avail)
+            return false;
+        const unsigned b = src[p++];
+        if (b == 0)
+        {
+            used = p;
+            return !out.empty();
+        }
+        const unsigned n = b & 0x3F;
+        switch (b & 0xC0)
+        {
+        case 0x00:
+            if (p + b > avail)
+                return false;
+            out.insert(out.end(), src + p, src + p + b);
+            p += b;
+            break;
+        case 0x40:
+            if (n == 0 || p >= avail)
+                return false;
+            out.insert(out.end(), n, src[p++]);
+            break;
+        case 0x80: {
+            if (n == 0 || p + 2 > avail)
+                return false;
+            const size_t from = src[p] | (src[p + 1] << 8);
+            p += 2;
+            if (from >= out.size())
+                return false;
+            for (unsigned i = 0; i < n; ++i)
+                out.push_back(out[from + i]);
+            break;
+        }
+        default:
+            out.push_back(src[n * 2]);
+            out.push_back(src[n * 2 + 1]);
+            break;
+        }
+        if (out.size() > maxOut)
+            return false;
+    }
+}
+
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool
 {
     switch (codec)
@@ -541,6 +591,8 @@ auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_
         return DecodeLzss(src, avail, Lz2MaxOut, out, used, false);
     case RomCodec::LzPackets:
         return DecodeLzPackets(src, avail, Lz2MaxOut, out, used);
+    case RomCodec::DkcWords:
+        return DecodeDkc(src, avail, Lz2MaxOut, out, used);
     }
     return false;
 }

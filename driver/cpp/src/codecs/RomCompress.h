@@ -25,6 +25,7 @@ enum class RomCodec
     Lzss,     // Final Fantasy VI: LZSS, 2 KB ring buffer, size header that counts itself
     LzssPayload, // the same, the size header counts only what follows it
     LzPackets,   // Chrono Trigger: LZ in packets, each starting with the offset of its end, where a control byte sits
+    DkcWords,    // Donkey Kong Country: a table of 64 words, then commands (literals, run, copy, table word)
 };
 
 struct RomStream
@@ -65,6 +66,14 @@ auto DecodeLzss(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uin
 // the lowest bit: 0 a literal byte, 1 two bytes with the distance (low bits) and the length - 3 (high bits). A mask of 0
 // with 8 bits copies 8 literals. The stream takes up to the control byte that ends it.
 auto DecodeLzPackets(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool;
+// The compression of Donkey Kong Country (worked out from the game's own decompression routine, which was read in an
+// emulator trace, and checked by the tiles the game puts on screen): the stream starts with a table of 64 words (128
+// bytes), then commands until a zero byte. Command byte: the top 2 bits say what it is, the low 6 bits (n) its size:
+//   00 n literal bytes follow     01 one byte follows, written n times
+//   10 a 16 bits position in the output follows: n bytes are copied from there (the position counts from the
+//      start of the output, the copy may overlap what it writes)     11 the word n of the table is written
+// The streams are not found by scanning (too many false hits): the tables of known games say where they are.
+auto DecodeDkc(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uint8_t> &out, size_t &used) -> bool;
 auto Decode(RomCodec codec, const uint8_t *src, size_t avail, std::vector<uint8_t> &out, size_t &used) -> bool;
 
 // The Super Nintendo streams of a ROM (hiRom: the addresses of the tables use the HiROM map)

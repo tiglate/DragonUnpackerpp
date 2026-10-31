@@ -25,7 +25,7 @@ for f in sorted(glob.glob(os.path.join(here, "../../data/rom-metadata/*/*.json")
     lines = ["%s %s" % (d["crc32"], d["console"])]
     for s in d["streams"]:
         pals = [pal(p) for p in s["palettes"][:3]]
-        lines.append("S %d %s" % (s["offset"], " ".join(pals)))
+        lines.append("S %s %d %s" % (s["codec"], s["offset"], " ".join(pals)))
     raw = d["rawPalettes"]
     lines.append("Q " + " ".join(pal(p) for p in raw[:6]))
     for o, n, b in merge([r for r in d["rawTiles"] if r["bpp"] in (2, 4)]):   # 8 bits (Mode 7) sheets are not drawn yet
