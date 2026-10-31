@@ -17,6 +17,9 @@ add_library(Core STATIC
     Core/EntryListExport.cpp
     Core/Extractor.cpp
     Core/ObjParser.cpp
+    Core/Json.cpp
+    Core/RigModel.cpp
+    Core/RigRender.cpp
 Core/OutrageGraphics.cpp
 Core/OutrageModel.cpp
 Core/OofPose.cpp
@@ -58,6 +61,7 @@ add_executable(dragonunpacker
     Ui/OptionsDialog.cpp
     Ui/PreviewPanel.cpp
     Ui/QtLogSink.cpp
+    Ui/RigViewer.cpp
     Ui/ThemeManager.cpp)
 target_compile_definitions(dragonunpacker PRIVATE DUP_VERSION="${PROJECT_VERSION}")
 target_link_libraries(dragonunpacker PRIVATE Core Qt6::Widgets Qt6::Multimedia Qt6::Svg)

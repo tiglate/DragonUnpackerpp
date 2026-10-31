@@ -6,6 +6,7 @@
 
 #include "Ui/ImageViewer.h"
 #include "Ui/MeshViewer.h"
+#include "Ui/RigViewer.h"
 #include "Ui/ModelViewer.h"
 
 #include <QAudioOutput>
@@ -33,7 +34,7 @@ auto FormatTime(qint64 milliseconds) -> QString
 } // namespace
 
 PreviewPanel::PreviewPanel(QWidget *parent)
-    : QWidget(parent), _pages(new QStackedWidget(this)), _imagePage(new QWidget(this)), _image(new ImageViewer(_imagePage)), _mesh(new MeshViewer(this)), _model(new ModelViewer(this)), _text(new QPlainTextEdit(this)),
+    : QWidget(parent), _pages(new QStackedWidget(this)), _imagePage(new QWidget(this)), _image(new ImageViewer(_imagePage)), _mesh(new MeshViewer(this)), _model(new ModelViewer(this)), _rig(new RigViewer(this)), _text(new QPlainTextEdit(this)),
       _message(new QLabel(this)), _audioPage(new QWidget(this)), _audioInfo(new QLabel(_audioPage)), _playButton(new QPushButton(tr("Play"), _audioPage)),
       _position(new QSlider(Qt::Horizontal, _audioPage)), _player(new QMediaPlayer(this)), _output(new QAudioOutput(this)), _note(new QLabel(this))
 {
@@ -87,6 +88,7 @@ PreviewPanel::PreviewPanel(QWidget *parent)
     _pages->addWidget(_imagePage);
     _pages->addWidget(_mesh);
     _pages->addWidget(_model);
+    _pages->addWidget(_rig);
     _pages->addWidget(_text);
     _pages->addWidget(_audioPage);
 
@@ -209,6 +211,20 @@ void PreviewPanel::ShowResult(const Core::PreviewResult &result)
         }
         _pages->setCurrentWidget(_model);
         _description = _model->GetDescription();
+        break;
+    case Core::PreviewKind::RIG:
+        StopAudio();
+        _rig->SetScene(result.Rig, result.RigTexture);
+        if (_modelAnimation)
+        {
+            _rig->SelectAnimation(*_modelAnimation);
+        }
+        if (_modelPose)
+        {
+            _rig->SetPosition(*_modelPose);
+        }
+        _pages->setCurrentWidget(_rig);
+        _description = _rig->GetDescription();
         break;
     case Core::PreviewKind::TEXT:
         StopAudio();

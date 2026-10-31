@@ -15,7 +15,8 @@
 //   (limbs: u16 and s16 at 0, u32 vertex count of the limb at 0x20, the rest is pointers and zeros);
 //   vertexCount x (float x, y, z); faceCount x face; normals
 // face: u32 n; 16 bytes of pointers; n x u16 vertex index; n x (s32 u, s32 v) texture coordinates in 16.16 fixed
-//   point texels (0.5 is the center of the first texel)
+//   point texels (0.5 is the center of the first texel); v counts from the first row stored in the picture, the
+//   bottom row of the TGA pictures of the art archive (so OBJ uses it as it is, glTF as 1 - v)
 // normals: flags & 2: none. Static models: one (float x, y, z) per face (flags are 1, 2, 4 or 0x82 in the game's
 //   files; the loader at 0x441E90 would read vertex normals for 4, the three files with that value have face
 //   normals). Skeletal models: one per face if flags & 1, otherwise one per vertex (flags are 0x10 in the game).
@@ -52,7 +53,9 @@
 
 #include <algorithm>
 #include <array>
+#include <charconv>
 #include <cmath>
+#include <initializer_list>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -815,11 +818,12 @@ class Gltf
         return static_cast<int>(_accessors.size() - 1);
     }
 
+    // A number as JSON: not through printf, which would follow the locale of the program that loaded the driver
     static auto Num(double v) -> std::string
     {
         char b[40];
-        std::snprintf(b, sizeof b, "%.9g", v);
-        return b;
+        const auto result = std::to_chars(b, b + sizeof b, v, std::chars_format::general, 9);
+        return std::string(b, result.ptr);
     }
 
     std::vector<uint8_t> _buffer;
@@ -864,7 +868,7 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
             const Vec3 &v = m.Vertices[f.Index[k]];
             positions.insert(positions.end(), {v.X, v.Y, v.Z});
             uvs.push_back(static_cast<float>(f.Uv[k].first / 65536.0 / size));
-            uvs.push_back(static_cast<float>(f.Uv[k].second / 65536.0 / size));
+            uvs.push_back(static_cast<float>(1.0 - f.Uv[k].second / 65536.0 / size)); // glTF counts V from the top
             if (!m.Normals.empty())
             {
                 const Vec3 &n = m.Normals[m.FaceNormals ? i : f.Index[k]];
@@ -1009,7 +1013,7 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
                        "\"meshes\":[{\"name\":\"" + base + "\",\"primitives\":[{\"attributes\":{" + attributes + "},\"indices\":" +
                        std::to_string(accIndices) + ",\"material\":0}]}],"
                        "\"materials\":[{\"name\":\"texture\",\"pbrMetallicRoughness\":{\"metallicFactor\":0,\"roughnessFactor\":1}"
-                       ",\"extras\":{\"artSlot\":" + std::to_string(m.ArtSlot) + ",\"label\":\"" + m.Texture + "\"}}],"
+                       ",\"extras\":{\"artSlot\":" + std::to_string(m.ArtSlot) + ",\"uvSize\":" + Gltf::Num(size) + ",\"label\":\"" + m.Texture + "\"}}],"
                        "\"animations\":[" + animationsJson + "],\"accessors\":[";
     for (size_t i = 0; i < g._accessors.size(); ++i)
         json += (i ? "," : "") + g._accessors[i];
@@ -1021,11 +1025,19 @@ auto MakeGltf(const Model &m, const std::vector<Animation> &animations, const st
     return json;
 }
 
-void Put(std::string &out, const char *format, double a, double b = 0, double c = 0)
+// A line of an OBJ file: the tag and the numbers with 6 decimals (never through printf: its decimal point follows the
+// locale of the program that loaded the driver)
+void PutLine(std::string &out, const char *tag, std::initializer_list<double> values)
 {
-    char buffer[96];
-    const int n = std::snprintf(buffer, sizeof buffer, format, a, b, c);
-    out.append(buffer, static_cast<size_t>(n));
+    out += tag;
+    for (const double v : values)
+    {
+        char buffer[64];
+        const auto result = std::to_chars(buffer, buffer + sizeof buffer, v, std::chars_format::fixed, 6);
+        out += ' ';
+        out.append(buffer, result.ptr);
+    }
+    out += '\n';
 }
 
 // The OBJ text; texture coordinates are scaled to 0..1 by the smallest power of two that holds them
@@ -1046,12 +1058,12 @@ auto MakeObj(const Model &m, const std::string &base) -> std::string
         out += "# no animation fits this model: every limb is at its own origin\n";
     out += "mtllib " + base + ".mtl\nusemtl texture\n";
     for (const Vec3 &v : m.Vertices)
-        Put(out, "v %.6f %.6f %.6f\n", v.X, v.Y, v.Z);
+        PutLine(out, "v", {v.X, v.Y, v.Z});
     for (const Face &f : m.Faces)
         for (const auto &uv : f.Uv)
-            Put(out, "vt %.6f %.6f\n", uv.first / 65536.0 / size, 1.0 - uv.second / 65536.0 / size);
+            PutLine(out, "vt", {uv.first / 65536.0 / size, uv.second / 65536.0 / size}); // V counts from the first stored row of the picture: the bottom, as OBJ does
     for (const Vec3 &n : m.Normals)
-        Put(out, "vn %.6f %.6f %.6f\n", n.X, n.Y, n.Z);
+        PutLine(out, "vn", {n.X, n.Y, n.Z});
 
     // limb of each vertex
     std::vector<int> limbOf;

@@ -4,7 +4,7 @@
 
 // Command line (test hooks, for the tests):
 //   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
-//                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
+//                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
 #include "Core/AppSettings.h"
@@ -222,6 +222,10 @@ int main(int argc, char **argv)
     {
         window->SetNameFilter(QString::fromStdString(filter), HasFlag(argc, argv, "search-all"));
     }
+    if (const auto animation = ArgumentValue(argc, argv, "model-animation"); !animation.empty())
+    {
+        window->SetModelAnimation(QString::fromStdString(animation).toInt());
+    }
     if (const auto pose = ArgumentValue(argc, argv, "model-pose"); !pose.empty())
     {
         window->SetModelPose(QString::fromStdString(pose).toDouble()); // "0.5" whatever the locale
@@ -341,7 +345,9 @@ int main(int argc, char **argv)
     const bool quit = HasFlag(argc, argv, "quit");
     if (!screenshot.empty())
     {
-        QTimer::singleShot(400, window.get(), [&window, screenshot, quit] {
+        const auto delayText = ArgumentValue(argc, argv, "screenshot-delay");
+        const int delay = delayText.empty() ? 400 : QString::fromStdString(delayText).toInt();
+        QTimer::singleShot(delay, window.get(), [&window, screenshot, quit] {
             window->grab().save(QString::fromStdString(screenshot));
             if (quit)
             {

@@ -23,6 +23,12 @@ class ArchiveSource
     auto operator=(const ArchiveSource &) -> ArchiveSource & = delete;
 
     [[nodiscard]] virtual auto Open() const -> std::unique_ptr<Dudi7::IArchive> = 0;
+    /// Opens another file with the same driver (the pictures a model uses are in another archive of the game); nullptr when this
+    /// kind of source cannot, an exception when the file is not an archive.
+    [[nodiscard]] virtual auto OpenFile(const std::filesystem::path & /*path*/) const -> std::unique_ptr<Dudi7::IArchive>
+    {
+        return nullptr;
+    }
     /// A short name for the lists of jobs and the title of the window.
     [[nodiscard]] virtual auto GetTitle() const -> std::string = 0;
     /// The file (for the recent list and the settings), empty for sources that are not a file.
@@ -39,6 +45,10 @@ class DriverArchiveSource : public ArchiveSource
     [[nodiscard]] auto Open() const -> std::unique_ptr<Dudi7::IArchive> override
     {
         return _driver.Open(_path);
+    }
+    [[nodiscard]] auto OpenFile(const std::filesystem::path &path) const -> std::unique_ptr<Dudi7::IArchive> override
+    {
+        return _driver.Open(path);
     }
     [[nodiscard]] auto GetTitle() const -> std::string override
     {

@@ -12,6 +12,7 @@ add_executable(dragonunpacker_tests
     test_outrage.cpp
     test_oof_pose.cpp
     test_oof_render.cpp
+    test_rig.cpp
     test_driver.cpp
     test_extractor.cpp
     test_extraction_job.cpp

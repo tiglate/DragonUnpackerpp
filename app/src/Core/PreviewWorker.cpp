@@ -7,6 +7,7 @@
 #include "Core/DdsDecoder.h"
 #include "Core/OutrageGraphics.h"
 #include "Core/OutrageModel.h"
+#include "Core/RigModel.h"
 
 #include <spdlog/spdlog.h>
 
@@ -14,6 +15,7 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -184,6 +186,120 @@ auto MakeTextureResolver(const Dudi7::IArchive &archive, ArchiveNames &names) ->
     };
 }
 
+/// The art archives of the game that the pictures of the Requiem models come from, kept open between previews (opening one
+/// decompresses every texture of the set: half a second).
+struct RigTextureCache
+{
+    std::string Path; // file of the open archive
+    std::unique_ptr<Dudi7::IArchive> Archive;
+    std::unordered_map<std::string, std::int64_t> ByName;
+    std::string Source; // the model the cache was searched for
+    bool Searched{false};
+};
+
+/// The picture of a Requiem model: the entry tex_NNNN.tga (NNNN is the slot of the model) of the art archive of the game,
+/// found from the folder of the model: Art/D3D (colours and alpha of its own), else Art/HW, else Art/SW, in the folder
+/// that holds the Models folder or one of its parents.
+auto MakeRigTextureResolver(const ArchiveSource &source, RigTextureCache &cache) -> std::function<std::shared_ptr<const DecodedImage>(int)>
+{
+    return [&source, &cache](int slot) -> std::shared_ptr<const DecodedImage> {
+        namespace fs = std::filesystem;
+        std::error_code error;
+        const auto lower = [](std::string text) {
+            for (auto &c : text)
+            {
+                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+            }
+            return text;
+        };
+        const auto child = [&](const fs::path &folder, const std::string &name) -> fs::path {
+            for (const auto &item : fs::directory_iterator(folder, error))
+            {
+                if (lower(item.path().filename().string()) == name)
+                {
+                    return item.path();
+                }
+            }
+            return {};
+        };
+        char wanted[32];
+        std::snprintf(wanted, sizeof wanted, "tex_%04d.tga", slot);
+        const auto fetch = [&]() -> std::shared_ptr<const DecodedImage> {
+            const auto entry = cache.ByName.find(wanted);
+            if (cache.Archive == nullptr || entry == cache.ByName.end())
+            {
+                return nullptr;
+            }
+            try
+            {
+                if (auto image = DecodeTga(cache.Archive->ExtractToMemory(entry->second, 16U * 1024 * 1024)))
+                {
+                    return std::make_shared<const DecodedImage>(std::move(*image));
+                }
+            }
+            catch (const std::exception &)
+            {
+                // a texture that does not extract is a missing one
+            }
+            return nullptr;
+        };
+        const std::string sourcePath = source.GetPath().string();
+        if (cache.Searched && cache.Source == sourcePath)
+        {
+            return fetch();
+        }
+        cache.Searched = true;
+        cache.Source = sourcePath;
+        cache.Archive.reset();
+        cache.ByName.clear();
+        fs::path folder = source.GetPath().parent_path();
+        for (int level = 0; level < 4 && !folder.empty(); ++level, folder = folder.parent_path())
+        {
+            const fs::path art = child(folder, "art");
+            if (art.empty())
+            {
+                continue;
+            }
+            for (const char *set : {"d3d", "hw", "sw"})
+            {
+                const fs::path setFolder = child(art, set);
+                if (setFolder.empty())
+                {
+                    continue;
+                }
+                for (const auto &item : fs::directory_iterator(setFolder, error))
+                {
+                    if (lower(item.path().extension().string()) != ".dat")
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        auto archive = source.OpenFile(item.path());
+                        if (archive == nullptr)
+                        {
+                            return nullptr;
+                        }
+                        for (std::int64_t i = 0; i < archive->GetEntryCount(); ++i)
+                        {
+                            cache.ByName.emplace(archive->GetEntry(i).Name, i);
+                        }
+                        cache.Path = item.path().string();
+                        cache.Archive = std::move(archive);
+                        return fetch();
+                    }
+                    catch (const std::exception &)
+                    {
+                        // not an archive of the game: another file
+                    }
+                }
+            }
+            return nullptr;
+        }
+        return nullptr;
+    };
+}
+
 constexpr std::size_t MAX_PALETTE_ENTRY_BYTES = 65536;
 /// The Descent 3 formats that are decoded for the preview (a .fnt that is not an Outrage font stays text).
 auto IsOutrageExtension(const std::string &extension) -> bool
@@ -320,6 +436,25 @@ auto PreviewWorker::Prepare(const std::string &fileName, const std::string &form
             result.Message = why;
         }
     }
+    else if (extension == "gltf" && !truncated)
+    {
+        if (auto rig = ParseRigGltf(std::string_view(reinterpret_cast<const char *>(bytes.data()), bytes.size())))
+        {
+            auto scene = std::make_shared<const RigScene>(std::move(*rig));
+            if (scene->ArtSlot >= 0 && context.RigTexture)
+            {
+                result.RigTexture = context.RigTexture(scene->ArtSlot);
+                if (result.RigTexture == nullptr)
+                {
+                    result.Message = "texture " + std::to_string(scene->ArtSlot) + " of the art archive not found (it is looked for in the Art folder of the game)";
+                }
+            }
+            result.Kind = PreviewKind::RIG;
+            result.Rig = std::move(scene);
+            return result;
+        }
+        result.Message = "not a skinned model this viewer reads";
+    }
     else if (extension == "obj" && !truncated)
     {
         if (auto mesh = ParseObj(std::string_view(reinterpret_cast<const char *>(bytes.data()), bytes.size())))
@@ -415,6 +550,7 @@ void PreviewWorker::Run(const std::stop_token &stop)
     const ArchiveSource *archiveSource = nullptr;
     PaletteLookup palettes;
     ArchiveNames names;
+    RigTextureCache rigTextures;
     while (true)
     {
         PreviewRequest request;
@@ -443,7 +579,7 @@ void PreviewWorker::Run(const std::stop_token &stop)
             const auto info = archive->GetEntry(request.Entry);
             const std::string extension = ExtensionOf(request.FileName);
             std::size_t limit = TEXT_EXTENSIONS.contains(extension) ? _textLimit.load() : HEX_BYTES;
-            if (extension == "tga" || extension == "dds" || extension == "obj" || IsOutrageExtension(extension) || IMAGE_FILE_EXTENSIONS.contains(extension) || HasTextureExtension(request.FileName))
+            if (extension == "tga" || extension == "dds" || extension == "obj" || extension == "gltf" || IsOutrageExtension(extension) || IMAGE_FILE_EXTENSIONS.contains(extension) || HasTextureExtension(request.FileName))
             {
                 limit = _imageLimit.load();
             }
@@ -493,6 +629,10 @@ void PreviewWorker::Run(const std::stop_token &stop)
             if (extension == "oof")
             {
                 context.Textures = MakeTextureResolver(*archive, names);
+            }
+            else if (extension == "gltf")
+            {
+                context.RigTexture = MakeRigTextureResolver(*request.Source, rigTextures);
             }
             result = Prepare(request.FileName, request.FormatId, bytes, info.Size, context);
             result.Detected = IdentifyFile(std::span<const std::byte>(bytes).first(std::min(bytes.size(), FILE_TYPE_HEAD_BYTES)), bytes.size() < FILE_TYPE_HEAD_BYTES ? static_cast<std::int64_t>(bytes.size()) : info.Size, request.FileName);

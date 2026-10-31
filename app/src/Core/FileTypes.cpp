@@ -546,6 +546,7 @@ const std::vector<Signature> &Table()
         {"bsp", "Source engine level (BSP)", "bsp", Cat::MODEL, 0, "VBSP", 100, nullptr},
         {"fbx", "Autodesk FBX (binary)", "fbx", Cat::MODEL, 0, std::string_view("Kaydara FBX Binary  \0", 21), 100, nullptr},
         {"glb", "glTF binary", "glb", Cat::MODEL, 0, "glTF", 100, nullptr},
+        {"gltf", "glTF model", "gltf", Cat::MODEL, 0, "{\"asset\":{\"version\":\"2.0\"", 95, nullptr},
         // programs and code
         {"elf", "ELF executable or library", "", Cat::CODE, 0, std::string_view("\x7f" "ELF", 4), 100, nullptr},
         {"exe", "Windows executable", "exe", Cat::CODE, 0, "MZ", 95, &IsPe},

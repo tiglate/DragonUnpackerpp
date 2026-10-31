@@ -83,6 +83,8 @@ class MainWindow : public QMainWindow
     void SetNameFilter(const QString &text, bool wholeArchive);
     /// Test hook: show the models animated at this position (0 to 1).
     void SetModelPose(double u);
+    /// The skinned models start in this animation (test hook).
+    void SetModelAnimation(int index);
     /// Test hook: the type filter by extension ("" = entries without one); returns false when the archive has no such type.
     auto SetTypeFilter(const QString &extension) -> bool;
     /// Test hooks: include subfolders / sort by a column (0 name, 1 type, 2 size, 3 offset).

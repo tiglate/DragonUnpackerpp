@@ -772,6 +772,11 @@ void MainWindow::SetNameFilter(const QString &text, bool wholeArchive)
     _filter->setText(text);
 }
 
+void MainWindow::SetModelAnimation(int index)
+{
+    _preview->SetModelAnimation(index);
+}
+
 void MainWindow::SetModelPose(double u)
 {
     _preview->SetModelPose(u);

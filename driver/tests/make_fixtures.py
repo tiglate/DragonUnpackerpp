@@ -2741,7 +2741,7 @@ def req_mdl_skeletal():
     sections = b""
     for code, count in ((0xFFFF0003, 3), (0xFFFF0000, 4)):     # limb 0 has one child, limb 1 is a leaf
         sections += struct.pack("<I", code) + bytes(0x1C) + struct.pack("<I", count) + bytes(0x38 - 0x24)
-    verts = b"".join(struct.pack("<3f", i, i * 2, 0) for i in range(7))
+    verts = b"".join(struct.pack("<3f", i, i * i, 0) for i in range(7))
     faces = req_mdl_face([0, 1, 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) + req_mdl_face([3, 4, 5], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)])
     return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * 7
 
