@@ -19,17 +19,42 @@
 // normals: flags & 2: none. Static models: one (float x, y, z) per face (flags are 1, 2, 4 or 0x82 in the game's
 //   files; the loader at 0x441E90 would read vertex normals for 4, the three files with that value have face
 //   normals). Skeletal models: one per face if flags & 1, otherwise one per vertex (flags are 0x10 in the game).
-// The vertices of the limbs of a skeletal model follow one another, each limb in its own space: the position of
-// the limbs comes from the animation (the .ani files, AnimFile.bin), which is not read here, so these models are
-// shown with every limb as a group at its own origin.
+// The vertices of the limbs of a skeletal model follow one another, each limb in its own space; the pose comes
+// from an animation (loader and sampler at 0x41E870 / 0x41E3F0). Animation file ("Models/*.ani", or a record of
+// AnimFile.bin: the same file): a 0x34 byte header (only the size at 0xC and the frame rate at 0x14 are used), then
+// the body, read as 32 bit words from its start:
+//   per limb, a 4 bit field of a flags word (a new word is read when the rest of the current one is zero; the
+//   low nibble is the first limb): bit 1 rotation, bit 0 rotation animated, bit 3 position, bit 2 position
+//   animated. A limb has, in this order:
+//   rotation, constant: 4 floats (w, x, y, z). Animated: u32 count, count + 1 key times (frames, the last one is
+//     the end), then count keys of 16 floats = 4 rows (cubic, quadratic, linear, constant terms) of (w, x, y, z)
+//   position, constant: 3 floats. Animated: count, times, count keys of 12 floats = 4 rows of (x, y, z)
+//   The value at frame t (clamped to the first and last time) is ((a3 t + a2) t + a1) t + a0 with t the frame
+//   number itself, using the key of the interval that holds it. A limb without rotation (position) has the
+//   identity (zero).
+//   The count of limbs of a file is whatever makes the limbs end exactly at the end of the body (true for all
+//   the 89 .ani files and 499 AnimFile records of the game, with a single count each).
+// The skeleton is stored in depth first order by the first u32 of each limb record of the model: bit 0 = the limb
+// has children, bits 1 - 15 = number of children (when bit 0 is set) or number of saved rotations to drop (leaf),
+// bits 16 - 31 = distance in limbs to the next sibling. The world rotation of a limb is parent * own (quaternions,
+// the origin of a child is the parent's origin + parent rotation * the child's position); the rotation and origin
+// of the parent are saved on stacks when it has several children and restored at each leaf.
+// Which animation poses a model: an animation file named like the model (assault.ani), else the first animation
+// of the model in Models3.txt ("M id texture file.mdl", then "A n file.ani"; the record in AnimFile.bin is
+// AnimFile.tab[id * 40 + n]); the animation must fit the limbs exactly. A few models have none: they borrow the
+// animation of a model of Models3.txt with the same skeleton (same u32 codes), else they are left unposed (every
+// limb at the origin). The pose is the first frame of the animation (a walk, for most).
 //
 // The model is shown as Wavefront OBJ + MTL (the MTL names the texture file; the size of the texture is not in
 // the model: texture coordinates are divided by the smallest power of two, 32 or more, that holds them).
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <filesystem>
+#include <optional>
 
 #include "PathUtil.h"
 #include "Registry.h"
@@ -63,6 +88,9 @@ struct Model
     std::vector<Vec3> Normals;
     bool FaceNormals = false;
     std::vector<uint32_t> LimbVertices; // skeletal models: vertices of each limb
+    std::vector<uint32_t> SectionCodes; // skeletal models: first u32 of each limb record (the skeleton)
+    std::string PoseSource;             // what posed the model (empty: not posed)
+    int ArtSlot = -1;                   // texture slot of Models3.txt
 };
 
 auto ReadFloat(Reader &r) -> float
@@ -179,7 +207,8 @@ auto ParseSkeletal(Reader &r, Model &m) -> bool
     uint32_t total = 0;
     for (uint32_t i = 0; i < sectionCount; ++i)
     {
-        r.Skip(0x20);
+        m.SectionCodes.push_back(r.U32());
+        r.Skip(0x1C);
         const uint32_t count = r.U32();
         r.Skip(SectionBytes - 0x24);
         m.LimbVertices.push_back(count);
@@ -188,6 +217,509 @@ auto ParseSkeletal(Reader &r, Model &m) -> bool
     if (total != vertexCount)
         return false;
     return ReadVertices(r, vertexCount, m) && ReadBody(r, faceCount, flags, (flags & 1) != 0, m);
+}
+
+// ---- pose ----
+
+struct Quat
+{
+    double W = 1, X = 0, Y = 0, Z = 0;
+};
+
+using Vec = std::array<double, 3>;
+
+struct LimbPose
+{
+    Quat Rotation;
+    Vec Position{0, 0, 0};
+};
+
+auto Multiply(const Quat &p, const Quat &q) -> Quat
+{
+    return {q.W * p.W - q.X * p.X - q.Y * p.Y - q.Z * p.Z, q.X * p.W + q.W * p.X + q.Z * p.Y - q.Y * p.Z,
+            q.Y * p.W + q.W * p.Y + q.X * p.Z - q.Z * p.X, q.Z * p.W + q.Y * p.X + q.W * p.Z - q.X * p.Y};
+}
+
+// Rotation matrix of a quaternion (normalized here), rows
+using Matrix = std::array<std::array<double, 3>, 3>;
+
+auto ToMatrix(const Quat &q) -> Matrix
+{
+    const double n = q.W * q.W + q.X * q.X + q.Y * q.Y + q.Z * q.Z;
+    const double s = n > 0 ? 2.0 / n : 0.0;
+    return {{{1 - s * (q.Y * q.Y + q.Z * q.Z), s * (q.X * q.Y - q.Z * q.W), s * (q.X * q.Z + q.Y * q.W)},
+             {s * (q.X * q.Y + q.Z * q.W), 1 - s * (q.X * q.X + q.Z * q.Z), s * (q.Y * q.Z - q.X * q.W)},
+             {s * (q.X * q.Z - q.Y * q.W), s * (q.Y * q.Z + q.X * q.W), 1 - s * (q.X * q.X + q.Y * q.Y)}}};
+}
+
+auto Rotate(const Matrix &m, const Vec &v) -> Vec
+{
+    return {m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2], m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
+            m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2]};
+}
+
+// The words of an animation body; reads past the end fail instead of reading
+class Words
+{
+  public:
+    explicit Words(const std::vector<uint8_t> &bytes, size_t start) : _bytes(bytes), _pos(start)
+    {
+    }
+    auto Left() const -> size_t
+    {
+        return (_bytes.size() - _pos) / 4;
+    }
+    auto Done() const -> bool
+    {
+        return _pos == _bytes.size() || _pos + 4 > _bytes.size();
+    }
+    auto Bad() const -> bool
+    {
+        return _bad;
+    }
+    auto U32() -> uint32_t
+    {
+        if (_pos + 4 > _bytes.size())
+        {
+            _bad = true;
+            return 0;
+        }
+        uint32_t v;
+        std::memcpy(&v, &_bytes[_pos], 4);
+        _pos += 4;
+        return v;
+    }
+    auto F32() -> double
+    {
+        const uint32_t bits = U32();
+        float v;
+        std::memcpy(&v, &bits, 4);
+        return v;
+    }
+    // The count and the key times of an animated value; false if they do not fit. Keys follow.
+    auto Spline(uint32_t keyWords, uint32_t &count, std::vector<double> &times, size_t &keys) -> bool
+    {
+        count = U32();
+        if (_bad || count == 0 || count > 100000 || static_cast<uint64_t>(count) * (keyWords + 1) + 1 > Left())
+        {
+            _bad = true;
+            return false;
+        }
+        times.resize(count + 1);
+        for (double &t : times)
+            t = F32();
+        keys = _pos;
+        _pos += static_cast<size_t>(count) * keyWords * 4;
+        return true;
+    }
+    auto Key(size_t keys, size_t index, uint32_t keyWords, uint32_t word) const -> double
+    {
+        float v;
+        std::memcpy(&v, &_bytes[keys + (static_cast<size_t>(index) * keyWords + word) * 4], 4);
+        return v;
+    }
+
+  private:
+    const std::vector<uint8_t> &_bytes;
+    size_t _pos;
+    bool _bad = false;
+};
+
+// The pose of every limb at frame t of an animation body; nullopt unless the limbs use the body exactly
+auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t) -> std::optional<std::vector<LimbPose>>
+{
+    constexpr size_t HeaderBytes = 0x34;
+    if (file.size() < HeaderBytes + 4 || limbs == 0 || limbs > 1000)
+        return std::nullopt;
+    Words w(file, HeaderBytes);
+    std::vector<LimbPose> pose(limbs);
+    uint32_t flags = 0;
+    std::vector<double> times;
+    for (size_t limb = 0; limb < limbs; ++limb)
+    {
+        if (flags == 0)
+            flags = w.U32();
+        if (flags & 2)
+        {
+            if (!(flags & 1))
+            {
+                pose[limb].Rotation = {w.F32(), w.F32(), w.F32(), w.F32()};
+            }
+            else
+            {
+                uint32_t count;
+                size_t keys;
+                if (!w.Spline(16, count, times, keys))
+                    return std::nullopt;
+                const double tt = std::clamp(t, times.front(), times.back());
+                uint32_t k = 0;
+                while (k + 1 < count && times[k + 1] < tt)
+                    ++k;
+                double v[4];
+                for (uint32_t j = 0; j < 4; ++j)
+                    v[j] = ((tt * w.Key(keys, k, 16, j) + w.Key(keys, k, 16, 4 + j)) * tt + w.Key(keys, k, 16, 8 + j)) * tt +
+                           w.Key(keys, k, 16, 12 + j);
+                pose[limb].Rotation = {v[0], v[1], v[2], v[3]};
+            }
+        }
+        if (flags & 8)
+        {
+            if (!(flags & 4))
+            {
+                pose[limb].Position = {w.F32(), w.F32(), w.F32()};
+            }
+            else
+            {
+                uint32_t count;
+                size_t keys;
+                if (!w.Spline(12, count, times, keys))
+                    return std::nullopt;
+                const double tt = std::clamp(t, times.front(), times.back());
+                uint32_t k = 0;
+                while (k + 1 < count && times[k + 1] < tt)
+                    ++k;
+                for (uint32_t j = 0; j < 3; ++j)
+                    pose[limb].Position[j] = ((tt * w.Key(keys, k, 12, j) + w.Key(keys, k, 12, 3 + j)) * tt +
+                                              w.Key(keys, k, 12, 6 + j)) * tt + w.Key(keys, k, 12, 9 + j);
+            }
+        }
+        flags >>= 4;
+    }
+    if (w.Bad() || !w.Done())
+        return std::nullopt;
+    return pose;
+}
+
+struct LimbMatrix
+{
+    Matrix Rotation;
+    Vec Origin;
+};
+
+// World rotation and origin of every limb (the depth first walk of 0x41E3F0)
+auto BuildSkeleton(const std::vector<uint32_t> &codes, const std::vector<LimbPose> &pose) -> std::vector<LimbMatrix>
+{
+    const size_t n = codes.size();
+    std::vector<LimbMatrix> result(n);
+    Quat parent;
+    Vec origin = pose[0].Position;
+    std::vector<Quat> quats;
+    std::vector<Vec> origins;
+    for (size_t i = 0; i < n; ++i)
+    {
+        const Quat world = Multiply(parent, pose[i].Rotation);
+        const Matrix matrix = ToMatrix(world);
+        result[i] = {matrix, origin};
+        const uint32_t code = codes[i];
+        if (code & 1)
+        {
+            const uint32_t children = (code >> 1) & 0x7FFF;
+            if (children > 1)
+            {
+                quats.push_back(world);
+                // the origins of the other children, the second one on top
+                std::vector<size_t> others;
+                size_t at = i + 1;
+                for (uint32_t c = 1; c < children && at < n; ++c)
+                {
+                    const uint32_t skip = codes[at] >> 16;
+                    if (skip == 0 || at + skip >= n)
+                        break;
+                    at += skip;
+                    others.push_back(at);
+                }
+                for (auto it = others.rbegin(); it != others.rend(); ++it)
+                {
+                    const Vec r = Rotate(matrix, pose[*it].Position);
+                    origins.push_back({origin[0] + r[0], origin[1] + r[1], origin[2] + r[2]});
+                }
+            }
+            if (i + 1 < n)
+            {
+                const Vec r = Rotate(matrix, pose[i + 1].Position);
+                origin = {origin[0] + r[0], origin[1] + r[1], origin[2] + r[2]};
+            }
+            parent = world;
+        }
+        else
+        {
+            const size_t drop = std::min<size_t>((code >> 1) & 0x7FFF, quats.size());
+            quats.resize(quats.size() - drop);
+            parent = quats.empty() ? Quat() : quats.back();
+            if (!origins.empty())
+            {
+                origin = origins.back();
+                origins.pop_back();
+            }
+        }
+    }
+    return result;
+}
+
+auto ReadFileBytes(const std::string &path) -> std::vector<uint8_t>
+{
+    try
+    {
+        Reader r(path);
+        std::vector<uint8_t> bytes(static_cast<size_t>(r.Size()));
+        if (!bytes.empty())
+            r.ReadBuffer(bytes.data(), bytes.size());
+        return bytes;
+    }
+    catch (const std::exception &)
+    {
+        return {};
+    }
+}
+
+// A file of a folder by its name, whatever the case
+auto FindInFolder(const std::string &folder, const std::string &name) -> std::string
+{
+    namespace fs = std::filesystem;
+    std::error_code error;
+    const std::string wanted = ToLower(name);
+    for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
+    {
+        const std::string file = item.path().filename().string();
+        if (ToLower(file) == wanted)
+            return item.path().string();
+    }
+    return {};
+}
+
+struct ModelEntry
+{
+    int Id = 0;
+    int Slot = -1;
+    std::string File;
+    std::vector<std::pair<int, std::string>> Animations;
+};
+
+// Models3.txt: "M id texture-slot file.mdl" then "A index file.ani" lines
+auto ReadModels3(const std::string &folder) -> std::vector<ModelEntry>
+{
+    std::vector<ModelEntry> entries;
+    const std::string path = FindInFolder(folder, "models3.txt");
+    if (path.empty())
+        return entries;
+    const std::vector<uint8_t> bytes = ReadFileBytes(path);
+    const std::string text(bytes.begin(), bytes.end());
+    size_t pos = 0;
+    while (pos < text.size())
+    {
+        size_t end = text.find('\n', pos);
+        if (end == std::string::npos)
+            end = text.size();
+        std::string line = text.substr(pos, end - pos);
+        pos = end + 1;
+        while (!line.empty() && (line.back() == '\r' || line.back() == ' '))
+            line.pop_back();
+        char kind = 0;
+        int a = 0;
+        int b = 0;
+        char file[256] = {};
+        if (line.empty() || line[0] == '#')
+            continue;
+        if (std::sscanf(line.c_str(), "%c %d %d %255s", &kind, &a, &b, file) == 4 && (kind == 'M' || kind == 'm'))
+        {
+            ModelEntry e;
+            e.Id = a;
+            e.Slot = b;
+            e.File = file;
+            entries.push_back(std::move(e));
+        }
+        else if (std::sscanf(line.c_str(), "%c %d %255s", &kind, &a, file) == 3 && (kind == 'A' || kind == 'a') &&
+                 !entries.empty())
+            entries.back().Animations.emplace_back(a, file);
+    }
+    return entries;
+}
+
+// The animation files of AnimFile.bin
+class AnimPack
+{
+  public:
+    explicit AnimPack(const std::string &folder)
+    {
+        const std::string ary = FindInFolder(folder, "animfile.ary");
+        const std::string bin = FindInFolder(folder, "animfile.bin");
+        const std::string tab = FindInFolder(folder, "animfile.tab");
+        if (ary.empty() || bin.empty() || tab.empty())
+            return;
+        const std::vector<uint8_t> index = ReadFileBytes(ary);
+        _bin = ReadFileBytes(bin);
+        const std::vector<uint8_t> table = ReadFileBytes(tab);
+        if (index.size() < 4 || table.size() < 2)
+            return;
+        uint32_t count;
+        std::memcpy(&count, index.data(), 4);
+        if (index.size() != 4 + static_cast<size_t>(count) * 16)
+            return;
+        for (uint32_t i = 0; i < count; ++i)
+        {
+            uint32_t offset;
+            uint32_t size;
+            std::memcpy(&offset, &index[4 + i * 16], 4);
+            std::memcpy(&size, &index[4 + i * 16 + 8], 4);
+            if (static_cast<uint64_t>(offset) + size > _bin.size())
+                return;
+            _records.emplace_back(offset, size);
+        }
+        for (size_t i = 0; i + 2 <= table.size(); i += 2)
+            _table.push_back(static_cast<uint16_t>(table[i] | table[i + 1] << 8));
+    }
+    // The animation of an animation index of a model id; empty if there is none
+    auto Find(int model, int animation) const -> std::vector<uint8_t>
+    {
+        const size_t slot = static_cast<size_t>(model) * 40 + static_cast<size_t>(animation);
+        if (model < 0 || animation < 0 || animation >= 40 || slot >= _table.size() || _table[slot] >= _records.size())
+            return {};
+        const auto [offset, size] = _records[_table[slot]];
+        return std::vector<uint8_t>(_bin.begin() + offset, _bin.begin() + offset + size);
+    }
+
+  private:
+    std::vector<uint8_t> _bin;
+    std::vector<std::pair<uint32_t, uint32_t>> _records;
+    std::vector<uint16_t> _table;
+};
+
+// Animations of a model of Models3.txt in the order to try: standing ones first
+auto OrderedAnimations(const ModelEntry &e) -> std::vector<std::pair<int, std::string>>
+{
+    std::vector<std::pair<int, std::string>> list = e.Animations;
+    std::stable_partition(list.begin(), list.end(), [](const auto &a) {
+        const std::string n = ToLower(a.second);
+        return n.find("look") != std::string::npos || n.find("stand") != std::string::npos ||
+               n.find("idle") != std::string::npos;
+    });
+    return list;
+}
+
+// Poses the model if an animation fits it; the vertices become world positions
+void PoseModel(Model &m, const std::string &path)
+{
+    if (m.SectionCodes.empty())
+        return;
+    namespace fs = std::filesystem;
+    const std::string folder = fs::path(std::u8string(path.begin(), path.end())).parent_path().string();
+    const std::string file = FileNameOf(path);
+    const std::string base = ToLower(ChangeFileExt(file, ""));
+    const size_t limbs = m.SectionCodes.size();
+    std::optional<std::vector<LimbPose>> pose;
+    std::string source;
+    const auto tryAnimation = [&](const std::vector<uint8_t> &bytes, const std::string &name) {
+        if (pose || bytes.empty())
+            return;
+        pose = SamplePose(bytes, limbs, 0.0);
+        if (pose)
+            source = name;
+    };
+
+    // 1. an animation file named like the model
+    tryAnimation(ReadFileBytes(FindInFolder(folder, base + ".ani").empty() ? std::string() : FindInFolder(folder, base + ".ani")),
+                 base + ".ani");
+
+    const std::vector<ModelEntry> entries = ReadModels3(folder);
+    const ModelEntry *own = nullptr;
+    for (const ModelEntry &e : entries)
+        if (ToLower(e.File) == ToLower(file))
+            own = &e;
+    if (own)
+        m.ArtSlot = own->Slot;
+    std::optional<AnimPack> pack;
+    const auto packOf = [&]() -> AnimPack & {
+        if (!pack)
+            pack.emplace(folder);
+        return *pack;
+    };
+
+    // 2. the animations of the model in Models3.txt
+    if (own && !pose)
+        for (const auto &[index, name] : OrderedAnimations(*own))
+        {
+            tryAnimation(packOf().Find(own->Id, index), name);
+            if (!pose)
+                tryAnimation(ReadFileBytes(FindInFolder(folder, name)), name);
+            if (pose)
+                break;
+        }
+
+    // 3. animation files whose name starts with the one of the model (HandGunG.ani for HandGun.mdl)
+    if (!pose)
+    {
+        std::error_code error;
+        std::vector<std::string> names;
+        for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
+        {
+            const std::string name = item.path().filename().string();
+            const std::string low = ToLower(name);
+            if (ExtensionOf(low) == ".ani" && low.rfind(base, 0) == 0)
+                names.push_back(name);
+        }
+        std::sort(names.begin(), names.end());
+        for (const std::string &name : names)
+        {
+            tryAnimation(ReadFileBytes(folder + "/" + name), name);
+            if (pose)
+                break;
+        }
+    }
+
+    // 4. a model with the same skeleton
+    if (!pose)
+        for (const ModelEntry &e : entries)
+        {
+            if (ToLower(e.File) == ToLower(file))
+                continue;
+            const std::string other = FindInFolder(folder, e.File);
+            if (other.empty())
+                continue;
+            Model o;
+            try
+            {
+                Reader r(other);
+                if (!ParseSkeletal(r, o) || o.SectionCodes != m.SectionCodes)
+                    continue;
+            }
+            catch (const std::exception &)
+            {
+                continue;
+            }
+            for (const auto &[index, name] : OrderedAnimations(e))
+            {
+                tryAnimation(packOf().Find(e.Id, index), name + " of " + e.File);
+                if (!pose)
+                    tryAnimation(ReadFileBytes(FindInFolder(folder, name)), name + " of " + e.File);
+                if (pose)
+                    break;
+            }
+            if (pose)
+                break;
+        }
+    if (!pose)
+        return;
+
+    const std::vector<LimbMatrix> skeleton = BuildSkeleton(m.SectionCodes, *pose);
+    size_t first = 0;
+    std::vector<size_t> limbOf(m.Vertices.size());
+    for (size_t limb = 0; limb < limbs; ++limb)
+        for (uint32_t k = 0; k < m.LimbVertices[limb]; ++k, ++first)
+            limbOf[first] = limb;
+    for (size_t i = 0; i < m.Vertices.size(); ++i)
+    {
+        const LimbMatrix &lm = skeleton[limbOf[i]];
+        const Vec v = Rotate(lm.Rotation, {m.Vertices[i].X, m.Vertices[i].Y, m.Vertices[i].Z});
+        m.Vertices[i] = {static_cast<float>(v[0] + lm.Origin[0]), static_cast<float>(v[1] + lm.Origin[1]),
+                         static_cast<float>(v[2] + lm.Origin[2])};
+    }
+    for (size_t i = 0; i < m.Normals.size(); ++i)
+    {
+        const size_t vertex = m.FaceNormals ? m.Faces[i].Index[0] : i;
+        const Vec n = Rotate(skeleton[limbOf[vertex]].Rotation, {m.Normals[i].X, m.Normals[i].Y, m.Normals[i].Z});
+        m.Normals[i] = {static_cast<float>(n[0]), static_cast<float>(n[1]), static_cast<float>(n[2])};
+    }
+    m.PoseSource = source;
 }
 
 void Put(std::string &out, const char *format, double a, double b = 0, double c = 0)
@@ -209,6 +741,10 @@ auto MakeObj(const Model &m, const std::string &base) -> std::string
         size *= 2;
 
     std::string out = "# Requiem: Avenging Angel model, converted by Dragon UnPACKer\n";
+    if (!m.PoseSource.empty())
+        out += "# posed with the first frame of " + m.PoseSource + "\n";
+    else if (!m.LimbVertices.empty())
+        out += "# no animation fits this model: every limb is at its own origin\n";
     out += "mtllib " + base + ".mtl\nusemtl texture\n";
     for (const Vec3 &v : m.Vertices)
         Put(out, "v %.6f %.6f %.6f\n", v.X, v.Y, v.Z);
@@ -272,10 +808,20 @@ class RequiemMdlArchive : public Archive
         _formatId = isStatic ? "Requiem MDL" : "Requiem MDL (skeletal)";
         _dirSeparator = "";
         _extractInternal = true;
+        if (!isStatic)
+            PoseModel(m, _stream->Path());
         const std::string base = ChangeFileExt(FileNameOf(_stream->Path()), "");
         const std::string obj = MakeObj(m, base);
         std::string mtl = "newmtl texture\nKd 1 1 1\n";
-        if (!m.Texture.empty())
+        if (m.ArtSlot >= 0)
+        {
+            // the game loads the picture from this slot of the art archive (the D3D set has the colors)
+            char slot[64];
+            std::snprintf(slot, sizeof slot, "tex_%04d.tga", m.ArtSlot);
+            mtl += "# texture: slot " + std::to_string(m.ArtSlot) + " of the art archive (" + m.Texture + " is only a label)\n";
+            mtl += std::string("map_Kd ") + slot + "\n";
+        }
+        else if (!m.Texture.empty())
             mtl += "map_Kd " + m.Texture + "\n";
         _files.emplace_back(obj.begin(), obj.end());
         _files.emplace_back(mtl.begin(), mtl.end());

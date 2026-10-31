@@ -2,6 +2,7 @@
 """Generate one tiny archive per format of the default driver in a directory:
 python3 make_fixtures.py outdir
 All of them hold the same 3 payloads (the names depend on the format)."""
+import math
 import struct, sys, os
 
 HELLO = b"Hello, Dragon UnPACKer!\n"
@@ -2738,11 +2739,19 @@ def req_mdl_skeletal():
     name = b"skin.bmp\0"
     head = struct.pack("<IIIIB3xHH", 2, 0, 2, 0, 0x10, 7, len(name)) + bytes(0x2C - 0x18)
     sections = b""
-    for count in (3, 4):
-        sections += bytes(0x20) + struct.pack("<I", count) + bytes(0x38 - 0x24)
+    for code, count in ((0xFFFF0003, 3), (0xFFFF0000, 4)):     # limb 0 has one child, limb 1 is a leaf
+        sections += struct.pack("<I", code) + bytes(0x1C) + struct.pack("<I", count) + bytes(0x38 - 0x24)
     verts = b"".join(struct.pack("<3f", i, i * 2, 0) for i in range(7))
     faces = req_mdl_face([0, 1, 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) + req_mdl_face([3, 4, 5], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)])
     return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * 7
+
+
+def req_mdl_animation():
+    """body for req_skel.mdl: limb 0 turned 90 degrees around z at (10, 0, 0), limb 1 at (1, 0, 0) in its frame"""
+    body = struct.pack("<I", 0xAA)                                       # rotation and position, constant, 2 limbs
+    body += struct.pack("<4f3f", math.sqrt(0.5), 0, 0, math.sqrt(0.5), 10, 0, 0)
+    body += struct.pack("<4f3f", 1, 0, 0, 0, 1, 0, 0)
+    return struct.pack("<IIII", 0, 2, 0, len(body)) + bytes(0x34 - 16) + body
 
 
 def req_anim():
@@ -2762,6 +2771,7 @@ open(os.path.join(out, "req_sw.dat"), "wb").write(rsd)
 open(os.path.join(out, "req_sw.art"), "wb").write(rsa)
 open(os.path.join(out, "req_static.mdl"), "wb").write(req_mdl_static())
 open(os.path.join(out, "req_skel.mdl"), "wb").write(req_mdl_skeletal())
+open(os.path.join(out, "req_skel.ani"), "wb").write(req_mdl_animation())
 _ary, _bin = req_anim()
 open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
 open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)
