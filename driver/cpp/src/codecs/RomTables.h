@@ -21,8 +21,9 @@ struct KnownRun
 
 struct KnownStream
 {
-    std::string Codec; // lz, lzp, lzss (the scanner finds those) or dkc (decoded where the table says)
+    std::string Codec; // lz, lzp, lzss (the scanner finds those) or dkc or lz5 (decoded where the table says)
     int64_t Offset = 0;
+    std::vector<int> Bpp; // tile formats the screen used from it
     std::vector<std::vector<uint32_t>> Palettes; // 0xRRGGBB, most used first
 };
 

@@ -26,6 +26,8 @@ auto BitsPerPixel(TileFormat format) -> int
         return 2;
     case TileFormat::Snes3bpp:
         return 3;
+    case TileFormat::Snes8bppLinear:
+        return 8;
     default:
         return 4;
     }
@@ -46,6 +48,12 @@ auto Pixel(const uint8_t *tile, TileFormat format, int x, int y) -> int
     case TileFormat::Snes4bpp:
         return ((tile[2 * y] >> bit) & 1) | (((tile[2 * y + 1] >> bit) & 1) << 1) |
                (((tile[16 + 2 * y] >> bit) & 1) << 2) | (((tile[17 + 2 * y] >> bit) & 1) << 3);
+    case TileFormat::Snes4bppLinear: {
+        const uint8_t value = tile[4 * y + x / 2];
+        return (x & 1) ? (value >> 4) : (value & 15);
+    }
+    case TileFormat::Snes8bppLinear:
+        return tile[8 * y + x];
     case TileFormat::Md4bpp: {
         const uint8_t value = tile[4 * y + x / 2];
         return (x & 1) ? (value & 15) : (value >> 4);
@@ -69,13 +77,17 @@ auto TileBytes(TileFormat format) -> int64_t
 // The sheets are colour mapped TGA files (8 bits per pixel, a map of 16 grays): 4 times smaller than true
 // colour, and a viewer that can change the map shows the tiles with the colors of a palette of the ROM.
 constexpr int64_t MapColors = 16;
-constexpr int64_t TgaMapBytes = MapColors * 3;
+// Mode 7 sheets have 8 bits pixels: a map of 256 colours
+auto MapEntries(TileFormat format) -> int64_t
+{
+    return format == TileFormat::Snes8bppLinear ? 256 : MapColors;
+}
 
 auto TileSheetSize(int64_t length, TileFormat format) -> int64_t
 {
     const int64_t tiles = (length + TileBytes(format) - 1) / TileBytes(format);
     const int64_t rows = (tiles + TilesPerRow - 1) / TilesPerRow;
-    return TgaHeader + TgaMapBytes + TilesPerRow * 8 * rows * 8;
+    return TgaHeader + MapEntries(format) * 3 + TilesPerRow * 8 * rows * 8;
 }
 
 auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format, const std::vector<uint32_t> &colors) -> std::vector<uint8_t>
@@ -88,14 +100,15 @@ auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format, con
     std::vector<uint8_t> tga(static_cast<size_t>(TileSheetSize(length, format)), 0);
     tga[1] = 1; // colour map
     tga[2] = 1; // colour mapped image
-    Put16(tga, 5, static_cast<int>(MapColors));
+    const int64_t mapColors = MapEntries(format);
+    Put16(tga, 5, static_cast<int>(mapColors));
     tga[7] = 24;
     Put16(tga, 12, width);
     Put16(tga, 14, height);
     tga[16] = 8;
     tga[17] = 0x20; // rows from the top
     const int levels = (1 << BitsPerPixel(format)) - 1;
-    for (int i = 0; i < MapColors; ++i) // grays for the colors the format has, black after them
+    for (int i = 0; i < mapColors; ++i) // grays for the colors the format has, black after them
     {
         const auto shade = static_cast<uint8_t>(i <= levels ? i * 255 / levels : 0);
         tga[static_cast<size_t>(TgaHeader + i * 3)] = tga[static_cast<size_t>(TgaHeader + i * 3 + 1)] =
@@ -107,8 +120,8 @@ auto RenderTileSheet(const uint8_t *data, int64_t length, TileFormat format, con
             tga[static_cast<size_t>(TgaHeader + i * 3 + 2)] = static_cast<uint8_t>((colors[static_cast<size_t>(i)] >> 16) & 255);
         }
     }
-    const auto pixels = static_cast<size_t>(TgaHeader + TgaMapBytes);
-    std::array<uint8_t, 32> tile{};
+    const auto pixels = static_cast<size_t>(TgaHeader + mapColors * 3);
+    std::array<uint8_t, 64> tile{};
     for (int64_t t = 0; t < tiles; ++t)
     {
         const int64_t start = t * tileBytes;

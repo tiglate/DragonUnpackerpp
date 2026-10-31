@@ -44,7 +44,10 @@ auto FindKnownGame(uint32_t crc32, KnownGame &game) -> bool
             {
                 KnownStream stream;
                 std::string word;
-                fields >> stream.Codec >> stream.Offset;
+                std::string bpps;
+                fields >> stream.Codec >> stream.Offset >> bpps;
+                for (size_t i = 0; i < bpps.size(); i += 2)
+                    stream.Bpp.push_back(bpps[i] - '0');
                 while (fields >> word)
                     stream.Palettes.push_back(ParsePalette(word));
                 game.Streams.push_back(std::move(stream));

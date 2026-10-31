@@ -13,7 +13,7 @@ ap.add_argument("rom"); ap.add_argument("trace"); ap.add_argument("out")
 ap.add_argument("--title", required=True)
 ap.add_argument("--build", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "build"))
 ap.add_argument("--max-palettes", type=int, default=6)
-ap.add_argument("--probe", choices=["dkc"], help="also look for streams of a codec that the driver does not scan for: every ROM offset is tried and a stream counts when its tiles are on the screen of the trace")
+ap.add_argument("--probe", choices=["dkc", "lz5"], nargs="+", default=[], help="also look for streams of a codec that the driver does not scan for: every ROM offset is tried and a stream counts when its tiles are on the screen of the trace")
 a = ap.parse_args()
 
 rom_bytes = open(a.rom, "rb").read()
@@ -90,26 +90,83 @@ def dkc_decode(rom, table, maxout=0x8000):
         if len(out) > maxout: return None
     return None
 
-if a.probe:
-    seen_tiles = set()
+def m7pack(t):
+    """A Mode 7 tile (64 pixel bytes) that the game made from 4 bits pixels plus a base: (base, 32 packed bytes, low
+    nibble first), else None"""
+    base = min(t) & 0xF0
+    if max(t) - base > 15: return None
+    return base, bytes((t[2 * i] - base) | ((t[2 * i + 1] - base) << 4) for i in range(32))
+
+def lz5_decode(rom, start, maxout=0x10000):
+    """The Nintendo LZ with the two extra copy commands (Super Metroid, Super Mario Kart), None when not a stream"""
+    p, n, out = start, len(rom), bytearray()
+    while p < n:
+        h = rom[p]; p += 1
+        if h == 0xFF: return bytes(out)
+        cmd, ln = h >> 5, (h & 31) + 1
+        if cmd == 7:
+            if p >= n: return None
+            cmd, ln = (h >> 2) & 7, ((h & 3) << 8 | rom[p]) + 1; p += 1
+        if cmd == 0:
+            if p + ln > n: return None
+            out += rom[p:p + ln]; p += ln
+        elif cmd == 1:
+            if p >= n: return None
+            out += bytes([rom[p]]) * ln; p += 1
+        elif cmd == 2:
+            if p + 2 > n: return None
+            out += bytes(rom[p + (i & 1)] for i in range(ln)); p += 2
+        elif cmd == 3:
+            if p >= n: return None
+            out += bytes((rom[p] + i) & 255 for i in range(ln)); p += 1
+        elif cmd in (4, 5):
+            if p + 2 > n: return None
+            f = rom[p] | rom[p + 1] << 8; p += 2
+            if f >= len(out): return None
+            for i in range(ln): out.append(out[f + i] ^ (0xFF if cmd == 5 else 0))
+        elif cmd == 6:
+            if p >= n: return None
+            back = rom[p]; p += 1
+            if back == 0 or back > len(out): return None
+            f = len(out) - back
+            for i in range(ln): out.append(out[f + i])
+        else:
+            return None
+        if len(out) > maxout: return None
+    return None
+
+for codec in a.probe:
+    seen32, seen64 = set(), set()
     for v in vrams.values():
         for i in range(0, len(v) - 31, 32):
             t = v[i:i + 32]
-            if any(t): seen_tiles.add(t)
-    kept, cands = 0, []
-    for t0 in range(len(rom_bytes) - 200):
-        out = dkc_decode(rom_bytes, t0)
+            if any(t): seen32.add(t)
+        chars = v[1:32768:2]   # Mode 7 tiles: the high bytes of the words
+        for i in range(0, len(chars) - 63, 64):
+            t = chars[i:i + 64]
+            if any(t):
+                seen64.add(t)
+                pk = m7pack(t)
+                if pk: seen32.add(pk[1])
+    decode = dkc_decode if codec == "dkc" else lz5_decode
+    cands = []
+    for t0 in range(len(rom_bytes) - (200 if codec == "dkc" else 8)):
+        out = decode(rom_bytes, t0)
         if out is None or len(out) < 64: continue
-        blocks = [out[i:i + 32] for i in range(0, len(out) - 31, 32)]
-        hits = sum(1 for b in blocks if b in seen_tiles)
+        b32 = [out[i:i + 32] for i in range(0, len(out) - 31, 32)]
+        b64 = [out[i:i + 64] for i in range(0, len(out) - 63, 64)]
+        h32 = sum(1 for b in b32 if b in seen32)
+        h64 = sum(1 for b in b64 if b in seen64)
+        hits, blocks = (h32, b32) if h32 * 2 >= h64 * 1 else (h64, b64)
         if hits >= 8 and hits >= 0.3 * len(blocks):
             cands.append((hits, t0, out, blocks))
     cands.sort(key=lambda c: (-c[0], c[1]))   # the best explained first: a start a few bytes off decodes much the same
     for hits, t0, out, blocks in cands:
-        blobs["dkc_%06X" % t0] = out; kept += 1
+        name = "%s_%06X" % (codec, t0)
+        blobs[name] = out
         for k, b in enumerate(blocks):
-            if any(b): index4.setdefault(b, ("dkc_%06X" % t0, k, 4))
-    print("probe dkc:", kept, "candidates")
+            if any(b): (index4 if len(b) == 32 else index8).setdefault(b, (name, k, 4 if len(b) == 32 else 8))
+    print("probe %s: %d candidates" % (codec, len(cands)))
 
 class Entry:
     def __init__(self): self.palettes = {}; self.tiles = set(); self.kinds = set(); self.bpp = set(); self.offsets = set()
@@ -127,20 +184,30 @@ for r in recs:
             t = chars[tile * 64:(tile + 1) * 64]
             if not any(t): continue
             stats["tiles"] += 1
-            hit = index8.get(t)
+            hit, base = index8.get(t), 0
             if hit: src, tileno, bpp = hit; off = None
             else:
                 off = in_rom(t)
-                if off < 0: continue
-                src, bpp = "rom", 8
+                if off >= 0: src, bpp = "rom", 8
+                else:
+                    pk = m7pack(t)   # made from 4 bits pixels (a converter in the game): look the packed form up
+                    if not pk: continue
+                    base, packed = pk
+                    hit = index4.get(packed)
+                    if hit: src, tileno, bpp = hit[0], hit[1], 5; off = None
+                    else:
+                        off = in_rom(packed)
+                        if off < 0: continue
+                        src, bpp = "rom", 5
             stats["explained"] += 1
             e = table[src]
-            colors = [int.from_bytes(cg[c * 2:c * 2 + 2], "little") for c in range(256)]
+            n = 16 if bpp == 5 else 256
+            colors = [int.from_bytes(cg[(base + c) * 2:(base + c) * 2 + 2], "little") for c in range(n)]
             key = " ".join(color(c) for c in colors)
             p = e.palettes.setdefault(key, {"count": 0, "romOffset": None})
             p["count"] += 1
-            e.kinds.add("mode7"); e.bpp.add(8)
-            if off is not None: e.offsets.add((off, 64))
+            e.kinds.add("mode7"); e.bpp.add(bpp)
+            if off is not None: e.offsets.add((off, 32 if bpp == 5 else 64, bpp))
             else: e.tiles.add(tileno)
         continue
     used = []   # (VRAM byte address, tile size, palette number, first CGRAM colour, kind)
@@ -179,7 +246,7 @@ for r in recs:
         p = e.palettes.setdefault(key, {"count": 0, "romOffset": where if where >= 0 else None})
         p["count"] += 1
         e.kinds.add(kind); e.bpp.add(bpp)
-        if off is not None: e.offsets.add((off, size))
+        if off is not None: e.offsets.add((off, size, 4 if size == 32 else 2))
         else: e.tiles.add(tileno)
 
 streams, raw = [], []
@@ -187,15 +254,15 @@ for src, e in sorted(table.items()):
     pals = [{"colors": k.split(), "romOffset": v["romOffset"], "count": v["count"]}
             for k, v in sorted(e.palettes.items(), key=lambda kv: -kv[1]["count"])[:a.max_palettes]]
     if src == "rom":
-        runs = []   # tiles found at ROM offsets, merged into runs of consecutive tiles
-        for off, size in sorted(e.offsets):
-            if runs and runs[-1][2] == size and off == runs[-1][0] + runs[-1][1]: runs[-1][1] += size
-            else: runs.append([off, size, size])
-        raw = [{"offset": o, "length": n, "bpp": {32: 4, 16: 2, 64: 8}[s]} for o, n, s in runs]
+        runs = []   # tiles found at ROM offsets, merged into runs of consecutive tiles of one format
+        for off, size, bpp in sorted(e.offsets, key=lambda o: (o[2], o[0])):
+            if runs and runs[-1][2] == bpp and off == runs[-1][0] + runs[-1][1]: runs[-1][1] += size
+            else: runs.append([off, size, bpp])
+        raw = [{"offset": o, "length": n, "bpp": b} for o, n, b in runs]
         raw_pals = pals
         continue
     m = re.match(r"(\w+?)_([0-9A-Fa-f]+)$", src)
-    if m.group(1) == "dkc" and len(e.tiles) < 8: continue   # a probed stream with a few tiles is a coincidence
+    if m.group(1) in ("dkc", "lz5") and len(e.tiles) < 8: continue   # a probed stream with a few tiles is a coincidence
     streams.append({"codec": m.group(1), "offset": int(m.group(2), 16), "bpp": sorted(e.bpp),
                     "usedBy": sorted(e.kinds), "tilesSeen": len(e.tiles), "palettes": pals})
 if "rom" in table:

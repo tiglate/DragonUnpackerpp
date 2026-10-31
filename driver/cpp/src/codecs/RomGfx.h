@@ -26,6 +26,8 @@ enum class TileFormat
     Snes3bpp, // 24 bytes per tile, planes 0/1 interleaved by row, then plane 2 (Mario World...)
     Snes4bpp, // 32 bytes per tile, planes 0/1 then 2/3 interleaved by row
     Md4bpp,   // 32 bytes per tile, 4 bits per pixel, left pixel in the high nibble
+    Snes4bppLinear, // 32 bytes per tile, 4 bits per pixel by rows, left pixel in the low nibble (what Mode 7 tiles are made from)
+    Snes8bppLinear, // 64 bytes per tile, one byte per pixel by rows (Mode 7), a 256 colours map
 };
 
 auto TileBytes(TileFormat format) -> int64_t;

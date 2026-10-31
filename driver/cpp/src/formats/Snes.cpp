@@ -104,6 +104,13 @@ auto MapName(int mode) -> std::string
     }
 }
 
+// The tile format the tables call bpp (5: 4 bits pixels by rows, the source of Mode 7 tiles)
+auto FormatOfBpp(int bpp) -> TileFormat
+{
+    return bpp == 8 ? TileFormat::Snes8bppLinear : bpp == 5 ? TileFormat::Snes4bppLinear : bpp == 4 ? TileFormat::Snes4bpp
+           : bpp == 3 ? TileFormat::Snes3bpp : TileFormat::Snes2bpp;
+}
+
 class SnesArchive : public RomArchive
 {
   public:
@@ -172,7 +179,7 @@ class SnesArchive : public RomArchive
         {
             for (const KnownStream &k : known.Streams)
             {
-                if (k.Codec != "dkc")
+                if (k.Codec != "dkc" && k.Codec != "lz5")
                     knownAt[k.Offset] = &k;
                 for (size_t i = 0; i < k.Palettes.size(); ++i)
                     listPalette(Hex(static_cast<uint64_t>(k.Offset), 6) + "_" + std::to_string(i + 1), k.Palettes[i]);
@@ -181,35 +188,46 @@ class SnesArchive : public RomArchive
                 listPalette("tiles_" + std::to_string(i + 1), known.RawPalettes[i]);
             for (const KnownRun &run : known.Runs)
             {
-                const bool four = run.Bpp == 4;
+                const TileFormat format = FormatOfBpp(run.Bpp);
                 std::vector<uint32_t> colors;
                 for (const auto &p : known.RawPalettes)
-                    if (p.size() == (four ? 16u : 4u))
+                    if (p.size() == (run.Bpp == 8 ? 256u : run.Bpp == 2 ? 4u : 16u))
                     {
                         colors = p;
                         break;
                     }
-                AddColoredSheets("graphics", four ? "tiles4bpp" : "tiles2bpp", run.Offset, run.Length,
-                                 four ? TileFormat::Snes4bpp : TileFormat::Snes2bpp, four ? 8192 : 4096, colors);
+                AddColoredSheets("graphics", "tiles" + std::to_string(run.Bpp) + "bpp", run.Offset, run.Length, format,
+                                 TileBytes(format) * 256, colors);
             }
         }
-        // streams of a codec that is not scanned for: the table of the game gives their offsets
+        const std::vector<RomStream> scanned = ScanSnes(image.data(), image.size(), hiRom);
+        std::set<int64_t> scannedAt;
+        for (const RomStream &s : scanned)
+            scannedAt.insert(s.Offset);
+        // streams the scanner cannot find (no pointer tables to follow, or too many false hits): the table of the game
+        // says where they are
         for (const KnownStream &k : known.Streams)
         {
-            if (k.Codec != "dkc" || k.Offset < 0 || static_cast<size_t>(k.Offset) >= image.size())
+            const RomCodec codec = k.Codec == "dkc" ? RomCodec::DkcWords : RomCodec::Lz5;
+            if ((k.Codec != "dkc" && k.Codec != "lz5") || k.Offset < 0 || static_cast<size_t>(k.Offset) >= image.size() ||
+                scannedAt.count(k.Offset))
                 continue;
             std::vector<uint8_t> data;
             size_t used = 0;
-            if (!Decode(RomCodec::DkcWords, image.data() + k.Offset, image.size() - static_cast<size_t>(k.Offset), data, used))
+            if (!Decode(codec, image.data() + k.Offset, image.size() - static_cast<size_t>(k.Offset), data, used))
                 continue;
-            const std::string base = "compressed/dkc_" + Hex(static_cast<uint64_t>(k.Offset), 6);
+            const std::string base = "compressed/" + k.Codec + "_" + Hex(static_cast<uint64_t>(k.Offset), 6);
             const std::vector<uint32_t> colors = k.Palettes.empty() ? std::vector<uint32_t>() : k.Palettes[0];
             const auto size = static_cast<int64_t>(data.size());
-            AddDecoded(base + ".bin", RomCodec::DkcWords, k.Offset, static_cast<int64_t>(used), size, false);
-            if (size % 32 == 0)
-                AddDecoded(base + "_4bpp.tga", RomCodec::DkcWords, k.Offset, static_cast<int64_t>(used), size, true, TileFormat::Snes4bpp, colors);
+            AddDecoded(base + ".bin", codec, k.Offset, static_cast<int64_t>(used), size, false);
+            for (const int bpp : k.Bpp)
+            {
+                const TileFormat format = FormatOfBpp(bpp);
+                if (size % TileBytes(format) == 0)
+                    AddDecoded(base + "_" + std::to_string(bpp) + "bpp.tga", codec, k.Offset, static_cast<int64_t>(used), size, true, format, colors);
+            }
         }
-        for (const RomStream &s : ScanSnes(image.data(), image.size(), hiRom))
+        for (const RomStream &s : scanned)
         {
             std::vector<uint32_t> colors;
             if (const auto it = knownAt.find(s.Offset); it != knownAt.end() && !it->second->Palettes.empty())
@@ -222,6 +240,10 @@ class SnesArchive : public RomArchive
                 AddDecoded(base + "_4bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes4bpp, colors);
             if (s.Size % 24 == 0)
                 AddDecoded(base + "_3bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes3bpp, colors);
+            if (const auto it = knownAt.find(s.Offset); it != knownAt.end())
+                for (const int bpp : it->second->Bpp)
+                    if ((bpp == 5 || bpp == 8) && s.Size % TileBytes(FormatOfBpp(bpp)) == 0)
+                        AddDecoded(base + "_" + std::to_string(bpp) + "bpp_linear.tga", s.Codec, s.Offset, s.Packed, s.Size, true, FormatOfBpp(bpp), colors);
             if (s.Size % 32 != 0 && s.Size % 24 != 0 && s.Size % 16 == 0)
                 AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp, colors);
         }
