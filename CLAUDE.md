@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Dragon UnPACKer++ is a game-resource explorer/extractor (MPL 2.0): a C++20/Qt 6 port of Dragon UnPACKer by Alexandre "Elbereth" Devilliers (original author), ported and extended by Tiglate Pileser III. Keep these credits in README.md and the About dialog. The repository has these parts:
 
 - `app/` — **the Qt 6 interface (C++20, CMake)**: the only GUI of version 6 (the Lazarus GUI was removed).
-- `driver/` — **the format driver, C++20**: a shared library with a plain C ABI ("DUDI 7") holding every format (134 registered, all of v5 except the ones listed in `docs/FORMATS_TO_VALIDATE.md`); `contract/` (C header `dudi7.h` and `DUDI7.md` with the rules), `cpp/` (the library, CMake), `tools/` (`dudi7cli`, used by the tests), `tests/`.
+- `driver/` — **the format driver, C++20**: a shared library with a plain C ABI ("DUDI 7") holding every format (135 registered, all of v5 except the ones listed in `docs/FORMATS_TO_VALIDATE.md`); `contract/` (C header `dudi7.h` and `DUDI7.md` with the rules), `cpp/` (the library, CMake), `tools/` (`dudi7cli`, used by the tests), `tests/`.
 - The original **v5** (Delphi 7, Windows only) sources were removed from the tree once everything that made sense was ported: they are in the git history, tag `legacy-v5` (`git show legacy-v5:legacy/v5/plugins/drivers/default/drv_default.dpr`; the format code of the C++ driver says which v5 unit it comes from).
 - `docs/` — `MIGRATION.md` (status and pending items: keep it updated), `docs/UI_REDESIGN.md` (design and phase results of the Qt interface), `manual/` (LaTeX manual).
 

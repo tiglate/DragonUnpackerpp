@@ -2718,6 +2718,33 @@ def req_jam(version, second=True):
     return body
 
 
+def req_mdl_face(indices, uvs):
+    return struct.pack("<I", len(indices)) + bytes(16) + b"".join(struct.pack("<H", i) for i in indices) + b"".join(
+        struct.pack("<ii", int(u * 65536), int(v * 65536)) for u, v in uvs)
+
+
+def req_mdl_static():
+    """a quad and a triangle, flags 1: one normal per face"""
+    verts = [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0), (0.5, 2, 0)]
+    body = b"".join(struct.pack("<3f", *v) for v in verts)
+    body += req_mdl_face([0, 1, 2, 3], [(0.5, 127.5), (127.5, 127.5), (127.5, 0.5), (0.5, 0.5)])
+    body += req_mdl_face([3, 2, 4], [(0.5, 0.5), (127.5, 0.5), (64, 0.5)])
+    body += struct.pack("<3f", 0, 0, 1) * 2
+    return bytes([1]) + struct.pack("<I", 9) + b"test.bmp\0" + struct.pack("<II", len(verts), 2) + body
+
+
+def req_mdl_skeletal():
+    """two limbs of 3 and 4 vertices, one triangle each, flags 0x10: one normal per vertex"""
+    name = b"skin.bmp\0"
+    head = struct.pack("<IIIIB3xHH", 2, 0, 2, 0, 0x10, 7, len(name)) + bytes(0x2C - 0x18)
+    sections = b""
+    for count in (3, 4):
+        sections += bytes(0x20) + struct.pack("<I", count) + bytes(0x38 - 0x24)
+    verts = b"".join(struct.pack("<3f", i, i * 2, 0) for i in range(7))
+    faces = req_mdl_face([0, 1, 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) + req_mdl_face([3, 4, 5], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)])
+    return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * 7
+
+
 def req_anim():
     """(ary, bin): records of 16 bytes (offset, 0, size, 0xCDCDCDCD) that fill the .bin"""
     parts = [b"first record", bytes(range(50)), b"x"]
@@ -2733,6 +2760,8 @@ open(os.path.join(out, "req_d3d.dat"), "wb").write(rd)
 open(os.path.join(out, "req_d3d.art"), "wb").write(ra)
 open(os.path.join(out, "req_sw.dat"), "wb").write(rsd)
 open(os.path.join(out, "req_sw.art"), "wb").write(rsa)
+open(os.path.join(out, "req_static.mdl"), "wb").write(req_mdl_static())
+open(os.path.join(out, "req_skel.mdl"), "wb").write(req_mdl_skeletal())
 _ary, _bin = req_anim()
 open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
 open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)

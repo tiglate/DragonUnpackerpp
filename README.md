@@ -36,7 +36,7 @@ Dragon UnPACKer++ is free software under the [Mozilla Public License 2.0](LICENS
 
 ## Supported formats
 
-134 formats are handled by the default driver (`driver/`). The list below is by family; the exact extensions are registered in each `driver/cpp/src/formats/*.cpp` (one file per format, listed in `driver/cpp/src/FormatList.inc`).
+135 formats are handled by the default driver (`driver/`). The list below is by family; the exact extensions are registered in each `driver/cpp/src/formats/*.cpp` (one file per format, listed in `driver/cpp/src/FormatList.inc`).
 
 | Family | Formats |
 |---|---|
