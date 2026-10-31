@@ -10,2132 +10,12206 @@
   {
    "offset": 256457,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 20
+    }
+   ]
   },
   {
    "offset": 337733,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 337746,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 500288,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 500304,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 30
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 27
+    }
+   ]
   },
   {
    "offset": 507040,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 507040,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 30
+    }
+   ]
   },
   {
    "offset": 507042,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 507056,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 627520,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 658912,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 676176,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 693791,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 693792,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 761392,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761392,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 761408,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761424,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 761440,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761456,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 761520,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 761520,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 761536,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 761568,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 761648,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761648,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 761680,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761680,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 761696,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 761728,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 761760,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 761776,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 761808,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761808,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 761824,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 761872,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761872,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 761888,
-   "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 761904,
-   "length": 32,
-   "bpp": 4
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 761936,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761936,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 761968,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 761968,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 762000,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762000,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 762032,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762032,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 762096,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762096,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 762144,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 762160,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 762224,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762224,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 762288,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762288,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 762336,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762352,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 762416,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762416,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 762432,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762480,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 762576,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 762640,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 762656,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 762672,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 762720,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 762736,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 762832,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 762864,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 20
+    }
+   ]
   },
   {
    "offset": 762912,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 762928,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 762976,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 762992,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 763040,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 763056,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 763120,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763120,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 763168,
-   "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 763184,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 763200,
-   "length": 16,
-   "bpp": 2
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 763248,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763248,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 763264,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 763296,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 763312,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 763344,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 763376,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763376,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 763440,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763440,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 763504,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763568,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 763632,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 763696,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763696,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 763712,
-   "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 763792,
-   "length": 32,
-   "bpp": 4
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 763824,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 763872,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 763952,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 763952,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764000,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764016,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764048,
    "length": 48,
-   "bpp": 2
-  },
-  {
-   "offset": 764080,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 764144,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 764176,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764208,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 764224,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764272,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 764304,
    "length": 48,
-   "bpp": 2
-  },
-  {
-   "offset": 764336,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 764400,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764400,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 764464,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764464,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 764480,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764512,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 764544,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764560,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 764576,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 764624,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 764704,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764768,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764784,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 764816,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764816,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 764832,
-   "length": 32,
-   "bpp": 2
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 764880,
    "length": 80,
-   "bpp": 2
-  },
-  {
-   "offset": 764944,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 45
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 20
+    }
+   ]
   },
   {
    "offset": 764976,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 764976,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 764992,
-   "length": 64,
-   "bpp": 2
-  },
-  {
-   "offset": 765040,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 765056,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765072,
-   "length": 32,
-   "bpp": 4
+   "length": 96,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765088,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765104,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 765168,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765184,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 765200,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 765232,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765232,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 765264,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765296,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 765328,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765360,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765408,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765424,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765456,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765456,
-   "length": 96,
-   "bpp": 4
-  },
-  {
-   "offset": 765616,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 765696,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 765712,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 765776,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765808,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765808,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 765840,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 765872,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765872,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 765904,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 765904,
-   "length": 160,
-   "bpp": 4
-  },
-  {
-   "offset": 766128,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 766208,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 766336,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 766384,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 766400,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 766464,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 766512,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 766544,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 766544,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 766640,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 766704,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 766768,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 766768,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 766864,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 766864,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 766928,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 767024,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 767120,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 767168,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 767216,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 767280,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 767280,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 767296,
-   "length": 32,
-   "bpp": 2
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 767344,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 767408,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 767472,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 767488,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 767536,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 767568,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 767664,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 767696,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 767728,
-   "length": 96,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 767824,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 767872,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 767920,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 767936,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 768048,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768048,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 768144,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 768208,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 768224,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768272,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 768304,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768304,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 768320,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 768352,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768368,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 768400,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 768496,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 768528,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768528,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 768592,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 768656,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 768656,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 768752,
-   "length": 96,
-   "bpp": 4
-  },
-  {
-   "offset": 768880,
-   "length": 160,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769040,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769040,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769072,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769072,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 769088,
-   "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 769104,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 769120,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769136,
-   "length": 32,
-   "bpp": 4
+   "length": 64,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 769152,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 769168,
-   "length": 96,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 769248,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769296,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 769408,
    "length": 80,
-   "bpp": 2
-  },
-  {
-   "offset": 769488,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 769504,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769520,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 769584,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769616,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769648,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769664,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769728,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769776,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 769856,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769888,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 769936,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769952,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 769984,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 770032,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 770112,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 770176,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 770240,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 770288,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 770336,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 770432,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 770464,
-   "length": 64,
-   "bpp": 2
-  },
-  {
-   "offset": 770512,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 770528,
-   "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 770544,
-   "length": 32,
-   "bpp": 4
+   "length": 96,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 770672,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 770672,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 770736,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 770768,
-   "length": 48,
-   "bpp": 2
-  },
-  {
-   "offset": 770800,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 770816,
-   "length": 16,
-   "bpp": 2
+   "length": 64,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 770864,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 770864,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 770928,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 770960,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 771008,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 771072,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 771088,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 771280,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 771536,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 771552,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 771568,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 771792,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 771792,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 771824,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 771888,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 771920,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 771968,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772048,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772048,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 772064,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 772192,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 772208,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 772288,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 772336,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772400,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772448,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 772496,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772528,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772544,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772560,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 772656,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 772672,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 772704,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772752,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772848,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772848,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 772976,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 772976,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773040,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 773104,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 773168,
    "length": 112,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 45
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 40
+    }
+   ]
   },
   {
    "offset": 773312,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773344,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773376,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 773408,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 773456,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 773504,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773584,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773680,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 773680,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 773712,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 773712,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773744,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 773744,
    "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 773760,
-   "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 773808,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 773808,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 773840,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 773936,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774000,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774096,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 774096,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774128,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 774192,
-   "length": 64,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774256,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 774304,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 774320,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774352,
    "length": 64,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 20
+    }
+   ]
   },
   {
    "offset": 774432,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 774448,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 774512,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 774640,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 774704,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 774752,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 774768,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 774864,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 774896,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 774960,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 774992,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 775008,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 775024,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 775152,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 775216,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 775216,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 775248,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 775280,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 775312,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 775472,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 775504,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 775568,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 775632,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 775664,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 775728,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 775744,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 775760,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 775792,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 775824,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 775920,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 775984,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 776112,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 776112,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 776144,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 776176,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 776208,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 776240,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 776304,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 776304,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 776336,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 776368,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 776432,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 776448,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 776528,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 776576,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 776656,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 776720,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 776800,
    "length": 64,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 776928,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 777040,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 777088,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 10
+    }
+   ]
   },
   {
    "offset": 777184,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 777200,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 777248,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 500288,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 507040,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 507056,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 627520,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 658912,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 693791,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 693792,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 761392,
+   "length": 160,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 761648,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 761776,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 761872,
+   "length": 192,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 72
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762096,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6f6d5",
+      "eecd8b",
+      "e6a473",
+      "ac6a4a",
+      "834120",
+      "622000",
+      "838383",
+      "f6d500",
+      "f69c00",
+      "627bd5",
+      "f63100",
+      "b41800",
+      "204173",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 762160,
+   "length": 160,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 762352,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6eeb4",
+      "f6cd8b",
+      "de9c6a",
+      "c57352",
+      "8b4a39",
+      "523120",
+      "838383",
+      "eeee8b",
+      "4a8ba4",
+      "f6b400",
+      "e66200",
+      "a40000",
+      "002062",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 762416,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762480,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762576,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 762640,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762736,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762864,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 54
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 762992,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763056,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 763120,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763184,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763248,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6e6a4",
+      "f6c594",
+      "e69473",
+      "b47352",
+      "835241",
+      "523120",
+      "838383",
+      "eedede",
+      "0029c5",
+      "f61800",
+      "a40000",
+      "000083",
+      "390000",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 763312,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763376,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 763568,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 763696,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763792,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 763952,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 764080,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6eec5",
+      "eebd9c",
+      "de8b7b",
+      "c56262",
+      "a44141",
+      "622020",
+      "838383",
+      "bdeef6",
+      "8bdef6",
+      "62b4f6",
+      "52a4d5",
+      "4a83c5",
+      "3162b4",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 764144,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6eec5",
+      "eebd9c",
+      "de8b7b",
+      "c56262",
+      "a44141",
+      "622020",
+      "838383",
+      "bdeef6",
+      "8bdef6",
+      "62b4f6",
+      "52a4d5",
+      "4a83c5",
+      "3162b4",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 764208,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6e6a4",
+      "f6c594",
+      "e69473",
+      "b47352",
+      "835241",
+      "523120",
+      "838383",
+      "eedede",
+      "0029c5",
+      "f61800",
+      "a40000",
+      "000083",
+      "390000",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 764272,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083b4",
+      "c5f6e6",
+      "62d58b",
+      "009462",
+      "005a10",
+      "e60041",
+      "a40000",
+      "4a3918",
+      "000073",
+      "f6c573",
+      "f6a462",
+      "f68352",
+      "e66241",
+      "d54131",
+      "c50020",
+      "000000"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "416294",
+      "f6e6a4",
+      "f6c594",
+      "e69473",
+      "b47352",
+      "835241",
+      "523120",
+      "838383",
+      "eedede",
+      "0029c5",
+      "f61800",
+      "a40000",
+      "000083",
+      "390000",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 764336,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083b4",
+      "c5f6e6",
+      "62d58b",
+      "009462",
+      "005a10",
+      "e60041",
+      "a40000",
+      "4a3918",
+      "000073",
+      "f6c573",
+      "f6a462",
+      "f68352",
+      "e66241",
+      "d54131",
+      "c50020",
+      "000000"
+     ],
+     "count": 9
+    },
+    {
+     "colors": [
+      "416294",
+      "f6f6d5",
+      "eecd8b",
+      "e6a473",
+      "ac6a4a",
+      "834120",
+      "622000",
+      "838383",
+      "f6d500",
+      "f69c00",
+      "627bd5",
+      "f63100",
+      "b41800",
+      "204173",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 764400,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 764560,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 764784,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "1083b4",
+      "c5f6e6",
+      "62d58b",
+      "009462",
+      "005a10",
+      "e60041",
+      "a40000",
+      "4a3918",
+      "000073",
+      "f6c573",
+      "f6a462",
+      "f68352",
+      "e66241",
+      "d54131",
+      "c50020",
+      "000000"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 764944,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 765040,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 765168,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 765296,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "208362",
+      "000000",
+      "000000",
+      "000000",
+      "eeeec5",
+      "acac8b",
+      "737362",
+      "626241",
+      "4a4a29",
+      "393918",
+      "292900",
+      "d59462",
+      "b46a31",
+      "944110",
+      "732000",
+      "620000"
+     ],
+     "count": 5
+    }
+   ]
+  },
+  {
+   "offset": 765360,
+   "length": 192,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 54
+    },
+    {
+     "colors": [
+      "208362",
+      "000000",
+      "000000",
+      "000000",
+      "eeeec5",
+      "acac8b",
+      "737362",
+      "626241",
+      "4a4a29",
+      "393918",
+      "292900",
+      "d59462",
+      "b46a31",
+      "944110",
+      "732000",
+      "620000"
+     ],
+     "count": 20
+    }
+   ]
+  },
+  {
+   "offset": 765616,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 765712,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 765808,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 765872,
+   "length": 192,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "208362",
+      "000000",
+      "000000",
+      "000000",
+      "eeeec5",
+      "acac8b",
+      "737362",
+      "626241",
+      "4a4a29",
+      "393918",
+      "292900",
+      "d59462",
+      "b46a31",
+      "944110",
+      "732000",
+      "620000"
+     ],
+     "count": 30
+    }
+   ]
+  },
+  {
+   "offset": 766128,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 766384,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 766512,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 766768,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 766864,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 767024,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 767120,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 767216,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 767472,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 767568,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 767728,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 767920,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 768048,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 768144,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 768208,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 768272,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 4
+    }
+   ]
+  },
+  {
+   "offset": 768368,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 768528,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 768656,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 768752,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 36
+    }
+   ]
+  },
+  {
+   "offset": 768880,
+   "length": 384,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 162
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 54
+    }
+   ]
+  },
+  {
+   "offset": 769296,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 769488,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 769584,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 769648,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 769776,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 769936,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770032,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770512,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 770672,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "00006a",
+      "0020b4",
+      "0062d5",
+      "0094f6",
+      "b47331",
+      "c59462",
+      "7b5200",
+      "f6dec5",
+      "f6b400",
+      "007300",
+      "f6e694",
+      "cda44a",
+      "9c6a39",
+      "737373",
+      "525252",
+      "00006a"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770736,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770800,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770864,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 770928,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 771088,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 771536,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 771792,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 771920,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 772048,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 772208,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 772400,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 772528,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 772656,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 772848,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 772976,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 773456,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 773680,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 773808,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "00006a",
+      "0020b4",
+      "0062d5",
+      "0094f6",
+      "b47331",
+      "c59462",
+      "7b5200",
+      "f6dec5",
+      "f6b400",
+      "007300",
+      "f6e694",
+      "cda44a",
+      "9c6a39",
+      "737373",
+      "525252",
+      "00006a"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 773936,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 774096,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 774192,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 4
+    }
+   ]
+  },
+  {
+   "offset": 774320,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 774448,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 774512,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 774768,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 774864,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 774992,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 775216,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 775472,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 775568,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 775728,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 4
+    }
+   ]
+  },
+  {
+   "offset": 775824,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
+  },
+  {
+   "offset": 775920,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "8b0018",
+      "6a0018",
+      "520018",
+      "e67300",
+      "e69400",
+      "f6bd10",
+      "f6e662",
+      "e65200",
+      "ffffff",
+      "10a4e6",
+      "085a8b",
+      "103152",
+      "de3100",
+      "c51800",
+      "a40810"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 775984,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 776112,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 776176,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 776304,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 776368,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 9
+    }
+   ]
+  },
+  {
+   "offset": 776432,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 776656,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 777200,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 777264,
    "length": 480,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 108
+    },
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 63
+    }
+   ]
   },
   {
    "offset": 777904,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 778032,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "1083e6",
+      "d5d5a4",
+      "c5c583",
+      "b49c5a",
+      "a48b39",
+      "947b29",
+      "836a18",
+      "838373",
+      "626252",
+      "4a4a39",
+      "eede18",
+      "080800",
+      "735a08",
+      "5a4100",
+      "4a3100",
+      "311800"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 778128,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 778288,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 778352,
    "length": 288,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 31
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 778672,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "626262",
+      "f6d594",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "8b5a4a",
+      "624131",
+      "a40000",
+      "f6f6f6",
+      "e6e6c5",
+      "cdbd9c",
+      "a48b73",
+      "7b5a4a",
+      "524131",
+      "f60000",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 778736,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "00a400",
+      "f63100",
+      "0062d5",
+      "4100a4",
+      "a4a4a4",
+      "626262",
+      "838383",
+      "0083f6",
+      "f6d500",
+      "cd0020",
+      "41a410",
+      "000083",
+      "e60000",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 778832,
    "length": 128,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 778992,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 779088,
    "length": 96,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 779248,
    "length": 416,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "6283a4",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 33
+    }
+   ]
   },
   {
    "offset": 779696,
    "length": 224,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 779984,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "00006a",
+      "0020b4",
+      "0062d5",
+      "0094f6",
+      "b47331",
+      "c59462",
+      "7b5200",
+      "f6dec5",
+      "f6b400",
+      "007300",
+      "f6e694",
+      "cda44a",
+      "9c6a39",
+      "737373",
+      "525252",
+      "00006a"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 780048,
    "length": 192,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 36
+    }
+   ]
   },
   {
    "offset": 780464,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 780656,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 780752,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6f6c5",
+      "e6f683",
+      "d5c541",
+      "ac9c00",
+      "8b7b00",
+      "6a5a00",
+      "524100",
+      "f6c500",
+      "f68300",
+      "d56200",
+      "a44100",
+      "833100",
+      "c5c5d5",
+      "949494",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 781040,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "cd9c8b",
+      "cd8b5a",
+      "bd6a4a",
+      "ac5a39",
+      "7b4a29",
+      "6a3918",
+      "5a2908",
+      "412000",
+      "d5d500",
+      "c59400",
+      "ac5a00",
+      "62a45a",
+      "398339",
+      "185a18",
+      "002900"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 781136,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 781264,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000031",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 781360,
    "length": 160,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 27
+    },
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 781552,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 781616,
    "length": 96,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 781744,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 781808,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 782032,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f68b62",
+      "2952bd",
+      "cd6252",
+      "000000",
+      "ee2900",
+      "001052",
+      "ee2900",
+      "000000",
+      "00a4f6",
+      "001029",
+      "00a4f6",
+      "000000",
+      "f6f6f6",
+      "102094",
+      "737373"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 782224,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 782448,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 9
+    }
+   ]
   },
   {
    "offset": 782512,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 8
+    }
+   ]
   },
   {
    "offset": 782576,
    "length": 320,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 35
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 783056,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 783216,
    "length": 96,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 36
+    },
+    {
+     "colors": [
+      "000000",
+      "fff629",
+      "ffffee",
+      "e6d520",
+      "d5b400",
+      "b49400",
+      "e6b400",
+      "f6e6de",
+      "ac7b00",
+      "835200",
+      "6a3900",
+      "103194",
+      "294aac",
+      "2041a4",
+      "18399c",
+      "101010"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 783440,
    "length": 96,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "6283a4",
+      "f6f6de",
+      "e6e67b",
+      "cdbd4a",
+      "9c8b18",
+      "6a5a00",
+      "524100",
+      "4a2900",
+      "f6c500",
+      "f68300",
+      "cd5a00",
+      "943100",
+      "732000",
+      "a4a4c5",
+      "737383",
+      "000000"
+     ],
+     "count": 3
+    }
+   ]
   },
   {
    "offset": 783696,
    "length": 64,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "414110",
+      "d5c594",
+      "c5a473",
+      "a48352",
+      "736241",
+      "625231",
+      "524120",
+      "413110",
+      "312000",
+      "838373",
+      "626252",
+      "4a4a39",
+      "838352",
+      "737341",
+      "626231"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "949494",
+      "626262",
+      "414141",
+      "c56231",
+      "944120",
+      "d5b4a4",
+      "c5a473",
+      "a47341",
+      "835220",
+      "733110",
+      "412000",
+      "c5c562",
+      "a4a420",
+      "737310",
+      "625220"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 783792,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 946928,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 974704,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    }
+   ]
   },
   {
    "offset": 974719,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "a4a483",
+      "838362",
+      "626241",
+      "414120",
+      "202010",
+      "947352",
+      "735231",
+      "624120",
+      "523110",
+      "412000",
+      "311000",
+      "080800",
+      "000000",
+      "000000",
+      "080808"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "f6cd94",
+      "f6b483",
+      "e69473",
+      "bd7b5a",
+      "835241",
+      "5a3929",
+      "f6f6f6",
+      "cdcdac",
+      "a4947b",
+      "736252",
+      "a40000",
+      "d50000",
+      "a40000",
+      "520000",
+      "202020"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1022388,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "416294",
+      "f6f6ac",
+      "eecd4a",
+      "b48b00",
+      "8b6200",
+      "523900",
+      "4a2000",
+      "838383",
+      "e6e600",
+      "e68300",
+      "c56200",
+      "626283",
+      "9c3900",
+      "7b1800",
+      "f6f6f6",
+      "202020"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 1022389,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "1083e6",
+      "008373",
+      "007362",
+      "006252",
+      "005241",
+      "f64183",
+      "418394",
+      "7394a4",
+      "6283a4",
+      "839483",
+      "a4a483",
+      "949473",
+      "838352",
+      "737341",
+      "626231",
+      "000000"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "000000",
+      "d5b400",
+      "e6d520",
+      "fff629",
+      "ffffee",
+      "ffffee",
+      "835200",
+      "ac7b00",
+      "e6b400",
+      "f6e6de",
+      "f6e6de",
+      "2041a4",
+      "18399c",
+      "103194",
+      "294aac",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1435807,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "73b4f6",
+      "f6ac00",
+      "102083",
+      "f66200",
+      "000000",
+      "f64100",
+      "f6de00",
+      "f6f6f6",
+      "000000",
+      "f64100",
+      "f6f6f6",
+      "102083",
+      "000000",
+      "ff9c6a",
+      "1841ac",
+      "f66a41"
+     ],
+     "count": 18
+    },
+    {
+     "colors": [
+      "73b4f6",
+      "3194f6",
+      "41a4f6",
+      "52b4f6",
+      "000000",
+      "208bf6",
+      "1083f6",
+      "087bee",
+      "000000",
+      "94c5f6",
+      "a4d5f6",
+      "b4d5f6",
+      "000000",
+      "b4d5f6",
+      "d5e6f6",
+      "e6f6f6"
+     ],
+     "count": 18
+    }
+   ]
   }
  ],
  "rawPalettes": [

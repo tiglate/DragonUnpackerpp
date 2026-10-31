@@ -61,7 +61,10 @@ auto FindKnownGame(uint32_t crc32, KnownGame &game) -> bool
             else if (kind == "R")
             {
                 KnownRun run;
+                std::string word;
                 fields >> run.Offset >> run.Length >> run.Bpp;
+                while (fields >> word)
+                    run.Palettes.push_back(ParsePalette(word));
                 game.Runs.push_back(run);
             }
         }

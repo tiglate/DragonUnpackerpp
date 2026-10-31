@@ -190,12 +190,15 @@ class SnesArchive : public RomArchive
             {
                 const TileFormat format = FormatOfBpp(run.Bpp);
                 std::vector<uint32_t> colors;
-                for (const auto &p : known.RawPalettes)
-                    if (p.size() == (run.Bpp == 8 ? 256u : run.Bpp == 2 ? 4u : 16u))
-                    {
-                        colors = p;
-                        break;
-                    }
+                if (!run.Palettes.empty())
+                    colors = run.Palettes[0];
+                else
+                    for (const auto &p : known.RawPalettes)
+                        if (p.size() == (run.Bpp == 8 ? 256u : run.Bpp == 2 ? 4u : 16u))
+                        {
+                            colors = p;
+                            break;
+                        }
                 AddColoredSheets("graphics", "tiles" + std::to_string(run.Bpp) + "bpp", run.Offset, run.Length, format,
                                  TileBytes(format) * 256, colors);
             }

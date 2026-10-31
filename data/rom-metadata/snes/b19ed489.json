@@ -162,7 +162,7 @@
     "bg1",
     "bg2"
    ],
-   "tilesSeen": 50,
+   "tilesSeen": 46,
    "palettes": [
     {
      "colors": [
@@ -184,7 +184,7 @@
       "ffff9c"
      ],
      "romOffset": null,
-     "count": 140
+     "count": 122
     },
     {
      "colors": [
@@ -206,7 +206,7 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 28
+     "count": 24
     },
     {
      "colors": [
@@ -228,7 +228,29 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 24
+     "count": 20
+    },
+    {
+     "colors": [
+      "000000",
+      "eef6ff",
+      "105273",
+      "4183a4",
+      "73b4d5",
+      "94c5c5",
+      "acd5d5",
+      "c5e6e6",
+      "9ce6e6",
+      "000000",
+      "de3918",
+      "5aff5a",
+      "9ce6e6",
+      "000000",
+      "eef6ff",
+      "ff5a5a"
+     ],
+     "romOffset": null,
+     "count": 14
     },
     {
      "colors": [
@@ -250,7 +272,7 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 18
+     "count": 12
     },
     {
      "colors": [
@@ -272,29 +294,7 @@
       "ffc5f6"
      ],
      "romOffset": null,
-     "count": 18
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "bd0052",
-      "ff0083",
-      "4a4a8b",
-      "6a6ab4",
-      "8383cd",
-      "000000",
-      "000000",
-      "7b5231",
-      "c59c7b",
-      "f6cdac",
-      "ff5a5a",
-      "5ad55a",
-      "8bff8b"
-     ],
-     "romOffset": null,
-     "count": 16
+     "count": 10
     }
    ]
   },
@@ -365,30 +365,8 @@
    "usedBy": [
     "sprite"
    ],
-   "tilesSeen": 6,
+   "tilesSeen": 5,
    "palettes": [
-    {
-     "colors": [
-      "000000",
-      "ffffff",
-      "000000",
-      "ff7b00",
-      "ffc500",
-      "ffff00",
-      "bd2900",
-      "ff8b00",
-      "000000",
-      "ffffff",
-      "000000",
-      "00cd00",
-      "ee186a",
-      "f641ac",
-      "ff7bcd",
-      "ffc5f6"
-     ],
-     "romOffset": null,
-     "count": 16
-    },
     {
      "colors": [
       "000000",
@@ -410,6 +388,28 @@
      ],
      "romOffset": null,
      "count": 9
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "000000",
+      "ff7b00",
+      "ffc500",
+      "ffff00",
+      "bd2900",
+      "ff8b00",
+      "000000",
+      "ffffff",
+      "000000",
+      "00cd00",
+      "ee186a",
+      "f641ac",
+      "ff7bcd",
+      "ffc5f6"
+     ],
+     "romOffset": null,
+     "count": 7
     },
     {
      "colors": [
@@ -459,83 +459,37 @@
   },
   {
    "codec": "lz",
-   "offset": 294781,
+   "offset": 297315,
    "bpp": [
-    2,
     3
    ],
    "usedBy": [
     "bg1",
-    "bg2",
-    "bg3"
+    "bg2"
    ],
-   "tilesSeen": 2,
+   "tilesSeen": 1,
    "palettes": [
     {
      "colors": [
       "000000",
       "eef6ff",
-      "000000",
-      "bdac62",
-      "deffcd",
-      "008300",
-      "00cd00",
-      "00ff00",
-      "000000",
-      "000000",
-      "8b8ba4",
-      "b4bdcd",
-      "e6e6f6",
-      "29a429",
-      "5ad55a",
-      "8bff8b"
-     ],
-     "romOffset": null,
-     "count": 6
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "005a10",
-      "206a00",
-      "417b00",
-      "628b00",
-      "8ba400",
-      "acbd00",
+      "105273",
+      "4183a4",
+      "73b4d5",
+      "105273",
+      "4183a4",
+      "73b4d5",
       "9ce6e6",
       "000000",
-      "de3918",
-      "5aff5a",
+      "5aacf6",
+      "ffffff",
       "9ce6e6",
       "000000",
-      "eef6ff",
-      "ff5a5a"
+      "dea439",
+      "ffde73"
      ],
      "romOffset": null,
-     "count": 6
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "bdac62",
-      "deffcd",
-      "008300",
-      "00cd00",
-      "00ff00",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 2
+     "count": 4
     },
     {
      "colors": [
@@ -561,35 +515,25 @@
     },
     {
      "colors": [
-      "9ce6e6",
-      "000000",
-      "5aacf6",
-      "ffffff"
-     ],
-     "romOffset": 12672,
-     "count": 2
-    },
-    {
-     "colors": [
       "000000",
       "eef6ff",
-      "737373",
       "000000",
-      "c5c5c5",
-      "a4cdff",
-      "ace6ff",
-      "c5ffff",
+      "8b5a18",
+      "ffffbd",
+      "dea439",
+      "ffde20",
+      "ffff00",
       "000000",
-      "ffffff",
       "000000",
-      "00cd00",
-      "00e600",
-      "8bff39",
-      "cdff00",
-      "ffff9c"
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
      ],
      "romOffset": null,
-     "count": 1
+     "count": 2
     }
    ]
   },
@@ -603,7 +547,7 @@
     "bg1",
     "bg2"
    ],
-   "tilesSeen": 78,
+   "tilesSeen": 76,
    "palettes": [
     {
      "colors": [
@@ -625,7 +569,7 @@
       "ffa400"
      ],
      "romOffset": null,
-     "count": 112
+     "count": 110
     },
     {
      "colors": [
@@ -647,7 +591,7 @@
       "ff5a5a"
      ],
      "romOffset": null,
-     "count": 34
+     "count": 30
     },
     {
      "colors": [
@@ -719,55 +663,20 @@
      "colors": [
       "000000",
       "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "9ce6e6",
       "000000",
-      "5aacf6",
-      "ffffff",
-      "9ce6e6",
-      "000000",
+      "8b5a18",
+      "ffffbd",
       "dea439",
-      "ffde73"
-     ],
-     "romOffset": null,
-     "count": 6
-    }
-   ]
-  },
-  {
-   "codec": "lz",
-   "offset": 327613,
-   "bpp": [
-    3
-   ],
-   "usedBy": [
-    "bg2"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
+      "ffde20",
+      "ffff00",
       "000000",
-      "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "9ce6e6",
       "000000",
-      "5aacf6",
-      "ffffff",
-      "9ce6e6",
       "000000",
-      "dea439",
-      "ffde73"
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
      ],
      "romOffset": null,
      "count": 2
@@ -784,7 +693,7 @@
     "bg1",
     "bg2"
    ],
-   "tilesSeen": 46,
+   "tilesSeen": 50,
    "palettes": [
     {
      "colors": [
@@ -806,29 +715,7 @@
       "ffff9c"
      ],
      "romOffset": null,
-     "count": 92
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "8b5a18",
-      "ffffbd",
-      "dea439",
-      "ffde20",
-      "ffff00",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 24
+     "count": 110
     },
     {
      "colors": [
@@ -850,18 +737,18 @@
       "8bff8b"
      ],
      "romOffset": null,
-     "count": 24
+     "count": 32
     },
     {
      "colors": [
       "000000",
       "eef6ff",
       "000000",
-      "bdac62",
-      "deffcd",
-      "008300",
-      "00cd00",
-      "00ff00",
+      "8b5a18",
+      "ffffbd",
+      "dea439",
+      "ffde20",
+      "ffff00",
       "000000",
       "000000",
       "000000",
@@ -872,7 +759,7 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 22
+     "count": 30
     },
     {
      "colors": [
@@ -894,7 +781,29 @@
       "ffc5f6"
      ],
      "romOffset": null,
-     "count": 20
+     "count": 28
+    },
+    {
+     "colors": [
+      "000000",
+      "eef6ff",
+      "000000",
+      "bdac62",
+      "deffcd",
+      "008300",
+      "00cd00",
+      "00ff00",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": null,
+     "count": 26
     },
     {
      "colors": [
@@ -916,7 +825,7 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 16
+     "count": 20
     }
    ]
   },
@@ -1134,7 +1043,7 @@
     "bg1",
     "bg2"
    ],
-   "tilesSeen": 90,
+   "tilesSeen": 96,
    "palettes": [
     {
      "colors": [
@@ -1156,7 +1065,7 @@
       "8bff8b"
      ],
      "romOffset": null,
-     "count": 140
+     "count": 153
     },
     {
      "colors": [
@@ -1178,7 +1087,7 @@
       "ffff9c"
      ],
      "romOffset": null,
-     "count": 76
+     "count": 80
     },
     {
      "colors": [
@@ -1200,7 +1109,7 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 68
+     "count": 72
     },
     {
      "colors": [
@@ -1222,7 +1131,7 @@
       "8bff8b"
      ],
      "romOffset": null,
-     "count": 56
+     "count": 57
     },
     {
      "colors": [
@@ -1250,23 +1159,23 @@
      "colors": [
       "000000",
       "eef6ff",
+      "105273",
+      "4183a4",
+      "73b4d5",
+      "105273",
+      "4183a4",
+      "73b4d5",
+      "9ce6e6",
       "000000",
-      "5a5a5a",
-      "7b7b7b",
-      "9c9c9c",
-      "c5c5c5",
-      "e6e6e6",
-      "000000",
+      "5aacf6",
       "ffffff",
+      "9ce6e6",
       "000000",
-      "00cd00",
-      "ee186a",
-      "f641ac",
-      "ff7bcd",
-      "ffc5f6"
+      "dea439",
+      "ffde73"
      ],
      "romOffset": null,
-     "count": 36
+     "count": 48
     }
    ]
   },
@@ -1563,7 +1472,7 @@
     "bg1",
     "bg2"
    ],
-   "tilesSeen": 46,
+   "tilesSeen": 43,
    "palettes": [
     {
      "colors": [
@@ -1658,28 +1567,6 @@
       "000000",
       "eef6ff",
       "000000",
-      "7b6a18",
-      "cd9c5a",
-      "007b4a",
-      "e6c552",
-      "00cd00",
-      "000000",
-      "ffffff",
-      "000000",
-      "00cd00",
-      "b40000",
-      "ff0000",
-      "ff5a00",
-      "ffa400"
-     ],
-     "romOffset": null,
-     "count": 4
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
       "8b5a18",
       "ff08ff",
       "dea439",
@@ -1696,127 +1583,25 @@
      ],
      "romOffset": null,
      "count": 2
-    }
-   ]
-  },
-  {
-   "codec": "lz",
-   "offset": 358049,
-   "bpp": [
-    3
-   ],
-   "usedBy": [
-    "bg1",
-    "bg2"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "005a10",
-      "206a00",
-      "417b00",
-      "628b00",
-      "8ba400",
-      "acbd00",
-      "9ce6e6",
-      "000000",
-      "de3918",
-      "5aff5a",
-      "9ce6e6",
-      "000000",
-      "eef6ff",
-      "ff5a5a"
-     ],
-     "romOffset": null,
-     "count": 6
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "9ce6e6",
-      "000000",
-      "5aacf6",
-      "ffffff",
-      "9ce6e6",
-      "000000",
-      "dea439",
-      "ffde73"
-     ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "94c5c5",
-      "acd5d5",
-      "c5e6e6",
-      "9ce6e6",
-      "000000",
-      "de3918",
-      "5aff5a",
-      "9ce6e6",
-      "000000",
-      "eef6ff",
-      "ff5a5a"
-     ],
-     "romOffset": null,
-     "count": 2
     },
     {
      "colors": [
       "000000",
       "eef6ff",
       "000000",
-      "5a5a5a",
-      "7b7b7b",
-      "9c9c9c",
-      "c5c5c5",
-      "e6e6e6",
+      "7b6a18",
+      "cd9c5a",
+      "007b4a",
+      "e6c552",
+      "00cd00",
       "000000",
       "ffffff",
       "000000",
       "00cd00",
-      "ee186a",
-      "f641ac",
-      "ff7bcd",
-      "ffc5f6"
-     ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "bdac62",
-      "deffcd",
-      "008300",
-      "00cd00",
-      "00ff00",
-      "000000",
-      "000000",
-      "8b8ba4",
-      "b4bdcd",
-      "e6e6f6",
-      "29a429",
-      "5ad55a",
-      "8bff8b"
+      "b40000",
+      "ff0000",
+      "ff5a00",
+      "ffa400"
      ],
      "romOffset": null,
      "count": 1
@@ -1825,81 +1610,36 @@
   },
   {
    "codec": "lz",
-   "offset": 362701,
+   "offset": 353919,
    "bpp": [
     3
    ],
    "usedBy": [
-    "bg1",
-    "bg2"
+    "bg1"
    ],
-   "tilesSeen": 1,
+   "tilesSeen": 3,
    "palettes": [
     {
      "colors": [
       "000000",
       "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "9ce6e6",
       "000000",
-      "5aacf6",
-      "ffffff",
-      "9ce6e6",
-      "000000",
-      "dea439",
-      "ffde73"
-     ],
-     "romOffset": null,
-     "count": 4
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "5a5a5a",
-      "7b7b7b",
-      "9c9c9c",
-      "c5c5c5",
-      "e6e6e6",
+      "7b6a18",
+      "cd9c5a",
+      "007b4a",
+      "e6c552",
+      "00cd00",
       "000000",
       "ffffff",
       "000000",
       "00cd00",
-      "ee186a",
-      "f641ac",
-      "ff7bcd",
-      "ffc5f6"
+      "b40000",
+      "ff0000",
+      "ff5a00",
+      "ffa400"
      ],
      "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "000000",
-      "8b5a18",
-      "ffffbd",
-      "dea439",
-      "ffde20",
-      "ffff00",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 2
+     "count": 3
     }
    ]
   },
@@ -2230,7 +1970,7 @@
     "bg3",
     "sprite"
    ],
-   "tilesSeen": 31,
+   "tilesSeen": 32,
    "palettes": [
     {
      "colors": [
@@ -2240,7 +1980,7 @@
       "ffffff"
      ],
      "romOffset": 12672,
-     "count": 54
+     "count": 56
     },
     {
      "colors": [
@@ -2285,6 +2025,16 @@
      ],
      "romOffset": null,
      "count": 6
+    },
+    {
+     "colors": [
+      "9ce6e6",
+      "000000",
+      "dea439",
+      "ffde73"
+     ],
+     "romOffset": 12680,
+     "count": 1
     }
    ]
   },
@@ -2392,59 +2142,66 @@
   },
   {
    "codec": "lz",
-   "offset": 410053,
+   "offset": 391168,
    "bpp": [
     3
    ],
    "usedBy": [
-    "bg1",
-    "bg2"
+    "sprite"
    ],
    "tilesSeen": 1,
    "palettes": [
     {
      "colors": [
       "000000",
-      "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "94c5c5",
-      "acd5d5",
-      "c5e6e6",
-      "9ce6e6",
+      "ffffff",
       "000000",
-      "de3918",
-      "5aff5a",
-      "9ce6e6",
+      "ff7b00",
+      "ffc500",
+      "ffff00",
+      "bd2900",
+      "ff8b00",
       "000000",
-      "eef6ff",
-      "ff5a5a"
+      "ffffff",
+      "000000",
+      "00cd00",
+      "ee186a",
+      "f641ac",
+      "ff7bcd",
+      "ffc5f6"
      ],
      "romOffset": null,
-     "count": 4
-    },
+     "count": 9
+    }
+   ]
+  }
+ ],
+ "rawTiles": [
+  {
+   "offset": 426256,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
     {
      "colors": [
       "000000",
       "eef6ff",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "105273",
-      "4183a4",
-      "73b4d5",
-      "9ce6e6",
       "000000",
-      "5aacf6",
-      "ffffff",
-      "9ce6e6",
+      "bd0052",
+      "ff0083",
+      "4a4a8b",
+      "6a6ab4",
+      "8383cd",
       "000000",
-      "dea439",
-      "ffde73"
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
      ],
-     "romOffset": null,
-     "count": 4
+     "count": 70
     },
     {
      "colors": [
@@ -2465,39 +2222,9 @@
       "ff5a00",
       "ffa400"
      ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "eef6ff",
-      "737373",
-      "000000",
-      "c5c5c5",
-      "a4cdff",
-      "ace6ff",
-      "c5ffff",
-      "000000",
-      "ffffff",
-      "000000",
-      "00cd00",
-      "00e600",
-      "8bff39",
-      "cdff00",
-      "ffff9c"
-     ],
-     "romOffset": null,
-     "count": 1
+     "count": 52
     }
    ]
-  }
- ],
- "rawTiles": [
-  {
-   "offset": 426256,
-   "length": 32,
-   "bpp": 4
   }
  ],
  "rawPalettes": [

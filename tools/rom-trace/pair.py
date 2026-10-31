@@ -13,6 +13,7 @@ ap.add_argument("rom"); ap.add_argument("trace"); ap.add_argument("out")
 ap.add_argument("--title", required=True)
 ap.add_argument("--build", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "build"))
 ap.add_argument("--max-palettes", type=int, default=6)
+ap.add_argument("--max-run-palettes", type=int, default=2)
 ap.add_argument("--probe", choices=["dkc", "lz5"], nargs="+", default=[], help="also look for streams of a codec that the driver does not scan for: every ROM offset is tried and a stream counts when its tiles are on the screen of the trace")
 a = ap.parse_args()
 
@@ -169,7 +170,7 @@ for codec in a.probe:
     print("probe %s: %d candidates" % (codec, len(cands)))
 
 class Entry:
-    def __init__(self): self.palettes = {}; self.tiles = set(); self.kinds = set(); self.bpp = set(); self.offsets = set()
+    def __init__(self): self.palettes = {}; self.tiles = set(); self.kinds = set(); self.bpp = set(); self.offsets = collections.defaultdict(collections.Counter)
 table = collections.defaultdict(Entry)   # stream name, or "rom"
 stats = collections.Counter()
 for r in recs:
@@ -207,7 +208,7 @@ for r in recs:
             p = e.palettes.setdefault(key, {"count": 0, "romOffset": None})
             p["count"] += 1
             e.kinds.add("mode7"); e.bpp.add(bpp)
-            if off is not None: e.offsets.add((off, 32 if bpp == 5 else 64, bpp))
+            if off is not None: e.offsets[(off, 32 if bpp == 5 else 64, bpp)][key] += 1
             else: e.tiles.add(tileno)
         continue
     used = []   # (VRAM byte address, tile size, palette number, first CGRAM colour, kind)
@@ -246,7 +247,7 @@ for r in recs:
         p = e.palettes.setdefault(key, {"count": 0, "romOffset": where if where >= 0 else None})
         p["count"] += 1
         e.kinds.add(kind); e.bpp.add(bpp)
-        if off is not None: e.offsets.add((off, size, 4 if size == 32 else 2))
+        if off is not None: e.offsets[(off, size, 4 if size == 32 else 2)][key] += 1
         else: e.tiles.add(tileno)
 
 streams, raw = [], []
@@ -254,11 +255,14 @@ for src, e in sorted(table.items()):
     pals = [{"colors": k.split(), "romOffset": v["romOffset"], "count": v["count"]}
             for k, v in sorted(e.palettes.items(), key=lambda kv: -kv[1]["count"])[:a.max_palettes]]
     if src == "rom":
-        runs = []   # tiles found at ROM offsets, merged into runs of consecutive tiles of one format
+        runs = []   # tiles found at ROM offsets, merged into runs of consecutive tiles of one format, with their palettes
         for off, size, bpp in sorted(e.offsets, key=lambda o: (o[2], o[0])):
-            if runs and runs[-1][2] == bpp and off == runs[-1][0] + runs[-1][1]: runs[-1][1] += size
-            else: runs.append([off, size, bpp])
-        raw = [{"offset": o, "length": n, "bpp": b} for o, n, b in runs]
+            used = e.offsets[(off, size, bpp)]
+            if runs and runs[-1][2] == bpp and off == runs[-1][0] + runs[-1][1]:
+                runs[-1][1] += size; runs[-1][3].update(used)
+            else: runs.append([off, size, bpp, collections.Counter(used)])
+        raw = [{"offset": o, "length": n, "bpp": b,
+                "palettes": [{"colors": k.split(), "count": c} for k, c in pc.most_common(a.max_run_palettes)]} for o, n, b, pc in runs]
         raw_pals = pals
         continue
     m = re.match(r"(\w+?)_([0-9A-Fa-f]+)$", src)

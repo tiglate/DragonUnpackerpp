@@ -3,8 +3,8 @@
  "console": "snes",
  "crc32": "d138f224",
  "size": 2097152,
- "tracedTiles": 5736,
- "explainedTiles": 3179,
+ "tracedTiles": 5771,
+ "explainedTiles": 3288,
  "streams": [
   {
    "codec": "lz",
@@ -43,80 +43,15 @@
   },
   {
    "codec": "lz",
-   "offset": 1560225,
+   "offset": 1552075,
    "bpp": [
-    2,
     4
    ],
    "usedBy": [
-    "bg1",
-    "bg3",
     "sprite"
    ],
-   "tilesSeen": 2,
+   "tilesSeen": 1,
    "palettes": [
-    {
-     "colors": [
-      "94ffff",
-      "29624a",
-      "94cdb4",
-      "ffffff"
-     ],
-     "romOffset": 2080780,
-     "count": 25
-    },
-    {
-     "colors": [
-      "000000",
-      "ffffff",
-      "ffdebd",
-      "ffe6cd"
-     ],
-     "romOffset": 2092106,
-     "count": 6
-    },
-    {
-     "colors": [
-      "000000",
-      "ffffff",
-      "ff3118",
-      "00ee00"
-     ],
-     "romOffset": 2072592,
-     "count": 4
-    },
-    {
-     "colors": [
-      "000000",
-      "ffffff",
-      "ff8b31",
-      "ffff52"
-     ],
-     "romOffset": 2072600,
-     "count": 4
-    },
-    {
-     "colors": [
-      "000000",
-      "000000",
-      "628b41",
-      "bdd541",
-      "cdffff",
-      "000000",
-      "a44a10",
-      "ee734a",
-      "000000",
-      "29624a",
-      "94cdb4",
-      "ffffff",
-      "000000",
-      "29624a",
-      "7b5229",
-      "4a3118"
-     ],
-     "romOffset": null,
-     "count": 3
-    },
     {
      "colors": [
       "000000",
@@ -137,13 +72,35 @@
       "000000"
      ],
      "romOffset": null,
-     "count": 2
+     "count": 1
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "ffffff",
+      "299494",
+      "52dede",
+      "31a400",
+      "8bde00",
+      "ffffff",
+      "7bffff",
+      "944141",
+      "ff6262",
+      "9c9c9c",
+      "dedede",
+      "836229",
+      "eeac73",
+      "ffeeb4"
+     ],
+     "romOffset": null,
+     "count": 1
     }
    ]
   },
   {
    "codec": "lz",
-   "offset": 1576037,
+   "offset": 1566810,
    "bpp": [
     4
    ],
@@ -156,66 +113,44 @@
      "colors": [
       "000000",
       "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
       "000000",
+      "a44a10",
+      "ee734a",
       "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000"
-     ],
-     "romOffset": 70983,
-     "count": 1
-    },
-    {
-     "colors": [
-      "ffff41",
+      "29624a",
+      "94cdb4",
       "ffffff",
       "000000",
-      "ac4a62",
-      "ff8b9c",
-      "6a8bac",
-      "acded5",
-      "ffeecd",
-      "ffac4a",
-      "ffd562",
-      "ffff73",
-      "ffffd5",
-      "622039",
-      "ffffd5",
-      "ffffd5",
-      "ffffd5"
+      "29624a",
+      "7b5229",
+      "4a3118"
      ],
      "romOffset": null,
-     "count": 1
+     "count": 2
     },
     {
      "colors": [
       "000000",
+      "73bd8b",
+      "94deac",
       "ffffff",
       "000000",
-      "ac4a62",
-      "ff8b9c",
-      "6a8bac",
-      "acded5",
-      "ffeecd",
-      "ffac4a",
-      "ffd562",
-      "ffff73",
-      "ffffd5",
-      "622039",
-      "ffffd5",
-      "ffffd5",
-      "ffffd5"
+      "ff4152",
+      "9ccdff",
+      "ffff00",
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00",
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
      ],
-     "romOffset": null,
+     "romOffset": 2072576,
      "count": 1
     }
    ]
@@ -232,7 +167,7 @@
     "bg3",
     "sprite"
    ],
-   "tilesSeen": 36,
+   "tilesSeen": 28,
    "palettes": [
     {
      "colors": [
@@ -257,28 +192,6 @@
     {
      "colors": [
       "000000",
-      "000000",
-      "ffffff",
-      "ff4a00",
-      "ffac00",
-      "ffff00",
-      "73bdee",
-      "b4d5ee",
-      "e6f6ff",
-      "522973",
-      "7b52c5",
-      "ac94ff",
-      "416a62",
-      "7b9c8b",
-      "b4cdc5",
-      "def6ee"
-     ],
-     "romOffset": null,
-     "count": 14
-    },
-    {
-     "colors": [
-      "ffff8b",
       "000000",
       "ffffff",
       "ff4a00",
@@ -329,6 +242,28 @@
      ],
      "romOffset": null,
      "count": 6
+    },
+    {
+     "colors": [
+      "ffff8b",
+      "000000",
+      "ffffff",
+      "ff4a00",
+      "ffac00",
+      "ffff00",
+      "73bdee",
+      "b4d5ee",
+      "e6f6ff",
+      "522973",
+      "7b52c5",
+      "ac94ff",
+      "416a62",
+      "7b9c8b",
+      "b4cdc5",
+      "def6ee"
+     ],
+     "romOffset": null,
+     "count": 6
     }
    ]
   },
@@ -363,7 +298,7 @@
       "ee734a"
      ],
      "romOffset": 2081342,
-     "count": 77
+     "count": 84
     },
     {
      "colors": [
@@ -459,13 +394,26 @@
    "codec": "lz",
    "offset": 1581018,
    "bpp": [
-    2
+    2,
+    3,
+    4
    ],
    "usedBy": [
+    "bg1",
     "bg3"
    ],
-   "tilesSeen": 1,
+   "tilesSeen": 5,
    "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "29624a",
+      "94cdb4",
+      "ffffff"
+     ],
+     "romOffset": 2080780,
+     "count": 25
+    },
     {
      "colors": [
       "000000",
@@ -474,7 +422,59 @@
       "ffe6cd"
      ],
      "romOffset": 2092106,
-     "count": 3
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "628b41",
+      "bdd541"
+     ],
+     "romOffset": null,
+     "count": 7
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00"
+     ],
+     "romOffset": 2072592,
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
+     ],
+     "romOffset": 2072600,
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 70983,
+     "count": 2
     }
    ]
   },
@@ -628,151 +628,12 @@
   },
   {
    "codec": "lz",
-   "offset": 1607885,
-   "bpp": [
-    3
-   ],
-   "usedBy": [
-    "bg1"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000"
-     ],
-     "romOffset": 70983,
-     "count": 1
-    },
-    {
-     "colors": [
-      "ffff41",
-      "ffffff",
-      "000000",
-      "ac4a62",
-      "ff8b9c",
-      "6a8bac",
-      "acded5",
-      "ffeecd",
-      "ffac4a",
-      "ffd562",
-      "ffff73",
-      "ffffd5",
-      "622039",
-      "ffffd5",
-      "ffffd5",
-      "ffffd5"
-     ],
-     "romOffset": null,
-     "count": 1
-    },
-    {
-     "colors": [
-      "000000",
-      "ffffff",
-      "000000",
-      "ac4a62",
-      "ff8b9c",
-      "6a8bac",
-      "acded5",
-      "ffeecd",
-      "ffac4a",
-      "ffd562",
-      "ffff73",
-      "ffffd5",
-      "622039",
-      "ffffd5",
-      "ffffd5",
-      "ffffd5"
-     ],
-     "romOffset": null,
-     "count": 1
-    }
-   ]
-  },
-  {
-   "codec": "lz",
-   "offset": 1624466,
-   "bpp": [
-    4
-   ],
-   "usedBy": [
-    "bg1"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
-      "000000",
-      "000000",
-      "628b41",
-      "bdd541",
-      "cdffff",
-      "000000",
-      "a44a10",
-      "ee734a",
-      "000000",
-      "29624a",
-      "94cdb4",
-      "ffffff",
-      "000000",
-      "29624a",
-      "7b5229",
-      "4a3118"
-     ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "73bd8b",
-      "94deac",
-      "ffffff",
-      "000000",
-      "ff4152",
-      "9ccdff",
-      "ffff00",
-      "000000",
-      "ffffff",
-      "ff3118",
-      "00ee00",
-      "000000",
-      "ffffff",
-      "ff8b31",
-      "ffff52"
-     ],
-     "romOffset": 2072576,
-     "count": 2
-    }
-   ]
-  },
-  {
-   "codec": "lz",
    "offset": 1628020,
    "bpp": [
-    2,
     4
    ],
    "usedBy": [
     "bg1",
-    "bg2",
-    "bg3",
     "sprite"
    ],
    "tilesSeen": 112,
@@ -1160,7 +1021,131 @@
   },
   {
    "codec": "lz",
-   "offset": 1636648,
+   "offset": 1642109,
+   "bpp": [
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "sprite"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
+      "000000",
+      "a44a10",
+      "ee734a",
+      "000000",
+      "29624a",
+      "94cdb4",
+      "ffffff",
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
+     ],
+     "romOffset": null,
+     "count": 3
+    },
+    {
+     "colors": [
+      "000000",
+      "000039",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "100010",
+      "000000"
+     ],
+     "romOffset": null,
+     "count": 2
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "romOffset": null,
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff",
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00",
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00",
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
+     ],
+     "romOffset": 2072576,
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "romOffset": 70983,
+     "count": 2
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1667649,
    "bpp": [
     3
    ],
@@ -1277,63 +1262,6 @@
       "ffffd5"
      ],
      "romOffset": null,
-     "count": 1
-    }
-   ]
-  },
-  {
-   "codec": "lz",
-   "offset": 1661074,
-   "bpp": [
-    4
-   ],
-   "usedBy": [
-    "bg1"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
-      "000000",
-      "000000",
-      "628b41",
-      "bdd541",
-      "cdffff",
-      "000000",
-      "a44a10",
-      "ee734a",
-      "000000",
-      "29624a",
-      "94cdb4",
-      "ffffff",
-      "000000",
-      "29624a",
-      "7b5229",
-      "4a3118"
-     ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
-      "000000",
-      "73bd8b",
-      "94deac",
-      "ffffff",
-      "000000",
-      "ff4152",
-      "9ccdff",
-      "ffff00",
-      "000000",
-      "ffffff",
-      "ff3118",
-      "00ee00",
-      "000000",
-      "ffffff",
-      "ff8b31",
-      "ffff52"
-     ],
-     "romOffset": 2072576,
      "count": 1
     }
    ]
@@ -1492,7 +1420,7 @@
    "usedBy": [
     "bg1"
    ],
-   "tilesSeen": 3,
+   "tilesSeen": 2,
    "palettes": [
     {
      "colors": [
@@ -1514,7 +1442,7 @@
       "4a3118"
      ],
      "romOffset": null,
-     "count": 6
+     "count": 4
     },
     {
      "colors": [
@@ -1536,134 +1464,64 @@
       "ffff52"
      ],
      "romOffset": 2072576,
-     "count": 6
+     "count": 4
     }
    ]
   },
   {
    "codec": "lz",
-   "offset": 1690903,
+   "offset": 1684452,
    "bpp": [
-    2
-   ],
-   "usedBy": [
-    "bg3"
-   ],
-   "tilesSeen": 1,
-   "palettes": [
-    {
-     "colors": [
-      "cdffff",
-      "000000",
-      "a44a10",
-      "ee734a"
-     ],
-     "romOffset": 2081342,
-     "count": 7
-    }
-   ]
-  },
-  {
-   "codec": "lz",
-   "offset": 1705412,
-   "bpp": [
-    3,
     4
    ],
    "usedBy": [
-    "bg1",
-    "bg2",
-    "sprite"
+    "bg1"
    ],
    "tilesSeen": 2,
    "palettes": [
     {
      "colors": [
       "000000",
-      "cdcd62",
-      "9c9c41",
-      "31d573",
-      "08a441",
-      "de3108",
-      "c5c5c5",
-      "9c9c9c",
       "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
+      "000000",
+      "a44a10",
+      "ee734a",
+      "000000",
+      "29624a",
+      "94cdb4",
       "ffffff",
-      "ffde29",
-      "f68b08",
-      "e6ffa4",
-      "6adeff",
-      "39acde",
-      "107bbd"
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
      ],
-     "romOffset": 2082910,
-     "count": 2
+     "romOffset": null,
+     "count": 4
     },
     {
      "colors": [
       "000000",
-      "ff7b7b",
-      "ee2031",
-      "31d573",
-      "08a441",
-      "b4c5cd",
-      "83839c",
-      "bdffff",
-      "62737b",
-      "94a4ac",
-      "ffe639",
-      "f68b08",
+      "73bd8b",
+      "94deac",
       "ffffff",
-      "8bcdff",
-      "cdacff",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 2
-    },
-    {
-     "colors": [
       "000000",
-      "000039",
-      "000031",
-      "000031",
-      "000031",
-      "000031",
-      "000031",
-      "000031",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "000000",
-      "100010",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 1
-    },
-    {
-     "colors": [
-      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00",
       "000000",
       "ffffff",
-      "299494",
-      "52dede",
-      "31a400",
-      "8bde00",
+      "ff3118",
+      "00ee00",
+      "000000",
       "ffffff",
-      "7bffff",
-      "944141",
-      "ff6262",
-      "9c9c9c",
-      "dedede",
-      "836229",
-      "eeac73",
-      "ffeeb4"
+      "ff8b31",
+      "ffff52"
      ],
-     "romOffset": null,
-     "count": 1
+     "romOffset": 2072576,
+     "count": 4
     }
    ]
   },
@@ -1771,28 +1629,6 @@
     {
      "colors": [
       "000000",
-      "cdcd62",
-      "9c9c41",
-      "31d573",
-      "08a441",
-      "de3108",
-      "c5c5c5",
-      "9c9c9c",
-      "000000",
-      "ffffff",
-      "ffde29",
-      "f68b08",
-      "e6ffa4",
-      "6adeff",
-      "39acde",
-      "107bbd"
-     ],
-     "romOffset": 2082910,
-     "count": 12
-    },
-    {
-     "colors": [
-      "000000",
       "000000",
       "ffffff",
       "299494",
@@ -1811,28 +1647,6 @@
      ],
      "romOffset": null,
      "count": 4
-    },
-    {
-     "colors": [
-      "000000",
-      "ff7b7b",
-      "ee2031",
-      "31d573",
-      "08a441",
-      "b4c5cd",
-      "83839c",
-      "bdffff",
-      "62737b",
-      "94a4ac",
-      "ffe639",
-      "f68b08",
-      "ffffff",
-      "8bcdff",
-      "cdacff",
-      "000000"
-     ],
-     "romOffset": null,
-     "count": 2
     },
     {
      "colors": [
@@ -1899,6 +1713,50 @@
      ],
      "romOffset": 2092170,
      "count": 2
+    },
+    {
+     "colors": [
+      "ffff52",
+      "cdcdcd",
+      "313131",
+      "cd5a7b",
+      "cd9c8b",
+      "cdb49c",
+      "cdcd9c",
+      "cdc531",
+      "acc57b",
+      "3183ac",
+      "ffbdb4",
+      "ffffe6",
+      "624a41",
+      "945a5a",
+      "d58373",
+      "ffd5b4"
+     ],
+     "romOffset": null,
+     "count": 1
+    },
+    {
+     "colors": [
+      "ffff52",
+      "ffffff",
+      "526a7b",
+      "ffff52",
+      "ffff52",
+      "ffff52",
+      "ffff94",
+      "ffac31",
+      "bde6f6",
+      "cdffff",
+      "f6ffff",
+      "ffffff",
+      "83c5ac",
+      "acf6c5",
+      "cdffe6",
+      "f6ffff"
+     ],
+     "romOffset": null,
+     "count": 1
     }
    ]
   },
@@ -1980,378 +1838,2410 @@
      "count": 2
     }
    ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1746778,
+   "bpp": [
+    2,
+    4
+   ],
+   "usedBy": [
+    "bg1",
+    "bg3",
+    "sprite"
+   ],
+   "tilesSeen": 8,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
+     ],
+     "romOffset": 2080788,
+     "count": 4
+    },
+    {
+     "colors": [
+      "ffff8b",
+      "000000",
+      "ffffff",
+      "ff4a00",
+      "ffac00",
+      "ffff00",
+      "73bdee",
+      "b4d5ee",
+      "e6f6ff",
+      "522973",
+      "7b52c5",
+      "ac94ff",
+      "416a62",
+      "7b9c8b",
+      "b4cdc5",
+      "def6ee"
+     ],
+     "romOffset": null,
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "ffffff",
+      "ff4a00",
+      "ffac00",
+      "ffff00",
+      "73bdee",
+      "b4d5ee",
+      "e6f6ff",
+      "522973",
+      "7b52c5",
+      "ac94ff",
+      "416a62",
+      "7b9c8b",
+      "b4cdc5",
+      "def6ee"
+     ],
+     "romOffset": null,
+     "count": 4
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "003900",
+      "006200",
+      "009400",
+      "00cd00",
+      "00ff00",
+      "103962",
+      "206a9c",
+      "41a4d5",
+      "94eeff",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "romOffset": null,
+     "count": 2
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1814051,
+   "bpp": [
+    5
+   ],
+   "usedBy": [
+    "mode7"
+   ],
+   "tilesSeen": 119,
+   "palettes": [
+    {
+     "colors": [
+      "185294",
+      "000000",
+      "ffffff",
+      "005200",
+      "008b18",
+      "00ac41",
+      "7b7b7b",
+      "acacac",
+      "d5d5d5",
+      "9c8b73",
+      "cdbda4",
+      "ffdebd",
+      "185294",
+      "186aac",
+      "1894d5",
+      "18cde6"
+     ],
+     "romOffset": null,
+     "count": 127
+    }
+   ]
+  },
+  {
+   "codec": "lz",
+   "offset": 1831875,
+   "bpp": [
+    5
+   ],
+   "usedBy": [
+    "mode7"
+   ],
+   "tilesSeen": 1,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "83deff",
+      "d5ffee",
+      "ffffff",
+      "185294",
+      "186aac",
+      "1894d5",
+      "ffffff",
+      "9c00ff",
+      "ff00ff",
+      "ff00ff",
+      "ff00ff",
+      "9c00ff",
+      "ff00ff",
+      "ff00ff",
+      "ff00ff"
+     ],
+     "romOffset": null,
+     "count": 3
+    }
+   ]
   }
  ],
  "rawTiles": [
   {
-   "offset": 275907,
-   "length": 32,
-   "bpp": 4
-  },
-  {
    "offset": 1187601,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1193904,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1228800,
-   "length": 256,
-   "bpp": 4
-  },
-  {
-   "offset": 1229216,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1229280,
-   "length": 288,
-   "bpp": 4
-  },
-  {
-   "offset": 1229920,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1230432,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1230560,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1233440,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1233600,
-   "length": 96,
-   "bpp": 4
-  },
-  {
-   "offset": 1234432,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 1234624,
-   "length": 96,
-   "bpp": 4
-  },
-  {
-   "offset": 1234944,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 1235072,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1236480,
-   "length": 64,
-   "bpp": 4
-  },
-  {
-   "offset": 1474688,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1475200,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1486976,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "29624a",
+      "94cdb4",
+      "ffffff"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1487040,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1487232,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1487552,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1488000,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1488160,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1488256,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1488512,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1488576,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1488672,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1488768,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1489600,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 1
+    }
+   ]
   },
   {
    "offset": 1495040,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1495040,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 3
+    }
+   ]
   },
   {
    "offset": 1495072,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495104,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495136,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495168,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495232,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495264,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1495264,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495296,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 3
+    }
+   ]
   },
   {
    "offset": 1495328,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495360,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495392,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495424,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1495424,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1495440,
-   "length": 32,
-   "bpp": 2
+   "length": 48,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 8
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495488,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495520,
-   "length": 48,
-   "bpp": 2
-  },
-  {
-   "offset": 1495552,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1495568,
-   "length": 32,
-   "bpp": 2
+   "length": 80,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 8
+    }
+   ]
   },
   {
    "offset": 1495632,
    "length": 64,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495712,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495744,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495776,
    "length": 80,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 16
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1495888,
    "length": 64,
-   "bpp": 2
-  },
-  {
-   "offset": 1495936,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 12
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496000,
    "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1496032,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496048,
    "length": 32,
-   "bpp": 2
-  },
-  {
-   "offset": 1496064,
-   "length": 32,
-   "bpp": 4
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 8
+    },
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496096,
    "length": 80,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496192,
-   "length": 16,
-   "bpp": 2
-  },
-  {
-   "offset": 1496192,
-   "length": 32,
-   "bpp": 4
-  },
-  {
-   "offset": 1496208,
-   "length": 96,
-   "bpp": 2
+   "length": 112,
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 24
+    },
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 16
+    }
+   ]
   },
   {
    "offset": 1496560,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496608,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496640,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496672,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 8
+    }
+   ]
   },
   {
    "offset": 1496736,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 12
+    }
+   ]
   },
   {
    "offset": 1496800,
    "length": 32,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 8
+    }
+   ]
   },
   {
    "offset": 1496928,
    "length": 16,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 4
+    }
+   ]
   },
   {
    "offset": 1496976,
    "length": 48,
-   "bpp": 2
+   "bpp": 2,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff"
+     ],
+     "count": 12
+    }
+   ]
+  },
+  {
+   "offset": 275907,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 6
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 6
+    }
+   ]
+  },
+  {
+   "offset": 1193904,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 20
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 7
+    }
+   ]
+  },
+  {
+   "offset": 1228800,
+   "length": 256,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 10
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 4
+    }
+   ]
+  },
+  {
+   "offset": 1229216,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ff735a",
+      "ffffff",
+      "313131",
+      "4a3952",
+      "625a5a",
+      "7b6a83",
+      "8b9cac",
+      "cddebd",
+      "f6eede",
+      "837b6a",
+      "ac9c8b",
+      "cdbdde",
+      "627b73",
+      "8bac9c",
+      "bdcdde",
+      "0000ff"
+     ],
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1229280,
+   "length": 288,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 8
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 6
+    }
+   ]
+  },
+  {
+   "offset": 1229920,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1230432,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1230560,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 1
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1233440,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1233600,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ffffff",
+      "a4ffa4",
+      "de31ac"
+     ],
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1234432,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
+      "000000",
+      "a44a10",
+      "ee734a",
+      "000000",
+      "29624a",
+      "94cdb4",
+      "ffffff",
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
+     ],
+     "count": 3
+    }
+   ]
+  },
+  {
+   "offset": 1234624,
+   "length": 96,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "94eeff",
+      "ffffff",
+      "000000",
+      "4a1800",
+      "731800",
+      "bd2900",
+      "ff3118",
+      "ff5a00",
+      "412920",
+      "7b5229",
+      "ac8b62",
+      "ffcdac",
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 5
+    },
+    {
+     "colors": [
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ffffff",
+      "a4ffa4",
+      "de31ac"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1234944,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1235072,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff",
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00",
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00",
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1236480,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "fff6b4",
+      "ffdea4",
+      "ffb47b",
+      "dede9c",
+      "bdbd83",
+      "bddef6",
+      "acbdcd",
+      "7ba4bd",
+      "5a7bac",
+      "5a6273",
+      "ff7b7b",
+      "f6f6ee",
+      "eeeee6",
+      "ffffff"
+     ],
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1474688,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ffffff",
+      "a4ffa4",
+      "de31ac"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1475200,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "94eeff",
+      "ffffff",
+      "000000",
+      "4a1800",
+      "731800",
+      "bd2900",
+      "ff3118",
+      "ff5a00",
+      "412920",
+      "7b5229",
+      "ac8b62",
+      "ffcdac",
+      "94ffff",
+      "000000",
+      "accdbd",
+      "ffffff"
+     ],
+     "count": 1
+    },
+    {
+     "colors": [
+      "ff735a",
+      "ffffff",
+      "313131",
+      "4a3952",
+      "625a5a",
+      "7b6a83",
+      "8b9cac",
+      "cddebd",
+      "f6eede",
+      "837b6a",
+      "ac9c8b",
+      "cdbdde",
+      "627b73",
+      "8bac9c",
+      "bdcdde",
+      "0000ff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1486976,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1487232,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
+      "000000",
+      "a44a10",
+      "ee734a",
+      "000000",
+      "29624a",
+      "94cdb4",
+      "ffffff",
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
+     ],
+     "count": 1
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "ac4a62",
+      "ff8b9c",
+      "6a8bac",
+      "acded5",
+      "ffeecd",
+      "ffac4a",
+      "ffd562",
+      "ffff73",
+      "ffffd5",
+      "622039",
+      "ffffd5",
+      "ffffd5",
+      "ffffd5"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488000,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488160,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488256,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    },
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff",
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00",
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00",
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488512,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "8b5200",
+      "b47b00",
+      "deac00",
+      "ffd500",
+      "ffff00",
+      "314a41",
+      "5a7b73",
+      "a4bdb4",
+      "def6ee",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488672,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "003900",
+      "006200",
+      "009400",
+      "00cd00",
+      "00ff00",
+      "103962",
+      "206a9c",
+      "41a4d5",
+      "94eeff",
+      "4100ff",
+      "7300ff",
+      "9c00ff",
+      "c500ff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1488768,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "628b41",
+      "bdd541",
+      "cdffff",
+      "000000",
+      "a44a10",
+      "ee734a",
+      "000000",
+      "29624a",
+      "94cdb4",
+      "ffffff",
+      "000000",
+      "29624a",
+      "7b5229",
+      "4a3118"
+     ],
+     "count": 1
+    },
+    {
+     "colors": [
+      "ffff41",
+      "ffffff",
+      "000000",
+      "ac4a62",
+      "ff8b9c",
+      "6a8bac",
+      "acded5",
+      "ffeecd",
+      "ffac4a",
+      "ffd562",
+      "ffff73",
+      "ffffd5",
+      "622039",
+      "ffffd5",
+      "ffffd5",
+      "ffffd5"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 1495040,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 4
+    }
+   ]
+  },
+  {
+   "offset": 1495264,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "73bd8b",
+      "94deac",
+      "ffffff",
+      "000000",
+      "ff4152",
+      "9ccdff",
+      "ffff00",
+      "000000",
+      "ffffff",
+      "ff3118",
+      "00ee00",
+      "000000",
+      "ffffff",
+      "ff8b31",
+      "ffff52"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1495424,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1495552,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1495936,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1496032,
+   "length": 64,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 4
+    },
+    {
+     "colors": [
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ff00ff",
+      "8300ff",
+      "0000ff",
+      "000000",
+      "ffffff",
+      "a4ffa4",
+      "de31ac"
+     ],
+     "count": 2
+    }
+   ]
+  },
+  {
+   "offset": 1496192,
+   "length": 32,
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1497056,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000"
+     ],
+     "count": 2
+    }
+   ]
   },
   {
    "offset": 1503424,
    "length": 32,
-   "bpp": 4
+   "bpp": 4,
+   "palettes": [
+    {
+     "colors": [
+      "ffff8b",
+      "000000",
+      "cd2900",
+      "295a00",
+      "940000",
+      "ff6a00",
+      "5aac00",
+      "ff9c8b",
+      "ff0000",
+      "ffde00",
+      "94ff00",
+      "ff8b00",
+      "ffc500",
+      "ffc5ac",
+      "ffe6d5",
+      "ffffff"
+     ],
+     "count": 1
+    }
+   ]
+  },
+  {
+   "offset": 307055,
+   "length": 64,
+   "bpp": 8,
+   "palettes": [
+    {
+     "colors": [
+      "185294",
+      "000000",
+      "ffffff",
+      "005200",
+      "008b18",
+      "00ac41",
+      "7b7b7b",
+      "acacac",
+      "d5d5d5",
+      "9c8b73",
+      "cdbda4",
+      "ffdebd",
+      "185294",
+      "186aac",
+      "1894d5",
+      "18cde6",
+      "000000",
+      "83deff",
+      "d5ffee",
+      "ffffff",
+      "185294",
+      "186aac",
+      "1894d5",
+      "ffffff",
+      "9c00ff",
+      "ff00ff",
+      "ff00ff",
+      "ff00ff",
+      "9c00ff",
+      "ff00ff",
+      "ff00ff",
+      "ff00ff",
+      "000000",
+      "000000",
+      "00bdff",
+      "00ff00",
+      "4100ff",
+      "000000",
+      "f68b08",
+      "ffffff",
+      "4100ff",
+      "000000",
+      "00bdff",
+      "ff3108",
+      "4100ff",
+      "000000",
+      "00bdff",
+      "ffd500",
+      "000000",
+      "cdcd62",
+      "9c9c41",
+      "31d573",
+      "08a441",
+      "de3108",
+      "c5c5c5",
+      "9c9c9c",
+      "000000",
+      "ffffff",
+      "ffde29",
+      "f68b08",
+      "e6ffa4",
+      "6adeff",
+      "39acde",
+      "107bbd",
+      "000000",
+      "d58b31",
+      "ac6210",
+      "ffe639",
+      "ee5210",
+      "6a6a6a",
+      "a4eef6",
+      "7bb4f6",
+      "000000",
+      "ffffff",
+      "c5c5c5",
+      "9c9c9c",
+      "a4eef6",
+      "4aee8b",
+      "20bd52",
+      "188b39",
+      "000000",
+      "acacac",
+      "8b8b8b",
+      "cdcdcd",
+      "9c9c9c",
+      "6a6a6a",
+      "cdcdcd",
+      "9c9c9c",
+      "000000",
+      "ffffff",
+      "bdbdbd",
+      "9c9c9c",
+      "ffcde6",
+      "cdcdcd",
+      "9c9c9c",
+      "6a6a6a",
+      "000000",
+      "ff7b7b",
+      "ee2031",
+      "31d573",
+      "08a441",
+      "b4c5cd",
+      "83839c",
+      "bdffff",
+      "62737b",
+      "94a4ac",
+      "ffe639",
+      "f68b08",
+      "ffffff",
+      "8bcdff",
+      "cdacff",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000039",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000031",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "000000",
+      "100010",
+      "000000",
+      "000000",
+      "000029",
+      "10004a",
+      "291873",
+      "392994",
+      "526294",
+      "8b7394",
+      "b48b7b",
+      "732000",
+      "944118",
+      "bd6a7b",
+      "d58b7b",
+      "ffb418",
+      "ffd531",
+      "c5b4e6",
+      "ffffc5",
+      "000000",
+      "201873",
+      "31297b",
+      "413983",
+      "625a8b",
+      "736a94",
+      "837b9c",
+      "948bac",
+      "b49c94",
+      "c5aca4",
+      "d5bdac",
+      "e6cdb4",
+      "f6dec5",
+      "ffeecd",
+      "ffffde",
+      "ffffde",
+      "000000",
+      "cdcd62",
+      "9c9c41",
+      "31d573",
+      "08a441",
+      "de3108",
+      "c5c5c5",
+      "9c9c9c",
+      "000000",
+      "ffffff",
+      "ffde29",
+      "f68b08",
+      "e6ffa4",
+      "6adeff",
+      "39acde",
+      "107bbd",
+      "000000",
+      "d58b31",
+      "ac6210",
+      "ffe639",
+      "ee5210",
+      "6a6a6a",
+      "a4eef6",
+      "7bb4f6",
+      "000000",
+      "ffffff",
+      "c5c5c5",
+      "9c9c9c",
+      "a4eef6",
+      "4aee8b",
+      "20bd52",
+      "188b39",
+      "000000",
+      "acacac",
+      "8b8b8b",
+      "cdcdcd",
+      "9c9c9c",
+      "6a6a6a",
+      "cdcdcd",
+      "9c9c9c",
+      "000000",
+      "ffffff",
+      "bdbdbd",
+      "9c9c9c",
+      "ffcde6",
+      "cdcdcd",
+      "9c9c9c",
+      "6a6a6a",
+      "000000",
+      "ff7b7b",
+      "ee2031",
+      "31d573",
+      "08a441",
+      "b4c5cd",
+      "83839c",
+      "bdffff",
+      "62737b",
+      "94a4ac",
+      "ffe639",
+      "f68b08",
+      "ffffff",
+      "8bcdff",
+      "cdacff",
+      "000000",
+      "000000",
+      "000000",
+      "ffffff",
+      "299494",
+      "52dede",
+      "31a400",
+      "8bde00",
+      "ffffff",
+      "7bffff",
+      "944141",
+      "ff6262",
+      "9c9c9c",
+      "dedede",
+      "836229",
+      "eeac73",
+      "ffeeb4"
+     ],
+     "count": 9
+    }
+   ]
   }
  ],
  "rawPalettes": [

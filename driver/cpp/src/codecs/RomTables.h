@@ -17,6 +17,7 @@ struct KnownRun
     int64_t Offset = 0;
     int64_t Length = 0;
     int Bpp = 4;
+    std::vector<std::vector<uint32_t>> Palettes; // the ones it was drawn with, most used first
 };
 
 struct KnownStream
