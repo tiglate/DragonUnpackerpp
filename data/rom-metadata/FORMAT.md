@@ -36,5 +36,25 @@ They are produced by running the game in an emulator and recording which ROM dat
 }
 ```
 
+## Music
+
+A game whose music was worked out has a `"music"` section (`tools/rom-trace/spc_recipe.py`):
+
+```json
+"music": {
+  "entry": 1280, "slot": 4960,         // where the engine starts; the address the song banks are loaded to
+  "engine": [ {"offset": 458756, "length": 3646, "dest": 1280}, ... ],   // ROM blocks uploaded once to the sound chip
+  "patch": [ {"dest": 16, "hex": "..."} ],   // the variables of the engine once it started (below its code)
+  "dsp": "...", "io": "...", "cpu": {"pc": 1358, "a": 0, "x": 3, "y": 0, "psw": 66, "sp": 207},
+  "banks": [ { "blocks": [ {"offset": 465077, "length": 5661, "dest": 4960} ],
+               "songs": [ [0, 0, 1, 0], ... ] } ]   // values of the CPU ports that start a song
+}
+```
+
+The driver builds one `.spc` file (the format of SPC players: the 64 KB of the chip, its registers and a tag) per song:
+the blocks are copied from the ROM, the patch gives the engine its variables, and the song number is in the ports.
+Nothing of the music is in the table: the blocks stay in the ROM. A "song" is a command that made sound while the
+tool tried them, so it can be a sound effect or a jingle; the names are not known.
+
 Coverage is the part of the on-screen tiles seen during the traced play, not the whole game. A missing palette
 `romOffset` means the game builds that palette at run time (fades, mixes, decompression), not that it is absent.

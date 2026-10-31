@@ -17,6 +17,10 @@ you are done. `trace.lua` only uses the documented Lua API names, and no emulato
 
 The traces are large (2 to 20 MB per game): keep them out of the repository (`TRACE_DIR`).
 
+- `spc_trace.lua` + `spc_recipe.py ROM TABLE.json`: the music of a game (see the Music section of `data/rom-metadata/FORMAT.md`):
+  follows the uploads to the sound chip, takes a snapshot of the chip when its engine is idle, finds the song banks in the
+  ROM and tries the commands (with libgme, if installed, only to hear whether a command plays something).
+
 ## What the traces showed
 
 - `TRACE_READS=1` also logs, for each transfer to VRAM, the runs of consecutive ROM bytes the CPU read before it (what a game

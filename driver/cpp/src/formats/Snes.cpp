@@ -262,6 +262,24 @@ class SnesArchive : public RomArchive
                 AddDecoded(base + "_2bpp.tga", s.Codec, s.Offset, s.Packed, s.Size, true, TileFormat::Snes2bpp, colors);
         }
 
+        // the songs of a game whose music is known: SPC files
+        if (haveKnown && !known.Music.Banks.empty())
+        {
+            const auto music = std::make_shared<const KnownMusic>(known.Music);
+            const std::string game = HeaderText(h, 21);
+            for (size_t b = 0; b < music->Banks.size(); ++b)
+            {
+                const auto &blocks = music->Banks[b].Blocks;
+                const std::string folder = "music/bank_" + Hex(blocks.empty() ? 0 : static_cast<uint64_t>(blocks[0].Offset), 6);
+                for (size_t s = 0; s < music->Banks[b].Songs.size(); ++s)
+                {
+                    const auto &ports = music->Banks[b].Songs[s];
+                    const std::string command = Hex(ports[2] ? ports[2] : ports[0], 2);
+                    AddSpc(folder + "/song_" + command + ".spc", music, b, s, game + " - song " + command, game);
+                }
+            }
+        }
+
         // BRR samples (the games copy them as they are to the sound chip): WAV files
         for (const BrrSample &sample : ScanBrr(image.data(), image.size()))
             AddBrr("audio/brr_" + Hex(static_cast<uint64_t>(sample.Offset), 6) + (sample.Loops ? "_loop" : "") + ".wav",

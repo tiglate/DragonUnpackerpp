@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -16,6 +17,7 @@
 #include "codecs/Palette.h"
 #include "codecs/Pcm.h"
 #include "codecs/RomCompress.h"
+#include "codecs/RomTables.h"
 
 namespace Dud
 {
@@ -103,6 +105,9 @@ class RomArchive : public Archive
     void AddPcm(const std::string &name, int64_t offset, int64_t length);
     // The palettes found in the ROM image: a .pal file (JASC-PAL) and a swatch picture of each
     void AddPalettes(const uint8_t *image, size_t size, const std::vector<PaletteFind> &finds);
+    // An SPC file of a song of the game (see codecs/Spc): bank and song of the table of music
+    void AddSpc(const std::string &name, std::shared_ptr<const KnownMusic> music, size_t bank, size_t song, const std::string &title,
+                const std::string &game);
     void AddText(const std::string &name, std::string text);
     // Bytes that are not in the ROM part (a copier header, ...): offset in the file
     void AddFileBytes(const std::string &name, int64_t fileOffset, int64_t length);
@@ -121,6 +126,7 @@ class RomArchive : public Archive
         Brr,
         Swatch,
         Pcm,
+        Spc,
     };
     struct Plan
     {
@@ -133,6 +139,10 @@ class RomArchive : public Archive
         int64_t Packed = 0;
         bool AsSheet = false;
         std::vector<uint32_t> Colors;
+        std::shared_ptr<const KnownMusic> Music;
+        size_t Bank = 0;
+        size_t Song = 0;
+        std::string Title;
     };
     std::vector<Plan> _plans;
 };

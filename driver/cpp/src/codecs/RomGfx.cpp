@@ -9,6 +9,7 @@
 
 #include "codecs/Brr.h"
 #include "codecs/Palette.h"
+#include "codecs/Spc.h"
 
 namespace Dud
 {
@@ -284,6 +285,20 @@ void RomArchive::AddPalettes(const uint8_t *image, size_t size, const std::vecto
     }
 }
 
+void RomArchive::AddSpc(const std::string &name, std::shared_ptr<const KnownMusic> music, size_t bank, size_t song, const std::string &title,
+                        const std::string &game)
+{
+    Plan plan;
+    plan.Type = Kind::Spc;
+    plan.Music = std::move(music);
+    plan.Bank = bank;
+    plan.Song = song;
+    plan.Title = title;
+    plan.Text = game;
+    _plans.push_back(std::move(plan));
+    Add(name, 0, SpcFileBytes);
+}
+
 void RomArchive::AddText(const std::string &name, std::string text)
 {
     const auto size = static_cast<int64_t>(text.size());
@@ -372,6 +387,10 @@ auto RomArchive::Extract(int64_t index, const Sink &sink) -> int32_t
         }
         const auto wav = MakePcmWav(samples.data(), samples.size(), PcmSampleRate);
         return ExtractBytes(wav.data(), static_cast<int64_t>(wav.size()), sink);
+    }
+    case Kind::Spc: {
+        const auto file = MakeSpc(*plan.Music, plan.Bank, plan.Song, *_rom, plan.Title, plan.Text);
+        return ExtractBytes(file.data(), static_cast<int64_t>(file.size()), sink);
     }
     case Kind::Swatch: {
         const auto tga = MakeSwatchTga(plan.Colors);

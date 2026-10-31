@@ -13,6 +13,14 @@ namespace Dud
 {
 namespace
 {
+auto ParseBytes(const std::string &hex) -> std::vector<uint8_t>
+{
+    std::vector<uint8_t> bytes;
+    for (size_t i = 0; i + 2 <= hex.size(); i += 2)
+        bytes.push_back(static_cast<uint8_t>(std::strtoul(hex.substr(i, 2).c_str(), nullptr, 16)));
+    return bytes;
+}
+
 auto ParsePalette(const std::string &text) -> std::vector<uint32_t>
 {
     std::vector<uint32_t> colors;
@@ -57,6 +65,39 @@ auto FindKnownGame(uint32_t crc32, KnownGame &game) -> bool
                 std::string word;
                 while (fields >> word)
                     game.RawPalettes.push_back(ParsePalette(word));
+            }
+            else if (kind == "MC")
+                fields >> game.Music.Pc >> game.Music.A >> game.Music.X >> game.Music.Y >> game.Music.Psw >> game.Music.Sp;
+            else if (kind == "MD" || kind == "MI")
+            {
+                std::string hex;
+                fields >> hex;
+                (kind == "MD" ? game.Music.Dsp : game.Music.Io) = ParseBytes(hex);
+            }
+            else if (kind == "ME" || kind == "MB")
+            {
+                KnownBlock block;
+                fields >> block.Offset >> block.Length >> block.Dest;
+                if (kind == "ME")
+                    game.Music.Engine.push_back(block);
+                else if (!game.Music.Banks.empty())
+                    game.Music.Banks.back().Blocks.push_back(block);
+            }
+            else if (kind == "MP")
+            {
+                int dest = 0;
+                std::string hex;
+                fields >> dest >> hex;
+                game.Music.Patches.emplace_back(dest, ParseBytes(hex));
+            }
+            else if (kind == "MK")
+                game.Music.Banks.emplace_back();
+            else if (kind == "MS")
+            {
+                std::array<int, 4> v{};
+                fields >> v[0] >> v[1] >> v[2] >> v[3];
+                if (!game.Music.Banks.empty())
+                    game.Music.Banks.back().Songs.push_back({static_cast<uint8_t>(v[0]), static_cast<uint8_t>(v[1]), static_cast<uint8_t>(v[2]), static_cast<uint8_t>(v[3])});
             }
             else if (kind == "R")
             {
