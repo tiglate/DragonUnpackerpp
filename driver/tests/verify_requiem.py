@@ -55,3 +55,35 @@ with tempfile.TemporaryDirectory() as tmp:
         if name == "req_static" and extras.get("otherSlots") != [3206]:
             sys.exit("req_static: other slots %s" % extras.get("otherSlots"))
 print("requiem pose: OK")
+
+# The animation pack (AnimFile.ary/.bin/.tab + Models3.txt): the raw records as they are, then each animation that
+# fits its model as a glTF; record 0 fits nothing, animation numbers 39 (record 0) and 40 (past the table) give none
+pack = os.path.join(fx, "req_pack")
+r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.ary"), "list"], capture_output=True, text=True, timeout=60)
+names = [l.split("\t")[4] for l in r.stdout.splitlines()[1:]]
+if r.returncode or names != ["anim_000.bin", "anim_001.bin", "pack_skel/walk.gltf", "pack_skel/walk_2_5.gltf"]:
+    sys.exit("animation pack: %s %s" % (names, r.stderr))
+binary = open(os.path.join(pack, "AnimFile.bin"), "rb").read()
+with tempfile.TemporaryDirectory() as tmp:
+    r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.bin"), "0-3", tmp], capture_output=True, text=True, timeout=60)
+    r2 = subprocess.run([cli, plugin, os.path.join(pack, "pack_skel.mdl"), "0-2", tmp], capture_output=True, text=True, timeout=60)
+    if r.returncode or r2.returncode:
+        sys.exit("extraction failed: " + r.stderr + r2.stderr)
+    if open(os.path.join(tmp, "0_anim_000.bin"), "rb").read() + open(os.path.join(tmp, "1_anim_001.bin"), "rb").read() != binary:
+        sys.exit("animation pack: the raw records are not the .bin")
+    packed = open(os.path.join(tmp, "2_walk.gltf"), "rb").read()
+    # the model shown with its own animations (only walk fits it) is the same glTF
+    if packed != open(os.path.join(tmp, "2_pack_skel.gltf"), "rb").read():
+        sys.exit("animation pack: walk.gltf differs from the glTF of the model")
+    g, buf = gltf_ref.load(os.path.join(tmp, "3_walk_2_5.gltf"))
+    pobj = open(os.path.join(tmp, "0_pack_skel.obj")).read().split("\n")
+if not any(l.startswith("# posed with the first frame of walk") for l in pobj):
+    sys.exit("pack_skel.mdl was not posed by the pack: " + "\n".join(pobj[:3]))
+pv = [tuple(map(float, l.split()[1:4])) for l in pobj if l.startswith("v ")]
+pc = [int(x.split("/")[0]) - 1 for l in pobj if l.startswith("f ") for x in l.split()[1:]]
+got = gltf_ref.skinned_positions(g, buf, gltf_ref.animation_frame(g, buf, 0, 0))
+if len(got) != len(pc) or any(max(abs(a - b) for a, b in zip(got[k], pv[c])) > 1e-4 for k, c in enumerate(pc)):
+    sys.exit("animation pack: the first frame of the glTF is not the posed model")
+if g["materials"][0]["extras"]["artSlot"] != 3059 or g["animations"][0].get("name") != "walk_2_5":
+    sys.exit("animation pack: slot %s, animation %s" % (g["materials"][0]["extras"]["artSlot"], g["animations"][0].get("name")))
+print("requiem animation pack: OK")

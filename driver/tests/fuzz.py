@@ -14,7 +14,7 @@ problems = []
 runs = 0
 with tempfile.TemporaryDirectory() as td:
     for src in sorted(glob.glob(os.path.join(fixtures, "*"))):
-        if src.endswith(".bin"):
+        if src.endswith(".bin") or os.path.isdir(src):
             continue
         data = open(src, "rb").read()
         base = os.path.basename(src)

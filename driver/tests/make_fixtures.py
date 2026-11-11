@@ -2777,6 +2777,26 @@ open(os.path.join(out, "models3.txt"), "w").write("# test\nS 0 3065 req_static.m
 _ary, _bin = req_anim()
 open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
 open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)
+
+
+def req_pack():
+    """files of a Models folder with AnimFile.ary/.bin/.tab: record 0 is junk, record 1 the animation of the model;
+    model id 2 lists walk (record 1), junk (record 0: fits no model) and walk again (a second label)"""
+    parts = [b"junk record that is no animation", req_mdl_animation()]
+    ary, off = struct.pack("<I", len(parts)), 0
+    for p in parts:
+        ary += struct.pack("<IIII", off, 0, len(p), 0xCDCDCDCD)
+        off += len(p)
+    table = [0] * (3 * 40)
+    table[2 * 40 + 0], table[2 * 40 + 1], table[2 * 40 + 5] = 1, 0, 1
+    models3 = "# test\nM 2 3059 Pack_Skel.mdl\nA 0 walk.ani\nA 1 junk.ani\nA 5 walk.ani\nA 39 none.ani\nA 40 over.ani\n"
+    return {"AnimFile.ary": ary, "AnimFile.bin": b"".join(parts), "AnimFile.tab": struct.pack("<%dH" % len(table), *table),
+            "models3.txt": models3.encode(), "pack_skel.mdl": req_mdl_skeletal()}
+
+
+os.makedirs(os.path.join(out, "req_pack"), exist_ok=True)
+for _name, _data in req_pack().items():
+    open(os.path.join(out, "req_pack", _name), "wb").write(_data)
 for v in (0, 1, 2):
     open(os.path.join(out, "req_v%d.jam" % v), "wb").write(req_jam(v, v != 1))
 
