@@ -4,6 +4,8 @@
 
 #include "Ui/MainWindow.h"
 
+#include <QMouseEvent>
+
 #include "Core/PreviewWorker.h"
 #include "Ui/AboutDialog.h"
 #include "Ui/ArchiveTableModel.h"
@@ -153,6 +155,7 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
     _grid->setUniformItemSizes(true); // all cells have the size the model gives (SizeHintRole)
     _grid->setWordWrap(true);
     _grid->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    _grid->setSelectionBehavior(QAbstractItemView::SelectRows); // whole rows, as the table: the selection is shared
     _grid->setSpacing(4);
     _grid->setModel(_tableModel);
     _grid->setModelColumn(ArchiveTableModel::NAME);
@@ -1034,6 +1037,11 @@ auto MainWindow::SelectEntryByName(const QString &fileName) -> bool
                     {
                         if (_tableModel->EntryAt(row) == i)
                         {
+                            if (_views->currentWidget() == _grid)
+                            {
+                                ClickThumbnail(row);
+                                return true;
+                            }
                             _table->setCurrentIndex(_tableModel->index(row, 0));
                             _table->selectRow(row);
                             return true;
@@ -1108,14 +1116,16 @@ auto MainWindow::UsePaletteEntryByName(const QString &fileName) -> bool
 
 auto MainWindow::SelectedEntries() const -> std::vector<std::uint32_t>
 {
+    // Any selected cell counts: the thumbnail view selects only the name column, so selectedRows() (whole rows) can
+    // miss what it selected.
     std::vector<std::uint32_t> entries;
-    const auto rows = _table->selectionModel()->selectedRows();
-    entries.reserve(static_cast<std::size_t>(rows.size()));
-    for (const auto &row : rows)
+    for (const auto &index : _table->selectionModel()->selectedIndexes())
     {
-        entries.push_back(_tableModel->EntryAt(row.row()));
+        entries.push_back(_tableModel->EntryAt(index.row()));
     }
     std::ranges::sort(entries);
+    const auto [first, last] = std::ranges::unique(entries);
+    entries.erase(first, last);
     return entries;
 }
 
@@ -1654,9 +1664,28 @@ void MainWindow::ExtractAllTo(const QString &directory, bool convertImages, std:
     StartExtraction(std::move(all), QString::fromStdString(_archiveTitle), directory, convertImages, std::move(tool));
 }
 
-void MainWindow::ExtractSelectedTo(const QString &directory)
+auto MainWindow::ExtractSelectedTo(const QString &directory) -> bool
 {
-    StartExtraction(SelectedEntries(), QString::fromStdString(_archiveTitle), directory);
+    auto entries = SelectedEntries();
+    if (entries.empty())
+    {
+        return false;
+    }
+    StartExtraction(std::move(entries), QString::fromStdString(_archiveTitle), directory);
+    return true;
+}
+
+// A mouse click on a thumbnail, as the user makes it (the tests select through the same path as the mouse).
+void MainWindow::ClickThumbnail(int row)
+{
+    const auto index = _tableModel->index(row, ArchiveTableModel::NAME);
+    _grid->scrollTo(index);
+    const QPointF point = _grid->visualRect(index).center();
+    const QPointF global = _grid->viewport()->mapToGlobal(point);
+    QMouseEvent press(QEvent::MouseButtonPress, point, global, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(_grid->viewport(), &press);
+    QMouseEvent release(QEvent::MouseButtonRelease, point, global, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(_grid->viewport(), &release);
 }
 
 auto MainWindow::WaitForJobs() -> int

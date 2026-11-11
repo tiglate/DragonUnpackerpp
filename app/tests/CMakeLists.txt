@@ -75,6 +75,19 @@ add_test(NAME ui_language_pt_BR
                  --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_pt.png --quit)
 set_tests_properties(ui_language_pt_BR PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
+# a thumbnail clicked in the thumbnail view is what "Extract selected" extracts (the click selects one cell, not a row)
+add_test(NAME ui_extract_selected_thumbnail
+         COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out)
+add_test(NAME ui_extract_selected_thumbnail_run
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/test.pak --thumbnails
+                 --select=hello.txt --extract-selected=${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out --quit)
+add_test(NAME ui_extract_selected_thumbnail_check
+         COMMAND ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out/hello.txt)
+set_tests_properties(ui_extract_selected_thumbnail PROPERTIES FIXTURES_SETUP thumb_out)
+set_tests_properties(ui_extract_selected_thumbnail_run PROPERTIES FIXTURES_REQUIRED "fixtures;thumb_out" FIXTURES_SETUP thumb_done
+                     ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
+set_tests_properties(ui_extract_selected_thumbnail_check PROPERTIES FIXTURES_REQUIRED thumb_done)
+
 add_test(NAME ui_drag_out
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/dups.wad --test-drag-out --quit)
 set_tests_properties(ui_drag_out PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)

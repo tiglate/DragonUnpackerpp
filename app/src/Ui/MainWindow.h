@@ -94,7 +94,7 @@ class MainWindow : public QMainWindow
     /// Extraction to a directory chosen by the caller (the command line hooks); the job runs on its own thread.
     void ExtractAllTo(const QString &directory, bool convertImages = false,
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
-    void ExtractSelectedTo(const QString &directory);
+    auto ExtractSelectedTo(const QString &directory) -> bool; // false: nothing is selected
     /// Waits for the jobs; the number of entries that could not be extracted so far.
     auto WaitForJobs() -> int;
     /// Shows a folder of the archive by its path ("a/b"); false when it does not exist.
@@ -158,6 +158,7 @@ class MainWindow : public QMainWindow
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
     auto ChooseDirectory(const QString &title) -> QString;
     auto SelectedEntries() const -> std::vector<std::uint32_t>;
+    void ClickThumbnail(int row);
 
     Core::DriverHost &_driverHost;
     Core::AppSettings &_settings;

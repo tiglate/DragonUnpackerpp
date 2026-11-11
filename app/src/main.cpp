@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -307,8 +307,15 @@ int main(int argc, char **argv)
     }
     else if (const auto selected = ArgumentValue(argc, argv, "extract-selected"); !selected.empty())
     {
-        window->ExtractSelectedTo(QString::fromStdString(selected));
-        exitCode = window->WaitForJobs() == 0 ? 0 : 1;
+        if (!window->ExtractSelectedTo(QString::fromStdString(selected)))
+        {
+            spdlog::error("nothing is selected");
+            exitCode = 1;
+        }
+        else
+        {
+            exitCode = window->WaitForJobs() == 0 ? 0 : 1;
+        }
     }
 
     // --show-dialog=options|hyperripper|list|about with --screenshot: a picture of the dialog instead of the window
