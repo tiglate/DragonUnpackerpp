@@ -2779,22 +2779,44 @@ open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
 open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)
 
 
+def req_mdl_chain(limbs):
+    """a skeletal model of limbs limbs in a chain (each has one child, the last is a leaf), 3 vertices and a triangle each"""
+    name = b"chain.bmp\0"
+    head = struct.pack("<IIIIB3xHH", limbs, 0, limbs, 0, 0x10, 3 * limbs, len(name)) + bytes(0x2C - 0x18)
+    sections = b"".join(struct.pack("<I", 0xFFFF0003 if i + 1 < limbs else 0xFFFF0000) + bytes(0x1C) + struct.pack("<I", 3) +
+                        bytes(0x38 - 0x24) for i in range(limbs))
+    verts = b"".join(struct.pack("<3f", i, i % 3, 0) for i in range(3 * limbs))
+    faces = b"".join(req_mdl_face([3 * i, 3 * i + 1, 3 * i + 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) for i in range(limbs))
+    return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * (3 * limbs)
+
+
+def req_chain_animation(limbs):
+    """every limb turned 90 degrees around z, one unit along x from its parent"""
+    flags = sum(0xA << (4 * i) for i in range(limbs))
+    body = struct.pack("<I", flags) + struct.pack("<4f3f", math.sqrt(0.5), 0, 0, math.sqrt(0.5), 1, 0, 0) * limbs
+    return struct.pack("<IIII", 0, 2, 0, len(body)) + bytes(0x34 - 16) + body
+
+
 def req_pack():
     """files of a Models folder with AnimFile.ary/.bin/.tab: record 0 is junk, record 1 the animation of the model;
     model id 2 lists walk (record 1), junk (record 0: fits no model) and walk again (a second label)"""
     # record 2: the animation with the 0xCDCDCDCD fill in place of the position of limb 0 (as two records of the game)
     filled = bytearray(req_mdl_animation())
     filled[0x34 + 4 + 16:0x34 + 4 + 28] = b"\xcd" * 12
-    parts = [b"junk record that is no animation", req_mdl_animation(), bytes(filled)]
+    # record 3: a 3 limb animation listed under the 2 limb model (as tsf*.ani under TortFemale.mdl): shown on solo.mdl,
+    # the only 3 limb model; record 4: a 4 limb animation named by nothing, two models have 4 limbs: raw only
+    parts = [b"junk record that is no animation", req_mdl_animation(), bytes(filled), req_chain_animation(3),
+             req_chain_animation(4)]
     ary, off = struct.pack("<I", len(parts)), 0
     for p in parts:
         ary += struct.pack("<IIII", off, 0, len(p), 0xCDCDCDCD)
         off += len(p)
     table = [0] * (3 * 40)
-    table[2 * 40 + 0], table[2 * 40 + 1], table[2 * 40 + 5], table[2 * 40 + 6] = 1, 0, 1, 2
-    models3 = "# test\nM 2 3059 Pack_Skel.mdl\nA 0 walk.ani\nA 1 junk.ani\nA 5 walk.ani\nA 6 filled.ani\nA 39 none.ani\nA 40 over.ani\n"
+    table[2 * 40 + 0], table[2 * 40 + 1], table[2 * 40 + 5], table[2 * 40 + 6], table[2 * 40 + 7] = 1, 0, 1, 2, 3
+    models3 = "# test\nM 2 3059 Pack_Skel.mdl\nA 0 walk.ani\nA 1 junk.ani\nA 5 walk.ani\nA 6 filled.ani\nA 7 wrongmodel.ani\nA 39 none.ani\nA 40 over.ani\n"
     return {"AnimFile.ary": ary, "AnimFile.bin": b"".join(parts), "AnimFile.tab": struct.pack("<%dH" % len(table), *table),
-            "models3.txt": models3.encode(), "pack_skel.mdl": req_mdl_skeletal()}
+            "models3.txt": models3.encode(), "pack_skel.mdl": req_mdl_skeletal(), "solo.mdl": req_mdl_chain(3),
+            "twin_a.mdl": req_mdl_chain(4), "twin_b.mdl": req_mdl_chain(4)}
 
 
 os.makedirs(os.path.join(out, "req_pack"), exist_ok=True)

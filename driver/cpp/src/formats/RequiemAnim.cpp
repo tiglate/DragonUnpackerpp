@@ -9,8 +9,10 @@
 // raw/NNN_<animation>.ani when AnimFile.tab and Models3.txt give its name.
 // When AnimFile.tab (model id * 40 + animation number -> record) and Models3.txt ("M id slot file.mdl", then
 // "A n file.ani") are next to it, every animation is also shown on its model: "<model>/<animation>.gltf", the
-// animated glTF of the model with that animation alone (only when the animation fits the limbs of the model).
+// animated glTF of the model with that animation alone (only when the animation fits the limbs of the model). A
+// record left without a model is shown on the only model file of the folder with its limb count, if there is one.
 
+#include <algorithm>
 #include <cstdio>
 #include <filesystem>
 #include <map>
@@ -69,7 +71,7 @@ class RequiemAnimArchive : public Archive
         }
         if (!names.empty())
             _dirSeparator = "/";
-        AddModels(aryPath);
+        AddModels(aryPath, names);
         if (!_shown.empty())
         {
             _dirSeparator = "/";
@@ -150,7 +152,7 @@ class RequiemAnimArchive : public Archive
     // The glTF entries; nothing here can fail the archive: a model or an animation that does not fit is left out.
     // The glTF is built once to know its size, then again when it is extracted (it is the same: nothing is random),
     // so that each handle does not keep hundreds of them in memory.
-    void AddModels(const std::string &aryPath)
+    void AddModels(const std::string &aryPath, const std::vector<std::string> &names)
     {
         using namespace RequiemModel;
         const std::string tabPath = Sibling(aryPath, ".tab");
@@ -219,6 +221,99 @@ class RequiemAnimArchive : public Archive
             catch (const std::exception &)
             {
                 continue; // a model file that cannot be read
+            }
+        }
+        AddUnclaimed(folder, entries, names, builderOf, labelsOf);
+    }
+
+    // A record that no line of Models3.txt shows on a model that fits it (TortFemale.mdl lists tsf*.ani, which have
+    // the 13 limbs of ts4.mdl, not its 11) is shown on the model of the folder that has its limb count, when there is
+    // exactly one such model file; otherwise (several skeletons with that many limbs) it stays raw only.
+    void AddUnclaimed(const std::string &folder, const std::vector<RequiemModel::ModelEntry> &entries,
+                      const std::vector<std::string> &names, std::map<std::string, size_t> &builderOf,
+                      std::map<std::string, std::set<std::string>> &labelsOf)
+    {
+        using namespace RequiemModel;
+        std::vector<bool> claimed(_records.size(), false);
+        for (const Shown &s : _shown)
+            claimed[s.Record] = true;
+        if (std::find(claimed.begin(), claimed.end(), false) == claimed.end())
+            return;
+
+        // the skeletal models of the folder by limb count
+        struct Candidate
+        {
+            std::string Path;
+            Model M;
+        };
+        std::map<size_t, std::vector<Candidate>> byLimbs;
+        namespace fs = std::filesystem;
+        std::error_code error;
+        for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
+        {
+            const std::string path = item.path().string();
+            if (ToLower(ExtensionOf(path)) != ".mdl")
+                continue;
+            try
+            {
+                Reader r(path);
+                Candidate c{path, Model()};
+                if (ParseSkeletal(r, c.M))
+                    byLimbs[c.M.SectionCodes.size()].push_back(std::move(c));
+            }
+            catch (const std::exception &)
+            {
+                continue;
+            }
+        }
+
+        for (size_t record = 0; record < _records.size(); ++record)
+        {
+            if (claimed[record])
+                continue;
+            try
+            {
+                const std::vector<uint8_t> bytes = RecordBytes(record);
+                const std::vector<Candidate> *fitting = nullptr;
+                for (const auto &[limbs, models] : byLimbs)
+                    if (AnimationFits(bytes, limbs))
+                    {
+                        fitting = &models;
+                        break; // the limb count that fits an animation is unique
+                    }
+                if (fitting == nullptr || fitting->size() != 1)
+                    continue;
+                const Candidate &c = fitting->front();
+                const std::string file = ToLower(FileNameOf(c.Path));
+                const std::string modelName = ChangeFileExt(FileNameOf(c.Path), "");
+                size_t builder;
+                if (const auto known = builderOf.find(file); known != builderOf.end())
+                    builder = known->second;
+                else
+                {
+                    Model m = c.M;
+                    SlotsOf(entries, FileNameOf(c.Path), m.ArtSlot, m.OtherSlots);
+                    _builders.push_back(std::make_unique<GltfBuilder>(m, modelName));
+                    builder = builderOf[file] = _builders.size() - 1;
+                }
+                char fallback[32];
+                std::snprintf(fallback, sizeof fallback, "anim_%03zu", record);
+                std::string label = record < names.size() && !names[record].empty() ? names[record] : fallback;
+                auto &used = labelsOf[ToLower(modelName)];
+                if (used.count(ToLower(label)) != 0)
+                    label += std::string("_") + fallback;
+                if (used.count(ToLower(label)) != 0)
+                    continue;
+                const std::string gltf = _builders[builder]->Build({{label, bytes}});
+                if (gltf.empty())
+                    continue;
+                used.insert(ToLower(label));
+                Add(modelName + "/" + label + ".gltf", 0, static_cast<int64_t>(gltf.size()));
+                _shown.push_back({builder, record, label});
+            }
+            catch (const std::exception &)
+            {
+                continue;
             }
         }
     }

@@ -61,30 +61,32 @@ print("requiem pose: OK")
 pack = os.path.join(fx, "req_pack")
 r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.ary"), "list"], capture_output=True, text=True, timeout=60)
 names = [l.split("\t")[4] for l in r.stdout.splitlines()[1:]]
-if r.returncode or names != ["raw/000_junk.ani", "raw/001_walk.ani", "raw/002_filled.ani", "pack_skel/walk.gltf", "pack_skel/walk_2_5.gltf",
-                              "pack_skel/filled.gltf"]:
+if r.returncode or names != ["raw/000_junk.ani", "raw/001_walk.ani", "raw/002_filled.ani", "raw/003_wrongmodel.ani", "raw/004.ani",
+                              "pack_skel/walk.gltf", "pack_skel/walk_2_5.gltf", "pack_skel/filled.gltf", "solo/wrongmodel.gltf"]:
     sys.exit("animation pack: %s %s" % (names, r.stderr))
 binary = open(os.path.join(pack, "AnimFile.bin"), "rb").read()
 with tempfile.TemporaryDirectory() as tmp:
-    r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.bin"), "0-5", tmp], capture_output=True, text=True, timeout=60)
+    r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.bin"), "0-8", tmp], capture_output=True, text=True, timeout=60)
     r2 = subprocess.run([cli, plugin, os.path.join(pack, "pack_skel.mdl"), "0-2", tmp], capture_output=True, text=True, timeout=60)
     if r.returncode or r2.returncode:
         sys.exit("extraction failed: " + r.stderr + r2.stderr)
-    if b"".join(open(os.path.join(tmp, "%d_%03d_%s.ani" % (i, i, n)), "rb").read() for i, n in enumerate(("junk", "walk", "filled"))) != binary:
+    raw = ("000_junk", "001_walk", "002_filled", "003_wrongmodel", "004")
+    if b"".join(open(os.path.join(tmp, "%d_%s.ani" % (i, n)), "rb").read() for i, n in enumerate(raw)) != binary:
         sys.exit("animation pack: the raw records are not the .bin")
     # each glTF of the pack poses the model as the animation of the same name in the model's own glTF
     own, ownbuf = gltf_ref.load(os.path.join(tmp, "2_pack_skel.gltf"))
     ownNames = [a.get("name") for a in own["animations"]]
     if ownNames != ["walk", "filled"]:
         sys.exit("animation pack: the model's own animations are %s" % ownNames)
-    for file, label in (("3_walk.gltf", "walk"), ("5_filled.gltf", "filled")):
+    for file, label in (("5_walk.gltf", "walk"), ("7_filled.gltf", "filled")):
         pg, pbuf = gltf_ref.load(os.path.join(tmp, file))
         a = gltf_ref.skinned_positions(pg, pbuf, gltf_ref.animation_frame(pg, pbuf, 0, 0))
         b = gltf_ref.skinned_positions(own, ownbuf, gltf_ref.animation_frame(own, ownbuf, ownNames.index(label), 0))
         if len(a) != len(b) or any(max(abs(x - y) for x, y in zip(p, q)) > 1e-4 for p, q in zip(a, b)):
             sys.exit("animation pack: %s differs from the animation %s of the model" % (file, label))
-    g, buf = gltf_ref.load(os.path.join(tmp, "4_walk_2_5.gltf"))
-    gf, buff = gltf_ref.load(os.path.join(tmp, "5_filled.gltf"))
+    g, buf = gltf_ref.load(os.path.join(tmp, "6_walk_2_5.gltf"))
+    gf, buff = gltf_ref.load(os.path.join(tmp, "7_filled.gltf"))
+    gs, bufs = gltf_ref.load(os.path.join(tmp, "8_wrongmodel.gltf"))
     pobj = open(os.path.join(tmp, "0_pack_skel.obj")).read().split("\n")
 if not any(l.startswith("# posed with the first frame of walk") for l in pobj):
     sys.exit("pack_skel.mdl was not posed by the pack: " + "\n".join(pobj[:3]))
@@ -100,4 +102,10 @@ fw = gltf_ref.world(gf, gltf_ref.animation_frame(gf, buff, 0, 0))
 for joint, want in ((0, (0, 0, 0)), (1, (0, 1, 0))):
     if max(abs(a - b) for a, b in zip(fw[joint][1], want)) > 1e-4:
         sys.exit("animation pack: the filled position gives limb %d at %s, expected %s" % (joint, fw[joint][1], want))
+# a record listed under a model it does not fit goes to the only model with its limb count (solo.mdl, 3 limbs):
+# every limb turned 90 degrees around z, one unit along x from its parent
+sw = gltf_ref.world(gs, gltf_ref.animation_frame(gs, bufs, 0, 0))
+for joint, want in ((0, (1, 0, 0)), (1, (1, 1, 0)), (2, (0, 1, 0))):
+    if len(sw) != 3 or max(abs(a - b) for a, b in zip(sw[joint][1], want)) > 1e-4:
+        sys.exit("animation pack: solo limb %d at %s, expected %s" % (joint, sw.get(joint, (0, None))[1], want))
 print("requiem animation pack: OK")
