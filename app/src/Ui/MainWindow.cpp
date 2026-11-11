@@ -236,21 +236,16 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
         }
         statusBar()->showMessage(summary, 8000);
     });
-    _table->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(_table, &QWidget::customContextMenuRequested, this, [this](const QPoint &position) {
-        QMenu menu(this);
-        menu.addAction(tr("Extract selected..."), this, &MainWindow::OnExtractSelected)->setEnabled(!SelectedEntries().empty());
-        menu.addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll);
-        menu.addSeparator();
-        menu.addAction(tr("Extract selected, images as PNG..."), this, &MainWindow::OnExtractSelectedAsPng)->setEnabled(!SelectedEntries().empty());
-        menu.addSeparator();
-        // the tiles of the console ROMs are in grays: the palettes found in the ROM give them colours
-        const auto selected = SelectedEntries();
-        const bool isPalette = selected.size() == 1 && _index != nullptr && EndsWithNoCase(_index->GetFileName(selected.front()), ".pal");
-        menu.addAction(tr("Use as palette for previews"), this, [this, selected] { SetPreviewPalette(selected.front()); })->setEnabled(isPalette);
-        menu.addAction(tr("Show the pictures in their own colors"), this, [this] { SetPreviewPalette(-1); })->setEnabled(_previewPaletteEntry >= 0);
-        menu.exec(_table->viewport()->mapToGlobal(position));
-    });
+    // a right click on an entry, in the details or the thumbnail view: what can be done with it
+    for (QAbstractItemView *view : {static_cast<QAbstractItemView *>(_table), static_cast<QAbstractItemView *>(_grid)})
+    {
+        view->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(view, &QWidget::customContextMenuRequested, this, [this, view](const QPoint &position) {
+            QMenu menu(this);
+            FillEntryMenu(&menu);
+            menu.exec(view->viewport()->mapToGlobal(position));
+        });
+    }
     _tree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(_tree, &QWidget::customContextMenuRequested, this, [this](const QPoint &position) {
         QMenu menu(this);
@@ -1002,7 +997,7 @@ void MainWindow::OnEntryChanged()
     PreviewEntry(_tableModel->EntryAt(current.row()));
 }
 
-auto MainWindow::SelectEntryByName(const QString &fileName) -> bool
+auto MainWindow::SelectEntryByName(const QString &fileName, Qt::MouseButton button) -> bool
 {
     if (_index == nullptr)
     {
@@ -1039,7 +1034,7 @@ auto MainWindow::SelectEntryByName(const QString &fileName) -> bool
                         {
                             if (_views->currentWidget() == _grid)
                             {
-                                ClickThumbnail(row);
+                                ClickThumbnail(row, button);
                                 return true;
                             }
                             _table->setCurrentIndex(_tableModel->index(row, 0));
@@ -1232,6 +1227,55 @@ auto MainWindow::GetToolsDirectory() const -> std::filesystem::path
 }
 
 // The tools described by the INI files that can be used, one entry each
+// The menu of the selected entries (the right click selects the entry under the mouse first, as Qt's views do).
+void MainWindow::FillEntryMenu(QMenu *menu)
+{
+    const auto selected = SelectedEntries();
+    const bool any = !selected.empty();
+    if (selected.size() == 1 && _index != nullptr)
+    {
+        auto *title = menu->addAction(QString::fromUtf8(_index->GetFileName(selected.front())));
+        title->setEnabled(false);
+        menu->addSeparator();
+    }
+    menu->addAction(QIcon::fromTheme("document-save"), tr("Extract selected..."), this, &MainWindow::OnExtractSelected)->setEnabled(any);
+    menu->addAction(tr("Extract selected, images as PNG..."), this, &MainWindow::OnExtractSelectedAsPng)->setEnabled(any);
+    auto *tools = menu->addMenu(tr("Extract selected, converted with..."));
+    tools->setEnabled(any);
+    FillToolMenu(tools, false);
+    // the tiles of the console ROMs are in grays: the palettes found in the ROM give them colours
+    const bool isPalette = selected.size() == 1 && _index != nullptr && EndsWithNoCase(_index->GetFileName(selected.front()), ".pal");
+    if (isPalette || _previewPaletteEntry >= 0)
+    {
+        menu->addSeparator();
+    }
+    if (isPalette)
+    {
+        menu->addAction(tr("Use as palette for previews"), this, [this, entry = selected.front()] { SetPreviewPalette(entry); });
+    }
+    if (_previewPaletteEntry >= 0)
+    {
+        menu->addAction(tr("Show the pictures in their own colors"), this, [this] { SetPreviewPalette(-1); });
+    }
+    menu->addSeparator();
+    menu->addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll)->setEnabled(_index != nullptr);
+}
+
+auto MainWindow::TestEntryMenu() -> std::string
+{
+    QMenu menu;
+    FillEntryMenu(&menu);
+    std::string text;
+    for (const auto *action : menu.actions())
+    {
+        if (!action->isSeparator())
+        {
+            text += (action->isEnabled() ? "+ " : "- ") + action->text().toStdString() + "\n";
+        }
+    }
+    return text;
+}
+
 void MainWindow::FillToolMenu(QMenu *menu, bool all)
 {
     menu->clear();
@@ -1676,15 +1720,15 @@ auto MainWindow::ExtractSelectedTo(const QString &directory) -> bool
 }
 
 // A mouse click on a thumbnail, as the user makes it (the tests select through the same path as the mouse).
-void MainWindow::ClickThumbnail(int row)
+void MainWindow::ClickThumbnail(int row, Qt::MouseButton button)
 {
     const auto index = _tableModel->index(row, ArchiveTableModel::NAME);
     _grid->scrollTo(index);
     const QPointF point = _grid->visualRect(index).center();
     const QPointF global = _grid->viewport()->mapToGlobal(point);
-    QMouseEvent press(QEvent::MouseButtonPress, point, global, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent press(QEvent::MouseButtonPress, point, global, button, button, Qt::NoModifier);
     QCoreApplication::sendEvent(_grid->viewport(), &press);
-    QMouseEvent release(QEvent::MouseButtonRelease, point, global, Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent release(QEvent::MouseButtonRelease, point, global, button, Qt::NoButton, Qt::NoModifier);
     QCoreApplication::sendEvent(_grid->viewport(), &release);
 }
 

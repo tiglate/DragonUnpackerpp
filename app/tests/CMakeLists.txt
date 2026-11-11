@@ -88,6 +88,13 @@ set_tests_properties(ui_extract_selected_thumbnail_run PROPERTIES FIXTURES_REQUI
                      ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 set_tests_properties(ui_extract_selected_thumbnail_check PROPERTIES FIXTURES_REQUIRED thumb_done)
 
+# a right click on a thumbnail selects it in place of the selection and opens the menu of that entry
+add_test(NAME ui_thumbnail_right_click
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/test.pak --thumbnails
+                 --select=hello.txt --right-click=empty.dat --print-entry-menu)
+set_tests_properties(ui_thumbnail_right_click PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60
+                     PASS_REGULAR_EXPRESSION "- empty.dat\n\\+ ")
+
 add_test(NAME ui_drag_out
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/dups.wad --test-drag-out --quit)
 set_tests_properties(ui_drag_out PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)

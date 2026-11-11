@@ -65,7 +65,8 @@ class MainWindow : public QMainWindow
     /// The same for any source (a driver archive, the result of the HyperRipper).
     auto OpenSource(std::shared_ptr<const Core::ArchiveSource> source) -> bool;
     /// Selects the first entry with this file name (used by the screenshot hooks).
-    auto SelectEntryByName(const QString &fileName) -> bool;
+    // in the thumbnail view the thumbnail is clicked with this button
+    auto SelectEntryByName(const QString &fileName, Qt::MouseButton button = Qt::LeftButton) -> bool;
     /// The previews of colour mapped pictures use the palette of the entry with this file name (a .pal file of the archive).
     auto UsePaletteEntryByName(const QString &fileName) -> bool;
     /// Without dialogs (the command line hooks): errors go to the log and the status bar instead of a message box.
@@ -95,6 +96,11 @@ class MainWindow : public QMainWindow
     void ExtractAllTo(const QString &directory, bool convertImages = false,
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
     auto ExtractSelectedTo(const QString &directory) -> bool; // false: nothing is selected
+    /// Clicks the thumbnail of a row with the mouse (tests: the selection takes the path of a real click)
+    void ClickThumbnail(int row, Qt::MouseButton button = Qt::LeftButton);
+    /// The right-click menu of the selection, one action per line ("+ " enabled, "- " disabled) (tests)
+    auto TestEntryMenu() -> std::string;
+
     /// Waits for the jobs; the number of entries that could not be extracted so far.
     auto WaitForJobs() -> int;
     /// Shows a folder of the archive by its path ("a/b"); false when it does not exist.
@@ -158,7 +164,7 @@ class MainWindow : public QMainWindow
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
     auto ChooseDirectory(const QString &title) -> QString;
     auto SelectedEntries() const -> std::vector<std::uint32_t>;
-    void ClickThumbnail(int row);
+    void FillEntryMenu(QMenu *menu);
 
     Core::DriverHost &_driverHost;
     Core::AppSettings &_settings;

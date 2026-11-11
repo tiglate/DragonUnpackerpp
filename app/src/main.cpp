@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -272,6 +272,18 @@ int main(int argc, char **argv)
     if (!select.empty())
     {
         window->SelectEntryByName(QString::fromStdString(select));
+    }
+    // --right-click=NAME: a right click on the entry (on its thumbnail in the thumbnail view); --print-entry-menu prints
+    // the menu the click opens
+    if (const auto clicked = ArgumentValue(argc, argv, "right-click"); !clicked.empty())
+    {
+        window->SelectEntryByName(QString::fromStdString(clicked), Qt::RightButton);
+    }
+    if (HasFlag(argc, argv, "print-entry-menu"))
+    {
+        std::printf("%s", window->TestEntryMenu().c_str());
+        window.reset();
+        return 0;
     }
 
     if (HasFlag(argc, argv, "identify"))
