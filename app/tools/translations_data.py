@@ -766,3 +766,90 @@ PT_BR.update({
     "Show the pictures in their own colors": "Mostrar as imagens com as cores originais",
     "Previews use the palette %1": "As visualizações usam a paleta %1",
 })
+
+
+# The type filter of the entry list, the System theme, the zoom buttons of the previews and the model viewers
+TRANSLATIONS.update({
+    "Show only the files of one type (the extension)": (
+        "Mostrar solo los archivos de un tipo (la extensión)", "Mostra solo i file di un tipo (l'estensione)", "Afficher seulement les fichiers d'un type (l'extension)", "Nur die Dateien eines Typs (der Erweiterung) anzeigen", "Pokaż tylko pliki jednego typu (rozszerzenia)", "Показывать только файлы одного типа (расширения)",
+        "只显示一种类型（扩展名）的文件", "1 種類（拡張子）のファイルだけを表示", "إظهار ملفات نوع واحد فقط (الامتداد)", "הצג רק את הקבצים מסוג אחד (הסיומת)"),
+    "All types": (
+        "Todos los tipos", "Tutti i tipi", "Tous les types", "Alle Typen", "Wszystkie typy", "Все типы",
+        "所有类型", "すべての種類", "كل الأنواع", "כל הסוגים"),
+    "(no extension)": (
+        "(sin extensión)", "(nessuna estensione)", "(sans extension)", "(keine Erweiterung)", "(bez rozszerzenia)", "(без расширения)",
+        "（无扩展名）", "（拡張子なし）", "(بلا امتداد)", "(ללא סיומת)"),
+    "Animate": (
+        "Animar", "Anima", "Animer", "Animieren", "Animuj", "Анимировать",
+        "动画", "アニメーション", "تحريك", "הנפש"),
+    "Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.": (
+        "Desactivado: el modelo tal como se dibuja sin animación. Activado: las pistas de animación en la posición del control deslizante.", "Disattivato: il modello come viene disegnato senza animazione. Attivato: le tracce di animazione alla posizione del cursore.", "Désactivé : le modèle tel qu'il est dessiné sans animation. Activé : les pistes d'animation à la position du curseur.", "Aus: das Modell, wie es ohne Animation gezeichnet wird. Ein: die Animationsspuren an der Position des Schiebereglers.", "Wyłączone: model tak, jak jest rysowany bez animacji. Włączone: ścieżki animacji w położeniu suwaka.", "Выключено: модель так, как она рисуется без анимации. Включено: дорожки анимации в положении ползунка.",
+        "关闭：按无动画时的样子绘制模型。开启：显示滑块位置处的动画轨道。", "オフ：アニメーションなしで描画されるモデル。オン：スライダーの位置のアニメーショントラック。", "معطّل: النموذج كما يُرسم بلا تحريك. مفعّل: مسارات التحريك عند موضع شريط التمرير.", "כבוי: המודל כפי שהוא מצויר ללא הנפשה. פועל: רצועות ההנפשה במיקום המחוון."),
+    "rest pose": (
+        "pose de reposo", "posa di riposo", "pose de repos", "Ruhepose", "poza spoczynkowa", "поза покоя",
+        "静止姿势", "基本ポーズ", "وضعية السكون", "תנוחת מנוחה"),
+    "Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)": (
+        "Velocidad de reproducción (una pasada de la animación dura 4 segundos a 1x; las partes $rotate la siguen)", "Velocità di riproduzione (un ciclo dell'animazione dura 4 secondi a 1x; le parti $rotate la seguono)", "Vitesse de lecture (un passage de l'animation dure 4 secondes à 1x ; les parties $rotate la suivent)", "Wiedergabegeschwindigkeit (ein Durchlauf der Animation dauert bei 1x 4 Sekunden; die $rotate-Teile folgen ihr)", "Szybkość odtwarzania (jedno przejście animacji trwa 4 sekundy przy 1x; części $rotate podążają za nią)", "Скорость воспроизведения (один проход анимации длится 4 секунды при 1x; части $rotate следуют за ней)",
+        "播放速度（1x 时动画一次播放需 4 秒；$rotate 部件随之转动）", "再生速度（1x でアニメーション 1 回は 4 秒；$rotate の部品もそれに従います）", "سرعة التشغيل (تستغرق دورة التحريك 4 ثوانٍ عند 1x؛ وتتبعها أجزاء $rotate)", "מהירות הניגון (מעבר אחד של ההנפשה נמשך 4 שניות ב־1x; חלקי ה־$rotate עוקבים אחריה)"),
+    "%1%": (
+        "%1%", "%1%", "%1 %", "%1 %", "%1%", "%1 %",
+        "%1%", "%1%", "%1%", "%1%"),
+    "Model: %1 subobjects, %2 triangles": (
+        "Modelo: %1 subobjetos, %2 triángulos", "Modello: %1 sotto-oggetti, %2 triangoli", "Modèle : %1 sous-objets, %2 triangles", "Modell: %1 Unterobjekte, %2 Dreiecke", "Model: podobiektów %1, trójkątów %2", "Модель: подобъектов %1, треугольников %2",
+        "模型：%1 个子对象，%2 个三角形", "モデル：サブオブジェクト %1、三角形 %2", "النموذج: %1 كائن فرعي، %2 مثلث", "מודל: %1 תת־עצמים, %2 משולשים"),
+    "As the system": (
+        "Como el sistema", "Come il sistema", "Comme le système", "Wie das System", "Jak w systemie", "Как в системе",
+        "跟随系统", "システムに合わせる", "مثل النظام", "כמו המערכת"),
+    "Zoom out (Ctrl+wheel down, -)": (
+        "Alejar (Ctrl+rueda abajo, -)", "Riduci (Ctrl+rotella giù, -)", "Zoom arrière (Ctrl+molette vers le bas, -)", "Verkleinern (Strg+Mausrad nach unten, -)", "Pomniejsz (Ctrl+kółko w dół, -)", "Уменьшить (Ctrl+колёсико вниз, -)",
+        "缩小（Ctrl+滚轮向下，-）", "縮小（Ctrl+ホイール下、-）", "تصغير (‏Ctrl+العجلة للأسفل، -)", "התרחק (‏Ctrl+גלגלת למטה, -)"),
+    "Zoom in (Ctrl+wheel up, +)": (
+        "Acercar (Ctrl+rueda arriba, +)", "Ingrandisci (Ctrl+rotella su, +)", "Zoom avant (Ctrl+molette vers le haut, +)", "Vergrößern (Strg+Mausrad nach oben, +)", "Powiększ (Ctrl+kółko w górę, +)", "Увеличить (Ctrl+колёсико вверх, +)",
+        "放大（Ctrl+滚轮向上，+）", "拡大（Ctrl+ホイール上、+）", "تكبير (‏Ctrl+العجلة للأعلى، +)", "התקרב (‏Ctrl+גלגלת למעלה, +)"),
+    "Actual size (0)": (
+        "Tamaño real (0)", "Dimensione reale (0)", "Taille réelle (0)", "Originalgröße (0)", "Rzeczywisty rozmiar (0)", "Реальный размер (0)",
+        "实际大小（0）", "実際のサイズ（0）", "الحجم الفعلي (‏0)", "גודל אמיתי (‏0)"),
+    "Fit": (
+        "Ajustar", "Adatta", "Ajuster", "Einpassen", "Dopasuj", "Вписать",
+        "适应", "合わせる", "ملاءمة", "התאם"),
+    "Fit to the panel (F)": (
+        "Ajustar al panel (F)", "Adatta al pannello (F)", "Ajuster au panneau (F)", "In das Feld einpassen (F)", "Dopasuj do panelu (F)", "Вписать в панель (F)",
+        "适应面板（F）", "パネルに合わせる（F）", "ملاءمة اللوحة (‏F)", "התאם ללוח (‏F)"),
+    "The animation to show": (
+        "La animación que se muestra", "L'animazione da mostrare", "L'animation à afficher", "Die anzuzeigende Animation", "Animacja do pokazania", "Показываемая анимация",
+        "要显示的动画", "表示するアニメーション", "التحريك المعروض", "ההנפשה להצגה"),
+    "Speed of the playback (1x is the speed of the game, 25 frames per second)": (
+        "Velocidad de reproducción (1x es la velocidad del juego, 25 fotogramas por segundo)", "Velocità di riproduzione (1x è la velocità del gioco, 25 frame al secondo)", "Vitesse de lecture (1x est la vitesse du jeu, 25 trames par seconde)", "Wiedergabegeschwindigkeit (1x ist die Geschwindigkeit des Spiels, 25 Frames pro Sekunde)", "Szybkość odtwarzania (1x to szybkość gry, 25 klatek na sekundę)", "Скорость воспроизведения (1x — скорость игры, 25 кадров в секунду)",
+        "播放速度（1x 为游戏速度，每秒 25 帧）", "再生速度（1x はゲームの速度、毎秒 25 フレーム）", "سرعة التشغيل (‏1x هي سرعة اللعبة، 25 إطاراً في الثانية)", "מהירות הניגון (‏1x היא מהירות המשחק, 25 פריימים בשנייה)"),
+    "animation %1": (
+        "animación %1", "animazione %1", "animation %1", "Animation %1", "animacja %1", "анимация %1",
+        "动画 %1", "アニメーション %1", "التحريك %1", "הנפשה %1"),
+    "frame %1 / %2": (
+        "fotograma %1 / %2", "frame %1 / %2", "trame %1 / %2", "Frame %1 / %2", "klatka %1 / %2", "кадр %1 / %2",
+        "帧 %1 / %2", "フレーム %1 / %2", "الإطار %1 / %2", "פריים %1 / %2"),
+    "Model: %1 limbs, %2 triangles, %3 animations": (
+        "Modelo: %1 miembros, %2 triángulos, %3 animaciones", "Modello: %1 arti, %2 triangoli, %3 animazioni", "Modèle : %1 membres, %2 triangles, %3 animations", "Modell: %1 Glieder, %2 Dreiecke, %3 Animationen", "Model: kończyn %1, trójkątów %2, animacji %3", "Модель: конечностей %1, треугольников %2, анимаций %3",
+        "模型：%1 个肢体，%2 个三角形，%3 个动画", "モデル：リム %1、三角形 %2、アニメーション %3", "النموذج: %1 طرف، %2 مثلث، %3 تحريك", "מודל: %1 איברים, %2 משולשים, %3 הנפשות"),
+})
+PT_BR.update({
+    "Show only the files of one type (the extension)": "Mostrar só os arquivos de um tipo (a extensão)",
+    "All types": "Todos os tipos",
+    "(no extension)": "(sem extensão)",
+    "Animate": "Animar",
+    "Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.": "Desligado: o modelo como é desenhado sem animação. Ligado: as trilhas de animação na posição do controle deslizante.",
+    "rest pose": "pose de repouso",
+    "Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)": "Velocidade da reprodução (uma passada da animação leva 4 segundos em 1x; as partes $rotate a acompanham)",
+    "%1%": "%1%",
+    "Model: %1 subobjects, %2 triangles": "Modelo: %1 subobjetos, %2 triângulos",
+    "As the system": "Como o sistema",
+    "Zoom out (Ctrl+wheel down, -)": "Diminuir o zoom (Ctrl+roda para baixo, -)",
+    "Zoom in (Ctrl+wheel up, +)": "Aumentar o zoom (Ctrl+roda para cima, +)",
+    "Actual size (0)": "Tamanho real (0)",
+    "Fit": "Ajustar",
+    "Fit to the panel (F)": "Ajustar ao painel (F)",
+    "The animation to show": "A animação a mostrar",
+    "Speed of the playback (1x is the speed of the game, 25 frames per second)": "Velocidade da reprodução (1x é a velocidade do jogo, 25 quadros por segundo)",
+    "animation %1": "animação %1",
+    "frame %1 / %2": "quadro %1 / %2",
+    "Model: %1 limbs, %2 triangles, %3 animations": "Modelo: %1 membros, %2 triângulos, %3 animações",
+})

@@ -4,7 +4,7 @@
 <context>
     <name>Dup::Ui</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1266" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1318" />
         <source>Too much to drag out (%1 files): use Extract</source>
         <translation>ドラッグするファイルが多すぎます（%1 件）：「展開」を使用してください</translation>
     </message>
@@ -116,32 +116,32 @@
 <context>
     <name>Dup::Ui::ArchiveTableModel</name>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="267" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="321" />
         <source>Name</source>
         <translation>名前</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="269" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="323" />
         <source>Type</source>
         <translation>種類</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="271" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="325" />
         <source>Size</source>
         <translation>サイズ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="273" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="327" />
         <source>Offset</source>
         <translation>オフセット</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="275" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="329" />
         <source>Folder</source>
         <translation>フォルダー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ArchiveTableModel.cpp" line="277" />
+        <location filename="../src/Ui/ArchiveTableModel.cpp" line="331" />
         <source>Detected type</source>
         <translation>検出した種類</translation>
     </message>
@@ -541,83 +541,89 @@ Author: %2</source>
 <context>
     <name>Dup::Ui::MainWindow</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="124" />
+        <location filename="../src/Ui/MainWindow.cpp" line="125" />
         <source>Filter by name (Ctrl+F)</source>
         <translation>名前で絞り込み (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="130" />
+        <location filename="../src/Ui/MainWindow.cpp" line="131" />
         <source>Whole archive</source>
         <translation>アーカイブ全体</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="131" />
+        <location filename="../src/Ui/MainWindow.cpp" line="132" />
         <source>Search in every folder (Ctrl+Shift+F)</source>
         <translation>すべてのフォルダーを検索 (Ctrl+Shift+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="156" />
-        <location filename="../src/Ui/MainWindow.cpp" line="811" />
+        <location filename="../src/Ui/MainWindow.cpp" line="137" />
+        <source>Show only the files of one type (the extension)</source>
+        <translation>1 種類（拡張子）のファイルだけを表示</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="147" />
+        <location filename="../src/Ui/MainWindow.cpp" line="167" />
+        <location filename="../src/Ui/MainWindow.cpp" line="863" />
         <source>%1 entries</source>
         <translation>%1 エントリ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="191" />
+        <location filename="../src/Ui/MainWindow.cpp" line="202" />
         <source>Thumbnail size</source>
         <translation>サムネイルのサイズ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="228" />
+        <location filename="../src/Ui/MainWindow.cpp" line="239" />
         <source>Extract selected...</source>
         <translation>選択項目を展開...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="229" />
+        <location filename="../src/Ui/MainWindow.cpp" line="240" />
         <source>Extract all...</source>
         <translation>すべて展開...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="231" />
+        <location filename="../src/Ui/MainWindow.cpp" line="242" />
         <source>Extract selected, images as PNG...</source>
         <translation>選択項目を展開（画像は PNG）...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="236" />
+        <location filename="../src/Ui/MainWindow.cpp" line="247" />
         <source>Use as palette for previews</source>
         <translation>プレビューのパレットとして使用</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="237" />
+        <location filename="../src/Ui/MainWindow.cpp" line="248" />
         <source>Show the pictures in their own colors</source>
         <translation>画像を元の色で表示</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="243" />
+        <location filename="../src/Ui/MainWindow.cpp" line="254" />
         <source>Extract this folder...</source>
         <translation>このフォルダーを展開...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="274" />
+        <location filename="../src/Ui/MainWindow.cpp" line="285" />
         <source>Detected: %1 (%2%)</source>
         <translation>検出：%1（%2%）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="278" />
+        <location filename="../src/Ui/MainWindow.cpp" line="289" />
         <source>Detected: %1</source>
         <translation>検出：%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="285" />
+        <location filename="../src/Ui/MainWindow.cpp" line="296" />
         <source>Driver: %1 (%2 formats)</source>
         <translation>ドライバー：%1（%2 形式）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="289" />
+        <location filename="../src/Ui/MainWindow.cpp" line="300" />
         <source>Driver</source>
         <translation>ドライバー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="290" />
+        <location filename="../src/Ui/MainWindow.cpp" line="301" />
         <source>Cannot load the driver:
 %1
 %2</source>
@@ -626,142 +632,147 @@ Author: %2</source>
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="304" />
+        <location filename="../src/Ui/MainWindow.cpp" line="315" />
         <source>&amp;File</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="305" />
+        <location filename="../src/Ui/MainWindow.cpp" line="316" />
         <source>&amp;Open...</source>
         <translation>開く...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="307" />
+        <location filename="../src/Ui/MainWindow.cpp" line="318" />
         <source>Open &amp;recent</source>
         <translation>最近使用したファイルを開く</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="310" />
+        <location filename="../src/Ui/MainWindow.cpp" line="321" />
         <source>&amp;Extract selected...</source>
         <translation>選択項目を展開...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="312" />
+        <location filename="../src/Ui/MainWindow.cpp" line="323" />
         <source>Extract &amp;all...</source>
         <translation>すべて展開...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="314" />
+        <location filename="../src/Ui/MainWindow.cpp" line="325" />
         <source>Extract selected, images as &amp;PNG...</source>
         <translation>選択項目を展開（画像は PNG）...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="315" />
+        <location filename="../src/Ui/MainWindow.cpp" line="326" />
         <source>Extract all, images as P&amp;NG...</source>
         <translation>すべて展開（画像は PNG）...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="316" />
+        <location filename="../src/Ui/MainWindow.cpp" line="327" />
         <source>Extract selected, converted with...</source>
         <translation>選択項目を展開し、次で変換...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="317" />
+        <location filename="../src/Ui/MainWindow.cpp" line="328" />
         <source>Extract all, converted with...</source>
         <translation>すべて展開し、次で変換...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="320" />
+        <location filename="../src/Ui/MainWindow.cpp" line="331" />
         <source>Create a li&amp;st from a template...</source>
         <translation>テンプレートから一覧を作成...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="322" />
+        <location filename="../src/Ui/MainWindow.cpp" line="333" />
         <source>Export the &amp;list of entries...</source>
         <translation>エントリの一覧をエクスポート...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="327" />
+        <location filename="../src/Ui/MainWindow.cpp" line="338" />
         <source>&amp;Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="330" />
+        <location filename="../src/Ui/MainWindow.cpp" line="341" />
         <source>&amp;View</source>
         <translation>表示</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="331" />
+        <location filename="../src/Ui/MainWindow.cpp" line="342" />
         <source>Include &amp;subfolders</source>
         <translation>サブフォルダーを含める</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="339" />
+        <location filename="../src/Ui/MainWindow.cpp" line="350" />
         <source>&amp;Details</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="340" />
+        <location filename="../src/Ui/MainWindow.cpp" line="351" />
         <source>&amp;Thumbnails</source>
         <translation>サムネイル</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="353" />
+        <location filename="../src/Ui/MainWindow.cpp" line="364" />
         <source>&amp;Back</source>
         <translation>戻る</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="355" />
+        <location filename="../src/Ui/MainWindow.cpp" line="366" />
         <source>&amp;Forward</source>
         <translation>進む</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="357" />
+        <location filename="../src/Ui/MainWindow.cpp" line="368" />
         <source>&amp;Up one folder</source>
         <translation>1 つ上のフォルダー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="361" />
+        <location filename="../src/Ui/MainWindow.cpp" line="372" />
         <source>&amp;Theme</source>
         <translation>テーマ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="363" />
+        <location filename="../src/Ui/MainWindow.cpp" line="374" />
         <source>&amp;Dark</source>
         <translation>ダーク</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="364" />
+        <location filename="../src/Ui/MainWindow.cpp" line="374" />
+        <source>&amp;System</source>
+        <translation>システム</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="375" />
         <source>&amp;Light</source>
         <translation>ライト</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="375" />
+        <location filename="../src/Ui/MainWindow.cpp" line="389" />
         <source>&amp;Tools</source>
         <translation>ツール</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="376" />
+        <location filename="../src/Ui/MainWindow.cpp" line="390" />
         <source>&amp;HyperRipper...</source>
         <translation>HyperRipper...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="377" />
+        <location filename="../src/Ui/MainWindow.cpp" line="391" />
         <source>&amp;Identify the file types</source>
         <translation>ファイルの種類を判別</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="381" />
+        <location filename="../src/Ui/MainWindow.cpp" line="395" />
         <source>&amp;Options...</source>
         <translation>オプション...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="387" />
+        <location filename="../src/Ui/MainWindow.cpp" line="401" />
         <source>&amp;Help</source>
         <translation>ヘルプ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="388" />
+        <location filename="../src/Ui/MainWindow.cpp" line="402" />
         <source>&amp;About</source>
         <translation>バージョン情報</translation>
     </message>
@@ -784,293 +795,303 @@ Driver: %1, %2 formats
         <translation>バージョン情報</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="404" />
+        <location filename="../src/Ui/MainWindow.cpp" line="418" />
         <source>Main</source>
         <translation>メイン</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="452" />
+        <location filename="../src/Ui/MainWindow.cpp" line="466" />
         <source>Hierarchy</source>
         <translation>階層</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="453" />
+        <location filename="../src/Ui/MainWindow.cpp" line="467" />
         <source>Viewer</source>
         <translation>ビューアー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="454" />
+        <location filename="../src/Ui/MainWindow.cpp" line="468" />
         <source>Inspector</source>
         <translation>インスペクター</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="455" />
+        <location filename="../src/Ui/MainWindow.cpp" line="469" />
         <source>Console</source>
         <translation>コンソール</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="456" />
+        <location filename="../src/Ui/MainWindow.cpp" line="470" />
         <source>Jobs</source>
         <translation>ジョブ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="468" />
+        <location filename="../src/Ui/MainWindow.cpp" line="482" />
         <source>&amp;Workspace</source>
         <translation>ワークスペース</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="469" />
+        <location filename="../src/Ui/MainWindow.cpp" line="483" />
         <source>&amp;Default</source>
         <translation>既定</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="470" />
+        <location filename="../src/Ui/MainWindow.cpp" line="484" />
         <source>&amp;Browse (folders and entries)</source>
         <translation>参照（フォルダーとエントリ）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="471" />
+        <location filename="../src/Ui/MainWindow.cpp" line="485" />
         <source>&amp;Preview (entries, viewer, inspector)</source>
         <translation>プレビュー（エントリ、ビューアー、インスペクター）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="501" />
+        <location filename="../src/Ui/MainWindow.cpp" line="515" />
         <source>All supported formats (%1)</source>
         <translation>サポートされているすべての形式 (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="502" />
+        <location filename="../src/Ui/MainWindow.cpp" line="516" />
         <source>HyperRipper files (*.hrf)</source>
         <translation>HyperRipper ファイル (*.hrf)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="502" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1482" />
+        <location filename="../src/Ui/MainWindow.cpp" line="516" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1534" />
         <source>All files (*)</source>
         <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="545" />
+        <location filename="../src/Ui/MainWindow.cpp" line="560" />
         <source>Cannot scan %1: %2</source>
         <translation>%1 をスキャンできません：%2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="558" />
+        <location filename="../src/Ui/MainWindow.cpp" line="573" />
         <source>Where is %1?</source>
         <translation>%1 はどこにありますか？</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="568" />
+        <location filename="../src/Ui/MainWindow.cpp" line="583" />
         <source>%1 is not the file the HRF file was made for (%2 bytes instead of %3)</source>
         <translation>%1 は、この HRF ファイルの対象ファイルではありません（%3 バイトのはずが %2 バイト）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="577" />
+        <location filename="../src/Ui/MainWindow.cpp" line="592" />
         <source>The HRF file is damaged: %1 is outside of the file</source>
         <translation>HRF ファイルが壊れています：%1 はファイルの範囲外です</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="597" />
-        <location filename="../src/Ui/MainWindow.cpp" line="687" />
+        <location filename="../src/Ui/MainWindow.cpp" line="612" />
+        <location filename="../src/Ui/MainWindow.cpp" line="703" />
         <source>Cannot open %1: %2</source>
         <translation>%1 を開けません：%2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="614" />
+        <location filename="../src/Ui/MainWindow.cpp" line="629" />
         <source>&amp;Clear list</source>
         <translation>一覧をクリア</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="623" />
+        <location filename="../src/Ui/MainWindow.cpp" line="638" />
         <source>Open archive</source>
         <translation>アーカイブを開く</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="641" />
+        <location filename="../src/Ui/MainWindow.cpp" line="657" />
         <source>Select an entry to preview it</source>
         <translation>プレビューするエントリを選択してください</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="683" />
+        <location filename="../src/Ui/MainWindow.cpp" line="699" />
         <source>Open</source>
         <translation>開く</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="683" />
+        <location filename="../src/Ui/MainWindow.cpp" line="699" />
         <source>Cannot open %1:
 %2</source>
         <translation>%1 を開けません：
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1002" />
+        <location filename="../src/Ui/MainWindow.cpp" line="794" />
+        <source>All types</source>
+        <translation>すべての種類</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="797" />
+        <source>(no extension)</source>
+        <translation>（拡張子なし）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="1054" />
         <source>Name:    %1
 </source>
         <translation>名前：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1004" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1056" />
         <source>Path:    %1
 </source>
         <translation>パス：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1005" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1057" />
         <source>Size:    %1 (%2 bytes)
 </source>
         <translation>サイズ：  %1（%2 バイト）
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1006" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1058" />
         <source>Offset:  %1
 </source>
         <translation>オフセット：%1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1007" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
         <source>Format:  %1
 </source>
         <translation>形式：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1030" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1082" />
         <source>Previews use the palette %1</source>
         <translation>プレビューはパレット %1 を使用します</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1106" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1158" />
         <source>File exists</source>
         <translation>ファイルが存在します</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1107" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1159" />
         <source>The file already exists:
 %1</source>
         <translation>ファイルは既に存在します：
 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1108" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1160" />
         <source>Overwrite</source>
         <translation>上書き</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1109" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1161" />
         <source>Overwrite all</source>
         <translation>すべて上書き</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1110" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1162" />
         <source>Skip</source>
         <translation>スキップ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1111" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1163" />
         <source>Skip all</source>
         <translation>すべてスキップ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1112" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1164" />
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1138" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1149" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1206" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1190" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1201" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1258" />
         <source>Nothing is selected</source>
         <translation>何も選択されていません</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1141" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1193" />
         <source>Extract the selection to</source>
         <translation>選択項目の展開先</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1152" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1204" />
         <source>Extract the selection (images as PNG) to</source>
         <translation>選択項目の展開先（画像は PNG）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1187" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1239" />
         <source>%1 (to .%2)</source>
         <translation>%1（.%2 へ）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1209" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1261" />
         <source>Extract (converted with %1) to</source>
         <translation>展開先（%1 で変換）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1214" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1266" />
         <source>No tool: put .ini files in %1</source>
         <translation>ツールがありません：.ini ファイルを %1 に置いてください</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1227" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1279" />
         <source>Extract everything (images as PNG) to</source>
         <translation>すべての展開先（画像は PNG）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1417" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1469" />
         <source>Identifying the file types: %1 of %2</source>
         <translation>ファイルの種類を判別中：%1 / %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1430" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1482" />
         <source>%1 file types identified: %2</source>
         <translation>%1 件のファイルの種類を判別しました：%2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1483" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1535" />
         <source>Save the list to...</source>
         <translation>一覧の保存先...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1601" />
         <source>CSV (*.csv);;JSON (*.json);;Text (*.txt)</source>
         <translation>CSV (*.csv);;JSON (*.json);;テキスト (*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1550" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1602" />
         <source>Export the list of entries</source>
         <translation>エントリの一覧をエクスポート</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1618" />
         <source>Export</source>
         <translation>エクスポート</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="393" />
+        <location filename="../src/Ui/MainWindow.cpp" line="407" />
         <source>&lt;p&gt;%1: %2 formats&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;%1：%2 フォーマット&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1497" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1566" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1618" />
         <source>Cannot write %1</source>
         <translation>%1 に書き込めません</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1511" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1569" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1563" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1621" />
         <source>%1 entries written to %2</source>
         <translation>%1 件のエントリを %2 に書き込みました</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1580" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1632" />
         <source>Extract everything to</source>
         <translation>すべての展開先</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1591" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1643" />
         <source>Extract the folder to</source>
         <translation>フォルダーの展開先</translation>
     </message>
@@ -1081,6 +1102,51 @@ Driver: %1, %2 formats
         <location filename="../src/Ui/MeshViewer.cpp" line="41" />
         <source>Mesh: %1 vertices, %2 triangles</source>
         <translation>メッシュ：頂点 %1、三角形 %2</translation>
+    </message>
+</context>
+<context>
+    <name>Dup::Ui::ModelViewer</name>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="112" />
+        <source>Animate</source>
+        <translation>アニメーション</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="113" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="253" />
+        <source>Play</source>
+        <translation>再生</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="128" />
+        <source>Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.</source>
+        <translation>オフ：アニメーションなしで描画されるモデル。オン：スライダーの位置のアニメーショントラック。</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="129" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="197" />
+        <source>rest pose</source>
+        <translation>基本ポーズ</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="135" />
+        <source>Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)</source>
+        <translation>再生速度（1x でアニメーション 1 回は 4 秒；$rotate の部品もそれに従います）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="163" />
+        <source>Pause</source>
+        <translation>一時停止</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="197" />
+        <source>%1%</source>
+        <translation>%1%</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ModelViewer.cpp" line="206" />
+        <source>Model: %1 subobjects, %2 triangles</source>
+        <translation>モデル：サブオブジェクト %1、三角形 %2</translation>
     </message>
 </context>
 <context>
@@ -1153,158 +1219,163 @@ Driver: %1, %2 formats
     </message>
     <message>
         <location filename="../src/Ui/OptionsDialog.cpp" line="51" />
+        <source>As the system</source>
+        <translation>システムに合わせる</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/OptionsDialog.cpp" line="52" />
         <source>Dark</source>
         <translation>ダーク</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="52" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="53" />
         <source>Light</source>
         <translation>ライト</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="54" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="55" />
         <source>Language of the system</source>
         <translation>システムの言語</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="60" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="61" />
         <source>Details</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="61" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="62" />
         <source>Thumbnails</source>
         <translation>サムネイル</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="66" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="67" />
         <source>Theme</source>
         <translation>テーマ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="67" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="68" />
         <source>Language (applied at the next start)</source>
         <translation>言語（次回の起動時に適用）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="68" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="69" />
         <source>Entries are shown as</source>
         <translation>エントリの表示形式</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="69" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="70" />
         <source>Thumbnail size</source>
         <translation>サムネイルのサイズ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="72" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="73" />
         <source>The folder of the .ini files that describe the command line programs used by File &gt; Extract, converted with...</source>
         <translation>「ファイル &gt; 展開し、次で変換...」で使うコマンドラインプログラムを記述した .ini ファイルのフォルダー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="73" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="74" />
         <source>Folder of the conversion tools</source>
         <translation>変換ツールのフォルダー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="74" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="75" />
         <source>When extracting, give the files without an extension the one their content says</source>
         <translation>展開時、拡張子のないファイルに内容から判別した拡張子を付ける</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="76" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="77" />
         <source>For the archives that name their files with numbers or hashes: a PNG image becomes name.png (only when the type is certain)</source>
         <translation>ファイルに番号やハッシュを名前として使うアーカイブ向け：PNG 画像は 名前.png になります（種類が確実な場合のみ）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="80" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="81" />
         <source>The templates of your own for File &gt; Create a list from a template (.uht files, or folders with a .tsf source)</source>
         <translation>「ファイル &gt; テンプレートから一覧を作成」で使う独自のテンプレート（.uht ファイル、または .tsf ソースを含むフォルダー）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="81" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="82" />
         <source>Folder of the list templates</source>
         <translation>一覧テンプレートのフォルダー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="82" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="83" />
         <source>General</source>
         <translation>全般</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="93" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="94" />
         <source>Largest image to preview</source>
         <translation>プレビューする最大の画像</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="94" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="95" />
         <source>Largest text to preview</source>
         <translation>プレビューする最大のテキスト</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="97" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="98" />
         <source>Used for the Quake pictures and the Build tiles when the archive has no PALETTE.DAT or PALETTE.LMP (768 bytes, or a JASC .pal file)</source>
         <translation>アーカイブに PALETTE.DAT も PALETTE.LMP もない場合に、Quake の画像と Build のタイルに使用します（768 バイト、または JASC の .pal ファイル）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="98" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="99" />
         <source>Browse...</source>
         <translation>参照...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="102" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="103" />
         <source>Palette</source>
         <translation>パレット</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="102" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="103" />
         <source>Palettes (*.pal *.lmp *.dat *.bin *.raw);;All files (*)</source>
         <translation>パレット (*.pal *.lmp *.dat *.bin *.raw);;すべてのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="108" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="109" />
         <source>Palette of the 8 bits pictures</source>
         <translation>8 ビット画像のパレット</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="109" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="110" />
         <source>Preview</source>
         <translation>プレビュー</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="119" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="120" />
         <source>Messages shown in the Console</source>
         <translation>コンソールに表示するメッセージ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="120" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="121" />
         <source>Log</source>
         <translation>ログ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="128" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="129" />
         <source>%1 (%2 formats)
 %3</source>
         <translation>%1（%2 形式）
 %3</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="130" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="131" />
         <source>Format</source>
         <translation>形式</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="130" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="131" />
         <source>Extensions</source>
         <translation>拡張子</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="141" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="142" />
         <source>The driver is not loaded: %1</source>
         <translation>ドライバーが読み込まれていません：%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/OptionsDialog.cpp" line="143" />
+        <location filename="../src/Ui/OptionsDialog.cpp" line="144" />
         <source>Driver</source>
         <translation>ドライバー</translation>
     </message>
@@ -1312,76 +1383,145 @@ Driver: %1, %2 formats
 <context>
     <name>Dup::Ui::PreviewPanel</name>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="34" />
-        <location filename="../src/Ui/PreviewPanel.cpp" line="77" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="38" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="107" />
         <source>Play</source>
         <translation>再生</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="77" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="81" />
+        <source>Zoom out (Ctrl+wheel down, -)</source>
+        <translation>縮小（Ctrl+ホイール下、-）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/PreviewPanel.cpp" line="82" />
+        <source>Zoom in (Ctrl+wheel up, +)</source>
+        <translation>拡大（Ctrl+ホイール上、+）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/PreviewPanel.cpp" line="83" />
+        <source>Actual size (0)</source>
+        <translation>実際のサイズ（0）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/PreviewPanel.cpp" line="84" />
+        <source>Fit</source>
+        <translation>合わせる</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/PreviewPanel.cpp" line="84" />
+        <source>Fit to the panel (F)</source>
+        <translation>パネルに合わせる（F）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/PreviewPanel.cpp" line="107" />
         <source>Pause</source>
         <translation>一時停止</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="85" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="115" />
         <source>%1 / %2</source>
         <translation>%1 / %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="89" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="119" />
         <source>Cannot play this sound: %1</source>
         <translation>このサウンドを再生できません：%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="91" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="121" />
         <source>Select an entry to preview it</source>
         <translation>プレビューするエントリを選択してください</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="127" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="165" />
         <source>Sound (%1, %2)</source>
         <translation>サウンド（%1、%2）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="142" />
-        <location filename="../src/Ui/PreviewPanel.cpp" line="152" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="180" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="190" />
         <source>Image %1 x %2</source>
         <translation>画像 %1 × %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="156" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="194" />
         <source>Cannot decode the image</source>
         <translation>画像をデコードできません</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="171" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="233" />
         <source>Text</source>
         <translation>テキスト</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="177" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="239" />
         <source>Hex dump</source>
         <translation>16 進ダンプ</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="181" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="243" />
         <source>Sound</source>
         <translation>サウンド</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="184" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="246" />
         <source>Cannot preview: %1</source>
         <translation>プレビューできません：%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="187" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="249" />
         <source>No preview</source>
         <translation>プレビューなし</translation>
     </message>
     <message>
-        <location filename="../src/Ui/PreviewPanel.cpp" line="187" />
+        <location filename="../src/Ui/PreviewPanel.cpp" line="249" />
         <source>No preview (%1)</source>
         <translation>プレビューなし（%1）</translation>
+    </message>
+</context>
+<context>
+    <name>Dup::Ui::RigViewer</name>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="107" />
+        <location filename="../src/Ui/RigViewer.cpp" line="266" />
+        <source>Play</source>
+        <translation>再生</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="123" />
+        <source>The animation to show</source>
+        <translation>表示するアニメーション</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="131" />
+        <source>Speed of the playback (1x is the speed of the game, 25 frames per second)</source>
+        <translation>再生速度（1x はゲームの速度、毎秒 25 フレーム）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="160" />
+        <source>Pause</source>
+        <translation>一時停止</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="185" />
+        <source>animation %1</source>
+        <translation>アニメーション %1</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="218" />
+        <source>frame %1 / %2</source>
+        <translation>フレーム %1 / %2</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="222" />
+        <source>rest pose</source>
+        <translation>基本ポーズ</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/RigViewer.cpp" line="232" />
+        <source>Model: %1 limbs, %2 triangles, %3 animations</source>
+        <translation>モデル：リム %1、三角形 %2、アニメーション %3</translation>
     </message>
 </context>
 <context>
