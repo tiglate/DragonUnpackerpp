@@ -371,16 +371,19 @@ void MainWindow::BuildMenus()
     viewMenu->addSeparator();
     auto *themeMenu = viewMenu->addMenu(tr("&Theme"));
     auto *group = new QActionGroup(this);
-    auto *dark = themeMenu->addAction(tr("&Dark"));
-    auto *light = themeMenu->addAction(tr("&Light"));
-    for (auto *action : {dark, light})
+    for (const auto &[theme, label] : {std::pair{Theme::SYSTEM, tr("&System")}, std::pair{Theme::DARK, tr("&Dark")},
+                                       std::pair{Theme::LIGHT, tr("&Light")}})
     {
+        auto *action = themeMenu->addAction(label);
         action->setCheckable(true);
+        action->setChecked(ThemeManager::Current() == theme);
         group->addAction(action);
+        connect(action, &QAction::triggered, this, [this, theme = theme] {
+            ThemeManager::Force(std::nullopt); // the user's choice replaces the --theme of the command line
+            ThemeManager::Apply(theme);
+            _settings.Theme = ThemeManager::Name(theme);
+        });
     }
-    (ThemeManager::Current() == Theme::DARK ? dark : light)->setChecked(true);
-    connect(dark, &QAction::triggered, this, [] { ThemeManager::Apply(Theme::DARK); });
-    connect(light, &QAction::triggered, this, [] { ThemeManager::Apply(Theme::LIGHT); });
     viewMenu->addSeparator(); // the panels' toggles are added by BuildDocks
 
     auto *toolsMenu = menuBar()->addMenu(tr("&Tools"));
@@ -519,6 +522,7 @@ void MainWindow::OnOptions()
     OptionsDialog dialog(_settings, _driverHost, this);
     if (dialog.exec() == QDialog::Accepted)
     {
+        ThemeManager::Force(std::nullopt); // the theme chosen there replaces the --theme of the command line
         ApplySettings();
         _settings.Save();
     }
@@ -526,7 +530,7 @@ void MainWindow::OnOptions()
 
 void MainWindow::ApplySettings()
 {
-    ThemeManager::Apply(_settings.Theme == "light" ? Theme::LIGHT : Theme::DARK);
+    ThemeManager::Apply(ThemeManager::FromName(_settings.Theme));
     spdlog::set_level(spdlog::level::from_str(_settings.LogLevel));
     _thumbnailSize->setValue(_settings.ThumbnailSize);
     if (_previewWorker != nullptr)
@@ -1667,7 +1671,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     _jobs->WaitForAll();
     _settings.Layout["geometry"] = saveGeometry().toBase64().toStdString();
     _settings.Layout["state"] = saveState().toBase64().toStdString();
-    _settings.Theme = ThemeManager::Current() == Theme::DARK ? "dark" : "light";
     _settings.Save();
     QMainWindow::closeEvent(event);
 }

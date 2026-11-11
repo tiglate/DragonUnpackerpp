@@ -31,7 +31,7 @@ Dragon UnPACKer++ is free software under the [Mozilla Public License 2.0](LICENS
 - **Extract** selected entries or whole archives as background jobs with progress, cancel and a conflict policy; optionally convert images to PNG; export the entry list as CSV, JSON or text. Every name written to disk is sanitized, so a hostile archive cannot write outside the destination.
 - **Understand game engines, not only containers**: Unity asset bundles and serialized files (textures including crunched, ETC and ASTC, sprites, cubemaps, meshes as OBJ, sounds, text, fonts), FMOD banks (Vorbis, MP3 and PCM become playable files), XNA `.xnb` (textures, sounds, SpriteFonts as an atlas plus BMFont description), XACT wave banks, GameMaker data files.
 - **HyperRipper**: scan any file for embedded PNG, JPEG, GIF, BMP, RIFF, Ogg, ZIP, DDS and MIDI data and extract what it finds.
-- Dark and light themes, 11 languages (English, Portuguese, Spanish, Italian, French, German, Polish, Russian, Chinese, Japanese, Arabic and Hebrew, right to left included), command line hooks for scripting and tests.
+- Dark and light themes (by default as the desktop is, following its changes), 11 languages (English, Portuguese, Spanish, Italian, French, German, Polish, Russian, Chinese, Japanese, Arabic and Hebrew, right to left included), command line hooks for scripting and tests.
 - Handles very large archives: 300,000 entries are indexed in a tenth of a second.
 
 ## Supported formats
@@ -88,7 +88,7 @@ A plain `make` works too: it is a thin proxy to `make.sh` (extra arguments throu
 dragonunpacker [archive]
     --open=FILE --folder=a/b --select=NAME      open an archive and select something
     --extract-all=DIR | --extract-selected=DIR   extract and exit (with --quit)
-    --theme=dark|light  --settings=FILE         appearance and settings file
+    --theme=system|dark|light  --settings=FILE  appearance and settings file
     --plugin=FILE                               use another driver (or set DUP_PLUGIN)
     --screenshot=FILE.png  --quit               for automated tests
     -platform offscreen                         no display needed

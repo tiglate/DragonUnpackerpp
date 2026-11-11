@@ -30,7 +30,7 @@ Actions:
                     same build as "driver").
   rebuild [target] Same as "build" but recompiles everything.
   run              Build, then start the interface. Everything after "--" is passed to it:
-                    --open=FILE --folder=a/b --select=NAME --theme=dark|light --recursive --sort=COL
+                    --open=FILE --folder=a/b --select=NAME --theme=system|dark|light --recursive --sort=COL
                     --extract-all=DIR | --extract-selected=DIR --screenshot=F.png --quit
                     (add -platform offscreen when there is no display).
   test             Build, then run every automated test that needs no game files: the driver

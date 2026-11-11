@@ -65,6 +65,11 @@ add_executable(dragonunpacker
     Ui/ThemeManager.cpp)
 target_compile_definitions(dragonunpacker PRIVATE DUP_VERSION="${PROJECT_VERSION}")
 target_link_libraries(dragonunpacker PRIVATE Core Qt6::Widgets Qt6::Multimedia Qt6::Svg)
+if (TARGET Qt6::DBus)
+    target_sources(dragonunpacker PRIVATE Ui/DesktopScheme.cpp)
+    target_link_libraries(dragonunpacker PRIVATE Qt6::DBus)
+    target_compile_definitions(dragonunpacker PRIVATE DUP_HAVE_DBUS)
+endif ()
 
 # Translations: lupdate writes translations/*.ts (target update_translations), lrelease makes the .qm files that are
 # embedded in the executable and loaded by main.cpp according to the language of the settings or of the system.

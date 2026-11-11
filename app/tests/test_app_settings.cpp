@@ -65,7 +65,7 @@ TEST_CASE("AppSettings ignores a damaged file")
     AppSettings settings(SettingsFile{path});
     settings.Load();
     CHECK(settings.GetRecent() == std::vector<std::string>{"/b"});
-    CHECK(settings.Theme == "dark");
+    CHECK(settings.Theme == "system");
     CHECK(settings.ThumbnailSize == 256); // out of range values are clamped, unreadable ones ignored
     CHECK(settings.PreviewImageMegabytes == 64);
 }

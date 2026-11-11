@@ -106,7 +106,7 @@ void AppSettings::Load()
         }
         else if (section == "Appearance" && key == "Theme")
         {
-            Theme = value == "light" ? "light" : "dark";
+            Theme = value == "light" || value == "dark" ? value : "system";
         }
         else if (section == "General" && key == "Language")
         {

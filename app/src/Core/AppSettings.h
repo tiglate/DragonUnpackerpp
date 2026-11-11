@@ -45,7 +45,7 @@ class AppSettings
 
     std::string LastOpenDirectory;
     std::string LastExtractDirectory;
-    std::string Theme{"dark"}; // "dark" or "light"
+    std::string Theme{"system"}; // "system" (as the desktop), "dark" or "light"
     std::string Language;      // "" = the language of the system, else "en" or "pt_BR"...
     std::string DefaultView{"details"}; // "details" or "thumbnails"
     int ThumbnailSize{96};

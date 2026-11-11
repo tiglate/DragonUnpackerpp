@@ -191,9 +191,9 @@ int main(int argc, char **argv)
 
     if (const auto themeName = ArgumentValue(argc, argv, "theme"); !themeName.empty())
     {
-        settings.Theme = themeName == "light" ? "light" : "dark"; // the command line wins for this run
+        Dup::Ui::ThemeManager::Force(Dup::Ui::ThemeManager::FromName(themeName)); // for this run only: never saved
     }
-    Dup::Ui::ThemeManager::Apply(settings.Theme == "light" ? Dup::Ui::Theme::LIGHT : Dup::Ui::Theme::DARK);
+    Dup::Ui::ThemeManager::Apply(Dup::Ui::ThemeManager::FromName(settings.Theme));
 
     auto window = injector.create<std::unique_ptr<Dup::Ui::MainWindow>>();
     // with --quit the run is automated: no modal dialog may wait for a user
