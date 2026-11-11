@@ -17,13 +17,13 @@ namespace
 {
 /// The glTF the driver makes of the skeletal model fixture (two limbs: limb 0 turned 90 degrees about z at (10, 0, 0),
 /// limb 1 one unit along x in its frame), as text.
-auto FixtureGltf() -> std::string
+auto FixtureGltf(const char *file = "req_skel.mdl", const char *entry = "req_skel.gltf") -> std::string
 {
     const auto driver = Dudi7::Driver::Load(Tests::PluginPath());
-    const auto archive = driver->Open(Tests::Fixture("req_skel.mdl"));
+    const auto archive = driver->Open(Tests::Fixture(file));
     for (std::int64_t i = 0; i < archive->GetEntryCount(); ++i)
     {
-        if (archive->GetEntry(i).Name == "req_skel.gltf")
+        if (archive->GetEntry(i).Name == entry)
         {
             const auto bytes = archive->ExtractToMemory(i, 1U << 20);
             return std::string(reinterpret_cast<const char *>(bytes.data()), bytes.size());
@@ -155,6 +155,39 @@ TEST_CASE("Rig: a texture is drawn over the model, a missing one gives gray, a w
         lit += lines.Rgba[i] > 0 ? 1 : 0;
     }
     CHECK(lit > 20);
+}
+
+TEST_CASE("Rig: a level has one part per texture, each drawn with its own picture")
+{
+    // the level of the .jam fixture: two pieces with art slot 7, a triangle with slot 9
+    const auto scene = ParseRigGltf(FixtureGltf("req_v2.jam", "level.gltf"));
+    REQUIRE(scene.has_value());
+    REQUIRE(scene->Parts.size() == 2);
+    CHECK(scene->Parts[0].ArtSlot == 7);
+    CHECK(scene->Parts[1].ArtSlot == 9);
+    CHECK(scene->Parts[0].UvSize == doctest::Approx(128.0));
+    CHECK(scene->Parts[0].IndexCount == 6);
+    CHECK(scene->Parts[1].FirstIndex == 6);
+    CHECK(scene->Parts[1].IndexCount == 3);
+    const auto pose = EvaluateRig(*scene, -1, 0.0);
+    DecodedImage red;
+    red.Width = red.Height = 1;
+    red.Rgba = {255, 0, 0, 255};
+    DecodedImage blue;
+    blue.Width = blue.Height = 1;
+    blue.Rgba = {0, 0, 255, 255};
+    RigCamera camera;
+    camera.Pitch = 0.6;
+    const auto image = RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, std::vector<const DecodedImage *>{&red, &blue});
+    std::size_t reds = 0;
+    std::size_t blues = 0;
+    for (std::size_t i = 0; i + 3 < image.Rgba.size(); i += 4)
+    {
+        reds += image.Rgba[i] > 60 && image.Rgba[i + 2] < 20 ? 1 : 0;
+        blues += image.Rgba[i + 2] > 60 && image.Rgba[i] < 20 ? 1 : 0;
+    }
+    CHECK(reds > 100);
+    CHECK(blues > 100);
 }
 
 TEST_CASE("Rig: files that are not a skinned model are refused")

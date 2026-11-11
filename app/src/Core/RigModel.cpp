@@ -7,6 +7,7 @@
 #include "Core/Json.h"
 
 #include <algorithm>
+#include <limits>
 #include <cmath>
 #include <cstring>
 #include <map>
@@ -325,62 +326,92 @@ auto ParseRigGltf(std::string_view text) -> std::optional<RigScene>
         }
     }
 
-    // the mesh
+    // the mesh: every primitive is a part; primitives that share their attributes share the vertices
     const auto *primitives = meshes->Items[0].Find("primitives");
     if (primitives == nullptr || primitives->Items.empty())
     {
         return std::nullopt;
     }
-    const auto &primitive = primitives->Items[0];
-    const auto *attributes = primitive.Find("attributes");
-    if (attributes == nullptr || attributes->Find("POSITION") == nullptr || attributes->Find("JOINTS_0") == nullptr || primitive.Find("indices") == nullptr)
+    const auto *materials = root->Find("materials");
+    std::string previousAttributes;
+    std::size_t base = 0;
+    for (const auto &primitive : primitives->Items)
     {
-        return std::nullopt;
-    }
-    const auto positions = document.Read(static_cast<int>(attributes->Find("POSITION")->NumberOr(-1)));
-    const auto joints = document.Read(static_cast<int>(attributes->Find("JOINTS_0")->NumberOr(-1)));
-    const auto indices = document.Read(static_cast<int>(primitive.Find("indices")->NumberOr(-1)));
-    if (!positions || !joints || !indices || positions->Width != 3 || joints->Width != 4 || indices->Width != 1 || positions->Count == 0 ||
-        joints->Count != positions->Count || indices->Count == 0 || indices->Count % 3 != 0)
-    {
-        return std::nullopt;
-    }
-    scene.Positions.assign(positions->Values.begin(), positions->Values.end());
-    for (std::size_t v = 0; v < positions->Count; ++v)
-    {
-        const double joint = joints->Values[v * 4];
-        if (joint < 0 || joint >= static_cast<double>(jointCount))
+        const auto *attributes = primitive.Find("attributes");
+        if (attributes == nullptr || attributes->Find("POSITION") == nullptr || attributes->Find("JOINTS_0") == nullptr || primitive.Find("indices") == nullptr)
         {
             return std::nullopt;
         }
-        scene.JointOf.push_back(static_cast<std::uint8_t>(joint));
-    }
-    scene.Uvs.assign(positions->Count * 2, 0.0f);
-    if (const auto *uv = attributes->Find("TEXCOORD_0"))
-    {
-        const auto uvs = document.Read(static_cast<int>(uv->NumberOr(-1)));
-        if (uvs && uvs->Width == 2 && uvs->Count == positions->Count)
+        const auto accessorOf = [&](const char *name) { return attributes->Find(name) ? static_cast<int>(attributes->Find(name)->NumberOr(-1)) : -1; };
+        const std::string key = std::to_string(accessorOf("POSITION")) + "/" + std::to_string(accessorOf("JOINTS_0")) + "/" + std::to_string(accessorOf("TEXCOORD_0"));
+        std::size_t vertexCount = scene.JointOf.size() - base;
+        if (key != previousAttributes)
         {
-            scene.Uvs.assign(uvs->Values.begin(), uvs->Values.end());
+            const auto positions = document.Read(accessorOf("POSITION"));
+            const auto joints = document.Read(accessorOf("JOINTS_0"));
+            if (!positions || !joints || positions->Width != 3 || joints->Width != 4 || positions->Count == 0 || joints->Count != positions->Count)
+            {
+                return std::nullopt;
+            }
+            base = scene.JointOf.size();
+            vertexCount = positions->Count;
+            scene.Positions.insert(scene.Positions.end(), positions->Values.begin(), positions->Values.end());
+            for (std::size_t v = 0; v < positions->Count; ++v)
+            {
+                const double joint = joints->Values[v * 4];
+                if (joint < 0 || joint >= static_cast<double>(jointCount))
+                {
+                    return std::nullopt;
+                }
+                scene.JointOf.push_back(static_cast<std::uint8_t>(joint));
+            }
+            std::vector<float> uvValues(positions->Count * 2, 0.0f);
+            if (accessorOf("TEXCOORD_0") >= 0)
+            {
+                const auto uvs = document.Read(accessorOf("TEXCOORD_0"));
+                if (uvs && uvs->Width == 2 && uvs->Count == positions->Count)
+                {
+                    uvValues.assign(uvs->Values.begin(), uvs->Values.end());
+                }
+            }
+            scene.Uvs.insert(scene.Uvs.end(), uvValues.begin(), uvValues.end());
+            previousAttributes = key;
         }
-    }
-    for (const double index : indices->Values)
-    {
-        if (index < 0 || index >= static_cast<double>(positions->Count))
+        const auto indices = document.Read(static_cast<int>(primitive.Find("indices")->NumberOr(-1)));
+        if (!indices || indices->Width != 1 || indices->Count == 0 || indices->Count % 3 != 0)
         {
             return std::nullopt;
         }
-        scene.Indices.push_back(static_cast<std::uint32_t>(index));
-    }
-    if (const auto *materials = root->Find("materials"); materials != nullptr && !materials->Items.empty())
-    {
-        if (const auto *extras = materials->Items[0].Find("extras"))
+        RigPart part;
+        part.FirstIndex = scene.Indices.size();
+        part.IndexCount = indices->Count;
+        for (const double index : indices->Values)
         {
-            scene.ArtSlot = static_cast<int>(extras->Find("artSlot") ? extras->Find("artSlot")->NumberOr(-1) : -1);
-            scene.UvSize = extras->Find("uvSize") ? std::max(1.0, extras->Find("uvSize")->NumberOr(1)) : 1.0;
-            scene.Label = extras->Find("label") ? extras->Find("label")->TextOr({}) : std::string();
+            if (index < 0 || index >= static_cast<double>(vertexCount))
+            {
+                return std::nullopt;
+            }
+            scene.Indices.push_back(static_cast<std::uint32_t>(base + static_cast<std::size_t>(index)));
         }
+        const int material = primitive.Find("material") ? static_cast<int>(primitive.Find("material")->NumberOr(-1)) : -1;
+        if (materials != nullptr && material >= 0 && static_cast<std::size_t>(material) < materials->Items.size())
+        {
+            if (const auto *extras = materials->Items[static_cast<std::size_t>(material)].Find("extras"))
+            {
+                part.ArtSlot = static_cast<int>(extras->Find("artSlot") ? extras->Find("artSlot")->NumberOr(-1) : -1);
+                part.UvSize = extras->Find("uvSize") ? std::max(1.0, extras->Find("uvSize")->NumberOr(1)) : 1.0;
+                part.Label = extras->Find("label") ? extras->Find("label")->TextOr({}) : std::string();
+            }
+        }
+        scene.Parts.push_back(std::move(part));
     }
+    if (scene.JointOf.size() > std::numeric_limits<std::uint32_t>::max())
+    {
+        return std::nullopt;
+    }
+    scene.ArtSlot = scene.Parts.front().ArtSlot;
+    scene.UvSize = scene.Parts.front().UvSize;
+    scene.Label = scene.Parts.front().Label;
 
     // the animations
     if (const auto *animations = root->Find("animations"))

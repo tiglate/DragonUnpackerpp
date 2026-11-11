@@ -32,7 +32,8 @@ class RigViewer : public QWidget
     ~RigViewer() override;
 
     /// nullptr clears the viewer (and stops the animation).
-    void SetScene(std::shared_ptr<const Core::RigScene> scene, std::shared_ptr<const Core::DecodedImage> texture);
+    /// textures: the picture of each part of the scene (nullptr: none)
+    void SetScene(std::shared_ptr<const Core::RigScene> scene, std::vector<std::shared_ptr<const Core::DecodedImage>> textures);
     [[nodiscard]] auto GetDescription() const -> QString;
     /// Test hooks.
     void SelectAnimation(int index);
@@ -50,7 +51,7 @@ class RigViewer : public QWidget
     [[nodiscard]] auto Seconds() const -> double;
 
     std::shared_ptr<const Core::RigScene> _scene;
-    std::shared_ptr<const Core::DecodedImage> _texture;
+    std::vector<std::shared_ptr<const Core::DecodedImage>> _textures;
     RigCanvas *_canvas;
     QWidget *_controls;
     QComboBox *_animations;

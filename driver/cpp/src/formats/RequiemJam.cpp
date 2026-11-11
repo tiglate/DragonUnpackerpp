@@ -14,10 +14,12 @@
 //
 // The entries are the header (header.bin), the first unpacked block (level.bin, 16 bits lighting values at least
 // at its start), the rest (rest.bin), the second unpacked block (data.bin) and its palette (palette.pal, 768
-// bytes of RGB, which the interface uses for the pictures of the same archive). The layout of the blocks is
-// not known: the file is only opened, not interpreted.
+// bytes of RGB, which the interface uses for the pictures of the same archive). The second block is a memory image of
+// the game's objects: its level geometry is also given as level.gltf (codecs/RequiemLevel), with the slots of the
+// art archive as textures. The rest of the blocks (the lightmaps of level.bin, the other objects) is not read.
 
 #include "../codecs/Dcl.h"
+#include "../codecs/RequiemLevel.h"
 #include "PathUtil.h"
 #include "Registry.h"
 #include "RequiemCommon.h"
@@ -53,6 +55,7 @@ class RequiemJamArchive : public Archive
         _dirSeparator = "";
         _extractInternal = true;
         _layout = layout;
+        _levelName = ChangeFileExt(FileNameOf(_stream->Path()), "");
         Add("header.bin", 0, layout.BlockStart);
         Add("level.bin", layout.BlockStart, layout.Unpacked);
         if (layout.RestStart < _stream->Size())
@@ -64,6 +67,14 @@ class RequiemJamArchive : public Archive
             _data = data;
             Add("data.bin", data.Packed, data.Unpacked);
             Add("palette.pal", data.Packed, Requiem::PaletteBytes);
+            // the glTF is built here for its size and again when it is extracted (it is not kept)
+            std::vector<uint8_t> unpacked;
+            if (Unpack(true, unpacked))
+            {
+                const std::string gltf = LevelGltf(unpacked);
+                if (!gltf.empty())
+                    Add("level.gltf", data.Packed, static_cast<int64_t>(gltf.size()));
+            }
         }
     }
 
@@ -80,26 +91,49 @@ class RequiemJamArchive : public Archive
             }
             return ExtractBytes(palette.data(), static_cast<int64_t>(palette.size()), sink);
         }
-        if (entry.Name != "level.bin" && entry.Name != "data.bin")
+        if (entry.Name != "level.bin" && entry.Name != "data.bin" && entry.Name != "level.gltf")
             return Archive::Extract(index, sink);
-        const bool second = entry.Name == "data.bin";
+        std::vector<uint8_t> out;
+        if (!Unpack(entry.Name != "level.bin", out))
+        {
+            LastError = "The block does not unpack";
+            return DUDI7_ERR_IO;
+        }
+        if (entry.Name == "level.gltf")
+        {
+            const std::string gltf = LevelGltf(out);
+            if (static_cast<int64_t>(gltf.size()) != entry.Size)
+            {
+                LastError = "The level geometry cannot be read";
+                return DUDI7_ERR_IO;
+            }
+            return ExtractBytes(reinterpret_cast<const uint8_t *>(gltf.data()), entry.Size, sink);
+        }
+        return ExtractBytes(out.data(), static_cast<int64_t>(out.size()), sink);
+    }
+
+  private:
+    // The first (level.bin) or the second (data.bin) block unpacked; false if it does not unpack to its size
+    auto Unpack(bool second, std::vector<uint8_t> &out) -> bool
+    {
         const int64_t start = second ? _data.Packed : _layout.BlockStart + 4;
         const int64_t unpacked = second ? _data.Unpacked : _layout.Unpacked;
         const int64_t length = second ? _stream->Size() - start : _layout.Packed;
         std::vector<uint8_t> packed(static_cast<size_t>(length));
         _stream->Seek(start);
         _stream->ReadBuffer(packed.data(), packed.size());
-        std::vector<uint8_t> out;
-        if (!DclExplode(packed.data(), packed.size(), static_cast<size_t>(unpacked), out) ||
-            static_cast<int64_t>(out.size()) != unpacked)
-        {
-            LastError = "The block does not unpack";
-            return DUDI7_ERR_IO;
-        }
-        return ExtractBytes(out.data(), static_cast<int64_t>(out.size()), sink);
+        return DclExplode(packed.data(), packed.size(), static_cast<size_t>(unpacked), out) && static_cast<int64_t>(out.size()) == unpacked;
     }
 
-  private:
+    // The level geometry of the second block as glTF (empty if it has none or cannot be read)
+    auto LevelGltf(const std::vector<uint8_t> &data) const -> std::string
+    {
+        RequiemLevel::Level level;
+        if (!RequiemLevel::Read(data, level))
+            return {};
+        return RequiemLevel::MakeGltf(level, _levelName);
+    }
+
     struct Layout
     {
         int64_t BlockStart = 0; // the packed size field
@@ -139,6 +173,7 @@ class RequiemJamArchive : public Archive
 
     Layout _layout;
     Requiem::DataBlock _data;
+    std::string _levelName;
 };
 } // namespace
 

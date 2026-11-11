@@ -243,9 +243,9 @@ int main(int argc, char **argv) {
         { "req_skel.mdl", "Requiem MDL (skeletal)", "", 3, { "req_skel.obj", "req_skel.mtl", "req_skel.gltf" }, { -1, -1, -1 } },
         { "req_anim.ary", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
         { "req_anim.bin", "Requiem ANIM", "", 3, { "anim_000.bin", "anim_001.bin", "anim_002.bin" }, { -1, -1, -1 } },
-        { "req_v0.jam", "Requiem JAM", "", 5, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal" }, { -1, -1, -1, -1, -1 } },
+        { "req_v0.jam", "Requiem JAM", "", 6, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal", "level.gltf" }, { -1, -1, -1, -1, -1, -1 } },
         { "req_v1.jam", "Requiem JAM", "", 3, { "header.bin", "level.bin", "rest.bin" }, { -1, -1, -1 } },
-        { "req_v2.jam", "Requiem JAM", "", 5, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal" }, { -1, -1, -1, -1, -1 } },
+        { "req_v2.jam", "Requiem JAM", "", 6, { "header.bin", "level.bin", "rest.bin", "data.bin", "palette.pal", "level.gltf" }, { -1, -1, -1, -1, -1, -1 } },
     };
     static const int64_t sizes[3] = { 24, 256 * 300, 0 };
     sink s = {0};

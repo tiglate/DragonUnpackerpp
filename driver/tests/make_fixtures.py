@@ -2702,6 +2702,58 @@ def req_art_fixtures():
     return req_art(d3d), req_art(sw)
 
 
+REQ_LEVEL_VERTICES = [(0, 0, 0), (10, 0, 0), (10, 0, 10), (0, 0, 10), (5, 5, 5)]
+REQ_LEVEL_PIECES = [((0, 1, 2), ((0.05, 0.05), (64, 0.05), (64, 64))), ((0, 2, 3), ((0.05, 0.05), (64, 64), (0.05, 64)))]
+
+
+def req_level_geometry(start):
+    """The objects of a level data block (codecs/RequiemLevel.cpp), placed from offset start of the block: two textures
+    (art slots 7 and 9), an object of class 3 with five vertices and three faces (a quad cut in two pieces with texture
+    coordinates, a quad without texture that is not drawn, a triangle with the second texture that was not cut), an
+    object without geometry, and the trailer of the classes"""
+    base = 0x06000000
+    out = bytearray()
+    def at():
+        return base + start + len(out)
+    tex = at(); out += struct.pack("<I", 7) + bytes(20)
+    tex2 = at(); out += struct.pack("<I", 9) + bytes(20)
+    verts = at(); out += b"".join(struct.pack("<3f", *v) for v in REQ_LEVEL_VERTICES)
+    quad = at(); out += struct.pack("<4H", 0, 1, 2, 3)
+    piece_idx = []
+    for idx, _ in REQ_LEVEL_PIECES:
+        piece_idx.append(at()); out += struct.pack("<3H", *idx)
+    tri = at(); out += struct.pack("<3H", 0, 1, 4)
+    out += bytes(-len(out) % 4)
+    corners = []
+    for _, uvs in REQ_LEVEL_PIECES:
+        corners.append(at())
+        for u, v in uvs:
+            out += struct.pack("<2f", u, v) + b"\xcd" * 8
+    def polygon(index, corner, texture, count):
+        p = bytearray(0x20)
+        struct.pack_into("<III", p, 4, index, corner, texture)
+        struct.pack_into("<HBB", p, 0x18, 0xCDCD, count, 0x81)
+        return p
+    pieces = at()
+    for k in range(len(REQ_LEVEL_PIECES)):
+        out += polygon(piece_idx[k], corners[k], tex, 3)
+    faces = at()
+    for index, texture, count, first, n in ((quad, tex, 4, pieces, 2), (quad, 0, 4, 0, 0), (tri, tex2, 3, 0, 0)):
+        f = bytearray(0x68)
+        struct.pack_into("<4f", f, 0, 0, 1, 0, 0)
+        f[0x3C:0x5C] = polygon(index, 0, texture, count)
+        struct.pack_into("<IB", f, 0x5C, first, n)
+        out += f
+    obj = at(); o = bytearray(0x4C); struct.pack_into("<IHHI", o, 0x40, verts, len(REQ_LEVEL_VERTICES), 3, faces); out += o
+    empty = at(); out += bytes(0x4C)
+    trailer = bytearray()
+    for c in range(109):
+        pointers = {3: [obj, empty], 108: [tex, tex2]}.get(c, [])
+        trailer += struct.pack("<I%dI" % len(pointers), len(pointers), *pointers)
+    out += trailer
+    return bytes(out), len(trailer)
+
+
 def req_jam(version, second=True):
     level = bytes((i * i // 7) & 255 for i in range(3000)) + b"\0" * 500 + b"Requiem" * 100
     packed = dcl_implode(level)
@@ -2709,11 +2761,14 @@ def req_jam(version, second=True):
     head = struct.pack("<IIIIII", 0xFEED000A, 0, len(level), 7, version, 250)
     head += bytes(0x112 + version * 0x100C - len(head))
     body = head + struct.pack("<I", len(packed)) + packed + rest
-    if second:      # the level data block: magic at 4, two palettes (RGBX) at 0x1F and 0x41F
+    if second:      # the level data block: magic at 4, two palettes (RGBX) at 0x1F and 0x41F, the geometry
         data = bytearray(0x900)
         struct.pack_into("<I", data, 4, 0x0BEAF0CC)
         for i in range(256):
             data[0x41F + i * 4:0x41F + i * 4 + 4] = bytes([i, 255 - i, i // 2, 0])
+        geometry, trailer = req_level_geometry(len(data))
+        data += geometry
+        struct.pack_into("<I", data, 0, trailer)
         blob = dcl_implode(bytes(data))
         body = body[:4] + struct.pack("<I", len(body) - 12) + body[8:] + struct.pack("<I", len(data)) + blob
     return body

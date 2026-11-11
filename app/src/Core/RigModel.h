@@ -31,11 +31,23 @@ struct RigAnimation
     std::vector<RigTrack> Rotation;
 };
 
-/// A mesh skinned rigidly to a skeleton of joints, and the animations of the joints: what the Requiem models are converted
-/// to (glTF 2.0 with embedded data), and what this viewer reads of such a file. Vertices are in the space of their joint
-/// (every vertex belongs to one joint), one vertex per face corner.
+/// The triangles of one material (one glTF primitive) and its picture.
+struct RigPart
+{
+    std::size_t FirstIndex{0}; // into RigScene::Indices
+    std::size_t IndexCount{0};
+    int ArtSlot{-1};  // slot of the art archive of the game (-1: none)
+    double UvSize{1}; // texture coordinates times this are texels of the picture
+    std::string Label;
+};
+
+/// A mesh skinned rigidly to a skeleton of joints, and the animations of the joints: what the Requiem models and levels are
+/// converted to (glTF 2.0 with embedded data), and what this viewer reads of such a file. Vertices are in the space of their
+/// joint (every vertex belongs to one joint), one vertex per face corner. A model has one part (one picture), a level one
+/// per texture.
 struct RigScene
 {
+    std::vector<RigPart> Parts; // cover Indices, in order
     std::vector<float> Positions; // x, y, z per vertex, in the space of the joint
     std::vector<float> Uvs;       // u, v per vertex
     std::vector<std::uint8_t> JointOf;
@@ -44,9 +56,9 @@ struct RigScene
     std::vector<std::array<float, 3>> RestTranslation;
     std::vector<std::array<float, 4>> RestRotation; // x y z w
     std::vector<RigAnimation> Animations;
-    int ArtSlot{-1};       // picture of the model: slot of the art archive of the game (-1: none)
-    double UvSize{1};      // texture coordinates times this are texels of the picture
-    std::string Label;     // what the file calls the texture
+    int ArtSlot{-1};       // picture of the first part (the model): slot of the art archive of the game (-1: none)
+    double UvSize{1};      // of the first part
+    std::string Label;     // what the file calls the texture of the first part
     std::array<double, 3> Center{0, 0, 0}; // of the rest pose
     double Radius{1};
 };

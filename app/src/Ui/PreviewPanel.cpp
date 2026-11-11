@@ -214,7 +214,7 @@ void PreviewPanel::ShowResult(const Core::PreviewResult &result)
         break;
     case Core::PreviewKind::RIG:
         StopAudio();
-        _rig->SetScene(result.Rig, result.RigTexture);
+        _rig->SetScene(result.Rig, result.RigTextures);
         if (_modelAnimation)
         {
             _rig->SelectAnimation(*_modelAnimation);

@@ -35,7 +35,7 @@ enum class PreviewKind
     TEXT,
     MESH, // Mesh holds the geometry of an OBJ file
     MODEL, // Scene holds a Descent 3 model (textures, pose and effects are drawn by the viewer)
-    RIG,   // Rig holds a skinned model with animations (glTF of the Requiem models), RigTexture its picture if found
+    RIG,   // Rig holds a skinned model with animations (glTF of the Requiem models and levels), RigTextures its pictures
     AUDIO, // Bytes hold the whole sound file (wav, mp3, ogg...)
     HEX,   // Text holds a hex dump of the first bytes
     ERROR_MESSAGE
@@ -64,7 +64,7 @@ struct PreviewResult
     std::shared_ptr<const Mesh> Geometry;
     std::shared_ptr<const OofScene> Scene;
     std::shared_ptr<const RigScene> Rig;
-    std::shared_ptr<const DecodedImage> RigTexture;
+    std::vector<std::shared_ptr<const DecodedImage>> RigTextures; // per part of the rig (nullptr: not found)
     std::vector<std::byte> Bytes;
     std::int64_t EntrySize{0};
     /// What the first bytes of the entry say (FileTypes.h); set by the worker, not by Prepare.

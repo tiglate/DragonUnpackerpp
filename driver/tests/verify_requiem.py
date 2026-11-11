@@ -109,3 +109,28 @@ for joint, want in ((0, (1, 0, 0)), (1, (1, 1, 0)), (2, (0, 1, 0))):
     if len(sw) != 3 or max(abs(a - b) for a, b in zip(sw[joint][1], want)) > 1e-4:
         sys.exit("animation pack: solo limb %d at %s, expected %s" % (joint, sw.get(joint, (0, None))[1], want))
 print("requiem animation pack: OK")
+
+# A level (.jam): level.gltf has the pieces of the cut face and the face that was not cut, not the face without
+# texture; one primitive per texture (art slots 7 and 9), texture coordinates = texels / 128 with V negated
+REQ_LEVEL_VERTICES = [(0, 0, 0), (10, 0, 0), (10, 0, 10), (0, 0, 10), (5, 5, 5)]     # as made by make_fixtures.py
+REQ_LEVEL_PIECES = [((0, 1, 2), ((0.05, 0.05), (64, 0.05), (64, 64))), ((0, 2, 3), ((0.05, 0.05), (64, 64), (0.05, 64)))]
+want = {7: REQ_LEVEL_PIECES, 9: [((0, 1, 4), ((0, 0),) * 3)]}
+for version in (0, 2):
+    with tempfile.TemporaryDirectory() as tmp:
+        r = subprocess.run([cli, plugin, os.path.join(fx, "req_v%d.jam" % version), "5-5", tmp], capture_output=True, text=True, timeout=60)
+        if r.returncode:
+            sys.exit("level extraction failed: " + r.stderr)
+        g, buf = gltf_ref.load(os.path.join(tmp, "5_level.gltf"))
+    prims = g["meshes"][0]["primitives"]
+    slots = [g["materials"][p["material"]]["extras"] for p in prims]
+    if slots != [{"artSlot": 7, "uvSize": 128}, {"artSlot": 9, "uvSize": 128}]:
+        sys.exit("level: materials %s" % slots)
+    for prim, extras in zip(prims, slots):
+        pos, _ = gltf_ref.accessor(g, buf, prim["attributes"]["POSITION"])
+        uv, _ = gltf_ref.accessor(g, buf, prim["attributes"]["TEXCOORD_0"])
+        tris, _ = gltf_ref.accessor(g, buf, prim["indices"])
+        corners = [(REQ_LEVEL_VERTICES[i], (u / 128, -v / 128)) for idx, uvs in want[extras["artSlot"]] for i, (u, v) in zip(idx, uvs)]
+        got = [(pos[t[0]], uv[t[0]]) for t in tris]
+        if len(got) != len(corners) or any(max(abs(a - b) for a, b in zip(p + q, wp + wq)) > 1e-6 for (p, q), (wp, wq) in zip(got, corners)):
+            sys.exit("level v%d slot %d: corners %s, expected %s" % (version, extras["artSlot"], got, corners))
+print("requiem level: OK")

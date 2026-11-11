@@ -441,12 +441,39 @@ auto PreviewWorker::Prepare(const std::string &fileName, const std::string &form
         if (auto rig = ParseRigGltf(std::string_view(reinterpret_cast<const char *>(bytes.data()), bytes.size())))
         {
             auto scene = std::make_shared<const RigScene>(std::move(*rig));
-            if (scene->ArtSlot >= 0 && context.RigTexture)
+            if (context.RigTexture)
             {
-                result.RigTexture = context.RigTexture(scene->ArtSlot);
-                if (result.RigTexture == nullptr)
+                // one picture per part (a level has one per texture), each slot fetched once
+                std::unordered_map<int, std::shared_ptr<const DecodedImage>> bySlot;
+                std::vector<int> missing;
+                for (const auto &part : scene->Parts)
                 {
-                    result.Message = "texture " + std::to_string(scene->ArtSlot) + " of the art archive not found (it is looked for in the Art folder of the game)";
+                    std::shared_ptr<const DecodedImage> picture;
+                    if (part.ArtSlot >= 0)
+                    {
+                        if (const auto known = bySlot.find(part.ArtSlot); known != bySlot.end())
+                        {
+                            picture = known->second;
+                        }
+                        else
+                        {
+                            picture = context.RigTexture(part.ArtSlot);
+                            bySlot.emplace(part.ArtSlot, picture);
+                            if (picture == nullptr)
+                            {
+                                missing.push_back(part.ArtSlot);
+                            }
+                        }
+                    }
+                    result.RigTextures.push_back(std::move(picture));
+                }
+                if (missing.size() == 1)
+                {
+                    result.Message = "texture " + std::to_string(missing.front()) + " of the art archive not found (it is looked for in the Art folder of the game)";
+                }
+                else if (!missing.empty())
+                {
+                    result.Message = std::to_string(missing.size()) + " textures of the art archive not found (they are looked for in the Art folder of the game)";
                 }
             }
             result.Kind = PreviewKind::RIG;

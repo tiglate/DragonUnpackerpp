@@ -23,7 +23,11 @@ struct RigCamera
 
 /// Draws the rig in a pose with an orthographic camera (the same scale on every axis, +Y up) into an RGBA picture: triangles
 /// with a depth buffer, lit from the camera on both sides, textured with the picture when there is one (texture coordinates
-/// times scene.UvSize are texels, repeating), plain gray otherwise.
+/// times the UvSize of the part are texels, repeating), plain gray otherwise.
+/// textures holds the picture of each part of the scene (nullptr or missing: plain gray).
+[[nodiscard]] auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, const RigCamera &camera, std::uint32_t width,
+                             std::uint32_t height, std::array<std::uint8_t, 3> background, const std::vector<const DecodedImage *> &textures) -> DecodedImage;
+/// The same with one picture for every part.
 [[nodiscard]] auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, const RigCamera &camera, std::uint32_t width,
                              std::uint32_t height, std::array<std::uint8_t, 3> background, const DecodedImage *texture) -> DecodedImage;
 } // namespace Dup::Core

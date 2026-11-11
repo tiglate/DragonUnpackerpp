@@ -166,11 +166,11 @@ RigViewer::RigViewer(QWidget *parent)
 
 RigViewer::~RigViewer() = default;
 
-void RigViewer::SetScene(std::shared_ptr<const Core::RigScene> scene, std::shared_ptr<const Core::DecodedImage> texture)
+void RigViewer::SetScene(std::shared_ptr<const Core::RigScene> scene, std::vector<std::shared_ptr<const Core::DecodedImage>> textures)
 {
     StopPlaying();
     _scene = std::move(scene);
-    _texture = std::move(texture);
+    _textures = std::move(textures);
     _camera = Core::RigCamera{};
     _u = 0;
     {
@@ -205,7 +205,13 @@ auto RigViewer::Seconds() const -> double
 auto RigViewer::CurrentFrameImage(std::uint32_t width, std::uint32_t height) const -> Core::DecodedImage
 {
     const auto pose = Core::EvaluateRig(*_scene, _animation, Seconds());
-    return Core::RenderRig(*_scene, pose, _camera, width, height, {30, 32, 38}, _texture.get());
+    std::vector<const Core::DecodedImage *> pictures;
+    pictures.reserve(_textures.size());
+    for (const auto &texture : _textures)
+    {
+        pictures.push_back(texture.get());
+    }
+    return Core::RenderRig(*_scene, pose, _camera, width, height, {30, 32, 38}, pictures);
 }
 
 void RigViewer::UpdateControls()
