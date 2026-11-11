@@ -5,7 +5,8 @@
 // Requiem: Avenging Angel animation pack (Models/AnimFile.ary + AnimFile.bin). Either file can be opened, the other
 // is looked for in the same directory. The .ARY index is a u32 count, then per record 16 bytes: offset u32, 0, size
 // u32, 0xCDCDCDCD (left over memory of the tool that wrote it); the records follow one another and fill the .BIN.
-// Each record is an animation file (the layout is in codecs/RequiemModel.cpp), listed as it is (anim_NNN.bin).
+// Each record is an animation file (the layout is in codecs/RequiemModel.cpp), listed as it is: anim_NNN.bin, or
+// raw/NNN_<animation>.ani when AnimFile.tab and Models3.txt give its name.
 // When AnimFile.tab (model id * 40 + animation number -> record) and Models3.txt ("M id slot file.mdl", then
 // "A n file.ani") are next to it, every animation is also shown on its model: "<model>/<animation>.gltf", the
 // animated glTF of the model with that animation alone (only when the animation fits the limbs of the model).
@@ -54,12 +55,20 @@ class RequiemAnimArchive : public Archive
             Fail(DUDI7_ERR_NOTFORMAT, "Not a Requiem animation pack");
         _formatId = "Requiem ANIM";
         _dirSeparator = "";
+        // with AnimFile.tab and Models3.txt, the records go to raw/ named by their animation (the first name listed)
+        const std::vector<std::string> names = RecordNames(aryPath);
         char name[32];
         for (size_t i = 0; i < _records.size(); ++i)
         {
-            std::snprintf(name, sizeof name, "anim_%03zu.bin", i);
-            Add(name, _records[i].Offset, _records[i].Size);
+            if (names.empty())
+                std::snprintf(name, sizeof name, "anim_%03zu.bin", i);
+            else
+                std::snprintf(name, sizeof name, "raw/%03zu", i);
+            const std::string full = names.empty() ? name : std::string(name) + (names[i].empty() ? "" : "_" + names[i]) + ".ani";
+            Add(full, _records[i].Offset, _records[i].Size);
         }
+        if (!names.empty())
+            _dirSeparator = "/";
         AddModels(aryPath);
         if (!_shown.empty())
         {
@@ -107,6 +116,35 @@ class RequiemAnimArchive : public Archive
         if (!bytes.empty())
             _stream->ReadBuffer(bytes.data(), bytes.size());
         return bytes;
+    }
+
+    // The animation name of every record (empty when none names it); no names at all without AnimFile.tab and
+    // Models3.txt next to the pack
+    auto RecordNames(const std::string &aryPath) const -> std::vector<std::string>
+    {
+        using namespace RequiemModel;
+        const std::string tabPath = Sibling(aryPath, ".tab");
+        if (tabPath.empty())
+            return {};
+        namespace fs = std::filesystem;
+        const std::string folder = fs::path(std::u8string(aryPath.begin(), aryPath.end())).parent_path().string();
+        const std::vector<ModelEntry> entries = ReadModels3(folder);
+        if (entries.empty())
+            return {};
+        const std::vector<uint16_t> table = ReadAnimTable(tabPath);
+        std::vector<std::string> names(_records.size());
+        for (const ModelEntry &e : entries)
+        {
+            if (e.Kind != 'M')
+                continue;
+            for (const auto &[number, animationFile] : e.Animations)
+            {
+                const auto record = AnimRecordOf(table, e.Id, number);
+                if (record && *record < names.size() && names[*record].empty())
+                    names[*record] = ChangeFileExt(FileNameOf(animationFile), "");
+            }
+        }
+        return names;
     }
 
     // The glTF entries; nothing here can fail the archive: a model or an animation that does not fit is left out.

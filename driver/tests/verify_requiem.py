@@ -61,7 +61,7 @@ print("requiem pose: OK")
 pack = os.path.join(fx, "req_pack")
 r = subprocess.run([cli, plugin, os.path.join(pack, "AnimFile.ary"), "list"], capture_output=True, text=True, timeout=60)
 names = [l.split("\t")[4] for l in r.stdout.splitlines()[1:]]
-if r.returncode or names != ["anim_000.bin", "anim_001.bin", "anim_002.bin", "pack_skel/walk.gltf", "pack_skel/walk_2_5.gltf",
+if r.returncode or names != ["raw/000_junk.ani", "raw/001_walk.ani", "raw/002_filled.ani", "pack_skel/walk.gltf", "pack_skel/walk_2_5.gltf",
                               "pack_skel/filled.gltf"]:
     sys.exit("animation pack: %s %s" % (names, r.stderr))
 binary = open(os.path.join(pack, "AnimFile.bin"), "rb").read()
@@ -70,7 +70,7 @@ with tempfile.TemporaryDirectory() as tmp:
     r2 = subprocess.run([cli, plugin, os.path.join(pack, "pack_skel.mdl"), "0-2", tmp], capture_output=True, text=True, timeout=60)
     if r.returncode or r2.returncode:
         sys.exit("extraction failed: " + r.stderr + r2.stderr)
-    if b"".join(open(os.path.join(tmp, "%d_anim_%03d.bin" % (i, i)), "rb").read() for i in range(3)) != binary:
+    if b"".join(open(os.path.join(tmp, "%d_%03d_%s.ani" % (i, i, n)), "rb").read() for i, n in enumerate(("junk", "walk", "filled"))) != binary:
         sys.exit("animation pack: the raw records are not the .bin")
     # each glTF of the pack poses the model as the animation of the same name in the model's own glTF
     own, ownbuf = gltf_ref.load(os.path.join(tmp, "2_pack_skel.gltf"))
