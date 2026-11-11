@@ -237,6 +237,16 @@ auto Rotate(const Matrix &m, const Vec &v) -> Vec
 }
 
 // The words of an animation body; reads past the end fail instead of reading
+// The fill of uninitialised memory of the Microsoft debug runtime, found in place of data in a few records
+constexpr uint32_t Uninitialized = 0xCDCDCDCD;
+
+auto AsFloat(uint32_t bits) -> double
+{
+    float v;
+    std::memcpy(&v, &bits, 4);
+    return v;
+}
+
 class Words
 {
   public:
@@ -269,10 +279,7 @@ class Words
     }
     auto F32() -> double
     {
-        const uint32_t bits = U32();
-        float v;
-        std::memcpy(&v, &bits, 4);
-        return v;
+        return AsFloat(U32());
     }
     // The count and the key times of an animated value; false if they do not fit. Keys follow.
     auto Spline(uint32_t keyWords, uint32_t &count, std::vector<double> &times, size_t &keys) -> bool
@@ -348,7 +355,13 @@ auto SamplePose(const std::vector<uint8_t> &file, size_t limbs, double t, double
         {
             if (!(flags & 4))
             {
-                pose[limb].Position = {w.F32(), w.F32(), w.F32()};
+                const uint32_t x = w.U32();
+                const uint32_t y = w.U32();
+                const uint32_t z = w.U32();
+                // two records of AnimFile.bin (civthrash2 and civthrash3) hold the 0xCDCDCDCD fill of the tool that
+                // wrote them instead of a position: taken as no position, as for a limb without one
+                if (x != Uninitialized || y != Uninitialized || z != Uninitialized)
+                    pose[limb].Position = {AsFloat(x), AsFloat(y), AsFloat(z)};
             }
             else
             {
