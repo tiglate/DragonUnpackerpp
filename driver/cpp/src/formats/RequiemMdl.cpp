@@ -53,7 +53,7 @@ class RequiemMdlArchive : public Archive
             // a static model is a skeleton of one limb without animation, so the viewer can show it with its texture
             namespace fs = std::filesystem;
             const std::string path = _stream->Path();
-            SlotsOf(ReadModels3(fs::path(std::u8string(path.begin(), path.end())).parent_path().string()), FileNameOf(path), m.ArtSlot,
+            SlotsOf(ReadModels3(Utf8Of(PathOf(path).parent_path())), FileNameOf(path), m.ArtSlot,
                     m.OtherSlots);
             Model one = m;
             one.SectionCodes = {0};
