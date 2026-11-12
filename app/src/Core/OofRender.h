@@ -49,6 +49,8 @@ struct OofCamera
     double Yaw{0.6};
     double Pitch{0.4};
     double Zoom{1.0};
+    double PanX{0.0}; // pixels the view is moved right
+    double PanY{0.0}; // pixels the view is moved down
     bool CullBackFaces{true}; // the game's one-sided test, with the stored face normals
     bool Wireframe{false};
 };

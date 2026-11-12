@@ -4,6 +4,8 @@
 
 #include "Ui/RigViewer.h"
 
+#include "Ui/ViewNavigation.h"
+
 #include <QComboBox>
 #include <QHBoxLayout>
 #include <QImage>
@@ -36,6 +38,8 @@ class RigCanvas : public QWidget
     {
         setFocusPolicy(Qt::StrongFocus);
         setMinimumSize(120, 120);
+        setContextMenuPolicy(Qt::PreventContextMenu); // the right button moves the view
+        setObjectName("viewCanvas"); // found by the test hook MainWindow::TestViewDrag
     }
 
   protected:
@@ -51,29 +55,26 @@ class RigCanvas : public QWidget
         const auto image = _owner->CurrentFrameImage(static_cast<std::uint32_t>(width()), static_cast<std::uint32_t>(height()));
         const QImage qimage(image.Rgba.data(), static_cast<int>(image.Width), static_cast<int>(image.Height), static_cast<qsizetype>(image.Width) * 4, QImage::Format_RGBA8888);
         painter.drawImage(0, 0, qimage);
+        ViewNavigation::DrawHint(painter, rect(), QColor(200, 200, 210));
     }
     void mousePressEvent(QMouseEvent *event) override
     {
-        _last = event->pos();
+        ViewNavigation::Press(event, _last);
         setFocus();
     }
     void mouseMoveEvent(QMouseEvent *event) override
     {
-        if ((event->buttons() & Qt::LeftButton) != 0)
+        if (ViewNavigation::Move(event, _last, View()))
         {
-            auto &camera = _owner->_camera;
-            camera.Yaw -= (event->pos().x() - _last.x()) * 0.01;
-            camera.Pitch = std::clamp(camera.Pitch + (event->pos().y() - _last.y()) * 0.01, -1.5, 1.5);
-            _last = event->pos();
             update();
         }
     }
     void wheelEvent(QWheelEvent *event) override
     {
-        auto &camera = _owner->_camera;
-        camera.Zoom = std::clamp(camera.Zoom * (event->angleDelta().y() > 0 ? 1.15 : 1.0 / 1.15), 0.1, 50.0);
-        update();
-        event->accept();
+        if (ViewNavigation::Wheel(event, size(), View()))
+        {
+            update();
+        }
     }
     void keyPressEvent(QKeyEvent *event) override
     {
@@ -90,7 +91,7 @@ class RigCanvas : public QWidget
         {
             _owner->_play->click();
         }
-        else
+        else if (!ViewNavigation::Key(event, this, View(), Keys()))
         {
             QWidget::keyPressEvent(event);
             return;
@@ -99,6 +100,17 @@ class RigCanvas : public QWidget
     }
 
   private:
+    auto View() -> ViewState
+    {
+        auto &camera = _owner->_camera;
+        return {camera.Yaw, camera.Pitch, camera.Zoom, camera.PanX, camera.PanY, -1.0};
+    }
+    static auto Keys() -> std::vector<ViewNavigation::Shortcut>
+    {
+        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space: B is not for this viewer
+        return {all[0], all[1], all[3]};
+    }
+
     RigViewer *_owner;
     QPoint _last;
 };

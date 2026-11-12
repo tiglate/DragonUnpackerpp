@@ -4,7 +4,7 @@
 <context>
     <name>Dup::Ui</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1318" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1374" />
         <source>Too much to drag out (%1 files): use Extract</source>
         <translation>要拖出的文件太多（%1 个）：请使用“提取”</translation>
     </message>
@@ -541,89 +541,89 @@ Author: %2</source>
 <context>
     <name>Dup::Ui::MainWindow</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="125" />
+        <location filename="../src/Ui/MainWindow.cpp" line="128" />
         <source>Filter by name (Ctrl+F)</source>
         <translation>按名称筛选 (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="131" />
+        <location filename="../src/Ui/MainWindow.cpp" line="134" />
         <source>Whole archive</source>
         <translation>整个归档</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="132" />
+        <location filename="../src/Ui/MainWindow.cpp" line="135" />
         <source>Search in every folder (Ctrl+Shift+F)</source>
         <translation>在所有文件夹中搜索 (Ctrl+Shift+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="137" />
+        <location filename="../src/Ui/MainWindow.cpp" line="140" />
         <source>Show only the files of one type (the extension)</source>
         <translation>只显示一种类型（扩展名）的文件</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="147" />
-        <location filename="../src/Ui/MainWindow.cpp" line="167" />
+        <location filename="../src/Ui/MainWindow.cpp" line="150" />
+        <location filename="../src/Ui/MainWindow.cpp" line="171" />
         <location filename="../src/Ui/MainWindow.cpp" line="863" />
         <source>%1 entries</source>
         <translation>%1 个条目</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="202" />
+        <location filename="../src/Ui/MainWindow.cpp" line="206" />
         <source>Thumbnail size</source>
         <translation>缩略图大小</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="239" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1243" />
         <source>Extract selected...</source>
         <translation>提取所选项...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="240" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1263" />
         <source>Extract all...</source>
         <translation>全部提取...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="242" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1244" />
         <source>Extract selected, images as PNG...</source>
         <translation>提取所选项，图像保存为 PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="247" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1256" />
         <source>Use as palette for previews</source>
         <translation>用作预览调色板</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="248" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1260" />
         <source>Show the pictures in their own colors</source>
         <translation>以图像自身的颜色显示</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="254" />
+        <location filename="../src/Ui/MainWindow.cpp" line="253" />
         <source>Extract this folder...</source>
         <translation>提取此文件夹...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="285" />
+        <location filename="../src/Ui/MainWindow.cpp" line="284" />
         <source>Detected: %1 (%2%)</source>
         <translation>检测到：%1（%2%）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="289" />
+        <location filename="../src/Ui/MainWindow.cpp" line="288" />
         <source>Detected: %1</source>
         <translation>检测到：%1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="296" />
+        <location filename="../src/Ui/MainWindow.cpp" line="295" />
         <source>Driver: %1 (%2 formats)</source>
         <translation>驱动程序：%1（%2 种格式）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="300" />
+        <location filename="../src/Ui/MainWindow.cpp" line="299" />
         <source>Driver</source>
         <translation>驱动程序</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="301" />
+        <location filename="../src/Ui/MainWindow.cpp" line="300" />
         <source>Cannot load the driver:
 %1
 %2</source>
@@ -632,144 +632,150 @@ Author: %2</source>
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="315" />
+        <location filename="../src/Ui/MainWindow.cpp" line="314" />
         <source>&amp;File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="316" />
+        <location filename="../src/Ui/MainWindow.cpp" line="315" />
         <source>&amp;Open...</source>
         <translation>打开...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="318" />
+        <location filename="../src/Ui/MainWindow.cpp" line="317" />
         <source>Open &amp;recent</source>
         <translation>打开最近的文件</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="321" />
+        <location filename="../src/Ui/MainWindow.cpp" line="320" />
         <source>&amp;Extract selected...</source>
         <translation>提取所选项...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="323" />
+        <location filename="../src/Ui/MainWindow.cpp" line="322" />
         <source>Extract &amp;all...</source>
         <translation>全部提取...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="325" />
+        <location filename="../src/Ui/MainWindow.cpp" line="324" />
         <source>Extract selected, images as &amp;PNG...</source>
         <translation>提取所选项，图像保存为 PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="326" />
+        <location filename="../src/Ui/MainWindow.cpp" line="325" />
         <source>Extract all, images as P&amp;NG...</source>
         <translation>全部提取，图像保存为 PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="327" />
+        <location filename="../src/Ui/MainWindow.cpp" line="326" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1245" />
         <source>Extract selected, converted with...</source>
         <translation>提取所选项，并使用以下工具转换...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="328" />
+        <location filename="../src/Ui/MainWindow.cpp" line="327" />
         <source>Extract all, converted with...</source>
         <translation>全部提取，并使用以下工具转换...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="331" />
+        <location filename="../src/Ui/MainWindow.cpp" line="330" />
         <source>Create a li&amp;st from a template...</source>
         <translation>根据模板创建列表...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="333" />
+        <location filename="../src/Ui/MainWindow.cpp" line="332" />
         <source>Export the &amp;list of entries...</source>
         <translation>导出条目列表...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="338" />
+        <location filename="../src/Ui/MainWindow.cpp" line="337" />
         <source>&amp;Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="341" />
+        <location filename="../src/Ui/MainWindow.cpp" line="340" />
         <source>&amp;View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="342" />
+        <location filename="../src/Ui/MainWindow.cpp" line="341" />
         <source>Include &amp;subfolders</source>
         <translation>包含子文件夹</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="350" />
+        <location filename="../src/Ui/MainWindow.cpp" line="349" />
         <source>&amp;Details</source>
         <translation>详细信息</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="351" />
+        <location filename="../src/Ui/MainWindow.cpp" line="350" />
         <source>&amp;Thumbnails</source>
         <translation>缩略图</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="364" />
+        <location filename="../src/Ui/MainWindow.cpp" line="363" />
         <source>&amp;Back</source>
         <translation>后退</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="366" />
+        <location filename="../src/Ui/MainWindow.cpp" line="365" />
         <source>&amp;Forward</source>
         <translation>前进</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="368" />
+        <location filename="../src/Ui/MainWindow.cpp" line="367" />
         <source>&amp;Up one folder</source>
         <translation>上一级文件夹</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="372" />
+        <location filename="../src/Ui/MainWindow.cpp" line="371" />
         <source>&amp;Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="374" />
+        <location filename="../src/Ui/MainWindow.cpp" line="373" />
         <source>&amp;Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="374" />
+        <location filename="../src/Ui/MainWindow.cpp" line="373" />
         <source>&amp;System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="375" />
+        <location filename="../src/Ui/MainWindow.cpp" line="374" />
         <source>&amp;Light</source>
         <translation>浅色</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="389" />
+        <location filename="../src/Ui/MainWindow.cpp" line="388" />
         <source>&amp;Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="390" />
+        <location filename="../src/Ui/MainWindow.cpp" line="389" />
         <source>&amp;HyperRipper...</source>
         <translation>HyperRipper...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="391" />
+        <location filename="../src/Ui/MainWindow.cpp" line="390" />
         <source>&amp;Identify the file types</source>
         <translation>识别文件类型</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="395" />
+        <location filename="../src/Ui/MainWindow.cpp" line="394" />
         <source>&amp;Options...</source>
         <translation>选项...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="401" />
+        <location filename="../src/Ui/MainWindow.cpp" line="400" />
         <source>&amp;Help</source>
         <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/MainWindow.cpp" line="401" />
+        <source>&amp;3D viewer controls...</source>
+        <translation>3D 查看器操作...</translation>
     </message>
     <message>
         <location filename="../src/Ui/MainWindow.cpp" line="402" />
@@ -856,7 +862,7 @@ Driver: %1, %2 formats
     </message>
     <message>
         <location filename="../src/Ui/MainWindow.cpp" line="516" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1534" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1590" />
         <source>All files (*)</source>
         <translation>所有文件 (*)</translation>
     </message>
@@ -924,147 +930,147 @@ Driver: %1, %2 formats
         <translation>（无扩展名）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1054" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
         <source>Name:    %1
 </source>
         <translation>名称：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1056" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1061" />
         <source>Path:    %1
 </source>
         <translation>路径：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1057" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1062" />
         <source>Size:    %1 (%2 bytes)
 </source>
         <translation>大小：    %1（%2 字节）
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1058" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1063" />
         <source>Offset:  %1
 </source>
         <translation>偏移：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1064" />
         <source>Format:  %1
 </source>
         <translation>格式：    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1082" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1087" />
         <source>Previews use the palette %1</source>
         <translation>预览使用调色板 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1158" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1165" />
         <source>File exists</source>
         <translation>文件已存在</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1159" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1166" />
         <source>The file already exists:
 %1</source>
         <translation>文件已存在：
 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1160" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1167" />
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1161" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1168" />
         <source>Overwrite all</source>
         <translation>全部覆盖</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1162" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1169" />
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1163" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1170" />
         <source>Skip all</source>
         <translation>全部跳过</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1164" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1171" />
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1190" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1201" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1258" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1197" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1208" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1314" />
         <source>Nothing is selected</source>
         <translation>未选择任何内容</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1193" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1200" />
         <source>Extract the selection to</source>
         <translation>将所选项提取到</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1204" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1211" />
         <source>Extract the selection (images as PNG) to</source>
         <translation>将所选项提取到（图像保存为 PNG）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1239" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1295" />
         <source>%1 (to .%2)</source>
         <translation>%1（转为 .%2）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1261" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1317" />
         <source>Extract (converted with %1) to</source>
         <translation>提取到（使用 %1 转换）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1266" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1322" />
         <source>No tool: put .ini files in %1</source>
         <translation>没有工具：请将 .ini 文件放入 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1279" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1335" />
         <source>Extract everything (images as PNG) to</source>
         <translation>全部提取到（图像保存为 PNG）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1469" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1525" />
         <source>Identifying the file types: %1 of %2</source>
         <translation>正在识别文件类型：%1 / %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1482" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1538" />
         <source>%1 file types identified: %2</source>
         <translation>已识别 %1 个文件类型：%2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1535" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1591" />
         <source>Save the list to...</source>
         <translation>将列表保存到...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1601" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1657" />
         <source>CSV (*.csv);;JSON (*.json);;Text (*.txt)</source>
         <translation>CSV (*.csv);;JSON (*.json);;文本 (*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1602" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1658" />
         <source>Export the list of entries</source>
         <translation>导出条目列表</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1618" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1605" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1674" />
         <source>Export</source>
         <translation>导出</translation>
     </message>
@@ -1074,24 +1080,24 @@ Driver: %1, %2 formats
         <translation>&lt;p&gt;%1：%2 种格式&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1549" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1618" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1605" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1674" />
         <source>Cannot write %1</source>
         <translation>无法写入 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1563" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1621" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1619" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1677" />
         <source>%1 entries written to %2</source>
         <translation>已将 %1 个条目写入 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1632" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1688" />
         <source>Extract everything to</source>
         <translation>全部提取到</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1643" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1699" />
         <source>Extract the folder to</source>
         <translation>将文件夹提取到</translation>
     </message>
@@ -1099,7 +1105,7 @@ Driver: %1, %2 formats
 <context>
     <name>Dup::Ui::MeshViewer</name>
     <message>
-        <location filename="../src/Ui/MeshViewer.cpp" line="41" />
+        <location filename="../src/Ui/MeshViewer.cpp" line="46" />
         <source>Mesh: %1 vertices, %2 triangles</source>
         <translation>网格：%1 个顶点，%2 个三角形</translation>
     </message>
@@ -1107,44 +1113,44 @@ Driver: %1, %2 formats
 <context>
     <name>Dup::Ui::ModelViewer</name>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="112" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="123" />
         <source>Animate</source>
         <translation>动画</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="113" />
-        <location filename="../src/Ui/ModelViewer.cpp" line="253" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="124" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="264" />
         <source>Play</source>
         <translation>播放</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="128" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="139" />
         <source>Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.</source>
         <translation>关闭：按无动画时的样子绘制模型。开启：显示滑块位置处的动画轨道。</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="129" />
-        <location filename="../src/Ui/ModelViewer.cpp" line="197" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="140" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="208" />
         <source>rest pose</source>
         <translation>静止姿势</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="135" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="146" />
         <source>Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)</source>
         <translation>播放速度（1x 时动画一次播放需 4 秒；$rotate 部件随之转动）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="163" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="174" />
         <source>Pause</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="197" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="208" />
         <source>%1%</source>
         <translation>%1%</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="206" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="217" />
         <source>Model: %1 subobjects, %2 triangles</source>
         <translation>模型：%1 个子对象，%2 个三角形</translation>
     </message>
@@ -1483,43 +1489,43 @@ Driver: %1, %2 formats
 <context>
     <name>Dup::Ui::RigViewer</name>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="107" />
-        <location filename="../src/Ui/RigViewer.cpp" line="266" />
+        <location filename="../src/Ui/RigViewer.cpp" line="118" />
+        <location filename="../src/Ui/RigViewer.cpp" line="283" />
         <source>Play</source>
         <translation>播放</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="123" />
+        <location filename="../src/Ui/RigViewer.cpp" line="134" />
         <source>The animation to show</source>
         <translation>要显示的动画</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="131" />
+        <location filename="../src/Ui/RigViewer.cpp" line="142" />
         <source>Speed of the playback (1x is the speed of the game, 25 frames per second)</source>
         <translation>播放速度（1x 为游戏速度，每秒 25 帧）</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="160" />
+        <location filename="../src/Ui/RigViewer.cpp" line="171" />
         <source>Pause</source>
         <translation>暂停</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="185" />
+        <location filename="../src/Ui/RigViewer.cpp" line="196" />
         <source>animation %1</source>
         <translation>动画 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="218" />
+        <location filename="../src/Ui/RigViewer.cpp" line="235" />
         <source>frame %1 / %2</source>
         <translation>帧 %1 / %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="222" />
+        <location filename="../src/Ui/RigViewer.cpp" line="239" />
         <source>rest pose</source>
         <translation>静止姿势</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="232" />
+        <location filename="../src/Ui/RigViewer.cpp" line="249" />
         <source>Model: %1 limbs, %2 triangles, %3 animations</source>
         <translation>模型：%1 个肢体，%2 个三角形，%3 个动画</translation>
     </message>
@@ -1645,6 +1651,95 @@ Driver: %1, %2 formats
         <location filename="../src/Ui/ListTemplates.cpp" line="164" />
         <source>Text Document</source>
         <translation>文本文档</translation>
+    </message>
+</context>
+<context>
+    <name>ViewNavigation</name>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="126" />
+        <source>Wireframe on or off</source>
+        <translation>开启或关闭线框</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="127" />
+        <source>Frame the model again (the first view)</source>
+        <translation>重新框住模型（初始视图）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="128" />
+        <source>Back faces shown or hidden (Outrage models)</source>
+        <translation>显示或隐藏背面（Outrage 模型）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="129" />
+        <source>Space</source>
+        <translation>空格键</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="129" />
+        <source>Play or pause the animation (animated models)</source>
+        <translation>播放或暂停动画（动画模型）</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="140" />
+        <source>Left button drag</source>
+        <translation>按住左键拖动</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="140" />
+        <source>Turn the model</source>
+        <translation>旋转模型</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="141" />
+        <source>Right or middle button drag, or Shift + left button drag</source>
+        <translation>按住右键或中键拖动，或 Shift + 左键拖动</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="141" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="143" />
+        <source>Move the model</source>
+        <translation>移动模型</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
+        <source>Wheel</source>
+        <translation>滚轮</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
+        <source>Zoom in or out at the pointer</source>
+        <translation>在指针处放大或缩小</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="143" />
+        <source>Arrow keys</source>
+        <translation>方向键</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="144" />
+        <source>Zoom in or out</source>
+        <translation>放大或缩小</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="146" />
+        <source>This help</source>
+        <translation>本帮助</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="152" />
+        <source>Click the view first: the keys go to the view that has the focus.</source>
+        <translation>请先单击视图：按键会发送到拥有焦点的视图。</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="155" />
+        <source>3D viewer controls</source>
+        <translation>3D 查看器操作</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="168" />
+        <source>H: help</source>
+        <translation>H：帮助</translation>
     </message>
 </context>
 </TS>

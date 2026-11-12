@@ -62,6 +62,7 @@ add_executable(dragonunpacker
     Ui/PreviewPanel.cpp
     Ui/QtLogSink.cpp
     Ui/RigViewer.cpp
+    Ui/ViewNavigation.cpp
     Ui/ThemeManager.cpp)
 target_compile_definitions(dragonunpacker PRIVATE DUP_VERSION="${PROJECT_VERSION}")
 target_link_libraries(dragonunpacker PRIVATE Core Qt6::Widgets Qt6::Multimedia Qt6::Svg)

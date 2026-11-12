@@ -63,7 +63,7 @@ add_test(NAME ui_hyperripper_open
                  --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_rip.png --quit)
 set_tests_properties(ui_hyperripper_open PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
-foreach(DIALOG options hyperripper)
+foreach(DIALOG options hyperripper viewer-help)
     add_test(NAME ui_dialog_${DIALOG}
              COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --show-dialog=${DIALOG}
                      --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_dialog_${DIALOG}.png --quit)
@@ -94,6 +94,12 @@ add_test(NAME ui_thumbnail_right_click
                  --select=hello.txt --right-click=empty.dat --print-entry-menu)
 set_tests_properties(ui_thumbnail_right_click PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60
                      PASS_REGULAR_EXPRESSION "- empty.dat\n\\+ ")
+
+# the level of the .jam fixture in the 3D viewer, moved with the right button (the hook fails when no 3D view is shown)
+add_test(NAME ui_view_drag
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_v2.jam --select=level.gltf
+                 --view-drag=right,40,20 --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_drag.png --quit)
+set_tests_properties(ui_view_drag PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
 add_test(NAME ui_drag_out
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/dups.wad --test-drag-out --quit)

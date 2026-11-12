@@ -100,6 +100,8 @@ class MainWindow : public QMainWindow
     void ClickThumbnail(int row, Qt::MouseButton button = Qt::LeftButton);
     /// The right-click menu of the selection, one action per line ("+ " enabled, "- " disabled) (tests)
     auto TestEntryMenu() -> std::string;
+    /// Drags with the mouse in the 3D view of the preview (tests): press, a move by delta, release; false if no 3D view is shown
+    auto TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool;
 
     /// Waits for the jobs; the number of entries that could not be extracted so far.
     auto WaitForJobs() -> int;

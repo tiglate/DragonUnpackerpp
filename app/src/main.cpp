@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--palette=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -13,6 +13,7 @@
 #include "Core/HyperRipper.h"
 #include "Dudi7/Driver.h"
 #include "Ui/AboutDialog.h"
+#include "Ui/ViewNavigation.h"
 #include "Ui/HyperRipperDialog.h"
 #include "Ui/Languages.h"
 #include "Ui/ListDialog.h"
@@ -29,6 +30,7 @@
 #include <spdlog/spdlog.h>
 
 #include <QApplication>
+#include <QThread>
 #include <QDir>
 #include <QIcon>
 #include <QLibraryInfo>
@@ -279,6 +281,30 @@ int main(int argc, char **argv)
     {
         window->SelectEntryByName(QString::fromStdString(clicked), Qt::RightButton);
     }
+    // --view-drag=BUTTON,DX,DY (BUTTON: left, right, middle, shift-left): a drag in the 3D view of the preview
+    if (const auto drag = ArgumentValue(argc, argv, "view-drag"); !drag.empty())
+    {
+        const auto parts = QString::fromStdString(drag).split(',');
+        const QString name = parts.value(0);
+        const Qt::MouseButton button = name == "right" ? Qt::RightButton : name == "middle" ? Qt::MiddleButton : Qt::LeftButton;
+        const Qt::KeyboardModifiers modifiers = name == "shift-left" ? Qt::ShiftModifier : Qt::NoModifier;
+        QCoreApplication::processEvents(); // the preview is prepared on its thread: let its answer arrive
+        bool dragged = false;
+        for (int i = 0; i < 100 && !dragged; ++i)
+        {
+            dragged = window->TestViewDrag(button, modifiers, QPoint(parts.value(1).toInt(), parts.value(2).toInt()));
+            if (!dragged)
+            {
+                QThread::msleep(50);
+                QCoreApplication::processEvents();
+            }
+        }
+        if (!dragged)
+        {
+            spdlog::error("no 3D view to drag in");
+            return 2;
+        }
+    }
     if (HasFlag(argc, argv, "print-entry-menu"))
     {
         std::printf("%s", window->TestEntryMenu().c_str());
@@ -330,7 +356,7 @@ int main(int argc, char **argv)
         }
     }
 
-    // --show-dialog=options|hyperripper|list|about with --screenshot: a picture of the dialog instead of the window
+    // --show-dialog=options|hyperripper|list|about|viewer-help with --screenshot: a picture of the dialog instead of the window
     if (const auto dialogName = ArgumentValue(argc, argv, "show-dialog"); !dialogName.empty() && !ArgumentValue(argc, argv, "screenshot").empty())
     {
         auto &host = injector.create<Dup::Core::DriverHost &>();
@@ -338,6 +364,10 @@ int main(int argc, char **argv)
         if (dialogName == "options")
         {
             dialog = std::make_unique<Dup::Ui::OptionsDialog>(settings, host, window.get());
+        }
+        else if (dialogName == "viewer-help")
+        {
+            dialog = Dup::Ui::ViewNavigation::MakeHelpDialog(window.get(), Dup::Ui::ViewNavigation::AllViewerKeys());
         }
         else if (dialogName == "about")
         {

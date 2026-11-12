@@ -4,6 +4,8 @@
 
 #include "Ui/MeshViewer.h"
 
+#include "Ui/ViewNavigation.h"
+
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPainter>
@@ -25,6 +27,8 @@ MeshViewer::MeshViewer(QWidget *parent) : QWidget(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMinimumSize(120, 120);
+    setContextMenuPolicy(Qt::PreventContextMenu); // the right button moves the view
+    setObjectName("viewCanvas"); // found by the test hook MainWindow::TestViewDrag
 }
 
 void MeshViewer::SetMesh(std::shared_ptr<const Core::Mesh> mesh)
@@ -33,6 +37,8 @@ void MeshViewer::SetMesh(std::shared_ptr<const Core::Mesh> mesh)
     _zoom = 1.0;
     _yaw = 0.6;
     _pitch = 0.4;
+    _panX = 0.0;
+    _panY = 0.0;
     update();
 }
 
@@ -49,6 +55,7 @@ void MeshViewer::paintEvent(QPaintEvent *)
     {
         return;
     }
+    ViewNavigation::DrawHint(painter, rect(), palette().color(QPalette::Text)); // under the model: it stays in its corner
     painter.setRenderHint(QPainter::Antialiasing, true);
     const auto &mesh = *_mesh;
     const std::size_t vertexCount = mesh.Positions.size() / 3;
@@ -83,7 +90,7 @@ void MeshViewer::paintEvent(QPaintEvent *)
         const double z1 = -x * sy + z * cy;
         const double y2 = y * cp - z1 * sp;
         const double z2 = y * sp + z1 * cp;
-        projected[v] = {width() / 2.0 + x1 * scale, height() / 2.0 - y2 * scale, z2 * scale}; // the same scale on all axes: the normals stay right
+        projected[v] = {width() / 2.0 + _panX + x1 * scale, height() / 2.0 + _panY - y2 * scale, z2 * scale}; // the same scale on all axes: the normals stay right
     }
 
     const std::size_t triangleCount = mesh.Triangles.size() / 3;
@@ -142,26 +149,24 @@ void MeshViewer::paintEvent(QPaintEvent *)
 
 void MeshViewer::mousePressEvent(QMouseEvent *event)
 {
-    _last = event->pos();
+    ViewNavigation::Press(event, _last);
     setFocus();
 }
 
 void MeshViewer::mouseMoveEvent(QMouseEvent *event)
 {
-    if ((event->buttons() & Qt::LeftButton) != 0)
+    if (ViewNavigation::Move(event, _last, {_yaw, _pitch, _zoom, _panX, _panY, 1.0}))
     {
-        _yaw += (event->pos().x() - _last.x()) * 0.01;
-        _pitch = std::clamp(_pitch + (event->pos().y() - _last.y()) * 0.01, -1.5, 1.5);
-        _last = event->pos();
         update();
     }
 }
 
 void MeshViewer::wheelEvent(QWheelEvent *event)
 {
-    _zoom = std::clamp(_zoom * (event->angleDelta().y() > 0 ? 1.15 : 1.0 / 1.15), 0.1, 50.0);
-    update();
-    event->accept();
+    if (ViewNavigation::Wheel(event, size(), {_yaw, _pitch, _zoom, _panX, _panY, 1.0}))
+    {
+        update();
+    }
 }
 
 void MeshViewer::keyPressEvent(QKeyEvent *event)
@@ -175,11 +180,17 @@ void MeshViewer::keyPressEvent(QKeyEvent *event)
         _zoom = 1.0;
         _yaw = 0.6;
         _pitch = 0.4;
+        _panX = 0.0;
+        _panY = 0.0;
     }
     else
     {
-        QWidget::keyPressEvent(event);
-        return;
+        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space: W and F here
+        if (!ViewNavigation::Key(event, this, {_yaw, _pitch, _zoom, _panX, _panY, 1.0}, {all[0], all[1]}))
+        {
+            QWidget::keyPressEvent(event);
+            return;
+        }
     }
     update();
 }

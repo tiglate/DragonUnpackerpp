@@ -346,7 +346,7 @@ auto RenderOof(const OofScene &scene, const OofPose &pose, const OofCamera &came
     }
     const auto &model = *scene.Model;
     const View view{std::cos(camera.Yaw), std::sin(camera.Yaw), std::cos(camera.Pitch), std::sin(camera.Pitch),
-                    std::min(width, height) * 0.45 / scene.Radius * camera.Zoom, width / 2.0, height / 2.0, scene.Center};
+                    std::min(width, height) * 0.45 / scene.Radius * camera.Zoom, width / 2.0 + camera.PanX, height / 2.0 + camera.PanY, scene.Center};
 
     // light: the direction the light travels in the view (from the viewer, a little from above and the left)
     const Vec light = []() {

@@ -853,3 +853,72 @@ PT_BR.update({
     "frame %1 / %2": "quadro %1 / %2",
     "Model: %1 limbs, %2 triangles, %3 animations": "Modelo: %1 membros, %2 triângulos, %3 animações",
 })
+
+# the controls of the 3D viewers (Ui/ViewNavigation) and their help
+TRANSLATIONS.update({
+    "Wireframe on or off": (
+        "Malla de alambre activada o desactivada", "Wireframe attivato o disattivato", "Fil de fer activé ou désactivé", "Drahtgitter ein oder aus", "Siatka włączona lub wyłączona", "Каркас вкл. или выкл.",
+        "开启或关闭线框", "ワイヤーフレームのオン／オフ", "تشغيل الإطار السلكي أو إيقافه", "הפעלה או כיבוי של מסגרת תיל"),
+    "Frame the model again (the first view)": (
+        "Encuadrar de nuevo el modelo (la vista inicial)", "Inquadrare di nuovo il modello (la vista iniziale)", "Recadrer le modèle (la vue de départ)", "Modell wieder einpassen (die erste Ansicht)", "Ponownie wykadruj model (widok początkowy)", "Снова вписать модель (исходный вид)",
+        "重新框住模型（初始视图）", "モデルを再び収める（最初の表示）", "إعادة تأطير النموذج (العرض الأول)", "מסגור מחדש של המודל (התצוגה הראשונה)"),
+    "Back faces shown or hidden (Outrage models)": (
+        "Caras traseras visibles u ocultas (modelos de Outrage)", "Facce posteriori mostrate o nascoste (modelli Outrage)", "Faces arrière affichées ou masquées (modèles Outrage)", "Rückseiten ein- oder ausblenden (Outrage-Modelle)", "Tylne ściany widoczne lub ukryte (modele Outrage)", "Показать или скрыть задние грани (модели Outrage)",
+        "显示或隐藏背面（Outrage 模型）", "裏面の表示／非表示（Outrage のモデル）", "إظهار الأوجه الخلفية أو إخفاؤها (نماذج Outrage)", "הצגה או הסתרה של פאות אחוריות (מודלים של Outrage)"),
+    "Space": ("Espacio", "Spazio", "Espace", "Leertaste", "Spacja", "Пробел", "空格键", "スペース", "مسافة", "רווח"),
+    "Play or pause the animation (animated models)": (
+        "Reproducir o pausar la animación (modelos animados)", "Riprodurre o mettere in pausa l'animazione (modelli animati)", "Lire ou mettre en pause l'animation (modèles animés)", "Animation abspielen oder anhalten (animierte Modelle)", "Odtwórz lub wstrzymaj animację (modele animowane)", "Воспроизвести или приостановить анимацию (анимированные модели)",
+        "播放或暂停动画（动画模型）", "アニメーションの再生／一時停止（アニメーションするモデル）", "تشغيل التحريك أو إيقافه مؤقتاً (النماذج المتحركة)", "הפעלה או השהיה של ההנפשה (מודלים מונפשים)"),
+    "3D viewer controls...": (
+        "Controles del visor 3D...", "Comandi del visualizzatore 3D...", "Commandes de la visionneuse 3D...", "Steuerung des 3D-Betrachters...", "Sterowanie przeglądarką 3D...", "Управление 3D-просмотром...",
+        "3D 查看器操作...", "3D ビューアーの操作...", "عناصر التحكم في عارض ثلاثي الأبعاد...", "פקדי מציג התלת־ממד..."),
+    "Left button drag": (
+        "Arrastrar con el botón izquierdo", "Trascinare con il tasto sinistro", "Glisser avec le bouton gauche", "Mit der linken Taste ziehen", "Przeciąganie lewym przyciskiem", "Перетаскивание левой кнопкой",
+        "按住左键拖动", "左ボタンでドラッグ", "السحب بالزر الأيسر", "גרירה בלחצן השמאלי"),
+    "Turn the model": ("Girar el modelo", "Ruotare il modello", "Tourner le modèle", "Modell drehen", "Obróć model", "Повернуть модель",
+        "旋转模型", "モデルを回す", "تدوير النموذج", "סיבוב המודל"),
+    "Right or middle button drag, or Shift + left button drag": (
+        "Arrastrar con el botón derecho o central, o Mayús + botón izquierdo", "Trascinare con il tasto destro o centrale, o Maiusc + tasto sinistro", "Glisser avec le bouton droit ou central, ou Maj + bouton gauche", "Mit der rechten oder mittleren Taste ziehen, oder Umschalt + linke Taste", "Przeciąganie prawym lub środkowym przyciskiem albo Shift + lewym przyciskiem", "Перетаскивание правой или средней кнопкой, или Shift + левой кнопкой",
+        "按住右键或中键拖动，或 Shift + 左键拖动", "右ボタンか中ボタンでドラッグ、または Shift + 左ボタンでドラッグ", "السحب بالزر الأيمن أو الأوسط، أو Shift + الزر الأيسر", "גרירה בלחצן הימני או האמצעי, או Shift + הלחצן השמאלי"),
+    "Move the model": ("Mover el modelo", "Spostare il modello", "Déplacer le modèle", "Modell verschieben", "Przesuń model", "Переместить модель",
+        "移动模型", "モデルを動かす", "تحريك النموذج", "הזזת המודל"),
+    "Wheel": ("Rueda", "Rotella", "Molette", "Mausrad", "Kółko", "Колесо",
+        "滚轮", "ホイール", "عجلة الفأرة", "גלגלת"),
+    "Zoom in or out at the pointer": (
+        "Acercar o alejar en el puntero", "Ingrandire o ridurre sul puntatore", "Zoomer ou dézoomer sous le pointeur", "Am Zeiger vergrößern oder verkleinern", "Przybliż lub oddal w miejscu wskaźnika", "Приблизить или отдалить у указателя",
+        "在指针处放大或缩小", "ポインターの位置で拡大／縮小", "التكبير أو التصغير عند المؤشر", "התקרבות או התרחקות במקום הסמן"),
+    "Arrow keys": ("Teclas de flecha", "Tasti freccia", "Touches fléchées", "Pfeiltasten", "Klawisze strzałek", "Клавиши со стрелками",
+        "方向键", "矢印キー", "مفاتيح الأسهم", "מקשי החיצים"),
+    "Zoom in or out": ("Acercar o alejar", "Ingrandire o ridurre", "Zoomer ou dézoomer", "Vergrößern oder verkleinern", "Przybliż lub oddal", "Приблизить или отдалить",
+        "放大或缩小", "拡大／縮小", "التكبير أو التصغير", "התקרבות או התרחקות"),
+    "This help": ("Esta ayuda", "Questa guida", "Cette aide", "Diese Hilfe", "Ta pomoc", "Эта справка",
+        "本帮助", "このヘルプ", "هذه المساعدة", "עזרה זו"),
+    "Click the view first: the keys go to the view that has the focus.": (
+        "Haga clic primero en la vista: las teclas van a la vista que tiene el foco.", "Fare prima clic sulla vista: i tasti vanno alla vista che ha il focus.", "Cliquez d'abord dans la vue : les touches vont à la vue qui a le focus.", "Zuerst in die Ansicht klicken: die Tasten gehen an die Ansicht mit dem Fokus.", "Najpierw kliknij widok: klawisze trafiają do widoku, który ma fokus.", "Сначала щёлкните по виду: клавиши получает вид, у которого фокус.",
+        "请先单击视图：按键会发送到拥有焦点的视图。", "先にビューをクリックしてください。キーはフォーカスのあるビューに送られます。", "انقر العرض أولاً: تذهب المفاتيح إلى العرض الذي عليه التركيز.", "לחצו קודם על התצוגה: המקשים נשלחים לתצוגה שבפוקוס."),
+    "3D viewer controls": (
+        "Controles del visor 3D", "Comandi del visualizzatore 3D", "Commandes de la visionneuse 3D", "Steuerung des 3D-Betrachters", "Sterowanie przeglądarką 3D", "Управление 3D-просмотром",
+        "3D 查看器操作", "3D ビューアーの操作", "عناصر التحكم في عارض ثلاثي الأبعاد", "פקדי מציג התלת־ממד"),
+    "H: help": ("H: ayuda", "H: guida", "H : aide", "H: Hilfe", "H: pomoc", "H: справка",
+        "H：帮助", "H：ヘルプ", "H: مساعدة", "H: עזרה"),
+})
+PT_BR.update({
+    "Wireframe on or off": "Aramado ligado ou desligado",
+    "Frame the model again (the first view)": "Enquadrar o modelo de novo (a vista inicial)",
+    "Back faces shown or hidden (Outrage models)": "Faces de trás visíveis ou ocultas (modelos do Outrage)",
+    "Space": "Espaço",
+    "Play or pause the animation (animated models)": "Tocar ou pausar a animação (modelos animados)",
+    "3D viewer controls...": "&Controles do visualizador 3D...",
+    "Left button drag": "Arrastar com o botão esquerdo",
+    "Turn the model": "Girar o modelo",
+    "Right or middle button drag, or Shift + left button drag": "Arrastar com o botão direito ou do meio, ou Shift + botão esquerdo",
+    "Move the model": "Mover o modelo",
+    "Wheel": "Roda do mouse",
+    "Zoom in or out at the pointer": "Aproximar ou afastar no ponteiro",
+    "Arrow keys": "Teclas de seta",
+    "Zoom in or out": "Aproximar ou afastar",
+    "This help": "Esta ajuda",
+    "Click the view first: the keys go to the view that has the focus.": "Clique na vista primeiro: as teclas vão para a vista que tem o foco.",
+    "3D viewer controls": "Controles do visualizador 3D",
+    "H: help": "H: ajuda",
+})

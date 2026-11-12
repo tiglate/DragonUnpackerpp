@@ -74,8 +74,8 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
     const double cy = std::cos(camera.Yaw), sy = std::sin(camera.Yaw);
     const double cp = std::cos(camera.Pitch), sp = std::sin(camera.Pitch);
     const double scale = std::min(width, height) * 0.45 / scene.Radius * camera.Zoom;
-    const double ox = width / 2.0;
-    const double oy = height / 2.0;
+    const double ox = width / 2.0 + camera.PanX;
+    const double oy = height / 2.0 + camera.PanY;
     const std::size_t count = scene.JointOf.size();
     std::vector<Vertex> view(count);
     for (std::size_t v = 0; v < count; ++v)

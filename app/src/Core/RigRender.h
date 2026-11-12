@@ -18,6 +18,8 @@ struct RigCamera
     double Yaw{0.0};
     double Pitch{0.15};
     double Zoom{1.0};
+    double PanX{0.0}; // pixels the view is moved right
+    double PanY{0.0}; // pixels the view is moved down
     bool Wireframe{false};
 };
 

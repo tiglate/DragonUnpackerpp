@@ -190,6 +190,35 @@ TEST_CASE("Rig: a level has one part per texture, each drawn with its own pictur
     CHECK(blues > 100);
 }
 
+TEST_CASE("Rig: the pan of the camera moves the drawing by that many pixels")
+{
+    const auto scene = ParseRigGltf(FixtureGltf());
+    REQUIRE(scene.has_value());
+    const auto pose = EvaluateRig(*scene, 0, 0.0);
+    // the column of the leftmost drawn pixel
+    const auto left = [](const DecodedImage &image) {
+        for (std::uint32_t x = 0; x < image.Width; ++x)
+        {
+            for (std::uint32_t y = 0; y < image.Height; ++y)
+            {
+                if (image.Rgba[(static_cast<std::size_t>(y) * image.Width + x) * 4] > 0)
+                {
+                    return static_cast<int>(x);
+                }
+            }
+        }
+        return -1;
+    };
+    RigCamera camera;
+    camera.Zoom = 0.5;
+    const int before = left(RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, nullptr));
+    camera.PanX = 30;
+    camera.PanY = -10;
+    const int after = left(RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, nullptr));
+    REQUIRE(before >= 0);
+    CHECK(after - before == 30);
+}
+
 TEST_CASE("Rig: files that are not a skinned model are refused")
 {
     CHECK_FALSE(ParseRigGltf("not json").has_value());

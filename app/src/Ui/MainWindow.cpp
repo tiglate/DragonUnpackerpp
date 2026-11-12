@@ -4,6 +4,7 @@
 
 #include "Ui/MainWindow.h"
 
+#include <QContextMenuEvent>
 #include <QMouseEvent>
 
 #include "Core/PreviewWorker.h"
@@ -19,6 +20,7 @@
 #include "Core/HyperRipper.h"
 #include "Ui/HyperRipperDialog.h"
 #include "Ui/ListDialog.h"
+#include "Ui/ViewNavigation.h"
 #include "Ui/ListTemplates.h"
 #include "Ui/ImageViewer.h"
 #include "Ui/Icons.h"
@@ -397,6 +399,7 @@ void MainWindow::BuildMenus()
                   {nullptr, ""}, {back, "back"}, {forward, "forward"}, {up, "up"}, {nullptr, ""}, {ripper, "hyperripper"}, {optionsAction, "options"}});
 
     auto *helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(tr("&3D viewer controls..."), this, [this] { ViewNavigation::ShowHelp(this, ViewNavigation::AllViewerKeys()); });
     helpMenu->addAction(tr("&About"), this, [this] {
         QString driverText;
         if (_driverHost.IsLoaded())
@@ -1259,6 +1262,31 @@ void MainWindow::FillEntryMenu(QMenu *menu)
     }
     menu->addSeparator();
     menu->addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll)->setEnabled(_index != nullptr);
+}
+
+auto MainWindow::TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool
+{
+    for (auto *canvas : findChildren<QWidget *>("viewCanvas"))
+    {
+        if (!canvas->isVisible())
+        {
+            continue;
+        }
+        const QPointF start(canvas->width() / 2.0, canvas->height() / 2.0);
+        const QPointF end = start + QPointF(delta);
+        QMouseEvent press(QEvent::MouseButtonPress, start, canvas->mapToGlobal(start), button, button, modifiers);
+        QCoreApplication::sendEvent(canvas, &press);
+        QMouseEvent move(QEvent::MouseMove, end, canvas->mapToGlobal(end), Qt::NoButton, button, modifiers);
+        QCoreApplication::sendEvent(canvas, &move);
+        QMouseEvent release(QEvent::MouseButtonRelease, end, canvas->mapToGlobal(end), button, Qt::NoButton, modifiers);
+        QCoreApplication::sendEvent(canvas, &release);
+        // a right button release also asks for a context menu: it must not reach the window
+        QContextMenuEvent menu(QContextMenuEvent::Mouse, end.toPoint(), canvas->mapToGlobal(end.toPoint()));
+        QCoreApplication::sendEvent(canvas, &menu);
+        canvas->repaint();
+        return true;
+    }
+    return false;
 }
 
 auto MainWindow::TestEntryMenu() -> std::string
