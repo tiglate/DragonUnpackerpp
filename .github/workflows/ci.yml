@@ -41,7 +41,7 @@ jobs:
             mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja
             mingw-w64-ucrt-x86_64-zlib mingw-w64-ucrt-x86_64-qt6-base mingw-w64-ucrt-x86_64-qt6-multimedia
             mingw-w64-ucrt-x86_64-qt6-svg mingw-w64-ucrt-x86_64-qt6-tools mingw-w64-ucrt-x86_64-spdlog
-            mingw-w64-ucrt-x86_64-ms-gsl
+            mingw-w64-ucrt-x86_64-microsoft-gsl
       - name: Build the driver
         run: |
           cmake -S driver/cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=Release
