@@ -766,3 +766,229 @@ PT_BR.update({
     "Show the pictures in their own colors": "Mostrar as imagens com as cores originais",
     "Previews use the palette %1": "As visualizações usam a paleta %1",
 })
+
+
+# The type filter of the entry list, the System theme, the zoom buttons of the previews and the model viewers
+TRANSLATIONS.update({
+    "Show only the files of one type (the extension)": (
+        "Mostrar solo los archivos de un tipo (la extensión)", "Mostra solo i file di un tipo (l'estensione)", "Afficher seulement les fichiers d'un type (l'extension)", "Nur die Dateien eines Typs (der Erweiterung) anzeigen", "Pokaż tylko pliki jednego typu (rozszerzenia)", "Показывать только файлы одного типа (расширения)",
+        "只显示一种类型（扩展名）的文件", "1 種類（拡張子）のファイルだけを表示", "إظهار ملفات نوع واحد فقط (الامتداد)", "הצג רק את הקבצים מסוג אחד (הסיומת)"),
+    "All types": (
+        "Todos los tipos", "Tutti i tipi", "Tous les types", "Alle Typen", "Wszystkie typy", "Все типы",
+        "所有类型", "すべての種類", "كل الأنواع", "כל הסוגים"),
+    "(no extension)": (
+        "(sin extensión)", "(nessuna estensione)", "(sans extension)", "(keine Erweiterung)", "(bez rozszerzenia)", "(без расширения)",
+        "（无扩展名）", "（拡張子なし）", "(بلا امتداد)", "(ללא סיומת)"),
+    "Animate": (
+        "Animar", "Anima", "Animer", "Animieren", "Animuj", "Анимировать",
+        "动画", "アニメーション", "تحريك", "הנפש"),
+    "Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.": (
+        "Desactivado: el modelo tal como se dibuja sin animación. Activado: las pistas de animación en la posición del control deslizante.", "Disattivato: il modello come viene disegnato senza animazione. Attivato: le tracce di animazione alla posizione del cursore.", "Désactivé : le modèle tel qu'il est dessiné sans animation. Activé : les pistes d'animation à la position du curseur.", "Aus: das Modell, wie es ohne Animation gezeichnet wird. Ein: die Animationsspuren an der Position des Schiebereglers.", "Wyłączone: model tak, jak jest rysowany bez animacji. Włączone: ścieżki animacji w położeniu suwaka.", "Выключено: модель так, как она рисуется без анимации. Включено: дорожки анимации в положении ползунка.",
+        "关闭：按无动画时的样子绘制模型。开启：显示滑块位置处的动画轨道。", "オフ：アニメーションなしで描画されるモデル。オン：スライダーの位置のアニメーショントラック。", "معطّل: النموذج كما يُرسم بلا تحريك. مفعّل: مسارات التحريك عند موضع شريط التمرير.", "כבוי: המודל כפי שהוא מצויר ללא הנפשה. פועל: רצועות ההנפשה במיקום המחוון."),
+    "rest pose": (
+        "pose de reposo", "posa di riposo", "pose de repos", "Ruhepose", "poza spoczynkowa", "поза покоя",
+        "静止姿势", "基本ポーズ", "وضعية السكون", "תנוחת מנוחה"),
+    "Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)": (
+        "Velocidad de reproducción (una pasada de la animación dura 4 segundos a 1x; las partes $rotate la siguen)", "Velocità di riproduzione (un ciclo dell'animazione dura 4 secondi a 1x; le parti $rotate la seguono)", "Vitesse de lecture (un passage de l'animation dure 4 secondes à 1x ; les parties $rotate la suivent)", "Wiedergabegeschwindigkeit (ein Durchlauf der Animation dauert bei 1x 4 Sekunden; die $rotate-Teile folgen ihr)", "Szybkość odtwarzania (jedno przejście animacji trwa 4 sekundy przy 1x; części $rotate podążają za nią)", "Скорость воспроизведения (один проход анимации длится 4 секунды при 1x; части $rotate следуют за ней)",
+        "播放速度（1x 时动画一次播放需 4 秒；$rotate 部件随之转动）", "再生速度（1x でアニメーション 1 回は 4 秒；$rotate の部品もそれに従います）", "سرعة التشغيل (تستغرق دورة التحريك 4 ثوانٍ عند 1x؛ وتتبعها أجزاء $rotate)", "מהירות הניגון (מעבר אחד של ההנפשה נמשך 4 שניות ב־1x; חלקי ה־$rotate עוקבים אחריה)"),
+    "%1%": (
+        "%1%", "%1%", "%1 %", "%1 %", "%1%", "%1 %",
+        "%1%", "%1%", "%1%", "%1%"),
+    "Model: %1 subobjects, %2 triangles": (
+        "Modelo: %1 subobjetos, %2 triángulos", "Modello: %1 sotto-oggetti, %2 triangoli", "Modèle : %1 sous-objets, %2 triangles", "Modell: %1 Unterobjekte, %2 Dreiecke", "Model: podobiektów %1, trójkątów %2", "Модель: подобъектов %1, треугольников %2",
+        "模型：%1 个子对象，%2 个三角形", "モデル：サブオブジェクト %1、三角形 %2", "النموذج: %1 كائن فرعي، %2 مثلث", "מודל: %1 תת־עצמים, %2 משולשים"),
+    "As the system": (
+        "Como el sistema", "Come il sistema", "Comme le système", "Wie das System", "Jak w systemie", "Как в системе",
+        "跟随系统", "システムに合わせる", "مثل النظام", "כמו המערכת"),
+    "Zoom out (Ctrl+wheel down, -)": (
+        "Alejar (Ctrl+rueda abajo, -)", "Riduci (Ctrl+rotella giù, -)", "Zoom arrière (Ctrl+molette vers le bas, -)", "Verkleinern (Strg+Mausrad nach unten, -)", "Pomniejsz (Ctrl+kółko w dół, -)", "Уменьшить (Ctrl+колёсико вниз, -)",
+        "缩小（Ctrl+滚轮向下，-）", "縮小（Ctrl+ホイール下、-）", "تصغير (‏Ctrl+العجلة للأسفل، -)", "התרחק (‏Ctrl+גלגלת למטה, -)"),
+    "Zoom in (Ctrl+wheel up, +)": (
+        "Acercar (Ctrl+rueda arriba, +)", "Ingrandisci (Ctrl+rotella su, +)", "Zoom avant (Ctrl+molette vers le haut, +)", "Vergrößern (Strg+Mausrad nach oben, +)", "Powiększ (Ctrl+kółko w górę, +)", "Увеличить (Ctrl+колёсико вверх, +)",
+        "放大（Ctrl+滚轮向上，+）", "拡大（Ctrl+ホイール上、+）", "تكبير (‏Ctrl+العجلة للأعلى، +)", "התקרב (‏Ctrl+גלגלת למעלה, +)"),
+    "Actual size (0)": (
+        "Tamaño real (0)", "Dimensione reale (0)", "Taille réelle (0)", "Originalgröße (0)", "Rzeczywisty rozmiar (0)", "Реальный размер (0)",
+        "实际大小（0）", "実際のサイズ（0）", "الحجم الفعلي (‏0)", "גודל אמיתי (‏0)"),
+    "Fit": (
+        "Ajustar", "Adatta", "Ajuster", "Einpassen", "Dopasuj", "Вписать",
+        "适应", "合わせる", "ملاءمة", "התאם"),
+    "Fit to the panel (F)": (
+        "Ajustar al panel (F)", "Adatta al pannello (F)", "Ajuster au panneau (F)", "In das Feld einpassen (F)", "Dopasuj do panelu (F)", "Вписать в панель (F)",
+        "适应面板（F）", "パネルに合わせる（F）", "ملاءمة اللوحة (‏F)", "התאם ללוח (‏F)"),
+    "The animation to show": (
+        "La animación que se muestra", "L'animazione da mostrare", "L'animation à afficher", "Die anzuzeigende Animation", "Animacja do pokazania", "Показываемая анимация",
+        "要显示的动画", "表示するアニメーション", "التحريك المعروض", "ההנפשה להצגה"),
+    "Speed of the playback (1x is the speed of the game, 25 frames per second)": (
+        "Velocidad de reproducción (1x es la velocidad del juego, 25 fotogramas por segundo)", "Velocità di riproduzione (1x è la velocità del gioco, 25 frame al secondo)", "Vitesse de lecture (1x est la vitesse du jeu, 25 trames par seconde)", "Wiedergabegeschwindigkeit (1x ist die Geschwindigkeit des Spiels, 25 Frames pro Sekunde)", "Szybkość odtwarzania (1x to szybkość gry, 25 klatek na sekundę)", "Скорость воспроизведения (1x — скорость игры, 25 кадров в секунду)",
+        "播放速度（1x 为游戏速度，每秒 25 帧）", "再生速度（1x はゲームの速度、毎秒 25 フレーム）", "سرعة التشغيل (‏1x هي سرعة اللعبة، 25 إطاراً في الثانية)", "מהירות הניגון (‏1x היא מהירות המשחק, 25 פריימים בשנייה)"),
+    "animation %1": (
+        "animación %1", "animazione %1", "animation %1", "Animation %1", "animacja %1", "анимация %1",
+        "动画 %1", "アニメーション %1", "التحريك %1", "הנפשה %1"),
+    "frame %1 / %2": (
+        "fotograma %1 / %2", "frame %1 / %2", "trame %1 / %2", "Frame %1 / %2", "klatka %1 / %2", "кадр %1 / %2",
+        "帧 %1 / %2", "フレーム %1 / %2", "الإطار %1 / %2", "פריים %1 / %2"),
+    "Model: %1 limbs, %2 triangles, %3 animations": (
+        "Modelo: %1 miembros, %2 triángulos, %3 animaciones", "Modello: %1 arti, %2 triangoli, %3 animazioni", "Modèle : %1 membres, %2 triangles, %3 animations", "Modell: %1 Glieder, %2 Dreiecke, %3 Animationen", "Model: kończyn %1, trójkątów %2, animacji %3", "Модель: конечностей %1, треугольников %2, анимаций %3",
+        "模型：%1 个肢体，%2 个三角形，%3 个动画", "モデル：リム %1、三角形 %2、アニメーション %3", "النموذج: %1 طرف، %2 مثلث، %3 تحريك", "מודל: %1 איברים, %2 משולשים, %3 הנפשות"),
+})
+PT_BR.update({
+    "Show only the files of one type (the extension)": "Mostrar só os arquivos de um tipo (a extensão)",
+    "All types": "Todos os tipos",
+    "(no extension)": "(sem extensão)",
+    "Animate": "Animar",
+    "Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.": "Desligado: o modelo como é desenhado sem animação. Ligado: as trilhas de animação na posição do controle deslizante.",
+    "rest pose": "pose de repouso",
+    "Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)": "Velocidade da reprodução (uma passada da animação leva 4 segundos em 1x; as partes $rotate a acompanham)",
+    "%1%": "%1%",
+    "Model: %1 subobjects, %2 triangles": "Modelo: %1 subobjetos, %2 triângulos",
+    "As the system": "Como o sistema",
+    "Zoom out (Ctrl+wheel down, -)": "Diminuir o zoom (Ctrl+roda para baixo, -)",
+    "Zoom in (Ctrl+wheel up, +)": "Aumentar o zoom (Ctrl+roda para cima, +)",
+    "Actual size (0)": "Tamanho real (0)",
+    "Fit": "Ajustar",
+    "Fit to the panel (F)": "Ajustar ao painel (F)",
+    "The animation to show": "A animação a mostrar",
+    "Speed of the playback (1x is the speed of the game, 25 frames per second)": "Velocidade da reprodução (1x é a velocidade do jogo, 25 quadros por segundo)",
+    "animation %1": "animação %1",
+    "frame %1 / %2": "quadro %1 / %2",
+    "Model: %1 limbs, %2 triangles, %3 animations": "Modelo: %1 membros, %2 triângulos, %3 animações",
+})
+
+# the controls of the 3D viewers (Ui/ViewNavigation) and their help
+TRANSLATIONS.update({
+    "Wireframe on or off": (
+        "Malla de alambre activada o desactivada", "Wireframe attivato o disattivato", "Fil de fer activé ou désactivé", "Drahtgitter ein oder aus", "Siatka włączona lub wyłączona", "Каркас вкл. или выкл.",
+        "开启或关闭线框", "ワイヤーフレームのオン／オフ", "تشغيل الإطار السلكي أو إيقافه", "הפעלה או כיבוי של מסגרת תיל"),
+    "Frame the model again (the first view)": (
+        "Encuadrar de nuevo el modelo (la vista inicial)", "Inquadrare di nuovo il modello (la vista iniziale)", "Recadrer le modèle (la vue de départ)", "Modell wieder einpassen (die erste Ansicht)", "Ponownie wykadruj model (widok początkowy)", "Снова вписать модель (исходный вид)",
+        "重新框住模型（初始视图）", "モデルを再び収める（最初の表示）", "إعادة تأطير النموذج (العرض الأول)", "מסגור מחדש של המודל (התצוגה הראשונה)"),
+    "Back faces shown or hidden (Outrage models)": (
+        "Caras traseras visibles u ocultas (modelos de Outrage)", "Facce posteriori mostrate o nascoste (modelli Outrage)", "Faces arrière affichées ou masquées (modèles Outrage)", "Rückseiten ein- oder ausblenden (Outrage-Modelle)", "Tylne ściany widoczne lub ukryte (modele Outrage)", "Показать или скрыть задние грани (модели Outrage)",
+        "显示或隐藏背面（Outrage 模型）", "裏面の表示／非表示（Outrage のモデル）", "إظهار الأوجه الخلفية أو إخفاؤها (نماذج Outrage)", "הצגה או הסתרה של פאות אחוריות (מודלים של Outrage)"),
+    "Space": ("Espacio", "Spazio", "Espace", "Leertaste", "Spacja", "Пробел", "空格键", "スペース", "مسافة", "רווח"),
+    "Play or pause the animation (animated models)": (
+        "Reproducir o pausar la animación (modelos animados)", "Riprodurre o mettere in pausa l'animazione (modelli animati)", "Lire ou mettre en pause l'animation (modèles animés)", "Animation abspielen oder anhalten (animierte Modelle)", "Odtwórz lub wstrzymaj animację (modele animowane)", "Воспроизвести или приостановить анимацию (анимированные модели)",
+        "播放或暂停动画（动画模型）", "アニメーションの再生／一時停止（アニメーションするモデル）", "تشغيل التحريك أو إيقافه مؤقتاً (النماذج المتحركة)", "הפעלה או השהיה של ההנפשה (מודלים מונפשים)"),
+    "3D viewer controls...": (
+        "Controles del visor 3D...", "Comandi del visualizzatore 3D...", "Commandes de la visionneuse 3D...", "Steuerung des 3D-Betrachters...", "Sterowanie przeglądarką 3D...", "Управление 3D-просмотром...",
+        "3D 查看器操作...", "3D ビューアーの操作...", "عناصر التحكم في عارض ثلاثي الأبعاد...", "פקדי מציג התלת־ממד..."),
+    "Left button drag": (
+        "Arrastrar con el botón izquierdo", "Trascinare con il tasto sinistro", "Glisser avec le bouton gauche", "Mit der linken Taste ziehen", "Przeciąganie lewym przyciskiem", "Перетаскивание левой кнопкой",
+        "按住左键拖动", "左ボタンでドラッグ", "السحب بالزر الأيسر", "גרירה בלחצן השמאלי"),
+    "Turn the model": ("Girar el modelo", "Ruotare il modello", "Tourner le modèle", "Modell drehen", "Obróć model", "Повернуть модель",
+        "旋转模型", "モデルを回す", "تدوير النموذج", "סיבוב המודל"),
+    "Right or middle button drag, or Shift + left button drag": (
+        "Arrastrar con el botón derecho o central, o Mayús + botón izquierdo", "Trascinare con il tasto destro o centrale, o Maiusc + tasto sinistro", "Glisser avec le bouton droit ou central, ou Maj + bouton gauche", "Mit der rechten oder mittleren Taste ziehen, oder Umschalt + linke Taste", "Przeciąganie prawym lub środkowym przyciskiem albo Shift + lewym przyciskiem", "Перетаскивание правой или средней кнопкой, или Shift + левой кнопкой",
+        "按住右键或中键拖动，或 Shift + 左键拖动", "右ボタンか中ボタンでドラッグ、または Shift + 左ボタンでドラッグ", "السحب بالزر الأيمن أو الأوسط، أو Shift + الزر الأيسر", "גרירה בלחצן הימני או האמצעי, או Shift + הלחצן השמאלי"),
+    "Move the model": ("Mover el modelo", "Spostare il modello", "Déplacer le modèle", "Modell verschieben", "Przesuń model", "Переместить модель",
+        "移动模型", "モデルを動かす", "تحريك النموذج", "הזזת המודל"),
+    "Wheel": ("Rueda", "Rotella", "Molette", "Mausrad", "Kółko", "Колесо",
+        "滚轮", "ホイール", "عجلة الفأرة", "גלגלת"),
+    "Zoom in or out at the pointer": (
+        "Acercar o alejar en el puntero", "Ingrandire o ridurre sul puntatore", "Zoomer ou dézoomer sous le pointeur", "Am Zeiger vergrößern oder verkleinern", "Przybliż lub oddal w miejscu wskaźnika", "Приблизить или отдалить у указателя",
+        "在指针处放大或缩小", "ポインターの位置で拡大／縮小", "التكبير أو التصغير عند المؤشر", "התקרבות או התרחקות במקום הסמן"),
+    "Arrow keys": ("Teclas de flecha", "Tasti freccia", "Touches fléchées", "Pfeiltasten", "Klawisze strzałek", "Клавиши со стрелками",
+        "方向键", "矢印キー", "مفاتيح الأسهم", "מקשי החיצים"),
+    "Zoom in or out": ("Acercar o alejar", "Ingrandire o ridurre", "Zoomer ou dézoomer", "Vergrößern oder verkleinern", "Przybliż lub oddal", "Приблизить или отдалить",
+        "放大或缩小", "拡大／縮小", "التكبير أو التصغير", "התקרבות או התרחקות"),
+    "This help": ("Esta ayuda", "Questa guida", "Cette aide", "Diese Hilfe", "Ta pomoc", "Эта справка",
+        "本帮助", "このヘルプ", "هذه المساعدة", "עזרה זו"),
+    "Click the view first: the keys go to the view that has the focus.": (
+        "Haga clic primero en la vista: las teclas van a la vista que tiene el foco.", "Fare prima clic sulla vista: i tasti vanno alla vista che ha il focus.", "Cliquez d'abord dans la vue : les touches vont à la vue qui a le focus.", "Zuerst in die Ansicht klicken: die Tasten gehen an die Ansicht mit dem Fokus.", "Najpierw kliknij widok: klawisze trafiają do widoku, który ma fokus.", "Сначала щёлкните по виду: клавиши получает вид, у которого фокус.",
+        "请先单击视图：按键会发送到拥有焦点的视图。", "先にビューをクリックしてください。キーはフォーカスのあるビューに送られます。", "انقر العرض أولاً: تذهب المفاتيح إلى العرض الذي عليه التركيز.", "לחצו קודם על התצוגה: המקשים נשלחים לתצוגה שבפוקוס."),
+    "3D viewer controls": (
+        "Controles del visor 3D", "Comandi del visualizzatore 3D", "Commandes de la visionneuse 3D", "Steuerung des 3D-Betrachters", "Sterowanie przeglądarką 3D", "Управление 3D-просмотром",
+        "3D 查看器操作", "3D ビューアーの操作", "عناصر التحكم في عارض ثلاثي الأبعاد", "פקדי מציג התלת־ממד"),
+    "H: help": ("H: ayuda", "H: guida", "H : aide", "H: Hilfe", "H: pomoc", "H: справка",
+        "H：帮助", "H：ヘルプ", "H: مساعدة", "H: עזרה"),
+})
+PT_BR.update({
+    "Wireframe on or off": "Aramado ligado ou desligado",
+    "Frame the model again (the first view)": "Enquadrar o modelo de novo (a vista inicial)",
+    "Back faces shown or hidden (Outrage models)": "Faces de trás visíveis ou ocultas (modelos do Outrage)",
+    "Space": "Espaço",
+    "Play or pause the animation (animated models)": "Tocar ou pausar a animação (modelos animados)",
+    "3D viewer controls...": "&Controles do visualizador 3D...",
+    "Left button drag": "Arrastar com o botão esquerdo",
+    "Turn the model": "Girar o modelo",
+    "Right or middle button drag, or Shift + left button drag": "Arrastar com o botão direito ou do meio, ou Shift + botão esquerdo",
+    "Move the model": "Mover o modelo",
+    "Wheel": "Roda do mouse",
+    "Zoom in or out at the pointer": "Aproximar ou afastar no ponteiro",
+    "Arrow keys": "Teclas de seta",
+    "Zoom in or out": "Aproximar ou afastar",
+    "This help": "Esta ajuda",
+    "Click the view first: the keys go to the view that has the focus.": "Clique na vista primeiro: as teclas vão para a vista que tem o foco.",
+    "3D viewer controls": "Controles do visualizador 3D",
+    "H: help": "H: ajuda",
+})
+
+TRANSLATIONS.update({
+    "Lightmaps on or off (Requiem levels)": (
+        "Mapas de luz activados o desactivados (niveles de Requiem)", "Lightmap attivate o disattivate (livelli di Requiem)", "Lightmaps activées ou désactivées (niveaux de Requiem)", "Lightmaps ein oder aus (Requiem-Level)", "Mapy światła włączone lub wyłączone (poziomy Requiem)", "Карты освещения вкл. или выкл. (уровни Requiem)",
+        "开启或关闭光照贴图（Requiem 关卡）", "ライトマップのオン／オフ（Requiem のレベル）", "تشغيل خرائط الإضاءة أو إيقافها (مراحل Requiem)", "הפעלה או כיבוי של מפות התאורה (שלבים של Requiem)"),
+})
+PT_BR.update({
+    "Lightmaps on or off (Requiem levels)": "Mapas de luz ligados ou desligados (fases do Requiem)",
+})
+
+# the buttons of the 3D viewers (Ui/ViewNavigation: ViewToolBar) and the brightness of the lightmaps
+TRANSLATIONS.update({
+    "Wireframe": ("Malla de alambre", "Wireframe", "Fil de fer", "Drahtgitter", "Siatka", "Каркас", "线框", "ワイヤーフレーム", "الإطار السلكي", "מסגרת תיל"),
+    "Back faces hidden": ("Caras traseras ocultas", "Facce posteriori nascoste", "Faces arrière masquées", "Rückseiten ausgeblendet", "Tylne ściany ukryte", "Задние грани скрыты",
+        "隐藏背面", "裏面を隠す", "الأوجه الخلفية مخفية", "פאות אחוריות מוסתרות"),
+    "Lightmaps (Requiem levels)": ("Mapas de luz (niveles de Requiem)", "Lightmap (livelli di Requiem)", "Lightmaps (niveaux de Requiem)", "Lightmaps (Requiem-Level)", "Mapy światła (poziomy Requiem)", "Карты освещения (уровни Requiem)",
+        "光照贴图（Requiem 关卡）", "ライトマップ（Requiem のレベル）", "خرائط الإضاءة (مراحل Requiem)", "מפות תאורה (שלבים של Requiem)"),
+    "Darker lightmaps": ("Mapas de luz más oscuros", "Lightmap più scure", "Lightmaps plus sombres", "Dunklere Lightmaps", "Ciemniejsze mapy światła", "Темнее карты освещения",
+        "光照贴图更暗", "ライトマップを暗く", "خرائط إضاءة أغمق", "מפות תאורה כהות יותר"),
+    "Brighter lightmaps": ("Mapas de luz más claros", "Lightmap più chiare", "Lightmaps plus claires", "Hellere Lightmaps", "Jaśniejsze mapy światła", "Светлее карты освещения",
+        "光照贴图更亮", "ライトマップを明るく", "خرائط إضاءة أفتح", "מפות תאורה בהירות יותר"),
+    "Lightmaps darker or brighter (Requiem levels)": (
+        "Mapas de luz más oscuros o más claros (niveles de Requiem)", "Lightmap più scure o più chiare (livelli di Requiem)", "Lightmaps plus sombres ou plus claires (niveaux de Requiem)", "Lightmaps dunkler oder heller (Requiem-Level)", "Mapy światła ciemniejsze lub jaśniejsze (poziomy Requiem)", "Карты освещения темнее или светлее (уровни Requiem)",
+        "光照贴图更暗或更亮（Requiem 关卡）", "ライトマップを暗く／明るく（Requiem のレベル）", "خرائط إضاءة أغمق أو أفتح (مراحل Requiem)", "מפות תאורה כהות או בהירות יותר (שלבים של Requiem)"),
+    "left button drag": ("arrastrar con el botón izquierdo", "trascinare con il tasto sinistro", "glisser avec le bouton gauche", "mit der linken Taste ziehen", "przeciąganie lewym przyciskiem", "перетаскивание левой кнопкой",
+        "按住左键拖动", "左ボタンでドラッグ", "السحب بالزر الأيسر", "גרירה בלחצן השמאלי"),
+    "Turn left": ("Girar a la izquierda", "Ruotare a sinistra", "Tourner à gauche", "Nach links drehen", "Obróć w lewo", "Повернуть влево", "向左旋转", "左に回す", "تدوير لليسار", "סיבוב שמאלה"),
+    "Turn right": ("Girar a la derecha", "Ruotare a destra", "Tourner à droite", "Nach rechts drehen", "Obróć w prawo", "Повернуть вправо", "向右旋转", "右に回す", "تدوير لليمين", "סיבוב ימינה"),
+    "Tilt up": ("Inclinar hacia arriba", "Inclinare verso l'alto", "Incliner vers le haut", "Nach oben kippen", "Pochyl w górę", "Наклонить вверх", "向上倾斜", "上に傾ける", "إمالة لأعلى", "הטיה למעלה"),
+    "Tilt down": ("Inclinar hacia abajo", "Inclinare verso il basso", "Incliner vers le bas", "Nach unten kippen", "Pochyl w dół", "Наклонить вниз", "向下倾斜", "下に傾ける", "إمالة لأسفل", "הטיה למטה"),
+    "Move left": ("Mover a la izquierda", "Spostare a sinistra", "Déplacer à gauche", "Nach links verschieben", "Przesuń w lewo", "Сдвинуть влево", "向左移动", "左へ動かす", "تحريك لليسار", "הזזה שמאלה"),
+    "Left arrow": ("Flecha izquierda", "Freccia sinistra", "Flèche gauche", "Pfeil nach links", "Strzałka w lewo", "Стрелка влево", "左方向键", "左矢印", "السهم الأيسر", "חץ שמאלה"),
+    "Move right": ("Mover a la derecha", "Spostare a destra", "Déplacer à droite", "Nach rechts verschieben", "Przesuń w prawo", "Сдвинуть вправо", "向右移动", "右へ動かす", "تحريك لليمين", "הזזה ימינה"),
+    "Right arrow": ("Flecha derecha", "Freccia destra", "Flèche droite", "Pfeil nach rechts", "Strzałka w prawo", "Стрелка вправо", "右方向键", "右矢印", "السهم الأيمن", "חץ ימינה"),
+    "Move up": ("Mover hacia arriba", "Spostare in alto", "Déplacer vers le haut", "Nach oben verschieben", "Przesuń w górę", "Сдвинуть вверх", "向上移动", "上へ動かす", "تحريك لأعلى", "הזזה למעלה"),
+    "Up arrow": ("Flecha arriba", "Freccia su", "Flèche haut", "Pfeil nach oben", "Strzałka w górę", "Стрелка вверх", "上方向键", "上矢印", "السهم لأعلى", "חץ למעלה"),
+    "Move down": ("Mover hacia abajo", "Spostare in basso", "Déplacer vers le bas", "Nach unten verschieben", "Przesuń w dół", "Сдвинуть вниз", "向下移动", "下へ動かす", "تحريك لأسفل", "הזזה למטה"),
+    "Down arrow": ("Flecha abajo", "Freccia giù", "Flèche bas", "Pfeil nach unten", "Strzałka w dół", "Стрелка вниз", "下方向键", "下矢印", "السهم لأسفل", "חץ למטה"),
+    "Zoom in": ("Acercar", "Ingrandire", "Zoomer", "Vergrößern", "Przybliż", "Приблизить", "放大", "拡大", "تكبير", "התקרבות"),
+    "Zoom out": ("Alejar", "Ridurre", "Dézoomer", "Verkleinern", "Oddal", "Отдалить", "缩小", "縮小", "تصغير", "התרחקות"),
+    "Frame the model again": ("Encuadrar de nuevo el modelo", "Inquadrare di nuovo il modello", "Recadrer le modèle", "Modell wieder einpassen", "Ponownie wykadruj model", "Снова вписать модель",
+        "重新框住模型", "モデルを再び収める", "إعادة تأطير النموذج", "מסגור מחדש של המודל"),
+    "Help of the controls": ("Ayuda de los controles", "Guida dei comandi", "Aide des commandes", "Hilfe zur Steuerung", "Pomoc dotycząca sterowania", "Справка по управлению",
+        "操作帮助", "操作のヘルプ", "مساعدة عناصر التحكم", "עזרה לפקדים"),
+})
+PT_BR.update({
+    "Wireframe": "Aramado",
+    "Back faces hidden": "Faces de trás ocultas",
+    "Lightmaps (Requiem levels)": "Mapas de luz (fases do Requiem)",
+    "Darker lightmaps": "Mapas de luz mais escuros",
+    "Brighter lightmaps": "Mapas de luz mais claros",
+    "Lightmaps darker or brighter (Requiem levels)": "Mapas de luz mais escuros ou mais claros (fases do Requiem)",
+    "left button drag": "arrastar com o botão esquerdo",
+    "Turn left": "Girar para a esquerda",
+    "Turn right": "Girar para a direita",
+    "Tilt up": "Inclinar para cima",
+    "Tilt down": "Inclinar para baixo",
+    "Move left": "Mover para a esquerda",
+    "Left arrow": "Seta para a esquerda",
+    "Move right": "Mover para a direita",
+    "Right arrow": "Seta para a direita",
+    "Move up": "Mover para cima",
+    "Up arrow": "Seta para cima",
+    "Move down": "Mover para baixo",
+    "Down arrow": "Seta para baixo",
+    "Zoom in": "Aproximar",
+    "Zoom out": "Afastar",
+    "Frame the model again": "Enquadrar o modelo de novo",
+    "Help of the controls": "Ajuda dos controles",
+})

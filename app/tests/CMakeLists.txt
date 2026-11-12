@@ -9,6 +9,10 @@ add_executable(dragonunpacker_tests
     test_archive_index.cpp
     test_app_settings.cpp
     test_tga_decoder.cpp
+    test_outrage.cpp
+    test_oof_pose.cpp
+    test_oof_render.cpp
+    test_rig.cpp
     test_driver.cpp
     test_extractor.cpp
     test_extraction_job.cpp
@@ -59,7 +63,7 @@ add_test(NAME ui_hyperripper_open
                  --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_rip.png --quit)
 set_tests_properties(ui_hyperripper_open PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
-foreach(DIALOG options hyperripper)
+foreach(DIALOG options hyperripper viewer-help)
     add_test(NAME ui_dialog_${DIALOG}
              COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --show-dialog=${DIALOG}
                      --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_dialog_${DIALOG}.png --quit)
@@ -70,6 +74,41 @@ add_test(NAME ui_language_pt_BR
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --language=pt_BR --open=${FIXTURES_DIR}/test.pak
                  --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_pt.png --quit)
 set_tests_properties(ui_language_pt_BR PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
+
+# a thumbnail clicked in the thumbnail view is what "Extract selected" extracts (the click selects one cell, not a row)
+add_test(NAME ui_extract_selected_thumbnail
+         COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out)
+add_test(NAME ui_extract_selected_thumbnail_run
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/test.pak --thumbnails
+                 --select=hello.txt --extract-selected=${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out --quit)
+add_test(NAME ui_extract_selected_thumbnail_check
+         COMMAND ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_BINARY_DIR}/ui_thumb_out/hello.txt)
+set_tests_properties(ui_extract_selected_thumbnail PROPERTIES FIXTURES_SETUP thumb_out)
+set_tests_properties(ui_extract_selected_thumbnail_run PROPERTIES FIXTURES_REQUIRED "fixtures;thumb_out" FIXTURES_SETUP thumb_done
+                     ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
+set_tests_properties(ui_extract_selected_thumbnail_check PROPERTIES FIXTURES_REQUIRED thumb_done)
+
+# a right click on a thumbnail selects it in place of the selection and opens the menu of that entry
+add_test(NAME ui_thumbnail_right_click
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/test.pak --thumbnails
+                 --select=hello.txt --right-click=empty.dat --print-entry-menu)
+set_tests_properties(ui_thumbnail_right_click PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60
+                     PASS_REGULAR_EXPRESSION "- empty.dat\n\\+ ")
+
+# the level of the .jam fixture in the 3D viewer, moved with the right button (the hook fails when no 3D view is shown)
+add_test(NAME ui_view_drag
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_v2.jam --select=level.gltf
+                 --view-drag=right,40,20 --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_drag.png --quit)
+set_tests_properties(ui_view_drag PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
+
+# the buttons of the 3D viewer: the lightmaps of the fixture level switched off by their button, an OBJ zoomed by its button
+add_test(NAME ui_view_button_level
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_v2.jam --select=level.gltf
+                 --view-button=lightmap --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_button_level.png --quit)
+add_test(NAME ui_view_button_mesh
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_static.mdl --select=req_static.obj
+                 --view-button=zoom-in --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_button_mesh.png --quit)
+set_tests_properties(ui_view_button_level ui_view_button_mesh PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
 add_test(NAME ui_drag_out
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/dups.wad --test-drag-out --quit)

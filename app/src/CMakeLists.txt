@@ -8,6 +8,7 @@ add_library(Core STATIC
     Core/AppSettings.cpp
     Core/Converters.cpp
     Core/PngEncoder.cpp
+    Core/PngDecoder.cpp
     Core/ArchiveIndex.cpp
     Core/DriverHost.cpp
     Core/EntryNames.cpp
@@ -17,6 +18,13 @@ add_library(Core STATIC
     Core/EntryListExport.cpp
     Core/Extractor.cpp
     Core/ObjParser.cpp
+    Core/Json.cpp
+    Core/RigModel.cpp
+    Core/RigRender.cpp
+Core/OutrageGraphics.cpp
+Core/OutrageModel.cpp
+Core/OofPose.cpp
+Core/OofRender.cpp
     Core/HyperRipper.cpp
     Core/TypeIdentifier.cpp
     Core/FileTypes.cpp
@@ -50,12 +58,20 @@ add_executable(dragonunpacker
     Ui/JobsPanel.cpp
     Ui/MainWindow.cpp
     Ui/MeshViewer.cpp
+    Ui/ModelViewer.cpp
     Ui/OptionsDialog.cpp
     Ui/PreviewPanel.cpp
     Ui/QtLogSink.cpp
+    Ui/RigViewer.cpp
+    Ui/ViewNavigation.cpp
     Ui/ThemeManager.cpp)
 target_compile_definitions(dragonunpacker PRIVATE DUP_VERSION="${PROJECT_VERSION}")
 target_link_libraries(dragonunpacker PRIVATE Core Qt6::Widgets Qt6::Multimedia Qt6::Svg)
+if (TARGET Qt6::DBus)
+    target_sources(dragonunpacker PRIVATE Ui/DesktopScheme.cpp)
+    target_link_libraries(dragonunpacker PRIVATE Qt6::DBus)
+    target_compile_definitions(dragonunpacker PRIVATE DUP_HAVE_DBUS)
+endif ()
 
 # Translations: lupdate writes translations/*.ts (target update_translations), lrelease makes the .qm files that are
 # embedded in the executable and loaded by main.cpp according to the language of the settings or of the system.

@@ -5,11 +5,14 @@
 #include "Core/Converters.h"
 
 #include "Core/DdsDecoder.h"
+#include "Core/OutrageGraphics.h"
+#include "Core/OutrageModel.h"
 #include "Core/PngEncoder.h"
 #include "Core/TgaDecoder.h"
 
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 
 namespace Dup::Core
 {
@@ -34,14 +37,51 @@ auto ExtensionOf(const std::string &name) -> std::string
 auto IsConvertible(const std::string &fileName) -> bool
 {
     const auto extension = ExtensionOf(fileName);
-    return extension == "tga" || extension == "dds";
+    return extension == "tga" || extension == "dds" || extension == "ogf" || extension == "oaf" || extension == "oof" || extension == "fnt";
 }
 
 auto ConvertForExtraction(const std::string &fileName, const std::string &formatId, std::span<const std::byte> bytes) -> std::optional<ConvertedFile>
 {
     const auto extension = ExtensionOf(fileName);
     std::optional<DecodedImage> image;
-    if (extension == "tga")
+    if (extension == "oof")
+    {
+        // a Descent 3 model becomes a Wavefront OBJ with every subobject
+        if (const auto model = ParseOof(bytes))
+        {
+            const auto text = ExportOofObj(*model);
+            std::vector<std::byte> data(text.size());
+            std::memcpy(data.data(), text.data(), text.size());
+            return ConvertedFile{"obj", std::move(data)};
+        }
+        return std::nullopt;
+    }
+    if (extension == "ogf")
+    {
+        if (auto ogf = DecodeOgf(bytes))
+        {
+            image = std::move(ogf->Levels.front());
+        }
+        else
+        {
+            image = DecodeTga(bytes);
+        }
+    }
+    else if (extension == "oaf")
+    {
+        if (const auto oaf = DecodeOaf(bytes))
+        {
+            image = MakeFrameSheet(*oaf);
+        }
+    }
+    else if (extension == "fnt")
+    {
+        if (const auto font = DecodeFnt(bytes))
+        {
+            image = MakeGlyphSheet(*font);
+        }
+    }
+    else if (extension == "tga")
     {
         image = DecodeTga(bytes);
     }

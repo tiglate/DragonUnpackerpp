@@ -3,8 +3,8 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--palette=NAME]
-//                  [--filter=TEXT [--search-all]] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--view-key=K] [--view-button=ICON] [--palette=NAME]
+//                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
 #include "Core/AppSettings.h"
@@ -13,6 +13,7 @@
 #include "Core/HyperRipper.h"
 #include "Dudi7/Driver.h"
 #include "Ui/AboutDialog.h"
+#include "Ui/ViewNavigation.h"
 #include "Ui/HyperRipperDialog.h"
 #include "Ui/Languages.h"
 #include "Ui/ListDialog.h"
@@ -29,6 +30,7 @@
 #include <spdlog/spdlog.h>
 
 #include <QApplication>
+#include <QThread>
 #include <QDir>
 #include <QIcon>
 #include <QLibraryInfo>
@@ -191,9 +193,9 @@ int main(int argc, char **argv)
 
     if (const auto themeName = ArgumentValue(argc, argv, "theme"); !themeName.empty())
     {
-        settings.Theme = themeName == "light" ? "light" : "dark"; // the command line wins for this run
+        Dup::Ui::ThemeManager::Force(Dup::Ui::ThemeManager::FromName(themeName)); // for this run only: never saved
     }
-    Dup::Ui::ThemeManager::Apply(settings.Theme == "light" ? Dup::Ui::Theme::LIGHT : Dup::Ui::Theme::DARK);
+    Dup::Ui::ThemeManager::Apply(Dup::Ui::ThemeManager::FromName(settings.Theme));
 
     auto window = injector.create<std::unique_ptr<Dup::Ui::MainWindow>>();
     // with --quit the run is automated: no modal dialog may wait for a user
@@ -221,6 +223,21 @@ int main(int argc, char **argv)
     if (const auto filter = ArgumentValue(argc, argv, "filter"); !filter.empty())
     {
         window->SetNameFilter(QString::fromStdString(filter), HasFlag(argc, argv, "search-all"));
+    }
+    if (const auto animation = ArgumentValue(argc, argv, "model-animation"); !animation.empty())
+    {
+        window->SetModelAnimation(QString::fromStdString(animation).toInt());
+    }
+    if (const auto pose = ArgumentValue(argc, argv, "model-pose"); !pose.empty())
+    {
+        window->SetModelPose(QString::fromStdString(pose).toDouble()); // "0.5" whatever the locale
+    }
+    if (const auto type = ArgumentValue(argc, argv, "type"); !type.empty())
+    {
+        if (!window->SetTypeFilter(QString::fromStdString(type)))
+        {
+            spdlog::warn("no file of type {} in the archive", type);
+        }
     }
     if (const auto workspace = ArgumentValue(argc, argv, "workspace"); !workspace.empty())
     {
@@ -258,6 +275,80 @@ int main(int argc, char **argv)
     {
         window->SelectEntryByName(QString::fromStdString(select));
     }
+    // --right-click=NAME: a right click on the entry (on its thumbnail in the thumbnail view); --print-entry-menu prints
+    // the menu the click opens
+    if (const auto clicked = ArgumentValue(argc, argv, "right-click"); !clicked.empty())
+    {
+        window->SelectEntryByName(QString::fromStdString(clicked), Qt::RightButton);
+    }
+    // --view-drag=BUTTON,DX,DY (BUTTON: left, right, middle, shift-left): a drag in the 3D view of the preview
+    if (const auto drag = ArgumentValue(argc, argv, "view-drag"); !drag.empty())
+    {
+        const auto parts = QString::fromStdString(drag).split(',');
+        const QString name = parts.value(0);
+        const Qt::MouseButton button = name == "right" ? Qt::RightButton : name == "middle" ? Qt::MiddleButton : Qt::LeftButton;
+        const Qt::KeyboardModifiers modifiers = name == "shift-left" ? Qt::ShiftModifier : Qt::NoModifier;
+        QCoreApplication::processEvents(); // the preview is prepared on its thread: let its answer arrive
+        bool dragged = false;
+        for (int i = 0; i < 100 && !dragged; ++i)
+        {
+            dragged = window->TestViewDrag(button, modifiers, QPoint(parts.value(1).toInt(), parts.value(2).toInt()));
+            if (!dragged)
+            {
+                QThread::msleep(50);
+                QCoreApplication::processEvents();
+            }
+        }
+        if (!dragged)
+        {
+            spdlog::error("no 3D view to drag in");
+            return 2;
+        }
+    }
+    // --view-key=K (one letter): a key pressed in the 3D view of the preview
+    if (const auto key = ArgumentValue(argc, argv, "view-key"); key.size() == 1)
+    {
+        bool pressed = false;
+        for (int i = 0; i < 100 && !pressed; ++i)
+        {
+            QCoreApplication::processEvents();
+            pressed = window->TestViewKey(QChar(key[0]).toUpper().unicode());
+            if (!pressed)
+            {
+                QThread::msleep(50);
+            }
+        }
+        if (!pressed)
+        {
+            spdlog::error("no 3D view to press a key in");
+            return 2;
+        }
+    }
+    // --view-button=ICON: a click on that button of the 3D view of the preview (wireframe, lightmap, zoom-in...)
+    if (const auto button = ArgumentValue(argc, argv, "view-button"); !button.empty())
+    {
+        bool clicked = false;
+        for (int i = 0; i < 100 && !clicked; ++i)
+        {
+            QCoreApplication::processEvents();
+            clicked = window->TestViewButton(QString::fromStdString(button));
+            if (!clicked)
+            {
+                QThread::msleep(50);
+            }
+        }
+        if (!clicked)
+        {
+            spdlog::error("no button {} in a 3D view", button);
+            return 2;
+        }
+    }
+    if (HasFlag(argc, argv, "print-entry-menu"))
+    {
+        std::printf("%s", window->TestEntryMenu().c_str());
+        window.reset();
+        return 0;
+    }
 
     if (HasFlag(argc, argv, "identify"))
     {
@@ -292,11 +383,18 @@ int main(int argc, char **argv)
     }
     else if (const auto selected = ArgumentValue(argc, argv, "extract-selected"); !selected.empty())
     {
-        window->ExtractSelectedTo(QString::fromStdString(selected));
-        exitCode = window->WaitForJobs() == 0 ? 0 : 1;
+        if (!window->ExtractSelectedTo(QString::fromStdString(selected)))
+        {
+            spdlog::error("nothing is selected");
+            exitCode = 1;
+        }
+        else
+        {
+            exitCode = window->WaitForJobs() == 0 ? 0 : 1;
+        }
     }
 
-    // --show-dialog=options|hyperripper|list|about with --screenshot: a picture of the dialog instead of the window
+    // --show-dialog=options|hyperripper|list|about|viewer-help with --screenshot: a picture of the dialog instead of the window
     if (const auto dialogName = ArgumentValue(argc, argv, "show-dialog"); !dialogName.empty() && !ArgumentValue(argc, argv, "screenshot").empty())
     {
         auto &host = injector.create<Dup::Core::DriverHost &>();
@@ -305,9 +403,13 @@ int main(int argc, char **argv)
         {
             dialog = std::make_unique<Dup::Ui::OptionsDialog>(settings, host, window.get());
         }
+        else if (dialogName == "viewer-help")
+        {
+            dialog = Dup::Ui::ViewNavigation::MakeHelpDialog(window.get(), Dup::Ui::ViewNavigation::AllViewerKeys());
+        }
         else if (dialogName == "about")
         {
-            dialog = std::make_unique<Dup::Ui::AboutDialog>(QString("<p>Default driver: 131 formats</p>"), window.get());
+            dialog = std::make_unique<Dup::Ui::AboutDialog>(QString("<p>Default driver: 135 formats</p>"), window.get());
         }
         else if (dialogName == "list")
         {
@@ -330,7 +432,9 @@ int main(int argc, char **argv)
     const bool quit = HasFlag(argc, argv, "quit");
     if (!screenshot.empty())
     {
-        QTimer::singleShot(400, window.get(), [&window, screenshot, quit] {
+        const auto delayText = ArgumentValue(argc, argv, "screenshot-delay");
+        const int delay = delayText.empty() ? 400 : QString::fromStdString(delayText).toInt();
+        QTimer::singleShot(delay, window.get(), [&window, screenshot, quit] {
             window->grab().save(QString::fromStdString(screenshot));
             if (quit)
             {

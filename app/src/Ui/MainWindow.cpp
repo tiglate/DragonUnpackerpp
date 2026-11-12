@@ -4,6 +4,11 @@
 
 #include "Ui/MainWindow.h"
 
+#include <QContextMenuEvent>
+#include <QKeyEvent>
+#include <QToolButton>
+#include <QMouseEvent>
+
 #include "Core/PreviewWorker.h"
 #include "Ui/AboutDialog.h"
 #include "Ui/ArchiveTableModel.h"
@@ -17,6 +22,7 @@
 #include "Core/HyperRipper.h"
 #include "Ui/HyperRipperDialog.h"
 #include "Ui/ListDialog.h"
+#include "Ui/ViewNavigation.h"
 #include "Ui/ListTemplates.h"
 #include "Ui/ImageViewer.h"
 #include "Ui/Icons.h"
@@ -33,6 +39,7 @@
 #include <QCloseEvent>
 #include <QApplication>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDragEnterEvent>
 #include <QTemporaryDir>
 #include <QToolBar>
@@ -132,9 +139,19 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
     auto *filterRow = new QHBoxLayout;
     filterRow->setContentsMargins(0, 0, 0, 0);
     filterRow->addWidget(_filter, 1);
+    _typeFilter = new QComboBox(this);
+    _typeFilter->setToolTip(tr("Show only the files of one type (the extension)"));
+    _typeFilter->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    _typeFilter->setMinimumContentsLength(12);
+    FillTypeFilter();
+    filterRow->addWidget(_typeFilter);
     filterRow->addWidget(_searchAll);
     centralLayout->addLayout(filterRow);
     connect(_searchAll, &QCheckBox::toggled, this, [this] { OnFolderChanged(); });
+    connect(_typeFilter, &QComboBox::currentIndexChanged, this, [this](int row) {
+        _tableModel->SetTypeFilter(row > 0, row > 0 ? _typeFilter->itemData(row).toString() : QString());
+        _statusEntries->setText(tr("%1 entries").arg(_tableModel->rowCount()));
+    });
     _grid = new QListView(this);
     _grid->setViewMode(QListView::IconMode);
     _grid->setResizeMode(QListView::Adjust);
@@ -142,6 +159,7 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
     _grid->setUniformItemSizes(true); // all cells have the size the model gives (SizeHintRole)
     _grid->setWordWrap(true);
     _grid->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    _grid->setSelectionBehavior(QAbstractItemView::SelectRows); // whole rows, as the table: the selection is shared
     _grid->setSpacing(4);
     _grid->setModel(_tableModel);
     _grid->setModelColumn(ArchiveTableModel::NAME);
@@ -222,21 +240,16 @@ MainWindow::MainWindow(Core::DriverHost &driverHost, Core::AppSettings &settings
         }
         statusBar()->showMessage(summary, 8000);
     });
-    _table->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(_table, &QWidget::customContextMenuRequested, this, [this](const QPoint &position) {
-        QMenu menu(this);
-        menu.addAction(tr("Extract selected..."), this, &MainWindow::OnExtractSelected)->setEnabled(!SelectedEntries().empty());
-        menu.addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll);
-        menu.addSeparator();
-        menu.addAction(tr("Extract selected, images as PNG..."), this, &MainWindow::OnExtractSelectedAsPng)->setEnabled(!SelectedEntries().empty());
-        menu.addSeparator();
-        // the tiles of the console ROMs are in grays: the palettes found in the ROM give them colours
-        const auto selected = SelectedEntries();
-        const bool isPalette = selected.size() == 1 && _index != nullptr && EndsWithNoCase(_index->GetFileName(selected.front()), ".pal");
-        menu.addAction(tr("Use as palette for previews"), this, [this, selected] { SetPreviewPalette(selected.front()); })->setEnabled(isPalette);
-        menu.addAction(tr("Show the pictures in their own colors"), this, [this] { SetPreviewPalette(-1); })->setEnabled(_previewPaletteEntry >= 0);
-        menu.exec(_table->viewport()->mapToGlobal(position));
-    });
+    // a right click on an entry, in the details or the thumbnail view: what can be done with it
+    for (QAbstractItemView *view : {static_cast<QAbstractItemView *>(_table), static_cast<QAbstractItemView *>(_grid)})
+    {
+        view->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(view, &QWidget::customContextMenuRequested, this, [this, view](const QPoint &position) {
+            QMenu menu(this);
+            FillEntryMenu(&menu);
+            menu.exec(view->viewport()->mapToGlobal(position));
+        });
+    }
     _tree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(_tree, &QWidget::customContextMenuRequested, this, [this](const QPoint &position) {
         QMenu menu(this);
@@ -360,16 +373,19 @@ void MainWindow::BuildMenus()
     viewMenu->addSeparator();
     auto *themeMenu = viewMenu->addMenu(tr("&Theme"));
     auto *group = new QActionGroup(this);
-    auto *dark = themeMenu->addAction(tr("&Dark"));
-    auto *light = themeMenu->addAction(tr("&Light"));
-    for (auto *action : {dark, light})
+    for (const auto &[theme, label] : {std::pair{Theme::SYSTEM, tr("&System")}, std::pair{Theme::DARK, tr("&Dark")},
+                                       std::pair{Theme::LIGHT, tr("&Light")}})
     {
+        auto *action = themeMenu->addAction(label);
         action->setCheckable(true);
+        action->setChecked(ThemeManager::Current() == theme);
         group->addAction(action);
+        connect(action, &QAction::triggered, this, [this, theme = theme] {
+            ThemeManager::Force(std::nullopt); // the user's choice replaces the --theme of the command line
+            ThemeManager::Apply(theme);
+            _settings.Theme = ThemeManager::Name(theme);
+        });
     }
-    (ThemeManager::Current() == Theme::DARK ? dark : light)->setChecked(true);
-    connect(dark, &QAction::triggered, this, [] { ThemeManager::Apply(Theme::DARK); });
-    connect(light, &QAction::triggered, this, [] { ThemeManager::Apply(Theme::LIGHT); });
     viewMenu->addSeparator(); // the panels' toggles are added by BuildDocks
 
     auto *toolsMenu = menuBar()->addMenu(tr("&Tools"));
@@ -385,6 +401,7 @@ void MainWindow::BuildMenus()
                   {nullptr, ""}, {back, "back"}, {forward, "forward"}, {up, "up"}, {nullptr, ""}, {ripper, "hyperripper"}, {optionsAction, "options"}});
 
     auto *helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(tr("&3D viewer controls..."), this, [this] { ViewNavigation::ShowHelp(this, ViewNavigation::AllViewerKeys()); });
     helpMenu->addAction(tr("&About"), this, [this] {
         QString driverText;
         if (_driverHost.IsLoaded())
@@ -508,6 +525,7 @@ void MainWindow::OnOptions()
     OptionsDialog dialog(_settings, _driverHost, this);
     if (dialog.exec() == QDialog::Accepted)
     {
+        ThemeManager::Force(std::nullopt); // the theme chosen there replaces the --theme of the command line
         ApplySettings();
         _settings.Save();
     }
@@ -515,7 +533,7 @@ void MainWindow::OnOptions()
 
 void MainWindow::ApplySettings()
 {
-    ThemeManager::Apply(_settings.Theme == "light" ? Theme::LIGHT : Theme::DARK);
+    ThemeManager::Apply(ThemeManager::FromName(_settings.Theme));
     spdlog::set_level(spdlog::level::from_str(_settings.LogLevel));
     _thumbnailSize->setValue(_settings.ThumbnailSize);
     if (_previewWorker != nullptr)
@@ -631,6 +649,7 @@ void MainWindow::CloseArchive()
 {
     StopIdentifying();
     _tableModel->SetIndex(nullptr);
+    FillTypeFilter();
     _treeModel->SetIndex(nullptr, QString());
     _thumbnailWorker.reset();
     _index.reset();
@@ -745,6 +764,7 @@ auto MainWindow::OpenSource(std::shared_ptr<const Core::ArchiveSource> source) -
         RebuildRecentMenu();
     }
     _tableModel->SetIndex(_index.get());
+    FillTypeFilter();
     _treeModel->SetIndex(_index.get(), title);
     setWindowTitle(title + " - Dragon UnPACKer++");
     const auto root = _treeModel->index(0, 0);
@@ -757,6 +777,41 @@ void MainWindow::SetNameFilter(const QString &text, bool wholeArchive)
 {
     _searchAll->setChecked(wholeArchive);
     _filter->setText(text);
+}
+
+void MainWindow::SetModelAnimation(int index)
+{
+    _preview->SetModelAnimation(index);
+}
+
+void MainWindow::SetModelPose(double u)
+{
+    _preview->SetModelPose(u);
+}
+
+void MainWindow::FillTypeFilter()
+{
+    // a new archive starts with every type shown
+    const QSignalBlocker blocker(_typeFilter);
+    _typeFilter->clear();
+    _typeFilter->addItem(tr("All types"));
+    for (const auto &[extension, count] : _tableModel->TypeCounts())
+    {
+        const auto label = extension.isEmpty() ? tr("(no extension)") : extension.toUpper();
+        _typeFilter->addItem(QString("%1 (%2)").arg(label).arg(count), extension);
+    }
+    _tableModel->SetTypeFilter(false, QString());
+}
+
+auto MainWindow::SetTypeFilter(const QString &extension) -> bool
+{
+    const int row = _typeFilter->findData(extension.toLower());
+    if (row < 0)
+    {
+        return false;
+    }
+    _typeFilter->setCurrentIndex(row);
+    return true;
 }
 
 void MainWindow::SetThumbnailView(bool thumbnails)
@@ -947,7 +1002,7 @@ void MainWindow::OnEntryChanged()
     PreviewEntry(_tableModel->EntryAt(current.row()));
 }
 
-auto MainWindow::SelectEntryByName(const QString &fileName) -> bool
+auto MainWindow::SelectEntryByName(const QString &fileName, Qt::MouseButton button) -> bool
 {
     if (_index == nullptr)
     {
@@ -982,6 +1037,11 @@ auto MainWindow::SelectEntryByName(const QString &fileName) -> bool
                     {
                         if (_tableModel->EntryAt(row) == i)
                         {
+                            if (_views->currentWidget() == _grid)
+                            {
+                                ClickThumbnail(row, button);
+                                return true;
+                            }
                             _table->setCurrentIndex(_tableModel->index(row, 0));
                             _table->selectRow(row);
                             return true;
@@ -1056,14 +1116,16 @@ auto MainWindow::UsePaletteEntryByName(const QString &fileName) -> bool
 
 auto MainWindow::SelectedEntries() const -> std::vector<std::uint32_t>
 {
+    // Any selected cell counts: the thumbnail view selects only the name column, so selectedRows() (whole rows) can
+    // miss what it selected.
     std::vector<std::uint32_t> entries;
-    const auto rows = _table->selectionModel()->selectedRows();
-    entries.reserve(static_cast<std::size_t>(rows.size()));
-    for (const auto &row : rows)
+    for (const auto &index : _table->selectionModel()->selectedIndexes())
     {
-        entries.push_back(_tableModel->EntryAt(row.row()));
+        entries.push_back(_tableModel->EntryAt(index.row()));
     }
     std::ranges::sort(entries);
+    const auto [first, last] = std::ranges::unique(entries);
+    entries.erase(first, last);
     return entries;
 }
 
@@ -1170,6 +1232,108 @@ auto MainWindow::GetToolsDirectory() const -> std::filesystem::path
 }
 
 // The tools described by the INI files that can be used, one entry each
+// The menu of the selected entries (the right click selects the entry under the mouse first, as Qt's views do).
+void MainWindow::FillEntryMenu(QMenu *menu)
+{
+    const auto selected = SelectedEntries();
+    const bool any = !selected.empty();
+    if (selected.size() == 1 && _index != nullptr)
+    {
+        auto *title = menu->addAction(QString::fromUtf8(_index->GetFileName(selected.front())));
+        title->setEnabled(false);
+        menu->addSeparator();
+    }
+    menu->addAction(QIcon::fromTheme("document-save"), tr("Extract selected..."), this, &MainWindow::OnExtractSelected)->setEnabled(any);
+    menu->addAction(tr("Extract selected, images as PNG..."), this, &MainWindow::OnExtractSelectedAsPng)->setEnabled(any);
+    auto *tools = menu->addMenu(tr("Extract selected, converted with..."));
+    tools->setEnabled(any);
+    FillToolMenu(tools, false);
+    // the tiles of the console ROMs are in grays: the palettes found in the ROM give them colours
+    const bool isPalette = selected.size() == 1 && _index != nullptr && EndsWithNoCase(_index->GetFileName(selected.front()), ".pal");
+    if (isPalette || _previewPaletteEntry >= 0)
+    {
+        menu->addSeparator();
+    }
+    if (isPalette)
+    {
+        menu->addAction(tr("Use as palette for previews"), this, [this, entry = selected.front()] { SetPreviewPalette(entry); });
+    }
+    if (_previewPaletteEntry >= 0)
+    {
+        menu->addAction(tr("Show the pictures in their own colors"), this, [this] { SetPreviewPalette(-1); });
+    }
+    menu->addSeparator();
+    menu->addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll)->setEnabled(_index != nullptr);
+}
+
+auto MainWindow::TestViewButton(const QString &icon) -> bool
+{
+    for (auto *button : findChildren<QToolButton *>("view-" + icon))
+    {
+        if (button->isVisible() && button->isEnabled())
+        {
+            button->click();
+            return true;
+        }
+    }
+    return false;
+}
+
+auto MainWindow::TestViewKey(int key) -> bool
+{
+    for (auto *canvas : findChildren<QWidget *>("viewCanvas"))
+    {
+        if (canvas->isVisible())
+        {
+            QKeyEvent press(QEvent::KeyPress, key, Qt::NoModifier);
+            QCoreApplication::sendEvent(canvas, &press);
+            canvas->repaint();
+            return true;
+        }
+    }
+    return false;
+}
+
+auto MainWindow::TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool
+{
+    for (auto *canvas : findChildren<QWidget *>("viewCanvas"))
+    {
+        if (!canvas->isVisible())
+        {
+            continue;
+        }
+        const QPointF start(canvas->width() / 2.0, canvas->height() / 2.0);
+        const QPointF end = start + QPointF(delta);
+        QMouseEvent press(QEvent::MouseButtonPress, start, canvas->mapToGlobal(start), button, button, modifiers);
+        QCoreApplication::sendEvent(canvas, &press);
+        QMouseEvent move(QEvent::MouseMove, end, canvas->mapToGlobal(end), Qt::NoButton, button, modifiers);
+        QCoreApplication::sendEvent(canvas, &move);
+        QMouseEvent release(QEvent::MouseButtonRelease, end, canvas->mapToGlobal(end), button, Qt::NoButton, modifiers);
+        QCoreApplication::sendEvent(canvas, &release);
+        // a right button release also asks for a context menu: it must not reach the window
+        QContextMenuEvent menu(QContextMenuEvent::Mouse, end.toPoint(), canvas->mapToGlobal(end.toPoint()));
+        QCoreApplication::sendEvent(canvas, &menu);
+        canvas->repaint();
+        return true;
+    }
+    return false;
+}
+
+auto MainWindow::TestEntryMenu() -> std::string
+{
+    QMenu menu;
+    FillEntryMenu(&menu);
+    std::string text;
+    for (const auto *action : menu.actions())
+    {
+        if (!action->isSeparator())
+        {
+            text += (action->isEnabled() ? "+ " : "- ") + action->text().toStdString() + "\n";
+        }
+    }
+    return text;
+}
+
 void MainWindow::FillToolMenu(QMenu *menu, bool all)
 {
     menu->clear();
@@ -1602,9 +1766,28 @@ void MainWindow::ExtractAllTo(const QString &directory, bool convertImages, std:
     StartExtraction(std::move(all), QString::fromStdString(_archiveTitle), directory, convertImages, std::move(tool));
 }
 
-void MainWindow::ExtractSelectedTo(const QString &directory)
+auto MainWindow::ExtractSelectedTo(const QString &directory) -> bool
 {
-    StartExtraction(SelectedEntries(), QString::fromStdString(_archiveTitle), directory);
+    auto entries = SelectedEntries();
+    if (entries.empty())
+    {
+        return false;
+    }
+    StartExtraction(std::move(entries), QString::fromStdString(_archiveTitle), directory);
+    return true;
+}
+
+// A mouse click on a thumbnail, as the user makes it (the tests select through the same path as the mouse).
+void MainWindow::ClickThumbnail(int row, Qt::MouseButton button)
+{
+    const auto index = _tableModel->index(row, ArchiveTableModel::NAME);
+    _grid->scrollTo(index);
+    const QPointF point = _grid->visualRect(index).center();
+    const QPointF global = _grid->viewport()->mapToGlobal(point);
+    QMouseEvent press(QEvent::MouseButtonPress, point, global, button, button, Qt::NoModifier);
+    QCoreApplication::sendEvent(_grid->viewport(), &press);
+    QMouseEvent release(QEvent::MouseButtonRelease, point, global, button, Qt::NoButton, Qt::NoModifier);
+    QCoreApplication::sendEvent(_grid->viewport(), &release);
 }
 
 auto MainWindow::WaitForJobs() -> int
@@ -1619,7 +1802,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     _jobs->WaitForAll();
     _settings.Layout["geometry"] = saveGeometry().toBase64().toStdString();
     _settings.Layout["state"] = saveState().toBase64().toStdString();
-    _settings.Theme = ThemeManager::Current() == Theme::DARK ? "dark" : "light";
     _settings.Save();
     QMainWindow::closeEvent(event);
 }

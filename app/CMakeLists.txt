@@ -31,6 +31,10 @@ endif ()
 
 # Distribution packages by default; with the vcpkg toolchain (make.sh --use-vcpkg) the same names resolve to vcpkg's.
 find_package(Qt6 6.4 REQUIRED COMPONENTS Widgets Multimedia Svg LinguistTools)
+# The desktop's light/dark preference (and its changes) comes from the freedesktop settings portal over D-Bus
+if (NOT WIN32)
+    find_package(Qt6 6.4 QUIET COMPONENTS DBus)
+endif ()
 find_package(spdlog REQUIRED)
 find_package(Microsoft.GSL REQUIRED)
 

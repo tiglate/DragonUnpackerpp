@@ -9,6 +9,8 @@
 #include <QBuffer>
 #include <QWidget>
 
+#include <optional>
+
 class QAudioOutput;
 class QLabel;
 class QMediaPlayer;
@@ -22,6 +24,8 @@ namespace Dup::Ui
 {
 class ImageViewer;
 class MeshViewer;
+class ModelViewer;
+class RigViewer;
 
 /// The "Viewer" panel: shows what the preview worker prepared (image, text, hex dump, sound player or a message).
 class PreviewPanel : public QWidget
@@ -37,6 +41,21 @@ class PreviewPanel : public QWidget
     [[nodiscard]] auto GetImageViewer() const -> ImageViewer *
     {
         return _image;
+    }
+    /// Test hook: the models are shown animated at this position (0 to 1) instead of in their rest pose.
+    void SetModelPose(double u)
+    {
+        _modelPose = u;
+    }
+    /// Test hook: the skinned models start in this animation.
+    void SetModelAnimation(int index)
+    {
+        _modelAnimation = index;
+    }
+    /// Test hook: the viewer of skinned models.
+    [[nodiscard]] auto GetRigViewer() const -> RigViewer *
+    {
+        return _rig;
     }
     /// A short description of what is shown (for the status bar and the inspector), "" when nothing.
     [[nodiscard]] auto GetDescription() const -> const QString &
@@ -55,6 +74,8 @@ class PreviewPanel : public QWidget
     QWidget *_imagePage; // the zoom buttons and the viewer
     ImageViewer *_image;
     MeshViewer *_mesh;
+    ModelViewer *_model;
+    RigViewer *_rig;
     QPlainTextEdit *_text;
     QLabel *_message;
     QWidget *_audioPage;
@@ -68,5 +89,7 @@ class PreviewPanel : public QWidget
     QByteArray _audioBytes;
     QString _description;
     QLabel *_note;
+    std::optional<double> _modelPose;
+    std::optional<int> _modelAnimation;
 };
 } // namespace Dup::Ui

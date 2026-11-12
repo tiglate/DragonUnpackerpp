@@ -6,6 +6,8 @@
 
 #include "Core/ArchiveSource.h"
 #include "Core/ObjParser.h"
+#include "Core/OofRender.h"
+#include "Core/RigModel.h"
 #include "Core/FileTypes.h"
 #include "Core/TextureConverters.h"
 #include "Core/TgaDecoder.h"
@@ -32,6 +34,8 @@ enum class PreviewKind
     IMAGE_FILE, // Bytes hold an image file that the interface decodes (png, jpg, bmp, gif)
     TEXT,
     MESH, // Mesh holds the geometry of an OBJ file
+    MODEL, // Scene holds a Descent 3 model (textures, pose and effects are drawn by the viewer)
+    RIG,   // Rig holds a skinned model with animations (glTF of the Requiem models and levels), RigTextures its pictures
     AUDIO, // Bytes hold the whole sound file (wav, mp3, ogg...)
     HEX,   // Text holds a hex dump of the first bytes
     ERROR_MESSAGE
@@ -58,6 +62,9 @@ struct PreviewResult
     std::string Text;      // TEXT and HEX
     DecodedImage Image;
     std::shared_ptr<const Mesh> Geometry;
+    std::shared_ptr<const OofScene> Scene;
+    std::shared_ptr<const RigScene> Rig;
+    std::vector<std::shared_ptr<const DecodedImage>> RigTextures; // per part of the rig (nullptr: not found)
     std::vector<std::byte> Bytes;
     std::int64_t EntrySize{0};
     /// What the first bytes of the entry say (FileTypes.h); set by the worker, not by Prepare.
@@ -70,6 +77,10 @@ struct EntryContext
     std::int64_t DataX{0};
     std::int64_t DataY{0};
     const PaletteRgb *Palette{nullptr};
+    /// Finds the picture of a model texture by its name in the archive that the entry is in (empty: textures are not looked for).
+    OofTextureResolver Textures;
+    /// Finds the picture of a rig model by its slot in the art archive of the game (empty: not looked for).
+    std::function<std::shared_ptr<const DecodedImage>(int)> RigTexture;
 };
 
 /// Prepares the preview of one entry at a time on its own thread, with its own archive handle: the newest request wins

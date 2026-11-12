@@ -2,6 +2,7 @@
 """Generate one tiny archive per format of the default driver in a directory:
 python3 make_fixtures.py outdir
 All of them hold the same 3 payloads (the names depend on the format)."""
+import math
 import struct, sys, os
 
 HELLO = b"Hello, Dragon UnPACKer!\n"
@@ -2605,6 +2606,288 @@ open(os.path.join(out, "dune.rfd"), "wb").write(drd)
 gdir, gimg = gta3()
 open(os.path.join(out, "gta3.dir"), "wb").write(gdir)
 open(os.path.join(out, "gta3.img"), "wb").write(gimg)
+# ---- Requiem: Avenging Angel: DCL (PKWARE implode) streams, texture archives (.DAT index + .ART data), levels (.JAM)
+_DCL_LIT = [11, 124, 8, 7, 28, 7, 188, 13, 76, 4, 10, 8, 12, 10, 12, 10, 8, 23, 8, 9, 7, 6, 7, 8, 7, 6, 55, 8, 23, 24, 12, 11, 7, 9, 11, 12, 6, 7, 22, 5, 7, 24, 6, 11, 9, 6, 7, 22, 7, 11, 38, 7, 9, 8, 25, 11, 8, 11, 9, 12, 8, 12, 5, 38, 5, 38, 5, 11, 7, 5, 6, 21, 6, 10, 53, 8, 7, 24, 10, 27, 44, 253, 253, 253, 252, 252, 252, 13, 12, 45, 12, 45, 12, 61, 12, 45, 44, 173]
+_DCL_LEN = [2, 35, 36, 53, 38, 23]
+_DCL_DIST = [2, 20, 53, 230, 247, 151, 248]
+_DCL_BASE = [3, 2, 4, 5, 6, 7, 8, 9, 10, 12, 16, 24, 40, 72, 136, 264]
+_DCL_XTRA = [0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+
+def _dcl_codes(rep):
+    """symbol -> (code, length): canonical codes by length then symbol (the stream carries them inverted)"""
+    lens = []
+    for b in rep:
+        lens += [b & 15] * ((b >> 4) + 1)
+    codes, code = {}, 0
+    for length in range(1, 17):
+        for sym, l in enumerate(lens):
+            if l == length:
+                codes[sym] = (code, length)
+                code += 1
+        code <<= 1
+    return codes
+
+
+def dcl_implode(data, dict_bits=6):
+    """binary mode DCL stream: literals and matches of 3..9 bytes (found by a naive search), end code"""
+    ln, ds = _dcl_codes(_DCL_LEN), _dcl_codes(_DCL_DIST)
+    bits = []
+
+    def put(value, n):                      # LSB first
+        bits.extend((value >> i) & 1 for i in range(n))
+
+    def put_code(table, sym):               # Huffman codes go MSB first, inverted
+        code, length = table[sym]
+        bits.extend(1 - ((code >> (length - 1 - i)) & 1) for i in range(length))
+
+    def put_len(length):
+        sym = next(i for i in range(16) if _DCL_BASE[i] <= length < _DCL_BASE[i] + (1 << _DCL_XTRA[i]))
+        put(1, 1)
+        put_code(ln, sym)
+        put(length - _DCL_BASE[sym], _DCL_XTRA[sym])
+
+    i = 0
+    while i < len(data):
+        best = (0, 0)
+        for d in range(1, min(i, 1 << (dict_bits + 6)) + 1):
+            n = 0
+            while n < 9 and i + n < len(data) and data[i + n - d] == data[i + n]:
+                n += 1
+            if n > best[0]:
+                best = (n, d)
+        if best[0] >= 3:
+            n, d = best
+            put_len(n)
+            put_code(ds, (d - 1) >> dict_bits)
+            put((d - 1) & ((1 << dict_bits) - 1), dict_bits)
+            i += n
+        else:
+            put(0, 1)
+            put(data[i], 8)
+            i += 1
+    put_len(519)
+    out = bytearray([0, dict_bits])
+    for k in range(0, len(bits), 8):
+        out.append(sum(b << j for j, b in enumerate(bits[k:k + 8])))
+    return bytes(out)
+
+
+def req_texture(w, h, bpp, palette, pixels, levels=1, trailer=b""):
+    head = struct.pack("<HH", w, h) + bytes(9) + bytes([levels, bpp, 2, 0, 0])
+    return head + (palette or b"") + pixels + trailer
+
+
+def req_art(textures, empty_slots=(1,)):
+    """(dat, art): record = unpacked size, 0, packed size (counts itself), DCL stream; slots out of file order"""
+    art, offsets = b"", []
+    for t in textures:
+        offsets.append(len(art))
+        packed = dcl_implode(t)
+        art += struct.pack("<III", len(t), 0, len(packed) + 4) + packed
+    slots = [0xFFFFFFFF] * (len(offsets) + len(empty_slots))
+    free = [i for i in range(len(slots)) if i not in empty_slots]
+    for i, off in zip(free, offsets[:1] + offsets[1:][::-1]):    # the slots are not in the order of the file
+        slots[i] = off
+    return b"".join(struct.pack("<I", v) for v in slots), art
+
+
+def req_art_fixtures():
+    pal = b"".join(bytes([i, 255 - i, i // 2, 255]) for i in range(256))        # BGRA
+    px8 = bytes((x * 7 + y * 3) & 255 for y in range(4) for x in range(4))
+    px16 = b"".join(bytes([(x + y * 4) & 255, 0 if x < 2 else 255]) for y in range(4) for x in range(4))
+    mips = bytes((i * 5) & 255 for i in range(16 + 4 + 1))
+    d3d = [req_texture(4, 4, 1, pal, px8), req_texture(4, 4, 2, pal, px16), req_texture(0, 0, 1, None, b"junk")]
+    sw = [req_texture(4, 4, 1, None, mips, levels=3), req_texture(4, 4, 2, None, px16, trailer=bytes(112))]
+    return req_art(d3d), req_art(sw)
+
+
+REQ_LEVEL_VERTICES = [(0, 0, 0), (10, 0, 0), (10, 0, 10), (0, 0, 10), (5, 5, 5)]
+REQ_LEVEL_PIECES = [((0, 1, 2), ((0.05, 0.05), (64, 0.05), (64, 64))), ((0, 2, 3), ((0.05, 0.05), (64, 64), (0.05, 64)))]
+
+
+def req_level_geometry(start):
+    """The objects of a level data block (codecs/RequiemLevel.cpp), placed from offset start of the block: two textures
+    (art slots 7 and 9), an object of class 3 with five vertices and three faces (a quad cut in two pieces with texture
+    coordinates, a quad without texture that is not drawn, a triangle with the second texture that was not cut), an
+    object without geometry, and the trailer of the classes"""
+    base = 0x06000000
+    out = bytearray()
+    def at():
+        return base + start + len(out)
+    tex = at(); out += struct.pack("<I", 7) + bytes(20)
+    tex2 = at(); out += struct.pack("<I", 9) + bytes(20)
+    verts = at(); out += b"".join(struct.pack("<3f", *v) for v in REQ_LEVEL_VERTICES)
+    quad = at(); out += struct.pack("<4H", 0, 1, 2, 3)
+    piece_idx = []
+    for idx, _ in REQ_LEVEL_PIECES:
+        piece_idx.append(at()); out += struct.pack("<3H", *idx)
+    tri = at(); out += struct.pack("<3H", 0, 1, 4)
+    out += bytes(-len(out) % 4)
+    corners = []
+    for _, uvs in REQ_LEVEL_PIECES:
+        corners.append(at())
+        for u, v in uvs:
+            out += struct.pack("<2f", u, v) + b"\xcd" * 8
+    def polygon(index, corner, texture, count, lightmap=0xCDCD):
+        p = bytearray(0x20)
+        struct.pack_into("<III", p, 4, index, corner, texture)
+        struct.pack_into("<HBB", p, 0x18, lightmap, count, 0x81)
+        return p
+    pieces = at()
+    for k in range(len(REQ_LEVEL_PIECES)):
+        out += polygon(piece_idx[k], corners[k], tex, 3, k)       # lightmaps 0 and 1
+    faces = at()
+    for index, texture, count, first, n in ((quad, tex, 4, pieces, 2), (quad, 0, 4, 0, 0), (tri, tex2, 3, 0, 0)):
+        f = bytearray(0x68)
+        struct.pack_into("<4f", f, 0, 0, 1, 0, 0)
+        struct.pack_into("<9f", f, 0x10, 0, 0, 0, 1, 0, 0, 0, 0, 1)   # lighting frame: origin, s along x, t along z
+        f[0x3C:0x5C] = polygon(index, 0, texture, count)
+        struct.pack_into("<IB", f, 0x5C, first, n)
+        out += f
+    obj = at(); o = bytearray(0x4C); struct.pack_into("<IHHI", o, 0x40, verts, len(REQ_LEVEL_VERTICES), 3, faces); out += o
+    empty = at(); out += bytes(0x4C)
+    trailer = bytearray()
+    for c in range(109):
+        pointers = {3: [obj, empty], 108: [tex, tex2]}.get(c, [])
+        trailer += struct.pack("<I%dI" % len(pointers), len(pointers), *pointers)
+    out += trailer
+    return bytes(out), len(trailer)
+
+
+REQ_LIGHTMAP_COLOURS = [0x8000 | 31 << 10, 0x8000 | 31 << 5]     # RGB555: red, green
+
+
+def req_jam(version, second=True):
+    """A level file; its first block holds two lightmaps of 11 x 11 samples (red, then green: the pieces of the quad
+    of req_level_geometry, s and t from 0 to 10), described by the two entries at the start of the rest"""
+    samples = b"".join(struct.pack("<H", c) * 121 for c in REQ_LIGHTMAP_COLOURS)
+    level = samples + bytes((i * i // 7) & 255 for i in range(3000)) + b"\0" * 500 + b"Requiem" * 100
+    packed = dcl_implode(level)
+    table = b"".join(bytes([0, 0, 11, 11]) + struct.pack("<I", k * 242) + b"\xcd" * 4 for k in range(2))
+    rest = table + bytes(range(200))
+    head = struct.pack("<IIIIII", 0xFEED000A, 0, len(level), 2, version, 250)
+    head += bytes(0x112 + version * 0x100C - len(head))
+    body = head + struct.pack("<I", len(packed)) + packed + rest
+    if second:      # the level data block: magic at 4, two palettes (RGBX) at 0x1F and 0x41F, the geometry
+        data = bytearray(0x900)
+        struct.pack_into("<I", data, 4, 0x0BEAF0CC)
+        for i in range(256):
+            data[0x41F + i * 4:0x41F + i * 4 + 4] = bytes([i, 255 - i, i // 2, 0])
+        geometry, trailer = req_level_geometry(len(data))
+        data += geometry
+        struct.pack_into("<I", data, 0, trailer)
+        blob = dcl_implode(bytes(data))
+        body = body[:4] + struct.pack("<I", len(body) - 12) + body[8:] + struct.pack("<I", len(data)) + blob
+    return body
+
+
+def req_mdl_face(indices, uvs):
+    return struct.pack("<I", len(indices)) + bytes(16) + b"".join(struct.pack("<H", i) for i in indices) + b"".join(
+        struct.pack("<ii", int(u * 65536), int(v * 65536)) for u, v in uvs)
+
+
+def req_mdl_static():
+    """a quad and a triangle, flags 1: one normal per face"""
+    verts = [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0), (0.5, 2, 0)]
+    body = b"".join(struct.pack("<3f", *v) for v in verts)
+    body += req_mdl_face([0, 1, 2, 3], [(0.5, 127.5), (127.5, 127.5), (127.5, 0.5), (0.5, 0.5)])
+    body += req_mdl_face([3, 2, 4], [(0.5, 0.5), (127.5, 0.5), (64, 0.5)])
+    body += struct.pack("<3f", 0, 0, 1) * 2
+    return bytes([1]) + struct.pack("<I", 9) + b"test.bmp\0" + struct.pack("<II", len(verts), 2) + body
+
+
+def req_mdl_skeletal():
+    """two limbs of 3 and 4 vertices, one triangle each, flags 0x10: one normal per vertex"""
+    name = b"skin.bmp\0"
+    head = struct.pack("<IIIIB3xHH", 2, 0, 2, 0, 0x10, 7, len(name)) + bytes(0x2C - 0x18)
+    sections = b""
+    for code, count in ((0xFFFF0003, 3), (0xFFFF0000, 4)):     # limb 0 has one child, limb 1 is a leaf
+        sections += struct.pack("<I", code) + bytes(0x1C) + struct.pack("<I", count) + bytes(0x38 - 0x24)
+    verts = b"".join(struct.pack("<3f", i, i * i, 0) for i in range(7))
+    faces = req_mdl_face([0, 1, 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) + req_mdl_face([3, 4, 5], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)])
+    return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * 7
+
+
+def req_mdl_animation():
+    """body for req_skel.mdl: limb 0 turned 90 degrees around z at (10, 0, 0), limb 1 at (1, 0, 0) in its frame"""
+    body = struct.pack("<I", 0xAA)                                       # rotation and position, constant, 2 limbs
+    body += struct.pack("<4f3f", math.sqrt(0.5), 0, 0, math.sqrt(0.5), 10, 0, 0)
+    body += struct.pack("<4f3f", 1, 0, 0, 0, 1, 0, 0)
+    return struct.pack("<IIII", 0, 2, 0, len(body)) + bytes(0x34 - 16) + body
+
+
+def req_anim():
+    """(ary, bin): records of 16 bytes (offset, 0, size, 0xCDCDCDCD) that fill the .bin"""
+    parts = [b"first record", bytes(range(50)), b"x"]
+    ary, off = struct.pack("<I", len(parts)), 0
+    for p in parts:
+        ary += struct.pack("<IIII", off, 0, len(p), 0xCDCDCDCD)
+        off += len(p)
+    return ary, b"".join(parts)
+
+
+(rd, ra), (rsd, rsa) = req_art_fixtures()
+open(os.path.join(out, "req_d3d.dat"), "wb").write(rd)
+open(os.path.join(out, "req_d3d.art"), "wb").write(ra)
+open(os.path.join(out, "req_sw.dat"), "wb").write(rsd)
+open(os.path.join(out, "req_sw.art"), "wb").write(rsa)
+open(os.path.join(out, "req_static.mdl"), "wb").write(req_mdl_static())
+open(os.path.join(out, "req_skel.mdl"), "wb").write(req_mdl_skeletal())
+open(os.path.join(out, "req_skel.ani"), "wb").write(req_mdl_animation())
+# the texture slots of the models: S (static), G (gun, with its F animations), a second listing of the same file
+open(os.path.join(out, "models3.txt"), "w").write("# test\nS 0 3065 req_static.mdl\nO 1 3206 req_static.mdl\nG 1 3059 req_skel.mdl\nF 0 req_skel.ani\n")
+_ary, _bin = req_anim()
+open(os.path.join(out, "req_anim.ary"), "wb").write(_ary)
+open(os.path.join(out, "req_anim.bin"), "wb").write(_bin)
+
+
+def req_mdl_chain(limbs):
+    """a skeletal model of limbs limbs in a chain (each has one child, the last is a leaf), 3 vertices and a triangle each"""
+    name = b"chain.bmp\0"
+    head = struct.pack("<IIIIB3xHH", limbs, 0, limbs, 0, 0x10, 3 * limbs, len(name)) + bytes(0x2C - 0x18)
+    sections = b"".join(struct.pack("<I", 0xFFFF0003 if i + 1 < limbs else 0xFFFF0000) + bytes(0x1C) + struct.pack("<I", 3) +
+                        bytes(0x38 - 0x24) for i in range(limbs))
+    verts = b"".join(struct.pack("<3f", i, i % 3, 0) for i in range(3 * limbs))
+    faces = b"".join(req_mdl_face([3 * i, 3 * i + 1, 3 * i + 2], [(0.5, 0.5), (1.5, 0.5), (0.5, 1.5)]) for i in range(limbs))
+    return head + name + sections + verts + faces + struct.pack("<3f", 0, 1, 0) * (3 * limbs)
+
+
+def req_chain_animation(limbs):
+    """every limb turned 90 degrees around z, one unit along x from its parent"""
+    flags = sum(0xA << (4 * i) for i in range(limbs))
+    body = struct.pack("<I", flags) + struct.pack("<4f3f", math.sqrt(0.5), 0, 0, math.sqrt(0.5), 1, 0, 0) * limbs
+    return struct.pack("<IIII", 0, 2, 0, len(body)) + bytes(0x34 - 16) + body
+
+
+def req_pack():
+    """files of a Models folder with AnimFile.ary/.bin/.tab: record 0 is junk, record 1 the animation of the model;
+    model id 2 lists walk (record 1), junk (record 0: fits no model) and walk again (a second label)"""
+    # record 2: the animation with the 0xCDCDCDCD fill in place of the position of limb 0 (as two records of the game)
+    filled = bytearray(req_mdl_animation())
+    filled[0x34 + 4 + 16:0x34 + 4 + 28] = b"\xcd" * 12
+    # record 3: a 3 limb animation listed under the 2 limb model (as tsf*.ani under TortFemale.mdl): shown on solo.mdl,
+    # the only 3 limb model; record 4: a 4 limb animation named by nothing, two models have 4 limbs: raw only
+    parts = [b"junk record that is no animation", req_mdl_animation(), bytes(filled), req_chain_animation(3),
+             req_chain_animation(4)]
+    ary, off = struct.pack("<I", len(parts)), 0
+    for p in parts:
+        ary += struct.pack("<IIII", off, 0, len(p), 0xCDCDCDCD)
+        off += len(p)
+    table = [0] * (3 * 40)
+    table[2 * 40 + 0], table[2 * 40 + 1], table[2 * 40 + 5], table[2 * 40 + 6], table[2 * 40 + 7] = 1, 0, 1, 2, 3
+    models3 = "# test\nM 2 3059 Pack_Skel.mdl\nA 0 walk.ani\nA 1 junk.ani\nA 5 walk.ani\nA 6 filled.ani\nA 7 wrongmodel.ani\nA 39 none.ani\nA 40 over.ani\n"
+    return {"AnimFile.ary": ary, "AnimFile.bin": b"".join(parts), "AnimFile.tab": struct.pack("<%dH" % len(table), *table),
+            "models3.txt": models3.encode(), "pack_skel.mdl": req_mdl_skeletal(), "solo.mdl": req_mdl_chain(3),
+            "twin_a.mdl": req_mdl_chain(4), "twin_b.mdl": req_mdl_chain(4)}
+
+
+os.makedirs(os.path.join(out, "req_pack"), exist_ok=True)
+for _name, _data in req_pack().items():
+    open(os.path.join(out, "req_pack", _name), "wb").write(_data)
+for v in (0, 1, 2):
+    open(os.path.join(out, "req_v%d.jam" % v), "wb").write(req_jam(v, v != 1))
+
 here = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(out, "payload.bin"), "wb") as f:
     f.write(RNC_PAYLOAD)

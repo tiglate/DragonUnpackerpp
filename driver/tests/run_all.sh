@@ -20,6 +20,7 @@ cli=$root/build/tools/dudi7cli
 python3 "$here/make_fixtures.py" "$out/fx"
 python3 "$here/fuzz.py" "$plugin" "$cli" "$out/fx" 40
 python3 "$here/verify_roms.py" "$plugin" "$cli" | tail -1
+python3 "$here/verify_requiem.py" "$plugin" "$cli" "$out/fx"
 python3 "$here/verify_lzo.py" "$plugin" "$cli" | tail -3
 python3 "$here/verify_lzma.py" "$plugin" "$cli" | tail -3
 # objects of the serialized files of the bundles: the listing and the MD5 of every entry vs unity_ref.py

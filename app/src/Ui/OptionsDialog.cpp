@@ -48,6 +48,7 @@ OptionsDialog::OptionsDialog(Core::AppSettings &settings, const Core::DriverHost
     // General
     auto *general = new QWidget(this);
     auto *generalForm = new QFormLayout(general);
+    _theme->addItem(tr("As the system"), "system");
     _theme->addItem(tr("Dark"), "dark");
     _theme->addItem(tr("Light"), "light");
     SelectData(_theme, QString::fromStdString(settings.Theme));

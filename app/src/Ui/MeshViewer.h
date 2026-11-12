@@ -8,12 +8,14 @@
 
 #include <QWidget>
 
+#include "Ui/ViewNavigation.h"
+
 #include <memory>
 
 namespace Dup::Ui
 {
-/// A small software 3D view of a mesh: drag with the left button to turn it, wheel to zoom, W to switch between the shaded
-/// and the wireframe drawing, F to frame the model again. Triangles are sorted back to front (painter's algorithm) up to
+/// A small software 3D view of a mesh: drag with the left button to turn it, with the right one to move it, wheel to zoom,
+/// W to switch between the shaded and the wireframe drawing, F to frame the model again, H for the help. Triangles are sorted back to front (painter's algorithm) up to
 /// 40,000 of them, bigger meshes are drawn as wireframe.
 class MeshViewer : public QWidget
 {
@@ -31,12 +33,21 @@ class MeshViewer : public QWidget
     void mouseMoveEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
   private:
+    [[nodiscard]] auto View() -> ViewState;
+    [[nodiscard]] static auto Keys() -> std::vector<ViewNavigation::Shortcut>;
+    [[nodiscard]] auto Area() const -> QRect; // where the mesh is drawn: below the buttons
+    void FrameAgain();
+
     std::shared_ptr<const Core::Mesh> _mesh;
+    ViewToolBar *_toolbar{nullptr};
     double _yaw{0.6};
     double _pitch{0.4};
     double _zoom{1.0};
+    double _panX{0.0};
+    double _panY{0.0};
     bool _wireframe{false};
     QPoint _last;
 };

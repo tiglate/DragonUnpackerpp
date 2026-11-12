@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 
 namespace Dup::Ui
 {
@@ -124,25 +125,78 @@ void ArchiveTableModel::SetFilter(const QString &text)
     }
 }
 
+namespace
+{
+auto LowerExtension(std::string_view name) -> std::string
+{
+    std::string extension(ExtensionOf(name));
+    for (auto &c : extension)
+    {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return extension;
+}
+} // namespace
+
+void ArchiveTableModel::SetTypeFilter(bool active, const QString &extension)
+{
+    beginResetModel();
+    _typeFilterActive = active;
+    _typeFilter = active ? extension.toUtf8().toLower().toStdString() : std::string();
+    ApplyFilter();
+    RebuildRowMap();
+    endResetModel();
+    if (_sortColumn >= 0)
+    {
+        sort(_sortColumn, _sortOrder);
+    }
+}
+
+auto ArchiveTableModel::TypeCounts() const -> std::vector<std::pair<QString, std::uint32_t>>
+{
+    std::map<std::string, std::uint32_t> counts;
+    if (_index != nullptr)
+    {
+        for (std::uint32_t entry = 0; entry < _index->GetEntryCount(); ++entry)
+        {
+            ++counts[LowerExtension(_index->GetFileName(entry))];
+        }
+    }
+    std::vector<std::pair<QString, std::uint32_t>> result;
+    for (const auto &[extension, count] : counts)
+    {
+        result.emplace_back(QString::fromUtf8(extension.data(), static_cast<qsizetype>(extension.size())), count);
+    }
+    return result;
+}
+
 void ArchiveTableModel::ApplyFilter()
 {
     _rows.clear();
-    if (_filter.empty() || _index == nullptr)
+    if ((_filter.empty() && !_typeFilterActive) || _index == nullptr)
     {
         _rows = _source;
         return;
     }
     for (const auto entry : _source)
     {
-        std::string name(_index->GetFileName(entry));
-        for (auto &c : name)
+        if (_typeFilterActive && LowerExtension(_index->GetFileName(entry)) != _typeFilter)
         {
-            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+            continue;
         }
-        if (name.find(_filter) != std::string::npos)
+        if (!_filter.empty())
         {
-            _rows.push_back(entry);
+            std::string name(_index->GetFileName(entry));
+            for (auto &c : name)
+            {
+                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+            }
+            if (name.find(_filter) == std::string::npos)
+            {
+                continue;
+            }
         }
+        _rows.push_back(entry);
     }
 }
 

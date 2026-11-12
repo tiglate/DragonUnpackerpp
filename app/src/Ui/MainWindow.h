@@ -28,6 +28,7 @@ class QSlider;
 class QStackedWidget;
 class QAction;
 class QCheckBox;
+class QComboBox;
 class QTemporaryDir;
 class QEvent;
 class QLineEdit;
@@ -64,7 +65,8 @@ class MainWindow : public QMainWindow
     /// The same for any source (a driver archive, the result of the HyperRipper).
     auto OpenSource(std::shared_ptr<const Core::ArchiveSource> source) -> bool;
     /// Selects the first entry with this file name (used by the screenshot hooks).
-    auto SelectEntryByName(const QString &fileName) -> bool;
+    // in the thumbnail view the thumbnail is clicked with this button
+    auto SelectEntryByName(const QString &fileName, Qt::MouseButton button = Qt::LeftButton) -> bool;
     /// The previews of colour mapped pictures use the palette of the entry with this file name (a .pal file of the archive).
     auto UsePaletteEntryByName(const QString &fileName) -> bool;
     /// Without dialogs (the command line hooks): errors go to the log and the status bar instead of a message box.
@@ -80,6 +82,12 @@ class MainWindow : public QMainWindow
     void SelectAllRows();
     /// Test hook: the name filter, in every folder or only the shown one.
     void SetNameFilter(const QString &text, bool wholeArchive);
+    /// Test hook: show the models animated at this position (0 to 1).
+    void SetModelPose(double u);
+    /// The skinned models start in this animation (test hook).
+    void SetModelAnimation(int index);
+    /// Test hook: the type filter by extension ("" = entries without one); returns false when the archive has no such type.
+    auto SetTypeFilter(const QString &extension) -> bool;
     /// Test hooks: include subfolders / sort by a column (0 name, 1 type, 2 size, 3 offset).
     void SetRecursive(bool recursive);
     void SortBy(int column, Qt::SortOrder order);
@@ -87,7 +95,18 @@ class MainWindow : public QMainWindow
     /// Extraction to a directory chosen by the caller (the command line hooks); the job runs on its own thread.
     void ExtractAllTo(const QString &directory, bool convertImages = false,
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
-    void ExtractSelectedTo(const QString &directory);
+    auto ExtractSelectedTo(const QString &directory) -> bool; // false: nothing is selected
+    /// Clicks the thumbnail of a row with the mouse (tests: the selection takes the path of a real click)
+    void ClickThumbnail(int row, Qt::MouseButton button = Qt::LeftButton);
+    /// The right-click menu of the selection, one action per line ("+ " enabled, "- " disabled) (tests)
+    auto TestEntryMenu() -> std::string;
+    /// Drags with the mouse in the 3D view of the preview (tests): press, a move by delta, release; false if no 3D view is shown
+    auto TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool;
+    /// Presses a key in the 3D view of the preview (tests); false if no 3D view is shown
+    auto TestViewKey(int key) -> bool;
+    /// Clicks a button of the 3D view of the preview by its icon name ("zoom-in"...) (tests); false if there is none shown
+    auto TestViewButton(const QString &icon) -> bool;
+
     /// Waits for the jobs; the number of entries that could not be extracted so far.
     auto WaitForJobs() -> int;
     /// Shows a folder of the archive by its path ("a/b"); false when it does not exist.
@@ -151,6 +170,7 @@ class MainWindow : public QMainWindow
                          std::shared_ptr<const Core::ExternalTool> tool = nullptr);
     auto ChooseDirectory(const QString &title) -> QString;
     auto SelectedEntries() const -> std::vector<std::uint32_t>;
+    void FillEntryMenu(QMenu *menu);
 
     Core::DriverHost &_driverHost;
     Core::AppSettings &_settings;
@@ -173,6 +193,8 @@ class MainWindow : public QMainWindow
     std::unique_ptr<QTemporaryDir> _dragDirectory; // the files of the last drag out of the window
     std::vector<std::pair<QAction *, QString>> _iconActions; // actions with the name of their icon, redrawn when the theme changes
     QLineEdit *_filter{nullptr};
+    QComboBox *_typeFilter{nullptr};
+    void FillTypeFilter();
     QCheckBox *_searchAll{nullptr};
     QListView *_grid{nullptr};
     QStackedWidget *_views{nullptr};

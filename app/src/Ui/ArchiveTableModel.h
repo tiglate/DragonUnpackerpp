@@ -50,6 +50,11 @@ class ArchiveTableModel : public QAbstractTableModel
     void ShowFolder(std::uint32_t folder, bool recursive);
     /// Keeps only the entries whose file name contains the text (ASCII case insensitive); empty = all.
     void SetFilter(const QString &text);
+    /// Keeps only the entries of one type (the extension, as the Type column shows it; ASCII case insensitive). An empty
+    /// extension selects the entries that have none. clear (SetTypeFilter(false, {})) shows every type.
+    void SetTypeFilter(bool active, const QString &extension);
+    /// Every type (extension, lower case) of the whole archive with the number of entries, sorted by name.
+    [[nodiscard]] auto TypeCounts() const -> std::vector<std::pair<QString, std::uint32_t>>;
     /// Thumbnails (the decoration of the name column): asked through the requester, given back with SetThumbnail.
     void SetThumbnailRequester(std::function<void(std::uint32_t)> requester);
     void SetThumbnailsEnabled(bool enabled);
@@ -85,6 +90,8 @@ class ArchiveTableModel : public QAbstractTableModel
     std::vector<std::uint32_t> _source; // the entries of the shown folder
     std::vector<std::uint32_t> _rows;   // the ones that pass the filter
     std::string _filter;                // lower case
+    bool _typeFilterActive{false};
+    std::string _typeFilter;            // lower case extension
     void ApplyFilter();
     void RebuildRowMap();
     std::function<void(std::uint32_t)> _thumbnailRequester;

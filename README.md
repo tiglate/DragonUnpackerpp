@@ -26,17 +26,17 @@ Dragon UnPACKer++ is free software under the [Mozilla Public License 2.0](LICENS
 
 ## Features
 
-- **Browse** archives with a folder tree and a sortable table (details or thumbnails), filter by name, search a whole archive, folder history, recent files, drag and drop in (open) and out (extract).
+- **Browse** archives with a folder tree and a sortable table (details or thumbnails), filter by name and by type (a list of every type in the archive, with counts), search a whole archive, folder history, recent files, drag and drop in (open) and out (extract).
 - **Preview** images (TGA, DDS with BC1 to BC7, PNG, JPEG, GIF, BMP, WebP), 3D meshes (OBJ), sounds (WAV, Ogg, MP3), text and a hex dump of anything else. Previews run in worker threads and never block the window.
 - **Extract** selected entries or whole archives as background jobs with progress, cancel and a conflict policy; optionally convert images to PNG; export the entry list as CSV, JSON or text. Every name written to disk is sanitized, so a hostile archive cannot write outside the destination.
 - **Understand game engines, not only containers**: Unity asset bundles and serialized files (textures including crunched, ETC and ASTC, sprites, cubemaps, meshes as OBJ, sounds, text, fonts), FMOD banks (Vorbis, MP3 and PCM become playable files), XNA `.xnb` (textures, sounds, SpriteFonts as an atlas plus BMFont description), XACT wave banks, GameMaker data files.
 - **HyperRipper**: scan any file for embedded PNG, JPEG, GIF, BMP, RIFF, Ogg, ZIP, DDS and MIDI data and extract what it finds.
-- Dark and light themes, 11 languages (English, Portuguese, Spanish, Italian, French, German, Polish, Russian, Chinese, Japanese, Arabic and Hebrew, right to left included), command line hooks for scripting and tests.
+- Dark and light themes (by default as the desktop is, following its changes), 11 languages (English, Portuguese, Spanish, Italian, French, German, Polish, Russian, Chinese, Japanese, Arabic and Hebrew, right to left included), command line hooks for scripting and tests.
 - Handles very large archives: 300,000 entries are indexed in a tenth of a second.
 
 ## Supported formats
 
-131 formats are handled by the default driver (`driver/`). The list below is by family; the exact extensions are registered in each `driver/cpp/src/formats/*.cpp` (one file per format, listed in `driver/cpp/src/FormatList.inc`).
+135 formats are handled by the default driver (`driver/`). The list below is by family; the exact extensions are registered in each `driver/cpp/src/formats/*.cpp` (one file per format, listed in `driver/cpp/src/FormatList.inc`).
 
 | Family | Formats |
 |---|---|
@@ -44,7 +44,8 @@ Dragon UnPACKer++ is free software under the [Mozilla Public License 2.0](LICENS
 | Modern engines | Unity (asset bundles, `.assets`, level files), Unreal Engine 4 PAK, Godot PCK, Chromium PAK, GameMaker `data.win` / `game.unx`, XNA `.xnb`, FMOD `.fsb` and `.bank`, XACT `.xwb`, Ubisoft BigFile |
 | General archives | ZIP and its relatives (PK3, PK4, KPF, JAR, APK, LOVE), RNC-compressed files |
 | Strategy | Age of Empires 2 DRS, Age of Mythology and Age of Empires 3 BAR, Total Annihilation HPI, Command & Conquer Generals BIG, Empires SSA, Spellforce PAK, Battleforge PAK, Black & White 2 STUFF, Heroes of Might and Magic 3 SND, Ascendancy COB, Civilization FPK, Dungeon Keeper 2, Evil Islands RES, Lemmings Revolution BOX |
-| Action and adventure | Abuse SPE / LVL and Drake Paint DPA, Monkey Island 3 BUN, Monkey Island Special Edition, Dreamfall PAK, GTA3 and Vice City, Hitman PRM, Oblivion BSA, Dragon Age ERF, F.E.A.R. LTAR, Postal SAK, BloodRayne POD, Terminal Velocity POD, Nocturne POD, Freespace VP, Starsiege VOL, Mortyr HAL, Giants GZP, Prototype RCF, LithTech REZ, Painkiller PAK, Tony Hawk PKR, Operation Flashpoint PBO, MDK SNI, The Movies PAK, Fable BIG, LucasArts LFD, and many more |
+| Action and adventure | Requiem: Avenging Angel textures (`.art` + `.dat`), levels (`.jam`, their geometry previewed textured), animations and models (`.mdl`, previewed textured and animated), Abuse SPE / LVL and Drake Paint DPA, Monkey Island 3 BUN, Monkey Island Special Edition, Dreamfall PAK, GTA3 and Vice City, Hitman PRM, Oblivion BSA, Dragon Age ERF, F.E.A.R. LTAR, Postal SAK, BloodRayne POD, Terminal Velocity POD, Nocturne POD, Freespace VP, Starsiege VOL, Mortyr HAL, Giants GZP, Prototype RCF, LithTech REZ, Painkiller PAK, Tony Hawk PKR, Operation Flashpoint PBO, MDK SNI, The Movies PAK, Fable BIG, LucasArts LFD, and many more |
+| Descent 3 files inside a HOG | The interface previews and converts the files of Descent 3 (`d3.hog`): `.ogf` images and `.oaf` animations (PNG, with every frame of an animation on one sheet), `.fnt` bitmap fonts (PNG sheet of the glyphs) and `.oof` models (textured 3D viewer with the animation tracks on a slider and the glows and billboards, converted to Wavefront OBJ with one object per subobject), written from the format specification of the Descent 3 repository |
 | Console ROMs | Nintendo NES (`.nes`), Super Nintendo / Super Famicom (`.sfc`, `.smc`), Sega Mega Drive / Genesis (`.bin`, `.md`, `.gen`, `.smd`): the ROM parts and an info text (NES graphics also as tile sheets, the other ROMs are not drawn raw because most keep their art compressed); Nemesis and Kosinski compressed data of Mega Drive ROMs and the Nintendo LZ graphics of Super Nintendo ROMs (Super Mario World, Zelda 3, Super Metroid) and the LZSS of Final Fantasy VI are found and unpacked, the BRR samples of Super Nintendo ROMs and the sampled sound (drums, voices) of Mega Drive ROMs are extracted as WAV; the palettes found in a ROM are listed as `.pal` files and the tile sheets, in grays, take their colors from one of them (entry menu, "Use as palette for previews") |
 
 See [`docs/MIGRATION.md`](docs/MIGRATION.md) for the status of the port and [`docs/FORMATS_TO_VALIDATE.md`](docs/FORMATS_TO_VALIDATE.md) for the formats that still need a real file to be checked.
@@ -87,7 +88,7 @@ A plain `make` works too: it is a thin proxy to `make.sh` (extra arguments throu
 dragonunpacker [archive]
     --open=FILE --folder=a/b --select=NAME      open an archive and select something
     --extract-all=DIR | --extract-selected=DIR   extract and exit (with --quit)
-    --theme=dark|light  --settings=FILE         appearance and settings file
+    --theme=system|dark|light  --settings=FILE  appearance and settings file
     --plugin=FILE                               use another driver (or set DUP_PLUGIN)
     --screenshot=FILE.png  --quit               for automated tests
     -platform offscreen                         no display needed

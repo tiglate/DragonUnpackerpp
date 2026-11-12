@@ -532,6 +532,8 @@ const std::vector<Signature> &Table()
         {"ttc", "TrueType collection", "ttc", Cat::FONT, 0, "ttcf", 95, nullptr},
         {"woff", "WOFF font", "woff", Cat::FONT, 0, "wOFF", 100, nullptr},
         {"woff2", "WOFF2 font", "woff2", Cat::FONT, 0, "wOF2", 100, nullptr},
+        {"oof", "Descent 3 model", "oof", Cat::MODEL, 0, "PSPO", 100, nullptr},
+        {"d3fnt", "Descent 3 bitmap font", "fnt", Cat::FONT, 0, std::string_view("\xBA\xBA\xED\xFE", 4), 100, nullptr},
         {"bmfont", "BMFont binary descriptor", "fnt", Cat::FONT, 0, std::string_view("BMF\x03", 4), 100, nullptr},
         // models and levels
         {"bsp", "Quake / Half-Life level (BSP)", "bsp", Cat::MODEL, 0, std::string_view("\x1d\0\0\0", 4), 90, &IsQuakeBsp},
@@ -544,6 +546,7 @@ const std::vector<Signature> &Table()
         {"bsp", "Source engine level (BSP)", "bsp", Cat::MODEL, 0, "VBSP", 100, nullptr},
         {"fbx", "Autodesk FBX (binary)", "fbx", Cat::MODEL, 0, std::string_view("Kaydara FBX Binary  \0", 21), 100, nullptr},
         {"glb", "glTF binary", "glb", Cat::MODEL, 0, "glTF", 100, nullptr},
+        {"gltf", "glTF model", "gltf", Cat::MODEL, 0, "{\"asset\":{\"version\":\"2.0\"", 95, nullptr},
         // programs and code
         {"elf", "ELF executable or library", "", Cat::CODE, 0, std::string_view("\x7f" "ELF", 4), 100, nullptr},
         {"exe", "Windows executable", "exe", Cat::CODE, 0, "MZ", 95, &IsPe},
