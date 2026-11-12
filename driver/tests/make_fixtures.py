@@ -2729,18 +2729,19 @@ def req_level_geometry(start):
         corners.append(at())
         for u, v in uvs:
             out += struct.pack("<2f", u, v) + b"\xcd" * 8
-    def polygon(index, corner, texture, count):
+    def polygon(index, corner, texture, count, lightmap=0xCDCD):
         p = bytearray(0x20)
         struct.pack_into("<III", p, 4, index, corner, texture)
-        struct.pack_into("<HBB", p, 0x18, 0xCDCD, count, 0x81)
+        struct.pack_into("<HBB", p, 0x18, lightmap, count, 0x81)
         return p
     pieces = at()
     for k in range(len(REQ_LEVEL_PIECES)):
-        out += polygon(piece_idx[k], corners[k], tex, 3)
+        out += polygon(piece_idx[k], corners[k], tex, 3, k)       # lightmaps 0 and 1
     faces = at()
     for index, texture, count, first, n in ((quad, tex, 4, pieces, 2), (quad, 0, 4, 0, 0), (tri, tex2, 3, 0, 0)):
         f = bytearray(0x68)
         struct.pack_into("<4f", f, 0, 0, 1, 0, 0)
+        struct.pack_into("<9f", f, 0x10, 0, 0, 0, 1, 0, 0, 0, 0, 1)   # lighting frame: origin, s along x, t along z
         f[0x3C:0x5C] = polygon(index, 0, texture, count)
         struct.pack_into("<IB", f, 0x5C, first, n)
         out += f
@@ -2754,11 +2755,18 @@ def req_level_geometry(start):
     return bytes(out), len(trailer)
 
 
+REQ_LIGHTMAP_COLOURS = [0x8000 | 31 << 10, 0x8000 | 31 << 5]     # RGB555: red, green
+
+
 def req_jam(version, second=True):
-    level = bytes((i * i // 7) & 255 for i in range(3000)) + b"\0" * 500 + b"Requiem" * 100
+    """A level file; its first block holds two lightmaps of 11 x 11 samples (red, then green: the pieces of the quad
+    of req_level_geometry, s and t from 0 to 10), described by the two entries at the start of the rest"""
+    samples = b"".join(struct.pack("<H", c) * 121 for c in REQ_LIGHTMAP_COLOURS)
+    level = samples + bytes((i * i // 7) & 255 for i in range(3000)) + b"\0" * 500 + b"Requiem" * 100
     packed = dcl_implode(level)
-    rest = bytes(range(200))
-    head = struct.pack("<IIIIII", 0xFEED000A, 0, len(level), 7, version, 250)
+    table = b"".join(bytes([0, 0, 11, 11]) + struct.pack("<I", k * 242) + b"\xcd" * 4 for k in range(2))
+    rest = table + bytes(range(200))
+    head = struct.pack("<IIIIII", 0xFEED000A, 0, len(level), 2, version, 250)
     head += bytes(0x112 + version * 0x100C - len(head))
     body = head + struct.pack("<I", len(packed)) + packed + rest
     if second:      # the level data block: magic at 4, two palettes (RGBX) at 0x1F and 0x41F, the geometry

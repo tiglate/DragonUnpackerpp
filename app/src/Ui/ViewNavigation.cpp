@@ -128,6 +128,7 @@ auto ViewNavigation::AllViewerKeys() -> std::vector<Shortcut>
     keys.emplace_back("F", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Frame the model again (the first view)")));
     keys.emplace_back("B", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Back faces shown or hidden (Outrage models)")));
     keys.emplace_back(Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Space")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Play or pause the animation (animated models)")));
+    keys.emplace_back("L", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Lightmaps on or off (Requiem levels)")));
     return keys;
 }
 

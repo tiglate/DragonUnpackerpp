@@ -85,7 +85,13 @@ class RigCanvas : public QWidget
         }
         else if (event->key() == Qt::Key_F)
         {
+            const bool lighting = camera.Lighting; // F frames the view again, it does not light or unlight
             camera = Core::RigCamera{};
+            camera.Lighting = lighting;
+        }
+        else if (event->key() == Qt::Key_L)
+        {
+            camera.Lighting = !camera.Lighting;
         }
         else if (event->key() == Qt::Key_Space)
         {
@@ -107,8 +113,8 @@ class RigCanvas : public QWidget
     }
     static auto Keys() -> std::vector<ViewNavigation::Shortcut>
     {
-        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space: B is not for this viewer
-        return {all[0], all[1], all[3]};
+        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space, L: B is not for this viewer
+        return {all[0], all[1], all[3], all[4]};
     }
 
     RigViewer *_owner;

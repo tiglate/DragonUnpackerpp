@@ -5,6 +5,7 @@
 #include "Ui/MainWindow.h"
 
 #include <QContextMenuEvent>
+#include <QKeyEvent>
 #include <QMouseEvent>
 
 #include "Core/PreviewWorker.h"
@@ -1262,6 +1263,21 @@ void MainWindow::FillEntryMenu(QMenu *menu)
     }
     menu->addSeparator();
     menu->addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll)->setEnabled(_index != nullptr);
+}
+
+auto MainWindow::TestViewKey(int key) -> bool
+{
+    for (auto *canvas : findChildren<QWidget *>("viewCanvas"))
+    {
+        if (canvas->isVisible())
+        {
+            QKeyEvent press(QEvent::KeyPress, key, Qt::NoModifier);
+            QCoreApplication::sendEvent(canvas, &press);
+            canvas->repaint();
+            return true;
+        }
+    }
+    return false;
 }
 
 auto MainWindow::TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool

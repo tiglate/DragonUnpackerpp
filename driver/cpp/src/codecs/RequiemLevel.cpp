@@ -28,7 +28,16 @@
 //   corner: two floats u, v, then two that the game fills), pointer to the texture at +0xC, u16 lightmap number at
 //   +0x18, corner count at +0x1A (u8), flags at +0x1B. V counts from the first stored row of the art TGA (its
 //   bottom row), as in the models.
-// The lightmaps (the first block, level.bin) are not read.
+// Lightmaps (read from InitTexCache at 0x4F6160 and MarkPolyForUse): the u32 at 12 of the file header is their
+// count; the first packed block (level.bin) holds their samples and the count entries of 12 bytes that follow that
+// block in the file (the start of rest.bin) describe them: u8 s0, u8 t0, u8 width, u8 height (at most 16), u32 offset
+// of the samples in the unpacked block (width x height u16, RGB555 with the top bit set, rows along t), then 4 bytes
+// the game fills. The u16 at +0x18 of a piece is its lightmap. The lighting frame of the face (origin at +0x10, axes
+// at +0x1C and +0x28, about one sample per world unit) gives each corner its position s, t in samples; the face is
+// lit in tiles of 15 samples (the pieces), samples at whole positions: a piece's lightmap starts at (s0, t0) in its
+// tile and covers floor(min) to ceil(max) of the piece (checked on dm1 and newpp2: 98% of the sizes are exactly
+// that, the others differ by one sample at the border of a tile, so the tile is taken from s0, not recomputed).
+// The game multiplies the texture by the lightmap (full white = 31).
 
 #include "RequiemLevel.h"
 
@@ -39,6 +48,8 @@
 #include <optional>
 
 #include "GltfWriter.h"
+
+#include <zlib.h>
 
 namespace Dud::RequiemLevel
 {
@@ -168,6 +179,8 @@ auto ReadPolygon(const Image &image, size_t at, size_t vertices, bool withUv, Po
     if (!index)
         return Outcome::BAD;
     out.Texture = *image.U32(*texture);
+    out.Lightmap = withUv ? static_cast<int32_t>(*image.U16(at + 0x18)) : -1;
+    out.LightUv.clear();
     out.Index.resize(*count);
     for (size_t k = 0; k < *count; ++k)
     {
@@ -192,7 +205,143 @@ auto ReadPolygon(const Image &image, size_t at, size_t vertices, bool withUv, Po
     }
     return Outcome::POLYGON;
 }
+
+constexpr double LightTile = 15.0; // samples per lighting tile of a face
+
+// The coordinates of the corners of a piece in its lightmap (Polygon::LightUv); false if they cannot be had (the
+// polygon is then drawn without lightmap)
+auto LightCoordinates(const Image &image, size_t face, const std::vector<float> &vertices, const Lightmap &map, Polygon &polygon) -> bool
+{
+    float frame[9];
+    for (size_t i = 0; i < 9; ++i)
+        frame[i] = *image.F32(face + 0x10 + i * 4);
+    std::vector<double> s;
+    std::vector<double> t;
+    for (const uint16_t index : polygon.Index)
+    {
+        const float *v = &vertices[static_cast<size_t>(index) * 3];
+        double ds = 0;
+        double dt = 0;
+        for (size_t c = 0; c < 3; ++c)
+        {
+            ds += (static_cast<double>(v[c]) - frame[c]) * frame[3 + c];
+            dt += (static_cast<double>(v[c]) - frame[c]) * frame[6 + c];
+        }
+        if (!std::isfinite(ds) || !std::isfinite(dt) || std::fabs(ds) > 1e7 || std::fabs(dt) > 1e7)
+            return false;
+        s.push_back(ds);
+        t.push_back(dt);
+    }
+    // the tile of the piece: the one where its smallest coordinate is about s0 (t0)
+    const double baseS = LightTile * std::round((*std::min_element(s.begin(), s.end()) - map.S0) / LightTile);
+    const double baseT = LightTile * std::round((*std::min_element(t.begin(), t.end()) - map.T0) / LightTile);
+    for (size_t k = 0; k < s.size(); ++k)
+        polygon.LightUv.insert(polygon.LightUv.end(), {static_cast<float>(s[k] - baseS - map.S0), static_cast<float>(t[k] - baseT - map.T0)});
+    return true;
+}
+
+// A PNG of 8 bit RGB rows (no filter), the pixels being width * height * 3 bytes
+auto EncodePng(const std::vector<uint8_t> &rgb, uint32_t width, uint32_t height) -> std::vector<uint8_t>
+{
+    std::vector<uint8_t> raw;
+    raw.reserve(static_cast<size_t>(height) * (width * 3 + 1));
+    for (uint32_t y = 0; y < height; ++y)
+    {
+        raw.push_back(0);
+        raw.insert(raw.end(), rgb.begin() + static_cast<ptrdiff_t>(static_cast<size_t>(y) * width * 3),
+                   rgb.begin() + static_cast<ptrdiff_t>(static_cast<size_t>(y + 1) * width * 3));
+    }
+    uLongf packedSize = compressBound(static_cast<uLong>(raw.size()));
+    std::vector<uint8_t> packed(packedSize);
+    if (compress2(packed.data(), &packedSize, raw.data(), static_cast<uLong>(raw.size()), Z_BEST_SPEED) != Z_OK)
+        return {};
+    packed.resize(packedSize);
+    std::vector<uint8_t> png = {0x89, 'P', 'N', 'G', '\r', '\n', 0x1A, '\n'};
+    const auto chunk = [&png](const char *type, const std::vector<uint8_t> &data) {
+        const auto length = static_cast<uint32_t>(data.size());
+        png.insert(png.end(), {static_cast<uint8_t>(length >> 24), static_cast<uint8_t>(length >> 16), static_cast<uint8_t>(length >> 8), static_cast<uint8_t>(length)});
+        const size_t start = png.size();
+        png.insert(png.end(), type, type + 4);
+        png.insert(png.end(), data.begin(), data.end());
+        const auto crc = static_cast<uint32_t>(crc32(0, png.data() + start, static_cast<uInt>(png.size() - start)));
+        png.insert(png.end(), {static_cast<uint8_t>(crc >> 24), static_cast<uint8_t>(crc >> 16), static_cast<uint8_t>(crc >> 8), static_cast<uint8_t>(crc)});
+    };
+    chunk("IHDR", {static_cast<uint8_t>(width >> 24), static_cast<uint8_t>(width >> 16), static_cast<uint8_t>(width >> 8), static_cast<uint8_t>(width),
+                   static_cast<uint8_t>(height >> 24), static_cast<uint8_t>(height >> 16), static_cast<uint8_t>(height >> 8), static_cast<uint8_t>(height), 8, 2, 0, 0, 0});
+    chunk("IDAT", packed);
+    chunk("IEND", {});
+    return png;
+}
+
+// The lightmaps in one picture: cells of 18 x 18 samples (the lightmap and a border repeating its edges, so the
+// filtering of a viewer does not take the neighbours), cell 0 white (polygons without lightmap)
+constexpr uint32_t Cell = 18;
+
+struct Atlas
+{
+    uint32_t Columns = 1;
+    uint32_t Size = Cell; // pixels, square
+    std::vector<uint8_t> Rgb;
+};
+
+auto MakeAtlas(const std::vector<Lightmap> &maps) -> Atlas
+{
+    Atlas atlas;
+    const size_t cells = maps.size() + 1;
+    atlas.Columns = static_cast<uint32_t>(std::ceil(std::sqrt(static_cast<double>(cells))));
+    atlas.Size = atlas.Columns * Cell;
+    atlas.Rgb.assign(static_cast<size_t>(atlas.Size) * atlas.Size * 3, 0);
+    for (uint32_t y = 0; y < Cell; ++y)
+        std::fill_n(atlas.Rgb.begin() + static_cast<ptrdiff_t>(static_cast<size_t>(y) * atlas.Size * 3), Cell * 3, uint8_t{255});
+    for (size_t m = 0; m < maps.size(); ++m)
+    {
+        const Lightmap &map = maps[m];
+        const uint32_t x0 = static_cast<uint32_t>((m + 1) % atlas.Columns) * Cell;
+        const uint32_t y0 = static_cast<uint32_t>((m + 1) / atlas.Columns) * Cell;
+        for (uint32_t y = 0; y < Cell; ++y)
+        {
+            const uint32_t row = std::min<uint32_t>(y == 0 ? 0 : y - 1, map.Height - 1u);
+            for (uint32_t x = 0; x < Cell; ++x)
+            {
+                const uint32_t column = std::min<uint32_t>(x == 0 ? 0 : x - 1, map.Width - 1u);
+                const uint16_t v = map.Pixels[static_cast<size_t>(row) * map.Width + column];
+                uint8_t *p = &atlas.Rgb[(static_cast<size_t>(y0 + y) * atlas.Size + x0 + x) * 3];
+                p[0] = static_cast<uint8_t>(((v >> 10) & 31) * 255 / 31);
+                p[1] = static_cast<uint8_t>(((v >> 5) & 31) * 255 / 31);
+                p[2] = static_cast<uint8_t>((v & 31) * 255 / 31);
+            }
+        }
+    }
+    return atlas;
+}
 } // namespace
+
+auto ReadLightmaps(const std::vector<uint8_t> &table, const std::vector<uint8_t> &samples, uint32_t count, Level &level) -> bool
+{
+    level.Lightmaps.clear();
+    if (count > table.size() / 12)
+        return false;
+    std::vector<Lightmap> maps(count);
+    for (size_t i = 0; i < count; ++i)
+    {
+        const uint8_t *e = &table[i * 12];
+        Lightmap &map = maps[i];
+        map.S0 = e[0];
+        map.T0 = e[1];
+        map.Width = e[2];
+        map.Height = e[3];
+        const size_t offset = e[4] | e[5] << 8 | e[6] << 16 | static_cast<size_t>(e[7]) << 24;
+        const size_t samplesCount = static_cast<size_t>(map.Width) * map.Height;
+        if (map.Width == 0 || map.Height == 0 || map.Width > Cell - 2 || map.Height > Cell - 2 || offset > samples.size() ||
+            samplesCount * 2 > samples.size() - offset)
+            return false;
+        map.Pixels.resize(samplesCount);
+        for (size_t k = 0; k < samplesCount; ++k)
+            map.Pixels[k] = static_cast<uint16_t>(samples[offset + k * 2] | samples[offset + k * 2 + 1] << 8);
+    }
+    level.Lightmaps = std::move(maps);
+    return true;
+}
 
 auto Read(const std::vector<uint8_t> &data, Level &level) -> bool
 {
@@ -245,8 +394,15 @@ auto Read(const std::vector<uint8_t> &data, Level &level) -> bool
                 const auto read = ReadPolygon(image, *first + p * PolygonBytes, vertexCount, true, polygon);
                 if (read == Outcome::BAD)
                     return false;
-                if (read == Outcome::POLYGON)
-                    out.Polygons.push_back(polygon);
+                if (read != Outcome::POLYGON)
+                    continue;
+                if (polygon.Lightmap >= static_cast<int32_t>(level.Lightmaps.size()) ||
+                    !LightCoordinates(image, face, out.Vertices, level.Lightmaps[static_cast<size_t>(polygon.Lightmap)], polygon))
+                {
+                    polygon.Lightmap = -1;
+                    polygon.LightUv.clear();
+                }
+                out.Polygons.push_back(polygon);
             }
         }
         level.Objects.push_back(std::move(out));
@@ -261,6 +417,9 @@ auto MakeGltf(const Level &level, const std::string &name) -> std::string
     // picture: -v repeats into the right row whatever its height), and the material says 128 texels per unit
     std::vector<float> positions;
     std::vector<float> uvs;
+    std::vector<float> lightUvs; // in the atlas of the lightmaps (sample i of a lightmap at the centre of its pixel)
+    const bool lit = !level.Lightmaps.empty();
+    const Atlas atlas = lit ? MakeAtlas(level.Lightmaps) : Atlas();
     std::map<uint32_t, std::vector<uint32_t>> indices;
     for (const Object &object : level.Objects)
     {
@@ -274,6 +433,13 @@ auto MakeGltf(const Level &level, const std::string &name) -> std::string
                 const float u = polygon.Uv.empty() ? 0.0f : polygon.Uv[k * 2];
                 const float t = polygon.Uv.empty() ? 0.0f : polygon.Uv[k * 2 + 1];
                 uvs.insert(uvs.end(), {u / 128.0f, -t / 128.0f});
+                if (lit)
+                {
+                    const size_t cell = polygon.LightUv.empty() ? 0 : static_cast<size_t>(polygon.Lightmap) + 1;
+                    const double x = static_cast<double>(cell % atlas.Columns * Cell) + 1.5 + (polygon.LightUv.empty() ? 0.0 : polygon.LightUv[k * 2]);
+                    const double y = static_cast<double>(cell / atlas.Columns * Cell) + 1.5 + (polygon.LightUv.empty() ? 0.0 : polygon.LightUv[k * 2 + 1]);
+                    lightUvs.insert(lightUvs.end(), {static_cast<float>(x / atlas.Size), static_cast<float>(y / atlas.Size)});
+                }
             }
             auto &list = indices[polygon.Texture];
             for (size_t k = 2; k < polygon.Index.size(); ++k)
@@ -300,8 +466,26 @@ auto MakeGltf(const Level &level, const std::string &name) -> std::string
     const int accUv = g.Accessor(uvs.data(), uvs.size() * 4, 5126, count, "VEC2", nullptr, nullptr, 0, 34962);
     const int accJoints = g.Accessor(joints.data(), joints.size(), 5121, count, "VEC4", nullptr, nullptr, 0, 34962);
     const int accWeights = g.Accessor(weights.data(), weights.size() * 4, 5126, count, "VEC4", nullptr, nullptr, 0, 34962);
-    const std::string attributes = "{\"POSITION\":" + std::to_string(accPosition) + ",\"TEXCOORD_0\":" + std::to_string(accUv) +
-                                   ",\"JOINTS_0\":" + std::to_string(accJoints) + ",\"WEIGHTS_0\":" + std::to_string(accWeights) + "}";
+    std::string attributes = "{\"POSITION\":" + std::to_string(accPosition) + ",\"TEXCOORD_0\":" + std::to_string(accUv) +
+                             ",\"JOINTS_0\":" + std::to_string(accJoints) + ",\"WEIGHTS_0\":" + std::to_string(accWeights);
+    std::string images;
+    std::string occlusion;
+    if (lit)
+    {
+        const int accLight = g.Accessor(lightUvs.data(), lightUvs.size() * 4, 5126, count, "VEC2", nullptr, nullptr, 0, 34962);
+        attributes += ",\"TEXCOORD_1\":" + std::to_string(accLight);
+        const std::vector<uint8_t> png = EncodePng(atlas.Rgb, atlas.Size, atlas.Size);
+        while (g._buffer.size() % 4 != 0)
+            g._buffer.push_back(0);
+        const size_t offset = g._buffer.size();
+        g._buffer.insert(g._buffer.end(), png.begin(), png.end());
+        g._views.push_back("{\"buffer\":0,\"byteOffset\":" + std::to_string(offset) + ",\"byteLength\":" + std::to_string(png.size()) + "}");
+        images = "\"images\":[{\"name\":\"lightmaps\",\"bufferView\":" + std::to_string(g._views.size() - 1) +
+                 ",\"mimeType\":\"image/png\"}],\"samplers\":[{\"magFilter\":9729,\"minFilter\":9729,\"wrapS\":33071,\"wrapT\":33071}],"
+                 "\"textures\":[{\"source\":0,\"sampler\":0}],";
+        occlusion = ",\"occlusionTexture\":{\"index\":0,\"texCoord\":1}";
+    }
+    attributes += "}";
     std::string primitives;
     std::string materials;
     size_t material = 0;
@@ -314,7 +498,7 @@ auto MakeGltf(const Level &level, const std::string &name) -> std::string
         const std::string extras = texture <= MaxArtSlot ? "\"artSlot\":" + std::to_string(texture) + ",\"uvSize\":128"
                                                          : "\"artSlot\":-1,\"gameTexture\":" + std::to_string(texture);
         materials += std::string(material ? "," : "") + "{\"name\":\"tex_" + std::to_string(texture) +
-                     "\",\"pbrMetallicRoughness\":{\"metallicFactor\":0,\"roughnessFactor\":1},\"doubleSided\":true,\"extras\":{" + extras + "}}";
+                     "\",\"pbrMetallicRoughness\":{\"metallicFactor\":0,\"roughnessFactor\":1},\"doubleSided\":true" + occlusion + ",\"extras\":{" + extras + "}}";
         ++material;
     }
     std::string label = name;
@@ -323,7 +507,7 @@ auto MakeGltf(const Level &level, const std::string &name) -> std::string
     std::string json = "{\"asset\":{\"version\":\"2.0\",\"generator\":\"Dragon UnPACKer (Requiem: Avenging Angel level)\"},\"scene\":0,"
                        "\"scenes\":[{\"nodes\":[0,1]}],\"nodes\":[{\"name\":\"root\"},{\"name\":\"" + label + "\",\"mesh\":0,\"skin\":0}],"
                        "\"skins\":[{\"joints\":[0],\"skeleton\":0}],"
-                       "\"meshes\":[{\"name\":\"" + label + "\",\"primitives\":[" + primitives + "]}],\"materials\":[" + materials + "],\"accessors\":[";
+                       "\"meshes\":[{\"name\":\"" + label + "\",\"primitives\":[" + primitives + "]}],\"materials\":[" + materials + "]," + images + "\"accessors\":[";
     for (size_t i = 0; i < g._accessors.size(); ++i)
         json += (i ? "," : "") + g._accessors[i];
     json += "],\"bufferViews\":[";

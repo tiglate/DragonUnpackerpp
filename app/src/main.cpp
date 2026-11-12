@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--palette=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--view-key=K] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -302,6 +302,25 @@ int main(int argc, char **argv)
         if (!dragged)
         {
             spdlog::error("no 3D view to drag in");
+            return 2;
+        }
+    }
+    // --view-key=K (one letter): a key pressed in the 3D view of the preview
+    if (const auto key = ArgumentValue(argc, argv, "view-key"); key.size() == 1)
+    {
+        bool pressed = false;
+        for (int i = 0; i < 100 && !pressed; ++i)
+        {
+            QCoreApplication::processEvents();
+            pressed = window->TestViewKey(QChar(key[0]).toUpper().unicode());
+            if (!pressed)
+            {
+                QThread::msleep(50);
+            }
+        }
+        if (!pressed)
+        {
+            spdlog::error("no 3D view to press a key in");
             return 2;
         }
     }

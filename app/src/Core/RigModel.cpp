@@ -5,12 +5,14 @@
 #include "Core/RigModel.h"
 
 #include "Core/Json.h"
+#include "Core/PngDecoder.h"
 
 #include <algorithm>
 #include <limits>
 #include <cmath>
 #include <cstring>
 #include <map>
+#include <span>
 
 namespace Dup::Core
 {
@@ -171,6 +173,24 @@ class Document
             }
         }
         return data;
+    }
+
+    /// The bytes of a buffer view (an embedded picture); empty if it does not fit the buffer
+    auto View(int index) const -> std::span<const std::byte>
+    {
+        const auto *views = _root.Find("bufferViews");
+        if (views == nullptr || index < 0 || static_cast<std::size_t>(index) >= views->Items.size())
+        {
+            return {};
+        }
+        const auto &view = views->Items[static_cast<std::size_t>(index)];
+        const double offset = view.Find("byteOffset") ? view.Find("byteOffset")->NumberOr(0) : 0;
+        const double length = view.Find("byteLength") ? view.Find("byteLength")->NumberOr(-1) : -1;
+        if (offset < 0 || length < 0 || offset + length > static_cast<double>(_buffer.size()))
+        {
+            return {};
+        }
+        return {reinterpret_cast<const std::byte *>(_buffer.data()) + static_cast<std::size_t>(offset), static_cast<std::size_t>(length)};
     }
 
   private:
@@ -343,7 +363,7 @@ auto ParseRigGltf(std::string_view text) -> std::optional<RigScene>
             return std::nullopt;
         }
         const auto accessorOf = [&](const char *name) { return attributes->Find(name) ? static_cast<int>(attributes->Find(name)->NumberOr(-1)) : -1; };
-        const std::string key = std::to_string(accessorOf("POSITION")) + "/" + std::to_string(accessorOf("JOINTS_0")) + "/" + std::to_string(accessorOf("TEXCOORD_0"));
+        const std::string key = std::to_string(accessorOf("POSITION")) + "/" + std::to_string(accessorOf("JOINTS_0")) + "/" + std::to_string(accessorOf("TEXCOORD_0")) + "/" + std::to_string(accessorOf("TEXCOORD_1"));
         std::size_t vertexCount = scene.JointOf.size() - base;
         if (key != previousAttributes)
         {
@@ -375,6 +395,16 @@ auto ParseRigGltf(std::string_view text) -> std::optional<RigScene>
                 }
             }
             scene.Uvs.insert(scene.Uvs.end(), uvValues.begin(), uvValues.end());
+            std::vector<float> lightValues(positions->Count * 2, 0.0f);
+            if (accessorOf("TEXCOORD_1") >= 0)
+            {
+                const auto light = document.Read(accessorOf("TEXCOORD_1"));
+                if (light && light->Width == 2 && light->Count == positions->Count)
+                {
+                    lightValues.assign(light->Values.begin(), light->Values.end());
+                }
+            }
+            scene.LightUvs.insert(scene.LightUvs.end(), lightValues.begin(), lightValues.end());
             previousAttributes = key;
         }
         const auto indices = document.Read(static_cast<int>(primitive.Find("indices")->NumberOr(-1)));
@@ -408,6 +438,34 @@ auto ParseRigGltf(std::string_view text) -> std::optional<RigScene>
     if (scene.JointOf.size() > std::numeric_limits<std::uint32_t>::max())
     {
         return std::nullopt;
+    }
+    // the lightmaps of a level: the occlusion texture of the materials, with the coordinates TEXCOORD_1 (one picture for all)
+    if (materials != nullptr && !materials->Items.empty())
+    {
+        const auto *occlusion = materials->Items[0].Find("occlusionTexture");
+        const auto *textures = root->Find("textures");
+        const auto *images = root->Find("images");
+        if (occlusion != nullptr && occlusion->Find("texCoord") != nullptr && occlusion->Find("texCoord")->NumberOr(0) == 1 && textures != nullptr &&
+            images != nullptr)
+        {
+            const double texture = occlusion->Find("index") ? occlusion->Find("index")->NumberOr(-1) : -1;
+            if (texture >= 0 && texture < static_cast<double>(textures->Items.size()))
+            {
+                const auto *source = textures->Items[static_cast<std::size_t>(texture)].Find("source");
+                const double image = source != nullptr ? source->NumberOr(-1) : -1;
+                if (image >= 0 && image < static_cast<double>(images->Items.size()))
+                {
+                    const auto *view = images->Items[static_cast<std::size_t>(image)].Find("bufferView");
+                    if (view != nullptr)
+                    {
+                        if (auto picture = DecodePng(document.View(static_cast<int>(view->NumberOr(-1)))))
+                        {
+                            scene.Lightmap = std::make_shared<const DecodedImage>(std::move(*picture));
+                        }
+                    }
+                }
+            }
+        }
     }
     scene.ArtSlot = scene.Parts.front().ArtSlot;
     scene.UvSize = scene.Parts.front().UvSize;

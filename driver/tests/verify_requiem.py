@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Requiem: Avenging Angel models: the pose of a skeletal model (animation file next to it) against the values
 computed here by hand. Usage: verify_requiem.py plugin.so dudi7cli fixtures_dir"""
-import math, os, subprocess, sys, tempfile
+import math, os, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 plugin, cli, fx = sys.argv[1:4]
@@ -133,4 +133,34 @@ for version in (0, 2):
         got = [(pos[t[0]], uv[t[0]]) for t in tris]
         if len(got) != len(corners) or any(max(abs(a - b) for a, b in zip(p + q, wp + wq)) > 1e-6 for (p, q), (wp, wq) in zip(got, corners)):
             sys.exit("level v%d slot %d: corners %s, expected %s" % (version, extras["artSlot"], got, corners))
+    # the lightmaps: the PNG of the occlusion texture, sampled at TEXCOORD_1 of each corner (decoded here: zlib, filter 0)
+    import zlib
+    mat = g["materials"][prims[0]["material"]]
+    if mat.get("occlusionTexture") != {"index": 0, "texCoord": 1}:
+        sys.exit("level: occlusion texture %s" % mat.get("occlusionTexture"))
+    view = g["bufferViews"][g["images"][g["textures"][0]["source"]]["bufferView"]]
+    png = buf[view["byteOffset"]:view["byteOffset"] + view["byteLength"]]
+    at, idat = 8, b""
+    while at < len(png):
+        length, kind = struct.unpack(">I4s", png[at:at + 8])
+        body = png[at + 8:at + 8 + length]
+        if kind == b"IHDR":
+            width, height = struct.unpack(">II", body[:8])
+        elif kind == b"IDAT":
+            idat += body
+        at += 12 + length
+    raw = zlib.decompress(idat)
+    def light(u, v):
+        x, y = int(u * width), int(v * height)
+        row = raw[y * (width * 3 + 1):(y + 1) * (width * 3 + 1)]
+        if row[0] != 0:
+            sys.exit("level: the lightmap rows are filtered")
+        return tuple(row[1 + x * 3:4 + x * 3])
+    want_light = {7: [(255, 0, 0)] * 3 + [(0, 255, 0)] * 3, 9: [(255, 255, 255)] * 3}
+    for prim, extras in zip(prims, slots):
+        luv, _ = gltf_ref.accessor(g, buf, prim["attributes"]["TEXCOORD_1"])
+        tris, _ = gltf_ref.accessor(g, buf, prim["indices"])
+        got = [light(*luv[t[0]]) for t in tris]
+        if got != want_light[extras["artSlot"]]:
+            sys.exit("level v%d slot %d: lightmap colours %s" % (version, extras["artSlot"], got))
 print("requiem level: OK")

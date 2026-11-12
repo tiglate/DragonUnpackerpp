@@ -19,7 +19,28 @@ struct Vertex
     double Z{0}; // depth: larger is closer to the camera
     double U{0};
     double V{0};
+    double LU{0}; // in the lightmap, pixels
+    double LV{0};
 };
+
+// The lightmap at a point (pixels, sample i at i + 0.5), bilinear and clamped to the picture: what the game's
+// hardware renderers do
+void SampleLight(const DecodedImage &map, double x, double y, double out[3])
+{
+    x = std::clamp(x - 0.5, 0.0, static_cast<double>(map.Width - 1));
+    y = std::clamp(y - 0.5, 0.0, static_cast<double>(map.Height - 1));
+    const auto x0 = static_cast<std::size_t>(x);
+    const auto y0 = static_cast<std::size_t>(y);
+    const std::size_t x1 = std::min<std::size_t>(x0 + 1, map.Width - 1);
+    const std::size_t y1 = std::min<std::size_t>(y0 + 1, map.Height - 1);
+    const double fx = x - static_cast<double>(x0);
+    const double fy = y - static_cast<double>(y0);
+    for (int c = 0; c < 3; ++c)
+    {
+        const auto at = [&](std::size_t px, std::size_t py) { return static_cast<double>(map.Rgba[(py * map.Width + px) * 4 + static_cast<std::size_t>(c)]); };
+        out[c] = ((at(x0, y0) * (1 - fx) + at(x1, y0) * fx) * (1 - fy) + (at(x0, y1) * (1 - fx) + at(x1, y1) * fx) * fy) / 255.0;
+    }
+}
 
 void Put(DecodedImage &image, int x, int y, std::uint8_t r, std::uint8_t g, std::uint8_t b)
 {
@@ -77,6 +98,10 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
     const double ox = width / 2.0 + camera.PanX;
     const double oy = height / 2.0 + camera.PanY;
     const std::size_t count = scene.JointOf.size();
+    // the lightmaps of a level light it in place of the shading by the camera
+    const bool lit = camera.Lighting && scene.Lightmap != nullptr && scene.Lightmap->Width > 0 && scene.Lightmap->Height > 0 &&
+                     scene.Lightmap->Rgba.size() >= static_cast<std::size_t>(scene.Lightmap->Width) * scene.Lightmap->Height * 4 &&
+                     scene.LightUvs.size() == scene.Uvs.size();
     std::vector<Vertex> view(count);
     for (std::size_t v = 0; v < count; ++v)
     {
@@ -90,6 +115,11 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
         const double y2 = cp * wy - sp * z1;
         const double z2 = sp * wy + cp * z1;
         view[v] = {ox + x1 * scale, oy - y2 * scale, z2 * scale, scene.Uvs[v * 2], scene.Uvs[v * 2 + 1]};
+        if (lit && v * 2 + 1 < scene.LightUvs.size())
+        {
+            view[v].LU = scene.LightUvs[v * 2] * scene.Lightmap->Width;
+            view[v].LV = scene.LightUvs[v * 2 + 1] * scene.Lightmap->Height;
+        }
     }
 
     std::vector<float> depth(static_cast<std::size_t>(width) * height, -std::numeric_limits<float>::infinity());
@@ -163,8 +193,13 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
                         g = p[1];
                         bl = p[2];
                     }
-                    Put(image, x, y, static_cast<std::uint8_t>(std::min(255.0, r * light)), static_cast<std::uint8_t>(std::min(255.0, g * light)),
-                        static_cast<std::uint8_t>(std::min(255.0, bl * light)));
+                    double shade[3] = {light, light, light};
+                    if (lit)
+                    {
+                        SampleLight(*scene.Lightmap, w0 * a.LU + w1 * b.LU + w2 * c.LU, w0 * a.LV + w1 * b.LV + w2 * c.LV, shade);
+                    }
+                    Put(image, x, y, static_cast<std::uint8_t>(std::min(255.0, r * shade[0])), static_cast<std::uint8_t>(std::min(255.0, g * shade[1])),
+                        static_cast<std::uint8_t>(std::min(255.0, bl * shade[2])));
                 }
             }
         }

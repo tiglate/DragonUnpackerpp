@@ -21,6 +21,7 @@ struct RigCamera
     double PanX{0.0}; // pixels the view is moved right
     double PanY{0.0}; // pixels the view is moved down
     bool Wireframe{false};
+    bool Lighting{true}; // the lightmaps of the scene (a level) multiply the textures
 };
 
 /// Draws the rig in a pose with an orthographic camera (the same scale on every axis, +Y up) into an RGBA picture: triangles

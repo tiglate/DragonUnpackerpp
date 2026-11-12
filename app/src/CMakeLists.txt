@@ -8,6 +8,7 @@ add_library(Core STATIC
     Core/AppSettings.cpp
     Core/Converters.cpp
     Core/PngEncoder.cpp
+    Core/PngDecoder.cpp
     Core/ArchiveIndex.cpp
     Core/DriverHost.cpp
     Core/EntryNames.cpp

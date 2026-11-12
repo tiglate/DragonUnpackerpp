@@ -16,7 +16,8 @@
 // at its start), the rest (rest.bin), the second unpacked block (data.bin) and its palette (palette.pal, 768
 // bytes of RGB, which the interface uses for the pictures of the same archive). The second block is a memory image of
 // the game's objects: its level geometry is also given as level.gltf (codecs/RequiemLevel), with the slots of the
-// art archive as textures. The rest of the blocks (the lightmaps of level.bin, the other objects) is not read.
+// art archive as textures and the lightmaps of level.bin (described by the count of the header, u32 at 12, entries
+// of 12 bytes at the start of rest.bin). The other objects of the level are not read.
 
 #include "../codecs/Dcl.h"
 #include "../codecs/RequiemLevel.h"
@@ -30,6 +31,7 @@ namespace
 {
 constexpr uint32_t Magic = 0xFEED000Au;
 constexpr uint32_t MaxLevel = 256u * 1024 * 1024;
+constexpr uint32_t MaxLightmaps = 60000; // MAX_LIGHTMAPS_IN_WORLD of the game
 constexpr int64_t BlockOffsets[3] = {0x112, 0x111E, 0x212A};
 
 class RequiemJamArchive : public Archive
@@ -71,7 +73,7 @@ class RequiemJamArchive : public Archive
             std::vector<uint8_t> unpacked;
             if (Unpack(true, unpacked))
             {
-                const std::string gltf = LevelGltf(unpacked);
+                const std::string gltf = LevelGltf(std::move(unpacked));
                 if (!gltf.empty())
                     Add("level.gltf", data.Packed, static_cast<int64_t>(gltf.size()));
             }
@@ -101,7 +103,7 @@ class RequiemJamArchive : public Archive
         }
         if (entry.Name == "level.gltf")
         {
-            const std::string gltf = LevelGltf(out);
+            const std::string gltf = LevelGltf(std::move(out));
             if (static_cast<int64_t>(gltf.size()) != entry.Size)
             {
                 LastError = "The level geometry cannot be read";
@@ -125,10 +127,21 @@ class RequiemJamArchive : public Archive
         return DclExplode(packed.data(), packed.size(), static_cast<size_t>(unpacked), out) && static_cast<int64_t>(out.size()) == unpacked;
     }
 
-    // The level geometry of the second block as glTF (empty if it has none or cannot be read)
-    auto LevelGltf(const std::vector<uint8_t> &data) const -> std::string
+    // The level geometry of the second block as glTF, lit by the lightmaps of the first block when they read (empty if
+    // it has no geometry or cannot be read)
+    auto LevelGltf(std::vector<uint8_t> data) -> std::string
     {
         RequiemLevel::Level level;
+        std::vector<uint8_t> samples;
+        _stream->Seek(12);
+        const uint32_t count = _stream->U32();
+        if (count > 0 && count <= MaxLightmaps && _layout.RestStart + static_cast<int64_t>(count) * 12 <= _stream->Size() && Unpack(false, samples))
+        {
+            std::vector<uint8_t> table(static_cast<size_t>(count) * 12);
+            _stream->Seek(_layout.RestStart);
+            _stream->ReadBuffer(table.data(), table.size());
+            RequiemLevel::ReadLightmaps(table, samples, count, level); // no lightmaps if they do not read
+        }
         if (!RequiemLevel::Read(data, level))
             return {};
         return RequiemLevel::MakeGltf(level, _levelName);

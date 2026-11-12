@@ -922,3 +922,12 @@ PT_BR.update({
     "3D viewer controls": "Controles do visualizador 3D",
     "H: help": "H: ajuda",
 })
+
+TRANSLATIONS.update({
+    "Lightmaps on or off (Requiem levels)": (
+        "Mapas de luz activados o desactivados (niveles de Requiem)", "Lightmap attivate o disattivate (livelli di Requiem)", "Lightmaps activées ou désactivées (niveaux de Requiem)", "Lightmaps ein oder aus (Requiem-Level)", "Mapy światła włączone lub wyłączone (poziomy Requiem)", "Карты освещения вкл. или выкл. (уровни Requiem)",
+        "开启或关闭光照贴图（Requiem 关卡）", "ライトマップのオン／オフ（Requiem のレベル）", "تشغيل خرائط الإضاءة أو إيقافها (مراحل Requiem)", "הפעלה או כיבוי של מפות התאורה (שלבים של Requiem)"),
+})
+PT_BR.update({
+    "Lightmaps on or off (Requiem levels)": "Mapas de luz ligados ou desligados (fases do Requiem)",
+})

@@ -190,6 +190,38 @@ TEST_CASE("Rig: a level has one part per texture, each drawn with its own pictur
     CHECK(blues > 100);
 }
 
+TEST_CASE("Rig: the lightmaps of a level multiply its textures, and can be switched off")
+{
+    // the fixture level: the two pieces of the quad have a red and a green lightmap, the triangle none (white)
+    const auto scene = ParseRigGltf(FixtureGltf("req_v2.jam", "level.gltf"));
+    REQUIRE(scene.has_value());
+    REQUIRE(scene->Lightmap != nullptr);
+    CHECK(scene->LightUvs.size() == scene->Uvs.size());
+    const auto pose = EvaluateRig(*scene, -1, 0.0);
+    DecodedImage white;
+    white.Width = white.Height = 1;
+    white.Rgba = {255, 255, 255, 255};
+    RigCamera camera;
+    camera.Pitch = 1.2; // from above: the quad lies in the plane y = 0
+    const std::vector<const DecodedImage *> textures{&white, &white};
+    const auto count = [](const DecodedImage &image, int channel) {
+        std::size_t n = 0;
+        for (std::size_t i = 0; i + 3 < image.Rgba.size(); i += 4)
+        {
+            const int c[3] = {image.Rgba[i], image.Rgba[i + 1], image.Rgba[i + 2]};
+            n += c[channel] > 150 && c[(channel + 1) % 3] < 40 && c[(channel + 2) % 3] < 40 ? 1 : 0;
+        }
+        return n;
+    };
+    const auto lit = RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, textures);
+    CHECK(count(lit, 0) > 500); // red
+    CHECK(count(lit, 1) > 500); // green
+    camera.Lighting = false;
+    const auto plain = RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, textures);
+    CHECK(count(plain, 0) == 0);
+    CHECK(count(plain, 1) == 0);
+}
+
 TEST_CASE("Rig: the pan of the camera moves the drawing by that many pixels")
 {
     const auto scene = ParseRigGltf(FixtureGltf());

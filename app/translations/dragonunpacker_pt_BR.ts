@@ -4,7 +4,7 @@
 <context>
     <name>Dup::Ui</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1374" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1416" />
         <source>Too much to drag out (%1 files): use Extract</source>
         <translation>Itens demais para arrastar (%1 arquivos): use Extrair</translation>
     </message>
@@ -545,89 +545,89 @@ Autor: %2</translation>
 <context>
     <name>Dup::Ui::MainWindow</name>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="128" />
+        <location filename="../src/Ui/MainWindow.cpp" line="130" />
         <source>Filter by name (Ctrl+F)</source>
         <translation>Filtrar por nome (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="134" />
+        <location filename="../src/Ui/MainWindow.cpp" line="136" />
         <source>Whole archive</source>
         <translation>Pacote inteiro</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="135" />
+        <location filename="../src/Ui/MainWindow.cpp" line="137" />
         <source>Search in every folder (Ctrl+Shift+F)</source>
         <translation>Procurar em todas as pastas (Ctrl+Shift+F)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="140" />
+        <location filename="../src/Ui/MainWindow.cpp" line="142" />
         <source>Show only the files of one type (the extension)</source>
         <translation>Mostrar só os arquivos de um tipo (a extensão)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="150" />
-        <location filename="../src/Ui/MainWindow.cpp" line="171" />
-        <location filename="../src/Ui/MainWindow.cpp" line="863" />
+        <location filename="../src/Ui/MainWindow.cpp" line="152" />
+        <location filename="../src/Ui/MainWindow.cpp" line="173" />
+        <location filename="../src/Ui/MainWindow.cpp" line="865" />
         <source>%1 entries</source>
         <translation>%1 entradas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="206" />
+        <location filename="../src/Ui/MainWindow.cpp" line="208" />
         <source>Thumbnail size</source>
         <translation>Tamanho das miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1243" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1245" />
         <source>Extract selected...</source>
         <translation>Extrair selecionados...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1263" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1265" />
         <source>Extract all...</source>
         <translation>Extrair tudo...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1244" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1246" />
         <source>Extract selected, images as PNG...</source>
         <translation>Extrair selecionados, imagens como PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1256" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1258" />
         <source>Use as palette for previews</source>
         <translation>Usar como paleta para as visualizações</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1260" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1262" />
         <source>Show the pictures in their own colors</source>
         <translation>Mostrar as imagens com as cores originais</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="253" />
+        <location filename="../src/Ui/MainWindow.cpp" line="255" />
         <source>Extract this folder...</source>
         <translation>Extrair esta pasta...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="284" />
+        <location filename="../src/Ui/MainWindow.cpp" line="286" />
         <source>Detected: %1 (%2%)</source>
         <translation>Detectado: %1 (%2%)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="288" />
+        <location filename="../src/Ui/MainWindow.cpp" line="290" />
         <source>Detected: %1</source>
         <translation>Detectado: %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="295" />
+        <location filename="../src/Ui/MainWindow.cpp" line="297" />
         <source>Driver: %1 (%2 formats)</source>
         <translation>Driver: %1 (%2 formatos)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="299" />
+        <location filename="../src/Ui/MainWindow.cpp" line="301" />
         <source>Driver</source>
         <translation>Driver</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="300" />
+        <location filename="../src/Ui/MainWindow.cpp" line="302" />
         <source>Cannot load the driver:
 %1
 %2</source>
@@ -636,153 +636,153 @@ Autor: %2</translation>
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="314" />
+        <location filename="../src/Ui/MainWindow.cpp" line="316" />
         <source>&amp;File</source>
         <translation>&amp;Arquivo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="315" />
+        <location filename="../src/Ui/MainWindow.cpp" line="317" />
         <source>&amp;Open...</source>
         <translation>&amp;Abrir...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="317" />
+        <location filename="../src/Ui/MainWindow.cpp" line="319" />
         <source>Open &amp;recent</source>
         <translation>Abrir &amp;recentes</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="320" />
+        <location filename="../src/Ui/MainWindow.cpp" line="322" />
         <source>&amp;Extract selected...</source>
         <translation>&amp;Extrair selecionados...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="322" />
+        <location filename="../src/Ui/MainWindow.cpp" line="324" />
         <source>Extract &amp;all...</source>
         <translation>Extrair &amp;tudo...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="324" />
+        <location filename="../src/Ui/MainWindow.cpp" line="326" />
         <source>Extract selected, images as &amp;PNG...</source>
         <translation>Extrair selecionados, imagens como &amp;PNG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="325" />
+        <location filename="../src/Ui/MainWindow.cpp" line="327" />
         <source>Extract all, images as P&amp;NG...</source>
         <translation>Extrair tudo, imagens como P&amp;NG...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="326" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1245" />
+        <location filename="../src/Ui/MainWindow.cpp" line="328" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1247" />
         <source>Extract selected, converted with...</source>
         <translation>Extrair selecionados, convertidos com...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="327" />
+        <location filename="../src/Ui/MainWindow.cpp" line="329" />
         <source>Extract all, converted with...</source>
         <translation>Extrair tudo, convertido com...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="330" />
+        <location filename="../src/Ui/MainWindow.cpp" line="332" />
         <source>Create a li&amp;st from a template...</source>
         <translation>Criar uma lista a partir de um modelo...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="332" />
+        <location filename="../src/Ui/MainWindow.cpp" line="334" />
         <source>Export the &amp;list of entries...</source>
         <translation>Exportar a &amp;lista de entradas...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="337" />
+        <location filename="../src/Ui/MainWindow.cpp" line="339" />
         <source>&amp;Quit</source>
         <translation>&amp;Sair</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="340" />
+        <location filename="../src/Ui/MainWindow.cpp" line="342" />
         <source>&amp;View</source>
         <translation>E&amp;xibir</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="341" />
+        <location filename="../src/Ui/MainWindow.cpp" line="343" />
         <source>Include &amp;subfolders</source>
         <translation>Incluir &amp;subpastas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="349" />
+        <location filename="../src/Ui/MainWindow.cpp" line="351" />
         <source>&amp;Details</source>
         <translation>&amp;Detalhes</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="350" />
+        <location filename="../src/Ui/MainWindow.cpp" line="352" />
         <source>&amp;Thumbnails</source>
         <translation>&amp;Miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="363" />
+        <location filename="../src/Ui/MainWindow.cpp" line="365" />
         <source>&amp;Back</source>
         <translation>&amp;Voltar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="365" />
+        <location filename="../src/Ui/MainWindow.cpp" line="367" />
         <source>&amp;Forward</source>
         <translation>&amp;Avançar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="367" />
+        <location filename="../src/Ui/MainWindow.cpp" line="369" />
         <source>&amp;Up one folder</source>
         <translation>S&amp;ubir uma pasta</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="371" />
+        <location filename="../src/Ui/MainWindow.cpp" line="373" />
         <source>&amp;Theme</source>
         <translation>&amp;Tema</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="373" />
+        <location filename="../src/Ui/MainWindow.cpp" line="375" />
         <source>&amp;Dark</source>
         <translation>&amp;Escuro</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="373" />
+        <location filename="../src/Ui/MainWindow.cpp" line="375" />
         <source>&amp;System</source>
         <translation>&amp;Sistema</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="374" />
+        <location filename="../src/Ui/MainWindow.cpp" line="376" />
         <source>&amp;Light</source>
         <translation>&amp;Claro</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="388" />
+        <location filename="../src/Ui/MainWindow.cpp" line="390" />
         <source>&amp;Tools</source>
         <translation>Ferramen&amp;tas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="389" />
+        <location filename="../src/Ui/MainWindow.cpp" line="391" />
         <source>&amp;HyperRipper...</source>
         <translation>&amp;HyperRipper...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="390" />
+        <location filename="../src/Ui/MainWindow.cpp" line="392" />
         <source>&amp;Identify the file types</source>
         <translation>Identificar os tipos de arquivo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="394" />
+        <location filename="../src/Ui/MainWindow.cpp" line="396" />
         <source>&amp;Options...</source>
         <translation>&amp;Opções...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="400" />
+        <location filename="../src/Ui/MainWindow.cpp" line="402" />
         <source>&amp;Help</source>
         <translation>A&amp;juda</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="401" />
+        <location filename="../src/Ui/MainWindow.cpp" line="403" />
         <source>&amp;3D viewer controls...</source>
         <translation>&amp;Controles do visualizador 3D...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="402" />
+        <location filename="../src/Ui/MainWindow.cpp" line="404" />
         <source>&amp;About</source>
         <translation>&amp;Sobre</translation>
     </message>
@@ -805,303 +805,303 @@ Driver: %1, %2 formatos
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="418" />
+        <location filename="../src/Ui/MainWindow.cpp" line="420" />
         <source>Main</source>
         <translation>Principal</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="466" />
+        <location filename="../src/Ui/MainWindow.cpp" line="468" />
         <source>Hierarchy</source>
         <translation>Hierarquia</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="467" />
+        <location filename="../src/Ui/MainWindow.cpp" line="469" />
         <source>Viewer</source>
         <translation>Visualizador</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="468" />
+        <location filename="../src/Ui/MainWindow.cpp" line="470" />
         <source>Inspector</source>
         <translation>Inspetor</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="469" />
+        <location filename="../src/Ui/MainWindow.cpp" line="471" />
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="470" />
+        <location filename="../src/Ui/MainWindow.cpp" line="472" />
         <source>Jobs</source>
         <translation>Tarefas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="482" />
+        <location filename="../src/Ui/MainWindow.cpp" line="484" />
         <source>&amp;Workspace</source>
         <translation>Área de &amp;trabalho</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="483" />
+        <location filename="../src/Ui/MainWindow.cpp" line="485" />
         <source>&amp;Default</source>
         <translation>&amp;Padrão</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="484" />
+        <location filename="../src/Ui/MainWindow.cpp" line="486" />
         <source>&amp;Browse (folders and entries)</source>
         <translation>&amp;Navegar (pastas e entradas)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="485" />
+        <location filename="../src/Ui/MainWindow.cpp" line="487" />
         <source>&amp;Preview (entries, viewer, inspector)</source>
         <translation>&amp;Visualizar (entradas, visualizador, inspetor)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="515" />
+        <location filename="../src/Ui/MainWindow.cpp" line="517" />
         <source>All supported formats (%1)</source>
         <translation>Todos os formatos suportados (%1)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="516" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1590" />
+        <location filename="../src/Ui/MainWindow.cpp" line="518" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1632" />
         <source>All files (*)</source>
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="516" />
+        <location filename="../src/Ui/MainWindow.cpp" line="518" />
         <source>HyperRipper files (*.hrf)</source>
         <translation>Arquivos HyperRipper (*.hrf)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="560" />
+        <location filename="../src/Ui/MainWindow.cpp" line="562" />
         <source>Cannot scan %1: %2</source>
         <translation>Não foi possível examinar %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="573" />
+        <location filename="../src/Ui/MainWindow.cpp" line="575" />
         <source>Where is %1?</source>
         <translation>Onde está %1?</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="583" />
+        <location filename="../src/Ui/MainWindow.cpp" line="585" />
         <source>%1 is not the file the HRF file was made for (%2 bytes instead of %3)</source>
         <translation>%1 não é o arquivo para o qual o arquivo HRF foi feito (%2 bytes em vez de %3)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="592" />
+        <location filename="../src/Ui/MainWindow.cpp" line="594" />
         <source>The HRF file is damaged: %1 is outside of the file</source>
         <translation>O arquivo HRF está danificado: %1 está fora do arquivo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="629" />
+        <location filename="../src/Ui/MainWindow.cpp" line="631" />
         <source>&amp;Clear list</source>
         <translation>&amp;Limpar lista</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="638" />
+        <location filename="../src/Ui/MainWindow.cpp" line="640" />
         <source>Open archive</source>
         <translation>Abrir pacote</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="657" />
+        <location filename="../src/Ui/MainWindow.cpp" line="659" />
         <source>Select an entry to preview it</source>
         <translation>Selecione uma entrada para visualizá-la</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="699" />
+        <location filename="../src/Ui/MainWindow.cpp" line="701" />
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="699" />
+        <location filename="../src/Ui/MainWindow.cpp" line="701" />
         <source>Cannot open %1:
 %2</source>
         <translation>Não foi possível abrir %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="612" />
-        <location filename="../src/Ui/MainWindow.cpp" line="703" />
+        <location filename="../src/Ui/MainWindow.cpp" line="614" />
+        <location filename="../src/Ui/MainWindow.cpp" line="705" />
         <source>Cannot open %1: %2</source>
         <translation>Não foi possível abrir %1: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="407" />
+        <location filename="../src/Ui/MainWindow.cpp" line="409" />
         <source>&lt;p&gt;%1: %2 formats&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;%1: %2 formatos&lt;br&gt;&lt;small&gt;%3&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="794" />
+        <location filename="../src/Ui/MainWindow.cpp" line="796" />
         <source>All types</source>
         <translation>Todos os tipos</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="797" />
+        <location filename="../src/Ui/MainWindow.cpp" line="799" />
         <source>(no extension)</source>
         <translation>(sem extensão)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1059" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1061" />
         <source>Name:    %1
 </source>
         <translation>Nome:    %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1061" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1063" />
         <source>Path:    %1
 </source>
         <translation>Caminho: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1062" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1064" />
         <source>Size:    %1 (%2 bytes)
 </source>
         <translation>Tamanho: %1 (%2 bytes)
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1063" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1065" />
         <source>Offset:  %1
 </source>
         <translation>Posição: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1064" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1066" />
         <source>Format:  %1
 </source>
         <translation>Formato: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1087" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1089" />
         <source>Previews use the palette %1</source>
         <translation>As visualizações usam a paleta %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1165" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1167" />
         <source>File exists</source>
         <translation>O arquivo existe</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1166" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1168" />
         <source>The file already exists:
 %1</source>
         <translation>O arquivo já existe:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1167" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1169" />
         <source>Overwrite</source>
         <translation>Substituir</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1168" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1170" />
         <source>Overwrite all</source>
         <translation>Substituir todos</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1169" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1171" />
         <source>Skip</source>
         <translation>Ignorar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1170" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1172" />
         <source>Skip all</source>
         <translation>Ignorar todos</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1171" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1173" />
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1197" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1208" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1314" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1199" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1210" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1356" />
         <source>Nothing is selected</source>
         <translation>Nada está selecionado</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1200" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1202" />
         <source>Extract the selection to</source>
         <translation>Extrair a seleção para</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1211" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1213" />
         <source>Extract the selection (images as PNG) to</source>
         <translation>Extrair a seleção (imagens como PNG) para</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1295" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1337" />
         <source>%1 (to .%2)</source>
         <translation>%1 (para .%2)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1317" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1359" />
         <source>Extract (converted with %1) to</source>
         <translation>Extrair (convertido com %1) para</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1322" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1364" />
         <source>No tool: put .ini files in %1</source>
         <translation>Nenhuma ferramenta: coloque arquivos .ini em %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1335" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1377" />
         <source>Extract everything (images as PNG) to</source>
         <translation>Extrair tudo (imagens como PNG) para</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1525" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1567" />
         <source>Identifying the file types: %1 of %2</source>
         <translation>Identificando os tipos de arquivo: %1 de %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1538" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1580" />
         <source>%1 file types identified: %2</source>
         <translation>%1 tipos de arquivo identificados: %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1591" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1633" />
         <source>Save the list to...</source>
         <translation>Salvar a lista em...</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1657" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1699" />
         <source>CSV (*.csv);;JSON (*.json);;Text (*.txt)</source>
         <translation>CSV (*.csv);;JSON (*.json);;Texto (*.txt)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1658" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1700" />
         <source>Export the list of entries</source>
         <translation>Exportar a lista de entradas</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1605" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1674" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1647" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1716" />
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1605" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1674" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1647" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1716" />
         <source>Cannot write %1</source>
         <translation>Não foi possível gravar %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1619" />
-        <location filename="../src/Ui/MainWindow.cpp" line="1677" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1661" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1719" />
         <source>%1 entries written to %2</source>
         <translation>%1 entradas gravadas em %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1688" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1730" />
         <source>Extract everything to</source>
         <translation>Extrair tudo para</translation>
     </message>
     <message>
-        <location filename="../src/Ui/MainWindow.cpp" line="1699" />
+        <location filename="../src/Ui/MainWindow.cpp" line="1741" />
         <source>Extract the folder to</source>
         <translation>Extrair a pasta para</translation>
     </message>
@@ -1109,7 +1109,7 @@ Driver: %1, %2 formatos
 <context>
     <name>Dup::Ui::MeshViewer</name>
     <message>
-        <location filename="../src/Ui/MeshViewer.cpp" line="46" />
+        <location filename="../src/Ui/MeshViewer.cpp" line="47" />
         <source>Mesh: %1 vertices, %2 triangles</source>
         <translation>Malha: %1 vértices, %2 triângulos</translation>
     </message>
@@ -1117,44 +1117,44 @@ Driver: %1, %2 formatos
 <context>
     <name>Dup::Ui::ModelViewer</name>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="123" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="124" />
         <source>Animate</source>
         <translation>Animar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="124" />
-        <location filename="../src/Ui/ModelViewer.cpp" line="264" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="125" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="265" />
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="139" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="140" />
         <source>Off: the model as it is drawn without animation. On: the animation tracks at the position of the slider.</source>
         <translation>Desligado: o modelo como é desenhado sem animação. Ligado: as trilhas de animação na posição do controle deslizante.</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="140" />
-        <location filename="../src/Ui/ModelViewer.cpp" line="208" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="141" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="209" />
         <source>rest pose</source>
         <translation>pose de repouso</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="146" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="147" />
         <source>Speed of the playback (one pass of the animation takes 4 seconds at 1x; the $rotate parts follow it)</source>
         <translation>Velocidade da reprodução (uma passada da animação leva 4 segundos em 1x; as partes $rotate a acompanham)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="174" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="175" />
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="208" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="209" />
         <source>%1%</source>
         <translation>%1%</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ModelViewer.cpp" line="217" />
+        <location filename="../src/Ui/ModelViewer.cpp" line="218" />
         <source>Model: %1 subobjects, %2 triangles</source>
         <translation>Modelo: %1 subobjetos, %2 triângulos</translation>
     </message>
@@ -1493,43 +1493,43 @@ Driver: %1, %2 formatos
 <context>
     <name>Dup::Ui::RigViewer</name>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="118" />
-        <location filename="../src/Ui/RigViewer.cpp" line="283" />
+        <location filename="../src/Ui/RigViewer.cpp" line="125" />
+        <location filename="../src/Ui/RigViewer.cpp" line="290" />
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="134" />
+        <location filename="../src/Ui/RigViewer.cpp" line="141" />
         <source>The animation to show</source>
         <translation>A animação a mostrar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="142" />
+        <location filename="../src/Ui/RigViewer.cpp" line="149" />
         <source>Speed of the playback (1x is the speed of the game, 25 frames per second)</source>
         <translation>Velocidade da reprodução (1x é a velocidade do jogo, 25 quadros por segundo)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="171" />
+        <location filename="../src/Ui/RigViewer.cpp" line="178" />
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="196" />
+        <location filename="../src/Ui/RigViewer.cpp" line="203" />
         <source>animation %1</source>
         <translation>animação %1</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="235" />
+        <location filename="../src/Ui/RigViewer.cpp" line="242" />
         <source>frame %1 / %2</source>
         <translation>quadro %1 / %2</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="239" />
+        <location filename="../src/Ui/RigViewer.cpp" line="246" />
         <source>rest pose</source>
         <translation>pose de repouso</translation>
     </message>
     <message>
-        <location filename="../src/Ui/RigViewer.cpp" line="249" />
+        <location filename="../src/Ui/RigViewer.cpp" line="256" />
         <source>Model: %1 limbs, %2 triangles, %3 animations</source>
         <translation>Modelo: %1 membros, %2 triângulos, %3 animações</translation>
     </message>
@@ -1660,88 +1660,93 @@ Driver: %1, %2 formatos
 <context>
     <name>ViewNavigation</name>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="126" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="127" />
         <source>Wireframe on or off</source>
         <translation>Aramado ligado ou desligado</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="127" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="128" />
         <source>Frame the model again (the first view)</source>
         <translation>Enquadrar o modelo de novo (a vista inicial)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="128" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="129" />
         <source>Back faces shown or hidden (Outrage models)</source>
         <translation>Faces de trás visíveis ou ocultas (modelos do Outrage)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="129" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="130" />
         <source>Space</source>
         <translation>Espaço</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="129" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="130" />
         <source>Play or pause the animation (animated models)</source>
         <translation>Tocar ou pausar a animação (modelos animados)</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="140" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="131" />
+        <source>Lightmaps on or off (Requiem levels)</source>
+        <translation>Mapas de luz ligados ou desligados (fases do Requiem)</translation>
+    </message>
+    <message>
+        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
         <source>Left button drag</source>
         <translation>Arrastar com o botão esquerdo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="140" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
         <source>Turn the model</source>
         <translation>Girar o modelo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="141" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="143" />
         <source>Right or middle button drag, or Shift + left button drag</source>
         <translation>Arrastar com o botão direito ou do meio, ou Shift + botão esquerdo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="141" />
         <location filename="../src/Ui/ViewNavigation.cpp" line="143" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="145" />
         <source>Move the model</source>
         <translation>Mover o modelo</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="144" />
         <source>Wheel</source>
         <translation>Roda do mouse</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="142" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="144" />
         <source>Zoom in or out at the pointer</source>
         <translation>Aproximar ou afastar no ponteiro</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="143" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="145" />
         <source>Arrow keys</source>
         <translation>Teclas de seta</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="144" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="146" />
         <source>Zoom in or out</source>
         <translation>Aproximar ou afastar</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="146" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="148" />
         <source>This help</source>
         <translation>Esta ajuda</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="152" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="157" />
         <source>Click the view first: the keys go to the view that has the focus.</source>
         <translation>Clique na vista primeiro: as teclas vão para a vista que tem o foco.</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="155" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="160" />
         <source>3D viewer controls</source>
         <translation>Controles do visualizador 3D</translation>
     </message>
     <message>
-        <location filename="../src/Ui/ViewNavigation.cpp" line="168" />
+        <location filename="../src/Ui/ViewNavigation.cpp" line="173" />
         <source>H: help</source>
         <translation>H: ajuda</translation>
     </message>

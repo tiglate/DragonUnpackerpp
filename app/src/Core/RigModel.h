@@ -50,6 +50,8 @@ struct RigScene
     std::vector<RigPart> Parts; // cover Indices, in order
     std::vector<float> Positions; // x, y, z per vertex, in the space of the joint
     std::vector<float> Uvs;       // u, v per vertex
+    std::vector<float> LightUvs;  // u, v per vertex in Lightmap (0 to 1)
+    std::shared_ptr<const DecodedImage> Lightmap; // the lighting of a level (multiplies the textures), nullptr: none
     std::vector<std::uint8_t> JointOf;
     std::vector<std::uint32_t> Indices; // three vertices per triangle
     std::vector<int> Parent;            // per joint, -1 for a root; parents come before their children
