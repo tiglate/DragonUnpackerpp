@@ -216,6 +216,25 @@ TEST_CASE("Rig: the lightmaps of a level multiply its textures, and can be switc
     const auto lit = RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, textures);
     CHECK(count(lit, 0) > 500); // red
     CHECK(count(lit, 1) > 500); // green
+    // the brightness multiplies the lightmaps: a grey texture lit by the red lightmap is brighter at 2x than at 1x
+    DecodedImage grey;
+    grey.Width = grey.Height = 1;
+    grey.Rgba = {100, 100, 100, 255};
+    const std::vector<const DecodedImage *> greys{&grey, &grey};
+    const auto maxRed = [](const DecodedImage &image) {
+        int best = 0;
+        for (std::size_t i = 0; i + 3 < image.Rgba.size(); i += 4)
+        {
+            best = std::max(best, static_cast<int>(image.Rgba[i]));
+        }
+        return best;
+    };
+    camera.Brightness = 1.0;
+    const int at1 = maxRed(RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, greys));
+    camera.Brightness = 2.0;
+    const int at2 = maxRed(RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, greys));
+    CHECK(at1 == doctest::Approx(100).epsilon(0.05));
+    CHECK(at2 == doctest::Approx(200).epsilon(0.05));
     camera.Lighting = false;
     const auto plain = RenderRig(*scene, pose, camera, 200, 200, {0, 0, 0}, textures);
     CHECK(count(plain, 0) == 0);

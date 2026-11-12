@@ -8,6 +8,8 @@
 
 #include <QWidget>
 
+#include "Ui/ViewNavigation.h"
+
 #include <memory>
 
 namespace Dup::Ui
@@ -31,9 +33,16 @@ class MeshViewer : public QWidget
     void mouseMoveEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
   private:
+    [[nodiscard]] auto View() -> ViewState;
+    [[nodiscard]] static auto Keys() -> std::vector<ViewNavigation::Shortcut>;
+    [[nodiscard]] auto Area() const -> QRect; // where the mesh is drawn: below the buttons
+    void FrameAgain();
+
     std::shared_ptr<const Core::Mesh> _mesh;
+    ViewToolBar *_toolbar{nullptr};
     double _yaw{0.6};
     double _pitch{0.4};
     double _zoom{1.0};

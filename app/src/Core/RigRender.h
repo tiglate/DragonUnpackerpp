@@ -22,6 +22,7 @@ struct RigCamera
     double PanY{0.0}; // pixels the view is moved down
     bool Wireframe{false};
     bool Lighting{true}; // the lightmaps of the scene (a level) multiply the textures
+    double Brightness{2.0}; // the lightmaps times this (the game's own 1x looks too dark on a screen of today)
 };
 
 /// Draws the rig in a pose with an orthographic camera (the same scale on every axis, +Y up) into an RGBA picture: triangles

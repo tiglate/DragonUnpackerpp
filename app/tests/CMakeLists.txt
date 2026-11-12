@@ -101,6 +101,15 @@ add_test(NAME ui_view_drag
                  --view-drag=right,40,20 --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_drag.png --quit)
 set_tests_properties(ui_view_drag PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
 
+# the buttons of the 3D viewer: the lightmaps of the fixture level switched off by their button, an OBJ zoomed by its button
+add_test(NAME ui_view_button_level
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_v2.jam --select=level.gltf
+                 --view-button=lightmap --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_button_level.png --quit)
+add_test(NAME ui_view_button_mesh
+         COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/req_static.mdl --select=req_static.obj
+                 --view-button=zoom-in --screenshot=${CMAKE_CURRENT_BINARY_DIR}/ui_view_button_mesh.png --quit)
+set_tests_properties(ui_view_button_level ui_view_button_mesh PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)
+
 add_test(NAME ui_drag_out
          COMMAND dragonunpacker --settings=${CMAKE_CURRENT_BINARY_DIR}/ui_settings.ini --open=${FIXTURES_DIR}/dups.wad --test-drag-out --quit)
 set_tests_properties(ui_drag_out PROPERTIES FIXTURES_REQUIRED fixtures ENVIRONMENT "${APP_ENV}" TIMEOUT 60)

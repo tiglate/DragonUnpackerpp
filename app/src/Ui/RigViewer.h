@@ -19,10 +19,11 @@ class QTimer;
 namespace Dup::Ui
 {
 class RigCanvas;
+class ViewToolBar;
 
 /// The viewer of a skinned model with animations (the glTF of the Requiem models): the textured model drawn by the software
-/// renderer of Core, a list of its animations, a play button, a slider over the animation and a speed. Drag to turn the model,
-/// wheel to zoom, W for wireframe, F to frame it again.
+/// renderer of Core, buttons for every key (ViewToolBar), a list of its animations, a play button, a slider over the animation
+/// and a speed; the keys and the mouse of ViewNavigation, W for wireframe, F to frame it again, L lightmaps, [ ] their brightness.
 class RigViewer : public QWidget
 {
     Q_OBJECT
@@ -49,10 +50,15 @@ class RigViewer : public QWidget
     void OnTick();
     void StopPlaying();
     [[nodiscard]] auto Seconds() const -> double;
+    /// F: the first view again (the switches and the brightness stay)
+    void FrameAgain();
+    /// [ and ]: the lightmaps darker or brighter
+    void ChangeBrightness(int brighter);
 
     std::shared_ptr<const Core::RigScene> _scene;
     std::vector<std::shared_ptr<const Core::DecodedImage>> _textures;
     RigCanvas *_canvas;
+    ViewToolBar *_toolbar{nullptr};
     QWidget *_controls;
     QComboBox *_animations;
     QPushButton *_play;

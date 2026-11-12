@@ -36,6 +36,24 @@ const QHash<QString, QString> &Shapes()
         {"sound", R"(<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/>)"},
         {"text", R"(<path d="M6 3h8l5 5v13H6z"/><path d="M9 12h7M9 15h7M9 18h4"/>)"},
         {"folder", R"(<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>)"},
+        // the buttons of the 3D viewers
+        {"turn-left", R"(<path d="M4.5 13a7.5 7.5 0 1 0 2.2-6.3"/><path d="M4 3.5v5h5"/>)"},
+        {"turn-right", R"(<path d="M19.5 13a7.5 7.5 0 1 1-2.2-6.3"/><path d="M20 3.5v5h-5"/>)"},
+        {"tilt-up", R"(<ellipse cx="12" cy="16" rx="8" ry="3.5"/><path d="M12 13V3M8.5 6.5L12 3l3.5 3.5"/>)"},
+        {"tilt-down", R"(<ellipse cx="12" cy="8" rx="8" ry="3.5"/><path d="M12 11v10M8.5 17.5L12 21l3.5-3.5"/>)"},
+        {"move-left", R"(<path d="M20 12H4M9 7l-5 5 5 5"/>)"},
+        {"move-right", R"(<path d="M4 12h16M15 7l5 5-5 5"/>)"},
+        {"move-up", R"(<path d="M12 20V4M7 9l5-5 5 5"/>)"},
+        {"move-down", R"(<path d="M12 4v16M7 15l5 5 5-5"/>)"},
+        {"zoom-in", R"(<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5M8 11h6M11 8v6"/>)"},
+        {"zoom-out", R"(<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5M8 11h6"/>)"},
+        {"frame", R"(<path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/><rect x="9" y="9" width="6" height="6" rx="1"/>)"},
+        {"wireframe", R"(<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>)"},
+        {"backfaces", R"(<path d="M3 19L12 4l9 15z"/><path d="M7.5 15.5h9" stroke-dasharray="1.5 2.5"/>)"},
+        {"lightmap", R"(<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/>)"},
+        {"brighter", R"(<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>)"},
+        {"darker", R"(<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>)"},
+        {"help", R"(<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1 1-1.1 1.8v.5M12 17.2v.1"/>)"},
     };
     return shapes;
 }

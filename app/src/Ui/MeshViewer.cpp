@@ -29,16 +29,45 @@ MeshViewer::MeshViewer(QWidget *parent) : QWidget(parent)
     setMinimumSize(120, 120);
     setContextMenuPolicy(Qt::PreventContextMenu); // the right button moves the view
     setObjectName("viewCanvas"); // found by the test hook MainWindow::TestViewDrag
+    std::vector<ViewToolBar::Switch> switches{{"wireframe", tr("Wireframe"), "W", [this] { return _wireframe; }, [this] { _wireframe = !_wireframe; }}};
+    _toolbar = new ViewToolBar(this, [this] { return View(); }, [this] { update(); }, [this] { FrameAgain(); }, std::move(switches), {}, Keys());
 }
 
-void MeshViewer::SetMesh(std::shared_ptr<const Core::Mesh> mesh)
+auto MeshViewer::View() -> ViewState
 {
-    _mesh = std::move(mesh);
+    return {_yaw, _pitch, _zoom, _panX, _panY, 1.0};
+}
+
+auto MeshViewer::Keys() -> std::vector<ViewNavigation::Shortcut>
+{
+    const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space, L, [ ]: W and F here
+    return {all[0], all[1]};
+}
+
+auto MeshViewer::Area() const -> QRect
+{
+    return rect().adjusted(0, _toolbar->height(), 0, 0); // the buttons are over the top of the widget
+}
+
+void MeshViewer::FrameAgain()
+{
     _zoom = 1.0;
     _yaw = 0.6;
     _pitch = 0.4;
     _panX = 0.0;
     _panY = 0.0;
+}
+
+void MeshViewer::resizeEvent(QResizeEvent *event)
+{
+    _toolbar->setGeometry(0, 0, width(), _toolbar->sizeHint().height());
+    QWidget::resizeEvent(event);
+}
+
+void MeshViewer::SetMesh(std::shared_ptr<const Core::Mesh> mesh)
+{
+    _mesh = std::move(mesh);
+    FrameAgain();
     update();
 }
 
@@ -55,7 +84,9 @@ void MeshViewer::paintEvent(QPaintEvent *)
     {
         return;
     }
-    ViewNavigation::DrawHint(painter, rect(), palette().color(QPalette::Text)); // under the model: it stays in its corner
+    const QRect area = Area();
+    ViewNavigation::DrawHint(painter, area, palette().color(QPalette::Text)); // under the model: it stays in its corner
+    painter.setClipRect(area);
     painter.setRenderHint(QPainter::Antialiasing, true);
     const auto &mesh = *_mesh;
     const std::size_t vertexCount = mesh.Positions.size() / 3;
@@ -69,7 +100,8 @@ void MeshViewer::paintEvent(QPaintEvent *)
     {
         radius = 1.0;
     }
-    const double scale = std::min(width(), height()) * 0.45 / radius * _zoom;
+    const double scale = std::min(area.width(), area.height()) * 0.45 / radius * _zoom;
+    const QPointF middle = QRectF(area).center();
     const double cy = std::cos(_yaw);
     const double sy = std::sin(_yaw);
     const double cp = std::cos(_pitch);
@@ -90,7 +122,7 @@ void MeshViewer::paintEvent(QPaintEvent *)
         const double z1 = -x * sy + z * cy;
         const double y2 = y * cp - z1 * sp;
         const double z2 = y * sp + z1 * cp;
-        projected[v] = {width() / 2.0 + _panX + x1 * scale, height() / 2.0 + _panY - y2 * scale, z2 * scale}; // the same scale on all axes: the normals stay right
+        projected[v] = {middle.x() + _panX + x1 * scale, middle.y() + _panY - y2 * scale, z2 * scale}; // the same scale on all axes: the normals stay right
     }
 
     const std::size_t triangleCount = mesh.Triangles.size() / 3;
@@ -155,7 +187,7 @@ void MeshViewer::mousePressEvent(QMouseEvent *event)
 
 void MeshViewer::mouseMoveEvent(QMouseEvent *event)
 {
-    if (ViewNavigation::Move(event, _last, {_yaw, _pitch, _zoom, _panX, _panY, 1.0}))
+    if (ViewNavigation::Move(event, _last, View()))
     {
         update();
     }
@@ -163,7 +195,7 @@ void MeshViewer::mouseMoveEvent(QMouseEvent *event)
 
 void MeshViewer::wheelEvent(QWheelEvent *event)
 {
-    if (ViewNavigation::Wheel(event, size(), {_yaw, _pitch, _zoom, _panX, _panY, 1.0}))
+    if (ViewNavigation::Wheel(event, Area(), View()))
     {
         update();
     }
@@ -177,21 +209,14 @@ void MeshViewer::keyPressEvent(QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_F)
     {
-        _zoom = 1.0;
-        _yaw = 0.6;
-        _pitch = 0.4;
-        _panX = 0.0;
-        _panY = 0.0;
+        FrameAgain();
     }
-    else
+    else if (!ViewNavigation::Key(event, this, View(), Keys()))
     {
-        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space: W and F here
-        if (!ViewNavigation::Key(event, this, {_yaw, _pitch, _zoom, _panX, _panY, 1.0}, {all[0], all[1]}))
-        {
-            QWidget::keyPressEvent(event);
-            return;
-        }
+        QWidget::keyPressEvent(event);
+        return;
     }
+    _toolbar->Refresh(); // W is a button too
     update();
 }
 } // namespace Dup::Ui

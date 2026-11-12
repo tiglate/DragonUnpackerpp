@@ -76,7 +76,7 @@ class ModelCanvas : public QWidget
     }
     void wheelEvent(QWheelEvent *event) override
     {
-        if (ViewNavigation::Wheel(event, size(), View()))
+        if (ViewNavigation::Wheel(event, rect(), View()))
         {
             update();
         }
@@ -94,17 +94,21 @@ class ModelCanvas : public QWidget
         }
         else if (event->key() == Qt::Key_F)
         {
+            const auto kept = camera; // the first view again, the switches stay
             camera = Core::OofCamera{};
+            camera.Wireframe = kept.Wireframe;
+            camera.CullBackFaces = kept.CullBackFaces;
         }
         else if (!ViewNavigation::Key(event, this, View(), Keys()))
         {
             QWidget::keyPressEvent(event);
             return;
         }
+        _owner->_toolbar->Refresh(); // W and B are buttons too
         update();
     }
 
-  private:
+  public:
     auto View() -> ViewState
     {
         auto &camera = _owner->_camera;
@@ -115,6 +119,8 @@ class ModelCanvas : public QWidget
         const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space: no Space here
         return {all[0], all[1], all[2]};
     }
+
+  private:
 
     ModelViewer *_owner;
     QPoint _last;
@@ -127,6 +133,16 @@ ModelViewer::ModelViewer(QWidget *parent)
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
+    std::vector<ViewToolBar::Switch> switches{
+        {"wireframe", tr("Wireframe"), "W", [this] { return _camera.Wireframe; }, [this] { _camera.Wireframe = !_camera.Wireframe; }},
+        {"backfaces", tr("Back faces hidden"), "B", [this] { return _camera.CullBackFaces; }, [this] { _camera.CullBackFaces = !_camera.CullBackFaces; }}};
+    _toolbar = new ViewToolBar(this, [this] { return _canvas->View(); }, [this] { _canvas->update(); }, [this] {
+        const auto kept = _camera;
+        _camera = Core::OofCamera{};
+        _camera.Wireframe = kept.Wireframe;
+        _camera.CullBackFaces = kept.CullBackFaces;
+    }, std::move(switches), {}, ModelCanvas::Keys());
+    layout->addWidget(_toolbar);
     layout->addWidget(_canvas, 1);
     layout->addWidget(_controls);
     auto *row = new QHBoxLayout(_controls);

@@ -4,7 +4,12 @@
 
 #include "Ui/ViewNavigation.h"
 
+#include "Ui/Icons.h"
+
+#include <QAction>
 #include <QDialog>
+#include <QEvent>
+#include <QToolButton>
 #include <QGuiApplication>
 #include <QDialogButtonBox>
 #include <QKeyEvent>
@@ -31,6 +36,7 @@ constexpr double ZOOM_STEP = 1.15;
 constexpr double MIN_ZOOM = 0.1;
 constexpr double MAX_ZOOM = 200.0;
 constexpr double KEY_MOVE = 40.0; // pixels
+constexpr double BUTTON_TURN = 0.15; // radians, about 9 degrees
 
 // Zoom by a factor, keeping the point at `at` (pixels from the centre of the view) where it is on the screen
 void ZoomAt(ViewState view, double factor, double atX, double atY)
@@ -75,7 +81,7 @@ auto ViewNavigation::Move(QMouseEvent *event, QPoint &last, ViewState view) -> b
     return true;
 }
 
-auto ViewNavigation::Wheel(QWheelEvent *event, QSize size, ViewState view) -> bool
+auto ViewNavigation::Wheel(QWheelEvent *event, const QRect &area, ViewState view) -> bool
 {
     event->accept();
     if (event->angleDelta().y() == 0)
@@ -83,8 +89,26 @@ auto ViewNavigation::Wheel(QWheelEvent *event, QSize size, ViewState view) -> bo
         return false;
     }
     const QPointF at = event->position();
-    ZoomAt(view, event->angleDelta().y() > 0 ? ZOOM_STEP : 1.0 / ZOOM_STEP, at.x() - size.width() / 2.0, at.y() - size.height() / 2.0);
+    const QPointF centre = QRectF(area).center();
+    ZoomAt(view, event->angleDelta().y() > 0 ? ZOOM_STEP : 1.0 / ZOOM_STEP, at.x() - centre.x(), at.y() - centre.y());
     return true;
+}
+
+void ViewNavigation::TurnStep(ViewState view, int right, int down)
+{
+    view.Yaw += view.YawSign * right * BUTTON_TURN;
+    view.Pitch = std::clamp(view.Pitch + down * BUTTON_TURN, -1.5, 1.5);
+}
+
+void ViewNavigation::MoveStep(ViewState view, int right, int down)
+{
+    view.PanX += right * KEY_MOVE;
+    view.PanY += down * KEY_MOVE;
+}
+
+void ViewNavigation::ZoomStep(ViewState view, int in)
+{
+    ZoomAt(view, in > 0 ? ZOOM_STEP : 1.0 / ZOOM_STEP, 0, 0);
 }
 
 auto ViewNavigation::Key(QKeyEvent *event, QWidget *owner, ViewState view, const std::vector<Shortcut> &viewerKeys) -> bool
@@ -92,23 +116,23 @@ auto ViewNavigation::Key(QKeyEvent *event, QWidget *owner, ViewState view, const
     switch (event->key())
     {
     case Qt::Key_Left:
-        view.PanX -= KEY_MOVE;
+        MoveStep(view, -1, 0);
         return true;
     case Qt::Key_Right:
-        view.PanX += KEY_MOVE;
+        MoveStep(view, 1, 0);
         return true;
     case Qt::Key_Up:
-        view.PanY -= KEY_MOVE;
+        MoveStep(view, 0, -1);
         return true;
     case Qt::Key_Down:
-        view.PanY += KEY_MOVE;
+        MoveStep(view, 0, 1);
         return true;
     case Qt::Key_Plus:
     case Qt::Key_Equal:
-        ZoomAt(view, ZOOM_STEP, 0, 0);
+        ZoomStep(view, 1);
         return true;
     case Qt::Key_Minus:
-        ZoomAt(view, 1.0 / ZOOM_STEP, 0, 0);
+        ZoomStep(view, -1);
         return true;
     case Qt::Key_H:
     case Qt::Key_F1:
@@ -129,6 +153,7 @@ auto ViewNavigation::AllViewerKeys() -> std::vector<Shortcut>
     keys.emplace_back("B", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Back faces shown or hidden (Outrage models)")));
     keys.emplace_back(Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Space")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Play or pause the animation (animated models)")));
     keys.emplace_back("L", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Lightmaps on or off (Requiem levels)")));
+    keys.emplace_back("[ / ]", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Lightmaps darker or brighter (Requiem levels)")));
     return keys;
 }
 
@@ -177,5 +202,113 @@ void ViewNavigation::DrawHint(QPainter &painter, const QRect &area, const QColor
     painter.setPen(faint);
     painter.drawText(area.adjusted(6, 4, -6, -4), Qt::AlignRight | Qt::AlignBottom, hint);
     painter.restore();
+}
+
+ViewToolBar::ViewToolBar(QWidget *parent, std::function<ViewState()> view, std::function<void()> changed, std::function<void()> frame,
+                         std::vector<Switch> switches, std::vector<Command> commands, std::vector<ViewNavigation::Shortcut> helpKeys)
+    : QToolBar(parent), _changed(std::move(changed))
+{
+    setIconSize(QSize(18, 18));
+    setMovable(false);
+    setFloatable(false);
+    setFocusPolicy(Qt::NoFocus);
+    setContextMenuPolicy(Qt::PreventContextMenu);
+    const auto step = [this, view](auto apply) {
+        return [this, view, apply] {
+            apply(view());
+            _changed();
+        };
+    };
+    const QString drag = Tr(QT_TRANSLATE_NOOP("ViewNavigation", "left button drag"));
+    AddButton("turn-left", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Turn left")), drag, step([](ViewState v) { ViewNavigation::TurnStep(v, -1, 0); }), true);
+    AddButton("turn-right", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Turn right")), drag, step([](ViewState v) { ViewNavigation::TurnStep(v, 1, 0); }), true);
+    AddButton("tilt-up", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Tilt up")), drag, step([](ViewState v) { ViewNavigation::TurnStep(v, 0, -1); }), true);
+    AddButton("tilt-down", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Tilt down")), drag, step([](ViewState v) { ViewNavigation::TurnStep(v, 0, 1); }), true);
+    addSeparator();
+    AddButton("move-left", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Move left")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Left arrow")),
+              step([](ViewState v) { ViewNavigation::MoveStep(v, -1, 0); }), true);
+    AddButton("move-right", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Move right")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Right arrow")),
+              step([](ViewState v) { ViewNavigation::MoveStep(v, 1, 0); }), true);
+    AddButton("move-up", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Move up")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Up arrow")),
+              step([](ViewState v) { ViewNavigation::MoveStep(v, 0, -1); }), true);
+    AddButton("move-down", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Move down")), Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Down arrow")),
+              step([](ViewState v) { ViewNavigation::MoveStep(v, 0, 1); }), true);
+    addSeparator();
+    AddButton("zoom-in", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Zoom in")), "+", step([](ViewState v) { ViewNavigation::ZoomStep(v, 1); }), true);
+    AddButton("zoom-out", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Zoom out")), "-", step([](ViewState v) { ViewNavigation::ZoomStep(v, -1); }), true);
+    AddButton("frame", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Frame the model again")), "F", [this, frame] {
+        frame();
+        _changed();
+    }, false);
+    if (!switches.empty())
+    {
+        addSeparator();
+    }
+    for (auto &item : switches)
+    {
+        AddButton(item.Icon, item.Text, item.Key, [this, flip = item.Flip] {
+            flip();
+            _changed();
+            Refresh();
+        }, false);
+        actions().back()->setCheckable(true);
+        _checks.emplace_back(actions().back(), item.IsOn);
+    }
+    if (!commands.empty())
+    {
+        addSeparator();
+    }
+    for (auto &item : commands)
+    {
+        AddButton(item.Icon, item.Text, item.Key, [this, run = item.Run] {
+            run();
+            _changed();
+        }, true);
+    }
+    addSeparator();
+    AddButton("help", Tr(QT_TRANSLATE_NOOP("ViewNavigation", "Help of the controls")), "H", [this, helpKeys] { ViewNavigation::ShowHelp(this, helpKeys); }, false);
+    RefreshIcons();
+    Refresh();
+}
+
+void ViewToolBar::AddButton(const QString &icon, const QString &text, const QString &key, std::function<void()> run, bool repeat)
+{
+    auto *action = addAction(text);
+    action->setToolTip(key.isEmpty() ? text : QString("%1 (%2)").arg(text, key));
+    connect(action, &QAction::triggered, this, [run = std::move(run)] { run(); });
+    if (auto *button = qobject_cast<QToolButton *>(widgetForAction(action)))
+    {
+        button->setFocusPolicy(Qt::NoFocus);
+        button->setAutoRaise(true);
+        button->setAutoRepeat(repeat); // held down: turns, moves or zooms on
+        button->setObjectName("view-" + icon);
+    }
+    _icons.emplace_back(action, icon);
+}
+
+void ViewToolBar::Refresh()
+{
+    for (const auto &[action, isOn] : _checks)
+    {
+        action->setChecked(isOn());
+    }
+}
+
+void ViewToolBar::RefreshIcons()
+{
+    const QColor colour = palette().color(QPalette::ButtonText);
+    for (const auto &[action, icon] : _icons)
+    {
+        action->setIcon(Icons::Make(icon, colour));
+    }
+}
+
+void ViewToolBar::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::PaletteChange)
+    {
+        RefreshIcons(); // the theme changed
+    }
+    QToolBar::changeEvent(event);
 }
 } // namespace Dup::Ui

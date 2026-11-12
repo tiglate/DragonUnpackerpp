@@ -126,10 +126,10 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
     // a scene without parts (made by hand) is one part of every triangle
     const std::vector<RigPart> whole{RigPart{0, scene.Indices.size(), scene.ArtSlot, scene.UvSize, scene.Label}};
     const auto &parts = scene.Parts.empty() ? whole : scene.Parts;
-    for (std::size_t p = 0; p < parts.size(); ++p)
+    for (std::size_t partIndex = 0; partIndex < parts.size(); ++partIndex)
     {
-        const auto &part = parts[p];
-        const DecodedImage *texture = p < textures.size() ? textures[p] : nullptr;
+        const auto &part = parts[partIndex];
+        const DecodedImage *texture = partIndex < textures.size() ? textures[partIndex] : nullptr;
         const bool textured = texture != nullptr && texture->Width > 0 && texture->Height > 0 &&
                               texture->Rgba.size() >= static_cast<std::size_t>(texture->Width) * texture->Height * 4;
         const std::size_t end = std::min(scene.Indices.size(), part.FirstIndex + part.IndexCount);
@@ -197,6 +197,10 @@ auto RenderRig(const RigScene &scene, const std::vector<RigJointPose> &pose, con
                     if (lit)
                     {
                         SampleLight(*scene.Lightmap, w0 * a.LU + w1 * b.LU + w2 * c.LU, w0 * a.LV + w1 * b.LV + w2 * c.LV, shade);
+                        for (double &value : shade)
+                        {
+                            value *= camera.Brightness;
+                        }
                     }
                     Put(image, x, y, static_cast<std::uint8_t>(std::min(255.0, r * shade[0])), static_cast<std::uint8_t>(std::min(255.0, g * shade[1])),
                         static_cast<std::uint8_t>(std::min(255.0, bl * shade[2])));

@@ -71,7 +71,7 @@ class RigCanvas : public QWidget
     }
     void wheelEvent(QWheelEvent *event) override
     {
-        if (ViewNavigation::Wheel(event, size(), View()))
+        if (ViewNavigation::Wheel(event, rect(), View()))
         {
             update();
         }
@@ -85,13 +85,15 @@ class RigCanvas : public QWidget
         }
         else if (event->key() == Qt::Key_F)
         {
-            const bool lighting = camera.Lighting; // F frames the view again, it does not light or unlight
-            camera = Core::RigCamera{};
-            camera.Lighting = lighting;
+            _owner->FrameAgain();
         }
         else if (event->key() == Qt::Key_L)
         {
             camera.Lighting = !camera.Lighting;
+        }
+        else if (event->key() == Qt::Key_BracketLeft || event->key() == Qt::Key_BracketRight)
+        {
+            _owner->ChangeBrightness(event->key() == Qt::Key_BracketRight ? 1 : -1);
         }
         else if (event->key() == Qt::Key_Space)
         {
@@ -102,10 +104,11 @@ class RigCanvas : public QWidget
             QWidget::keyPressEvent(event);
             return;
         }
+        _owner->_toolbar->Refresh(); // W and L are buttons too
         update();
     }
 
-  private:
+  public:
     auto View() -> ViewState
     {
         auto &camera = _owner->_camera;
@@ -113,9 +116,11 @@ class RigCanvas : public QWidget
     }
     static auto Keys() -> std::vector<ViewNavigation::Shortcut>
     {
-        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space, L: B is not for this viewer
-        return {all[0], all[1], all[3], all[4]};
+        const auto all = ViewNavigation::AllViewerKeys(); // W, F, B, Space, L, [ ]: B is not for this viewer
+        return {all[0], all[1], all[3], all[4], all[5]};
     }
+
+  private:
 
     RigViewer *_owner;
     QPoint _last;
@@ -128,6 +133,16 @@ RigViewer::RigViewer(QWidget *parent)
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
+    using Switch = ViewToolBar::Switch;
+    using Command = ViewToolBar::Command;
+    std::vector<Switch> switches{
+        {"wireframe", tr("Wireframe"), "W", [this] { return _camera.Wireframe; }, [this] { _camera.Wireframe = !_camera.Wireframe; }},
+        {"lightmap", tr("Lightmaps (Requiem levels)"), "L", [this] { return _camera.Lighting; }, [this] { _camera.Lighting = !_camera.Lighting; }}};
+    std::vector<Command> commands{{"darker", tr("Darker lightmaps"), "[", [this] { ChangeBrightness(-1); }},
+                                  {"brighter", tr("Brighter lightmaps"), "]", [this] { ChangeBrightness(1); }}};
+    _toolbar = new ViewToolBar(this, [this] { return _canvas->View(); }, [this] { _canvas->update(); }, [this] { FrameAgain(); }, std::move(switches),
+                               std::move(commands), RigCanvas::Keys());
+    layout->addWidget(_toolbar);
     layout->addWidget(_canvas, 1);
     layout->addWidget(_controls);
     auto *row = new QHBoxLayout(_controls);
@@ -189,7 +204,7 @@ void RigViewer::SetScene(std::shared_ptr<const Core::RigScene> scene, std::vecto
     StopPlaying();
     _scene = std::move(scene);
     _textures = std::move(textures);
-    _camera = Core::RigCamera{};
+    FrameAgain(); // the lighting and its brightness stay from one scene to the next
     _u = 0;
     {
         const QSignalBlocker blockerAnimations(_animations);
@@ -209,6 +224,20 @@ void RigViewer::SetScene(std::shared_ptr<const Core::RigScene> scene, std::vecto
     _controls->setVisible(_scene != nullptr && !_scene->Animations.empty());
     UpdateControls();
     _canvas->update();
+}
+
+void RigViewer::FrameAgain()
+{
+    Core::RigCamera camera;
+    camera.Lighting = _camera.Lighting;
+    camera.Brightness = _camera.Brightness;
+    camera.Wireframe = _camera.Wireframe;
+    _camera = camera;
+}
+
+void RigViewer::ChangeBrightness(int brighter)
+{
+    _camera.Brightness = std::clamp(brighter > 0 ? _camera.Brightness * 1.25 : _camera.Brightness / 1.25, 0.25, 8.0);
 }
 
 auto RigViewer::Seconds() const -> double

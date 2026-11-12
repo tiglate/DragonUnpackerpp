@@ -104,6 +104,8 @@ class MainWindow : public QMainWindow
     auto TestViewDrag(Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QPoint delta) -> bool;
     /// Presses a key in the 3D view of the preview (tests); false if no 3D view is shown
     auto TestViewKey(int key) -> bool;
+    /// Clicks a button of the 3D view of the preview by its icon name ("zoom-in"...) (tests); false if there is none shown
+    auto TestViewButton(const QString &icon) -> bool;
 
     /// Waits for the jobs; the number of entries that could not be extracted so far.
     auto WaitForJobs() -> int;

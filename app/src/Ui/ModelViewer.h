@@ -20,6 +20,7 @@ class QTimer;
 namespace Dup::Ui
 {
 class ModelCanvas;
+class ViewToolBar;
 
 /// The viewer of a Descent 3 model: textured surfaces, billboards and glows drawn by the software renderer of Core, with the
 /// animation of the model on a slider (and a play button that also turns the $rotate subobjects). Drag to turn the model, wheel to
@@ -51,6 +52,7 @@ class ModelViewer : public QWidget
 
     std::shared_ptr<const Core::OofScene> _scene;
     ModelCanvas *_canvas;
+    ViewToolBar *_toolbar{nullptr};
     QWidget *_controls;
     QCheckBox *_animate;
     QPushButton *_play;

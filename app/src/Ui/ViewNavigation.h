@@ -6,10 +6,12 @@
 
 #include <QCoreApplication>
 #include <QPoint>
+#include <QToolBar>
 #include <QSize>
 #include <QString>
 #include <QStringList>
 
+#include <functional>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -48,7 +50,12 @@ class ViewNavigation
     static void Press(QMouseEvent *event, QPoint &last);
     /// True when the view changed.
     [[nodiscard]] static auto Move(QMouseEvent *event, QPoint &last, ViewState view) -> bool;
-    [[nodiscard]] static auto Wheel(QWheelEvent *event, QSize size, ViewState view) -> bool;
+    /// area: the part of the widget the view is drawn in (the zoom keeps the point under the pointer in place)
+    [[nodiscard]] static auto Wheel(QWheelEvent *event, const QRect &area, ViewState view) -> bool;
+    /// The steps of the keys and the buttons
+    static void TurnStep(ViewState view, int right, int down);
+    static void MoveStep(ViewState view, int right, int down);
+    static void ZoomStep(ViewState view, int in);
     /// Arrows, + and -, and the help keys (the help is shown over owner, with the keys of that viewer); true when the key was used.
     [[nodiscard]] static auto Key(QKeyEvent *event, QWidget *owner, ViewState view, const std::vector<Shortcut> &viewerKeys) -> bool;
 
@@ -60,5 +67,46 @@ class ViewNavigation
     [[nodiscard]] static auto AllViewerKeys() -> std::vector<Shortcut>;
     /// A discreet "H: help" in the corner of the view, in a colour that shows on its background.
     static void DrawHint(QPainter &painter, const QRect &area, const QColor &color);
+};
+
+/// The buttons of a 3D viewer (flat icons, every key of the viewer has one): turn, move, zoom, frame again, the switches of
+/// the viewer (wireframe...), its other commands and the help. The buttons do not take the focus: the keys stay with the view.
+class ViewToolBar : public QToolBar
+{
+  public:
+    /// A switch (W, B, L...): checked when IsOn says so
+    struct Switch
+    {
+        QString Icon;
+        QString Text;
+        QString Key;
+        std::function<bool()> IsOn;
+        std::function<void()> Flip;
+    };
+    /// Another command of the viewer ([ and ]...)
+    struct Command
+    {
+        QString Icon;
+        QString Text;
+        QString Key;
+        std::function<void()> Run;
+    };
+
+    /// view: the camera fields; changed: called after every change (redraw); frame: F; helpKeys: the keys of the viewer
+    ViewToolBar(QWidget *parent, std::function<ViewState()> view, std::function<void()> changed, std::function<void()> frame,
+                std::vector<Switch> switches, std::vector<Command> commands, std::vector<ViewNavigation::Shortcut> helpKeys);
+    /// The checked states from the viewer (after a key changed one)
+    void Refresh();
+
+  protected:
+    void changeEvent(QEvent *event) override;
+
+  private:
+    void AddButton(const QString &icon, const QString &text, const QString &key, std::function<void()> run, bool repeat);
+    void RefreshIcons();
+
+    std::function<void()> _changed;
+    std::vector<std::pair<QAction *, QString>> _icons;
+    std::vector<std::pair<QAction *, std::function<bool()>>> _checks;
 };
 } // namespace Dup::Ui

@@ -3,7 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Command line (test hooks, for the tests):
-//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--view-key=K] [--palette=NAME]
+//   dragonunpacker [--plugin=FILE] [--settings=FILE] [--theme=system|dark|light] [--open=FILE | --rip=FILE] [--folder=a/b] [--select=NAME] [--right-click=NAME [--print-entry-menu]] [--view-drag=BUTTON,DX,DY] [--view-key=K] [--view-button=ICON] [--palette=NAME]
 //                  [--filter=TEXT [--search-all]] [--type=EXTENSION] [--model-pose=U] [--model-animation=N] [--screenshot-delay=MS] [--workspace=default|browse|preview] [--recursive] [--thumbnails] [--sort=COLUMN|-COLUMN] [--identify] [--create-list=FILE --list-template=text-list|text-db|xml-db|homepage|NAME] [--extract-all=DIR [--convert-images | --tool=NAME] | --extract-selected=DIR] [--screenshot=FILE.png] [--quit]
 //   dragonunpacker --benchmark=FILE [--plugin=FILE]     (no window: prints the timings and exits)
 
@@ -321,6 +321,25 @@ int main(int argc, char **argv)
         if (!pressed)
         {
             spdlog::error("no 3D view to press a key in");
+            return 2;
+        }
+    }
+    // --view-button=ICON: a click on that button of the 3D view of the preview (wireframe, lightmap, zoom-in...)
+    if (const auto button = ArgumentValue(argc, argv, "view-button"); !button.empty())
+    {
+        bool clicked = false;
+        for (int i = 0; i < 100 && !clicked; ++i)
+        {
+            QCoreApplication::processEvents();
+            clicked = window->TestViewButton(QString::fromStdString(button));
+            if (!clicked)
+            {
+                QThread::msleep(50);
+            }
+        }
+        if (!clicked)
+        {
+            spdlog::error("no button {} in a 3D view", button);
             return 2;
         }
     }

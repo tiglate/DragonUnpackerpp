@@ -6,6 +6,7 @@
 
 #include <QContextMenuEvent>
 #include <QKeyEvent>
+#include <QToolButton>
 #include <QMouseEvent>
 
 #include "Core/PreviewWorker.h"
@@ -1263,6 +1264,19 @@ void MainWindow::FillEntryMenu(QMenu *menu)
     }
     menu->addSeparator();
     menu->addAction(tr("Extract all..."), this, &MainWindow::OnExtractAll)->setEnabled(_index != nullptr);
+}
+
+auto MainWindow::TestViewButton(const QString &icon) -> bool
+{
+    for (auto *button : findChildren<QToolButton *>("view-" + icon))
+    {
+        if (button->isVisible() && button->isEnabled())
+        {
+            button->click();
+            return true;
+        }
+    }
+    return false;
 }
 
 auto MainWindow::TestViewKey(int key) -> bool
