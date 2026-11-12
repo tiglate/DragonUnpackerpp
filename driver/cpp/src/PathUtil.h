@@ -12,6 +12,19 @@
 
 namespace Dud
 {
+// A UTF-8 path as a std::filesystem path, and back: what the C ABI passes is UTF-8, and on Windows path::string() would
+// give the ANSI code page instead
+inline auto PathOf(const std::string &utf8) -> std::filesystem::path
+{
+    return std::filesystem::path(std::u8string(utf8.begin(), utf8.end()));
+}
+
+inline auto Utf8Of(const std::filesystem::path &path) -> std::string
+{
+    const std::u8string text = path.u8string();
+    return std::string(text.begin(), text.end());
+}
+
 inline auto ToUpper(std::string text) -> std::string
 {
     std::ranges::transform(text, text.begin(), [](unsigned char c) { return static_cast<char>(std::toupper(c)); });

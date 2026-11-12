@@ -479,9 +479,9 @@ auto FindInFolder(const std::string &folder, const std::string &name) -> std::st
     const std::string wanted = ToLower(name);
     for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
     {
-        const std::string file = item.path().filename().string();
+        const std::string file = Utf8Of(item.path().filename());
         if (ToLower(file) == wanted)
-            return item.path().string();
+            return Utf8Of(item.path());
     }
     return {};
 }
@@ -647,7 +647,7 @@ auto CollectAnimations(const Model &m, const std::string &path, int &artSlot, st
     if (m.SectionCodes.empty())
         return found;
     namespace fs = std::filesystem;
-    const std::string folder = fs::path(std::u8string(path.begin(), path.end())).parent_path().string();
+    const std::string folder = Utf8Of(PathOf(path).parent_path());
     const std::string file = FileNameOf(path);
     const std::string base = ToLower(ChangeFileExt(file, ""));
     const size_t limbs = m.SectionCodes.size();
@@ -696,7 +696,7 @@ auto CollectAnimations(const Model &m, const std::string &path, int &artSlot, st
         std::vector<std::string> names;
         for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
         {
-            const std::string name = item.path().filename().string();
+            const std::string name = Utf8Of(item.path().filename());
             const std::string low = ToLower(name);
             if (ExtensionOf(low) == ".ani" && low.rfind(base, 0) == 0)
                 names.push_back(name);

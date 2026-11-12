@@ -169,7 +169,9 @@ Driver::~Driver()
 auto Driver::Open(const std::filesystem::path &path) const -> std::unique_ptr<Archive>
 {
     void *handle = nullptr;
-    const auto status = _functions.Open(path.c_str(), 0, &handle);
+    // the driver takes UTF-8 (on Windows c_str() is UTF-16)
+    const std::u8string utf8 = path.u8string();
+    const auto status = _functions.Open(reinterpret_cast<const char *>(utf8.c_str()), 0, &handle);
     if (status != DUDI7_OK || handle == nullptr)
     {
         std::array<char, 512> buffer{};

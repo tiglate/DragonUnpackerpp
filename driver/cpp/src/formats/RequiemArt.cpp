@@ -310,7 +310,7 @@ class RequiemArtArchive : public Archive
                     continue;
                 std::vector<fs::path> files;
                 for (const auto &item : fs::directory_iterator(maps, error))
-                    if (ToLower(item.path().extension().string()) == ".jam")
+                    if (ToLower(Utf8Of(item.path().extension())) == ".jam")
                         files.push_back(item.path());
                 std::sort(files.begin(), files.end());
                 std::map<Requiem::Palette, int> votes;
@@ -319,7 +319,7 @@ class RequiemArtArchive : public Archive
                 {
                     try
                     {
-                        Reader jam(file.string());
+                        Reader jam(Utf8Of(file));
                         Requiem::Palette palette;
                         if (Requiem::ReadPalette(jam, palette))
                         {

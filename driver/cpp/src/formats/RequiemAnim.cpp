@@ -129,7 +129,7 @@ class RequiemAnimArchive : public Archive
         if (tabPath.empty())
             return {};
         namespace fs = std::filesystem;
-        const std::string folder = fs::path(std::u8string(aryPath.begin(), aryPath.end())).parent_path().string();
+        const std::string folder = Utf8Of(PathOf(aryPath).parent_path());
         const std::vector<ModelEntry> entries = ReadModels3(folder);
         if (entries.empty())
             return {};
@@ -160,7 +160,7 @@ class RequiemAnimArchive : public Archive
             return;
         const std::vector<uint16_t> table = ReadAnimTable(tabPath);
         namespace fs = std::filesystem;
-        const std::string folder = fs::path(std::u8string(aryPath.begin(), aryPath.end())).parent_path().string();
+        const std::string folder = Utf8Of(PathOf(aryPath).parent_path());
         const std::vector<ModelEntry> entries = ReadModels3(folder);
         std::map<std::string, size_t> builderOf;              // model file (lower case) -> builder
         std::vector<size_t> limbsOf;                          // limbs of the model of each builder
@@ -251,7 +251,7 @@ class RequiemAnimArchive : public Archive
         std::error_code error;
         for (const auto &item : fs::directory_iterator(fs::path(std::u8string(folder.begin(), folder.end())), error))
         {
-            const std::string path = item.path().string();
+            const std::string path = Utf8Of(item.path());
             if (ToLower(ExtensionOf(path)) != ".mdl")
                 continue;
             try
