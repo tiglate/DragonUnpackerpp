@@ -389,7 +389,7 @@ class MosArchive : public Archive
             put(0);
         put(32);
         put(0x4);
-        out.insert(out.end(), {'D', 'X', 'T', h.Type == 4 ? '5' : h.Type == 2 ? '3' : '1'});
+        out.insert(out.end(), {'D', 'X', 'T', static_cast<uint8_t>(h.Type == 4 ? '5' : h.Type == 2 ? '3' : '1')});
         for (int i = 0; i < 5; ++i)
             put(0);
         put(0x1000 | (levels > 1 ? (0x8 | 0x400000) : 0));

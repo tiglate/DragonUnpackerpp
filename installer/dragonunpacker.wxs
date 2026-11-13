@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+  WiX Toolset (v4 or later) source of the installer of Dragon UnPACKer++. Built by ".\make.ps1 msi", which passes:
+    Version     the product version (major.minor.build), read from app/CMakeLists.txt
+    SourceDir   the installation tree made by ".\make.ps1 install" (dragonunpacker.exe, Qt DLLs, plugins\drv_default.d6d)
+    LicenseRtf  LICENSE converted to RTF for the license page
+    IconFile    app\resources\dragonunpacker.ico
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="Dragon UnPACKer++" Manufacturer="Tiglate Pileser III" Version="$(Version)" Scope="perMachine"
+           UpgradeCode="6B0F6E4B-3C5B-4C0B-9D77-5A3C2B6E1D11" Language="1033">
+    <SummaryInformation Description="Dragon UnPACKer++, a game resource explorer and extractor" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <Icon Id="AppIcon.ico" SourceFile="$(IconFile)" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/tiglate/DragonUnpackerpp" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Dragon UnPACKer++" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="Dragon UnPACKer++" />
+    </StandardDirectory>
+
+    <!-- everything the install step put in the tree: the executable, Qt and the other DLLs, plugins\drv_default.d6d -->
+    <ComponentGroup Id="ApplicationFiles" Directory="INSTALLFOLDER">
+      <Files Include="$(SourceDir)\**">
+        <Exclude Files="$(SourceDir)\dragonunpacker.exe" />
+      </Files>
+      <Component Id="MainExecutable">
+        <File Id="dragonunpacker.exe" Source="$(SourceDir)\dragonunpacker.exe" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="Shortcuts" Directory="ApplicationProgramsFolder">
+      <Component Id="StartMenuShortcut" Guid="3D7E3A52-5F7C-4F0A-8E88-2A6F4D0E9B21">
+        <Shortcut Id="StartMenuShortcutLink" Name="Dragon UnPACKer++" Description="Browse, preview and extract the resources of game archives"
+                  Target="[INSTALLFOLDER]dragonunpacker.exe" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon.ico" />
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Tiglate\DragonUnPACKerPP" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <Feature Id="Main" Title="Dragon UnPACKer++" Level="1" AllowAbsent="no">
+      <ComponentGroupRef Id="ApplicationFiles" />
+      <ComponentGroupRef Id="Shortcuts" />
+    </Feature>
+
+    <!-- installer dialogs: welcome, license (MPL 2.0), install folder, progress -->
+    <WixVariable Id="WixUILicenseRtf" Value="$(LicenseRtf)" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <ui:WixUI Id="WixUI_InstallDir" />
+  </Package>
+</Wix>

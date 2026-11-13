@@ -29,7 +29,11 @@ target_include_directories(dragonunpacker_tests PRIVATE ${CMAKE_CURRENT_SOURCE_D
 find_package(Threads REQUIRED)
 target_link_libraries(dragonunpacker_tests PRIVATE Core Threads::Threads)
 
-set(PLUGIN_DEFAULT ${PROJECT_SOURCE_DIR}/../build/plugins/libdrv_default.d6d.so)
+if (WIN32)
+    set(PLUGIN_DEFAULT ${PROJECT_SOURCE_DIR}/../build/plugins/drv_default.d6d)
+else ()
+    set(PLUGIN_DEFAULT ${PROJECT_SOURCE_DIR}/../build/plugins/libdrv_default.d6d.so)
+endif ()
 set(FIXTURES_DIR ${CMAKE_CURRENT_BINARY_DIR}/fixtures)
 
 include(CTest)

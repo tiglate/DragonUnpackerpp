@@ -114,8 +114,7 @@ class UnityAssetsArchive : public UnityObjectArchive
         if (base.empty() || off < 0 || size < 0)
             return false;
         const std::string &own = _stream->Path();
-        const size_t ownSlash = own.find_last_of('/');
-        if (SameText(base, ownSlash == std::string::npos ? own : own.substr(ownSlash + 1)))
+        if (SameText(base, FileNameOf(own)))
         {
             if (off + size > _stream->Size())
                 return false;
@@ -130,6 +129,7 @@ class UnityAssetsArchive : public UnityObjectArchive
                 pos = (static_cast<int64_t>(i + 1) << SrcShift) + off;
                 return true;
             }
+        const size_t ownSlash = own.find_last_of("/\\");
         const std::string dir = ownSlash == std::string::npos ? "" : own.substr(0, ownSlash + 1);
         std::string found;
         if (FileExists(dir + base))

@@ -23,7 +23,11 @@ TEST_CASE("The default driver loads and lists its formats")
 TEST_CASE("A file that is not a DUDI 7 driver is refused")
 {
     CHECK_THROWS_AS(Dudi7::Driver::Load("/nonexistent/lib.so"), std::runtime_error);
+#ifdef _WIN32
+    CHECK_THROWS_AS(Dudi7::Driver::Load("C:/Windows/System32/kernel32.dll"), Dudi7::Error); // a library without the DUDI 7 exports
+#else
     CHECK_THROWS_AS(Dudi7::Driver::Load("/lib/x86_64-linux-gnu/libm.so.6"), Dudi7::Error);
+#endif
 }
 
 TEST_CASE("DriverHost keeps a load failure instead of throwing")

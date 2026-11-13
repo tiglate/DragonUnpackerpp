@@ -13,7 +13,8 @@
 #include "dudi7.h"
 
 #if defined(_WIN32)
-#define DUD_EXPORT extern "C" __declspec(dllexport)
+// dudi7.h declares the functions without dllexport (it is the contract shared with the hosts): drv_default.def exports them
+#define DUD_EXPORT extern "C"
 #else
 #define DUD_EXPORT extern "C" __attribute__((visibility("default")))
 #endif

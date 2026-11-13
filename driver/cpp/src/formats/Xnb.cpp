@@ -164,7 +164,7 @@ class XnbArchive : public Archive
         if (!R7(cur, shared) || !R7(cur, typeId))
             Fail(DUDI7_ERR_NOTFORMAT, "Invalid content");
         const std::string path = _stream->Path();
-        std::string base = path.substr(path.find_last_of('/') == std::string::npos ? 0 : path.find_last_of('/') + 1);
+        std::string base = FileNameOf(path);
         if (ToLower(ExtensionOf(base)) == ".xnb")
             base.resize(base.size() - 4);
         for (char &c : base)

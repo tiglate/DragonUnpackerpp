@@ -15,6 +15,7 @@ Dragon UnPACKer++ is a game-resource explorer/extractor (MPL 2.0): a C++20/Qt 6 
 
 ## Building
 
+- On Windows use `.\make.ps1 <action>` (MSVC + Qt + vcpkg, same actions; plus `msi`, an installer made with the WiX Toolset from `installer/dragonunpacker.wxs`). The plugin is `build\plugins\drv_default.d6d`; the driver exports through `driver/cpp/src/drv_default.def`.
 - `./make.sh <action>` (and `make <action>`, a proxy to it; extra arguments via `ARGS=`): `build [all|driver|ui|cli]`, `rebuild`, `run -- <app args>`, `test`, `test-driver`, `test-ui`, `e2e FILE...`, `sweep DIR...`, `bench FILE`, `list`, `extract`, `configure`, `clean`, `purge`, `declutter` (removes the Python caches), `install -p DIR`, `package`; `./make.sh --help` lists them.
 - **Driver** (C++20, CMake + Ninja, zlib; Linux x86_64): `./make.sh build driver` gives `build/plugins/libdrv_default.d6d.so` and the test tool `build/tools/dudi7cli` (`build/` at the repository root, build tree `build/cpp/`; the Qt build tree is `app/build/`). No third-party code is needed beyond zlib.
 - **Interface**: CMake + Ninja, Qt 6.4 Widgets/Multimedia/Svg/LinguistTools, spdlog, Microsoft GSL (see the Qt section).
