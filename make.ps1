@@ -108,6 +108,8 @@ function Require-Program([string]$Name) {
 # ---- environment: Visual Studio (cl, cmake, ninja), Qt, vcpkg ---------------------------------------------------------
 
 $script:EnvReady = $false
+# vcvars64.bat replaces VCPKG_ROOT with the vcpkg bundled with Visual Studio: remember the caller's one first
+$script:CallerVcpkgRoot = $env:VCPKG_ROOT
 $script:QtRoot = $null
 $script:VcpkgRoot = $null
 
@@ -141,7 +143,7 @@ function Find-QtRoot {
 function Find-VcpkgRoot {
     # the vcpkg of Visual Studio (VCPKG_ROOT after vcvars64.bat) has no packages: prefer the checkout that has spdlog
     $valid = @()
-    foreach ($c in @($env:DUP_VCPKG_ROOT, $env:VCPKG_ROOT, "C:\dev\vcpkg", "C:\vcpkg", (Join-Path $env:USERPROFILE "vcpkg"))) {
+    foreach ($c in @($env:DUP_VCPKG_ROOT, $script:CallerVcpkgRoot, $env:VCPKG_ROOT, "C:\dev\vcpkg", "C:\vcpkg", (Join-Path $env:USERPROFILE "vcpkg"))) {
         if ($c -and (Test-Path (Join-Path $c "scripts\buildsystems\vcpkg.cmake"))) { $valid += $c }
     }
     foreach ($c in $valid) {
