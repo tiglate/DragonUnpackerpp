@@ -419,7 +419,7 @@ auto DecodeLzss(const uint8_t *src, size_t avail, size_t maxOut, std::vector<uin
             {
                 if (pos + 2 > end)
                     return false; // a reference cut by the end of the data
-                const size_t from = src[pos] | (size_t{src[pos + 1] & 7} << 8);
+                const size_t from = src[pos] | (size_t(src[pos + 1] & 7) << 8);
                 const size_t length = (src[pos + 1] >> 3) + 3;
                 pos += 2;
                 for (size_t k = 0; k < length; ++k)

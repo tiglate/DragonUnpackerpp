@@ -13,7 +13,7 @@
   <img src="docs/images/screenshot-dark.png" alt="Dragon UnPACKer++ showing the sounds of Quake's pak0.pak" width="900">
 </p>
 
-Dragon UnPACKer++ continues **Dragon UnPACKer**, created by Alexandre "Elbereth" Devilliers ([official website](https://www.elberethzone.net/dragon-unpacker.html)). It is a port to C++20 with a Qt 6 interface for Linux (Windows is next), with a driver that understands 126 container formats, and with features that version 5 did not have.
+Dragon UnPACKer++ continues **Dragon UnPACKer**, created by Alexandre "Elbereth" Devilliers ([official website](https://www.elberethzone.net/dragon-unpacker.html)). It is a port to C++20 with a Qt 6 interface for Linux and Windows, with a driver that understands 126 container formats, and with features that version 5 did not have.
 
 ## Credits
 
@@ -52,7 +52,7 @@ See [`docs/MIGRATION.md`](docs/MIGRATION.md) for the status of the port and [`do
 
 ## Building
 
-Dragon UnPACKer++ has two parts: the **driver**, a shared library written in C++20, and the **interface**, written in C++20 with Qt 6. `make.sh` builds both.
+Dragon UnPACKer++ has two parts: the **driver**, a shared library written in C++20, and the **interface**, written in C++20 with Qt 6. `make.sh` builds both on Linux and `make.ps1` on Windows.
 
 ### Prerequisites (Linux x86-64)
 
@@ -81,6 +81,34 @@ Dragon UnPACKer++ has two parts: the **driver**, a shared library written in C++
 | `./make.sh package` | Make a `tar.gz` under `dist/` |
 
 A plain `make` works too: it is a thin proxy to `make.sh` (extra arguments through `ARGS=`).
+
+### Building on Windows (MSVC)
+
+`make.ps1` is the Windows counterpart of `make.sh`: same actions, same layout (`build/` for the driver, `app/build/` for the interface), with the Microsoft C++ compiler. It loads the Visual Studio environment by itself, so it can be started from a plain PowerShell.
+
+| Needed for | What |
+|---|---|
+| The compiler, CMake, Ninja | Visual Studio 2022 or later with the "Desktop development with C++" workload (CMake and Ninja come with it) |
+| The interface | Qt 6.4 or later for MSVC 64 bits with the Multimedia module, for example `python -m pip install aqtinstall` then `python -m aqt install-qt windows desktop 6.8.3 win64_msvc2022_64 -m qtmultimedia -O C:\Qt` |
+| The libraries | [vcpkg](https://github.com/microsoft/vcpkg) with `vcpkg install zlib:x64-windows spdlog:x64-windows ms-gsl:x64-windows` |
+| The tests | Python 3 on PATH (`pip install texture2ddecoder pillow` enables the texture decoder checks; the LZO check is skipped without `lzop`) |
+| The installer | [WiX Toolset](https://wixtoolset.org/) 4 or later: `dotnet tool install --global wix --version 6.0.2` (WiX 7 asks you to accept the Open Source Maintenance Fee EULA first, version 6 does not) |
+
+Qt is found in `QT_ROOT` (or `QTDIR`, `Qt6_DIR`), then under `C:\Qt` and `C:\dev\Qt`; vcpkg in `VCPKG_ROOT`, then `C:\dev\vcpkg` and `C:\vcpkg`.
+
+```powershell
+.\make.ps1 configure      # shows what was found and what is missing
+.\make.ps1 build          # driver (build\plugins\drv_default.d6d), then interface
+.\make.ps1 run -- --open=C:\games\Quake\id1\pak0.pak
+.\make.ps1 test           # driver tests, then interface tests
+.\make.ps1 install -p C:\DragonUnpacker   # dragonunpacker.exe, Qt DLLs, plugins\drv_default.d6d, C++ runtime
+.\make.ps1 package        # dist\dragonunpacker-windows-x64.zip
+.\make.ps1 msi            # dist\dragonunpacker-6.0.0-x64.msi (WiX; install folder and license pages)
+```
+
+`.\make.ps1 -h` lists every action (`build [all|driver|ui|cli]`, `rebuild`, `test-driver`, `test-ui`, `e2e`, `sweep`, `bench`, `list`, `extract`, `clean`, `purge`, `declutter`...); they behave as the ones of `make.sh`. If PowerShell refuses to run the script, start it with `powershell -ExecutionPolicy Bypass -File .\make.ps1 ...`. The installation needs no Visual C++ Redistributable (the runtime DLLs are copied next to the program). The MSI installs for all users under `C:\Program Files\Dragon UnPACKer++` and adds a Start menu shortcut; the WiX source is `installer/dragonunpacker.wxs`.
+
+On a machine that is busy (antivirus scanning freshly built programs), the first launches of the offscreen UI smoke tests can take a minute and hit the 60 s timeout of ctest: run them again.
 
 ### Command line
 
@@ -126,7 +154,7 @@ Adding a format is one C++ file: subclass `Archive`, implement `Check` (is this 
 
 ## Status
 
-The Linux build is complete and usable. Next: validating more formats with real files, an AppImage or Flatpak, and a Windows build and installer (see [`docs/MIGRATION.md`](docs/MIGRATION.md)). macOS is not supported.
+The Linux and Windows (MSVC, with an MSI installer) builds are complete and usable; on Windows the driver tests and the 27 interface tests pass. Next: validating more formats with real files and an AppImage or Flatpak (see [`docs/MIGRATION.md`](docs/MIGRATION.md)). macOS is not supported.
 
 ## License
 

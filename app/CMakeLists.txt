@@ -12,11 +12,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_compile_options(-Wall -Wextra -Wshadow)
+if (MSVC)
+    # UTF-8 sources and execution charset, standard conformance, multi-process compilation, no min/max macros
+    add_compile_options(/utf-8 /W3 /permissive- /EHsc /Zc:__cplusplus /MP)
+    add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _USE_MATH_DEFINES)
+else ()
+    add_compile_options(-Wall -Wextra -Wshadow)
+endif ()
 
 # mold and ccache are used when installed, silently skipped otherwise (same approach as Abuse_2025).
 find_program(MOLD_LINKER mold)
-if (MOLD_LINKER)
+if (MOLD_LINKER AND NOT MSVC)
     include(CheckLinkerFlag)
     check_linker_flag(CXX "-fuse-ld=mold" LINKER_SUPPORTS_MOLD)
     if (LINKER_SUPPORTS_MOLD)

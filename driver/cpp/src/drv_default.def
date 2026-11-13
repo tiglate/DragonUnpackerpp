@@ -1,0 +1,14 @@
+LIBRARY drv_default
+EXPORTS
+    Dudi7_Version
+    Dudi7_Init
+    Dudi7_Shutdown
+    Dudi7_GetDriverInfo
+    Dudi7_GetFormatInfo
+    Dudi7_IsFormat
+    Dudi7_Open
+    Dudi7_GetArchiveInfo
+    Dudi7_GetEntry
+    Dudi7_Extract
+    Dudi7_Close
+    Dudi7_GetLastError

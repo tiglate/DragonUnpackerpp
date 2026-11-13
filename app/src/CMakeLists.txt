@@ -64,9 +64,17 @@ add_executable(dragonunpacker
     Ui/QtLogSink.cpp
     Ui/RigViewer.cpp
     Ui/ViewNavigation.cpp
-    Ui/ThemeManager.cpp)
+    Ui/ThemeManager.cpp
+    $<$<BOOL:${WIN32}>:${PROJECT_SOURCE_DIR}/resources/dragonunpacker.rc>)
 target_compile_definitions(dragonunpacker PRIVATE DUP_VERSION="${PROJECT_VERSION}")
 target_link_libraries(dragonunpacker PRIVATE Core Qt6::Widgets Qt6::Multimedia Qt6::Svg)
+if (WIN32)
+    # a GUI program (no console window) that keeps main() as its entry point
+    set_target_properties(dragonunpacker PROPERTIES WIN32_EXECUTABLE ON)
+    if (MSVC)
+        target_link_options(dragonunpacker PRIVATE /ENTRY:mainCRTStartup)
+    endif ()
+endif ()
 if (TARGET Qt6::DBus)
     target_sources(dragonunpacker PRIVATE Ui/DesktopScheme.cpp)
     target_link_libraries(dragonunpacker PRIVATE Qt6::DBus)
@@ -91,18 +99,28 @@ qt_add_translations(dragonunpacker
     SOURCES ${TRANSLATED_SOURCES}
     RESOURCE_PREFIX /i18n)
 
-# Installation: the executable in bin/, the Pascal driver in lib/dragonunpacker/plugins/ (found from the executable by
-# DriverHost: PluginPath::Find), desktop file and icon in share/. The driver is built by ./make.sh build driver.
-install(TARGETS dragonunpacker RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-set(DRIVER_BUILT ${PROJECT_SOURCE_DIR}/../build/plugins/libdrv_default.d6d.so)
-if (EXISTS ${DRIVER_BUILT})
-    install(FILES ${DRIVER_BUILT} DESTINATION ${CMAKE_INSTALL_LIBDIR}/dragonunpacker/plugins)
+# Installation. Linux: the executable in bin/, the driver in lib/dragonunpacker/plugins/ (found from the executable by
+# DriverHost: PluginPath::Find), desktop file and icons in share/. Windows: dragonunpacker.exe next to plugins/drv_default.d6d
+# (Qt's DLLs are added by "make.ps1 install", with windeployqt). The driver is built by ./make.sh build driver.
+if (WIN32)
+    set(DRIVER_BUILT ${PROJECT_SOURCE_DIR}/../build/plugins/drv_default.d6d)
+    set(DRIVER_DESTINATION plugins)
+    install(TARGETS dragonunpacker RUNTIME DESTINATION .)
 else ()
-    message(WARNING "the driver ${DRIVER_BUILT} does not exist yet: build it (./make.sh build driver) before installing")
+    set(DRIVER_BUILT ${PROJECT_SOURCE_DIR}/../build/plugins/libdrv_default.d6d.so)
+    set(DRIVER_DESTINATION ${CMAKE_INSTALL_LIBDIR}/dragonunpacker/plugins)
+    install(TARGETS dragonunpacker RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif ()
+if (EXISTS ${DRIVER_BUILT})
+    install(FILES ${DRIVER_BUILT} DESTINATION ${DRIVER_DESTINATION})
+else ()
+    message(WARNING "the driver ${DRIVER_BUILT} does not exist yet: build it (make.sh build driver) before installing")
+endif ()
+if (NOT WIN32)
 install(FILES ${PROJECT_SOURCE_DIR}/resources/dragonunpacker.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 install(FILES ${PROJECT_SOURCE_DIR}/resources/dragonunpacker.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 foreach (size 16 24 32 48 64 128 256 512)
     install(FILES ${PROJECT_SOURCE_DIR}/resources/icons/dragonunpacker-${size}.png
             DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${size}x${size}/apps RENAME dragonunpacker.png)
 endforeach ()
+endif ()

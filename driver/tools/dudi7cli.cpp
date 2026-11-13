@@ -8,7 +8,16 @@
 // outdir: also saves the extracted entries there (as <index>_<last part of the name>)
 // Output: one line per entry: index <TAB> offset <TAB> size <TAB> md5 <TAB> name
 // A failure is reported on the standard error as "<call>: <message> (code <status>)".
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <fcntl.h>
+#include <io.h>
+#include <windows.h>
+#define dlsym(lib, name) reinterpret_cast<void *>(GetProcAddress(static_cast<HMODULE>(lib), name))
+#define dlclose(lib) FreeLibrary(static_cast<HMODULE>(lib))
+#else
 #include <dlfcn.h>
+#endif
 
 #include <algorithm>
 #include <cstdint>
@@ -187,7 +196,12 @@ int main(int argc, char **argv)
         first = std::atoll(mode.substr(0, dash).c_str());
         last = std::atoll(mode.substr(dash + 1).c_str());
     }
+#ifdef _WIN32
+    _setmode(_fileno(stdout), _O_BINARY); // one LF per line, as on Linux
+    void *lib = LoadLibraryA(argv[1]);
+#else
     void *lib = dlopen(argv[1], RTLD_NOW);
+#endif
     if (lib == nullptr)
     {
         std::fprintf(stderr, "Cannot load %s\n", argv[1]);

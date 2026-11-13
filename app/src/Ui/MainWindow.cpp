@@ -1270,7 +1270,9 @@ auto MainWindow::TestViewButton(const QString &icon) -> bool
 {
     for (auto *button : findChildren<QToolButton *>("view-" + icon))
     {
-        if (button->isVisible() && button->isEnabled())
+        // a button pushed into the "»" overflow menu of a narrow toolbar is hidden but its toolbar is shown (the case with the fonts
+        // of Windows' offscreen platform)
+        if (button->isEnabled() && (button->isVisible() || (button->parentWidget() != nullptr && button->parentWidget()->isVisible())))
         {
             button->click();
             return true;

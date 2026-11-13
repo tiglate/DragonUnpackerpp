@@ -1,7 +1,13 @@
 /* DUDI 7 conformance harness, written in C on purpose: if plain C can drive
  * the plugin, the contract only uses plain types.
  * Usage: harness plugin.so fixtures_dir (see make_fixtures.py) */
+#ifdef _WIN32
+#include <windows.h>
+#define dlsym(l, n) ((void *)GetProcAddress((HMODULE)(l), (n)))
+#define dlclose(l) FreeLibrary((HMODULE)(l))
+#else
 #include <dlfcn.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,8 +29,13 @@ static int64_t on_write_fail(void *ctx, const void *buf, int64_t len) { (void)ct
 
 int main(int argc, char **argv) {
     if (argc < 3) return 2;
+#ifdef _WIN32
+    lib = (void *)LoadLibraryA(argv[1]);
+    if (!lib) { printf("LoadLibrary: error %lu\n", GetLastError()); return 2; }
+#else
     lib = dlopen(argv[1], RTLD_NOW);
     if (!lib) { printf("dlopen: %s\n", dlerror()); return 2; }
+#endif
 
     int32_t (*Version)(int32_t, int32_t *) = sym("Dudi7_Version");
     int32_t (*Init)(const dudi7_host *) = sym("Dudi7_Init");
